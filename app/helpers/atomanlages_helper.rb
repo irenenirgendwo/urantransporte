@@ -1,0 +1,2 @@
+module AtomanlagesHelper
+end

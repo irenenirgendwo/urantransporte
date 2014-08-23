@@ -1,0 +1,29 @@
+<h1>Listing atomanlages</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Ort</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @atomanlages.each do |atomanlage| %>
+      <tr>
+        <td><%= atomanlage.name %></td>
+        <td><%= atomanlage.description %></td>
+        <td><%= atomanlage.ort %></td>
+        <td><%= link_to 'Show', atomanlage %></td>
+        <td><%= link_to 'Edit', edit_atomanlage_path(atomanlage) %></td>
+        <td><%= link_to 'Destroy', atomanlage, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Atomanlage', new_atomanlage_path %>
