@@ -1,0 +1,33 @@
+<h1>Listing anlagen</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Adresse</th>
+      <th>Plz</th>
+      <th>Ort</th>
+      <th>Beschreibung</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @anlagen.each do |anlage| %>
+      <tr>
+        <td><%= anlage.name %></td>
+        <td><%= anlage.adresse %></td>
+        <td><%= anlage.plz %></td>
+        <td><%= anlage.ort %></td>
+        <td><%= anlage.beschreibung %></td>
+        <td><%= link_to 'Show', anlage %></td>
+        <td><%= link_to 'Edit', edit_anlage_path(anlage) %></td>
+        <td><%= link_to 'Destroy', anlage, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Anlage', new_anlage_path %>

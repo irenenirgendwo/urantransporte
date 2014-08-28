@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  menge: 1.5
+  stoff: MyString
+  behaeltertyp: MyString
+  start: 
+  ziel: 
+
+two:
+  menge: 1.5
+  stoff: MyString
+  behaeltertyp: MyString
+  start: 
+  ziel: 

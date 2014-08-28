@@ -1,0 +1,21 @@
+<%= form_for(@umschlagort) do |f| %>
+  <% if @umschlagort.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@umschlagort.errors.count, "error") %> prohibited this umschlagort from being saved:</h2>
+
+      <ul>
+      <% @umschlagort.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :ortsname %><br>
+    <%= f.text_field :ortsname %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

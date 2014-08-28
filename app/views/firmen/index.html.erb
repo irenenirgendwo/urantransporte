@@ -1,0 +1,33 @@
+<h1>Listing firmen</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Adresse</th>
+      <th>Plz</th>
+      <th>Ort</th>
+      <th>Beschreibung</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @firmen.each do |firma| %>
+      <tr>
+        <td><%= firma.name %></td>
+        <td><%= firma.adresse %></td>
+        <td><%= firma.plz %></td>
+        <td><%= firma.ort %></td>
+        <td><%= firma.beschreibung %></td>
+        <td><%= link_to 'Show', firma %></td>
+        <td><%= link_to 'Edit', edit_firma_path(firma) %></td>
+        <td><%= link_to 'Destroy', firma, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Firma', new_firma_path %>

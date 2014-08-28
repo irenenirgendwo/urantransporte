@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
-  resources :atomanlages
+
+  resources :transporte
+
+  resources :beobachtungen
+
+  resources :umschlagorte
+
+  resources :anlagen
+
+  resources :firmen
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

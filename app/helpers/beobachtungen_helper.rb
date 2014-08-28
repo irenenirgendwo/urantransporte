@@ -1,0 +1,2 @@
+module BeobachtungenHelper
+end

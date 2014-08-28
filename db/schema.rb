@@ -11,12 +11,76 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140823145432) do
+ActiveRecord::Schema.define(version: 20140828204601) do
 
-  create_table "atomanlages", force: true do |t|
+  create_table "anlagen", force: true do |t|
     t.string   "name"
-    t.text     "description"
+    t.string   "adresse"
+    t.string   "plz"
     t.string   "ort"
+    t.text     "beschreibung"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "beobachtungen", force: true do |t|
+    t.text     "beschreibung"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "firmen", force: true do |t|
+    t.string   "name"
+    t.string   "adresse"
+    t.string   "plz"
+    t.string   "ort"
+    t.text     "beschreibung"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "orte", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "transportabschnitte", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "transporte", force: true do |t|
+    t.float    "menge"
+    t.string   "stoff"
+    t.string   "behaeltertyp"
+    t.integer  "start"
+    t.integer  "ziel"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "transportgenehmigungen", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "umschlagorte", force: true do |t|
+    t.string   "ortsname"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "unternehmen", force: true do |t|
+    t.string   "name"
+    t.string   "adresse"
+    t.string   "plz"
+    t.string   "ort"
+    t.text     "beschreibung"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "versandstuecke", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end

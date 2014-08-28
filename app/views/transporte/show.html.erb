@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Menge:</strong>
+  <%= @transport.menge %>
+</p>
+
+<p>
+  <strong>Stoff:</strong>
+  <%= @transport.stoff %>
+</p>
+
+<p>
+  <strong>Behaeltertyp:</strong>
+  <%= @transport.behaeltertyp %>
+</p>
+
+<p>
+  <strong>Start:</strong>
+  <%= @transport.start %>
+</p>
+
+<p>
+  <strong>Ziel:</strong>
+  <%= @transport.ziel %>
+</p>
+
+<%= link_to 'Edit', edit_transport_path(@transport) %> |
+<%= link_to 'Back', transporte_path %>

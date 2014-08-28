@@ -14,3 +14,15 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  inflect.irregular 'anlage', 'anlagen'
+  inflect.irregular 'umschlagort', 'umschlagorte'
+  inflect.irregular 'transport', 'transporte'
+  inflect.irregular 'transportabschnitt', 'transportabschnitte'
+  inflect.irregular 'genehmigung', 'genehmigungen'
+  inflect.irregular 'versandstueck', 'versandstuecke'
+  inflect.irregular 'firma', 'firmen'
+  inflect.irregular 'ort', 'orte'
+  inflect.irregular 'beobachtung', 'beobachtungen'
+end

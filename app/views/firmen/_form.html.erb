@@ -1,0 +1,37 @@
+<%= form_for(@firma) do |f| %>
+  <% if @firma.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@firma.errors.count, "error") %> prohibited this firma from being saved:</h2>
+
+      <ul>
+      <% @firma.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :adresse %><br>
+    <%= f.text_field :adresse %>
+  </div>
+  <div class="field">
+    <%= f.label :plz %><br>
+    <%= f.text_field :plz %>
+  </div>
+  <div class="field">
+    <%= f.label :ort %><br>
+    <%= f.text_field :ort %>
+  </div>
+  <div class="field">
+    <%= f.label :beschreibung %><br>
+    <%= f.text_area :beschreibung %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
