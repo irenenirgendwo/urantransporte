@@ -1,0 +1,13 @@
+<h1>Datei einlesen</h1>
+
+<p> Die Datei wurde erfolgreich auf dem Server gespeichert. </p>
+
+<h2>Schritt 2: Anlagen einlesen</h2>
+
+Anlagen sind in den Spalten <%= @spalte_nr1 %> und <%= @spalte_nr2 %>
+
+<ul>
+  <% @anlagen_liste.each do |anlage| %>
+    <li><%= anlage %></li>
+  <% end %>
+</ul>

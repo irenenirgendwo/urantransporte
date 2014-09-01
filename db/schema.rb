@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140828204601) do
+ActiveRecord::Schema.define(version: 20140901201732) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name"
@@ -19,6 +19,13 @@ ActiveRecord::Schema.define(version: 20140828204601) do
     t.string   "plz"
     t.string   "ort"
     t.text     "beschreibung"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "anlagen_synonyms", force: true do |t|
+    t.integer  "anlagen_id"
+    t.string   "synonym"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -66,16 +73,6 @@ ActiveRecord::Schema.define(version: 20140828204601) do
 
   create_table "umschlagorte", force: true do |t|
     t.string   "ortsname"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "unternehmen", force: true do |t|
-    t.string   "name"
-    t.string   "adresse"
-    t.string   "plz"
-    t.string   "ort"
-    t.text     "beschreibung"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,0 +1,17 @@
+<h1>Datei einlesen</h1>
+
+<p> Die Datei wurde erfolgreich auf dem Server gespeichert. </p>
+
+<h2>Schritt 2: Anlagen einlesen</h2>
+
+<%= form_tag({action: :read_anlagen}, multipart: true) do %>
+  In welchen Spalten sind Atomanlagen gespeichert? Bitte den Spaltentitel exakt angeben.
+  <p>
+    Startanlage: <%= text_field_tag 'start' %>
+  </p>
+  <p>
+    Zielanlage: <%= text_field_tag 'ziel' %>
+  </p>
+  <%= hidden_field_tag 'file_path', @file_path %>
+  <%= submit_tag "Weiter zum Auswerten" %>
+<% end %>

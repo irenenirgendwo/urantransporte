@@ -1,0 +1,10 @@
+<h1>Datei einlesen</h1>
+
+<%= form_tag({action: :upload_file}, multipart: true) do %>
+  Hier kann eine csv-Datei ausgewählt werden. 
+  <p>
+    <label for="upload_file">Datei aussuchen: </label>
+    <%= file_field_tag 'upload' %>
+  </p>
+  <%= submit_tag "Weiter zum Auswerten" %>
+<% end %>
