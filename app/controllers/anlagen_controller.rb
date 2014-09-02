@@ -19,16 +19,19 @@ class AnlagenController < ApplicationController
 
   # GET /anlagen/1/edit
   def edit
+    @redirect_params = @anlage
   end
 
   # POST /anlagen
   # POST /anlagen.json
   def create
     @anlage = Anlage.new(anlage_params)
+    @redirect_params = params[:redirect_params]
 
     respond_to do |format|
       if @anlage.save
-        format.html { redirect_to @anlage, notice: 'Anlage was successfully created.' }
+        flash[:notice] = "Anlage neu angelegt"
+        format.html { redirect_to @redirect_params, notice: 'Anlage was successfully created.' }
         format.json { render :show, status: :created, location: @anlage }
       else
         format.html { render :new }

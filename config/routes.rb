@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   get "upload/index"
   post "upload/upload_file"
   post "upload/read_anlagen"
+  post "upload/save_zuordnung"
+  get "upload/anlagen_zuordnung"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

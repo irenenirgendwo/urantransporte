@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20140901201732) do
   end
 
   create_table "anlagen_synonyms", force: true do |t|
-    t.integer  "anlagen_id"
+    t.integer  "anlage_id"
     t.string   "synonym"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -1,7 +1,7 @@
 class CreateAnlagenSynonyms < ActiveRecord::Migration
   def change
     create_table :anlagen_synonyms do |t|
-      t.integer :anlagen_id
+      t.belongs_to :anlage
       t.string :synonym
       t.timestamps
     end
