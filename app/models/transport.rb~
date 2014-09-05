@@ -1,0 +1,9 @@
+class Transport < ActiveRecord::Base
+  has_many :transportabschnitte
+  belongs_to :transportgenehmigung
+  has_many :versandstuecke
+
+  belongs_to :start_anlage, :class_name => 'Anlage', :primary_key => 'start_anlage_id'
+  belongs_to :ziel_anlage, :class_name => 'Anlage', :primary_key => 'ziel_anlage_id'
+
+end

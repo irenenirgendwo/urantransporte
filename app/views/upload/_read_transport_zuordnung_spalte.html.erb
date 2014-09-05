@@ -1,0 +1,9 @@
+<div>
+  <%= form_tag({action: :save_zuordnung}, multipart: true) do %>
+      Ausgelesener Anlagenname: <%= synonym.synonym %>
+      Zugeordnete Anlage: <%= select_tag :anlage, options_for_select(@all_anlagen) %>
+    <%= hidden_field_tag 'synonym', synonym.id %>
+    <%= submit_tag "Zuordnung vornehmen" %>
+    <%= synonym.attributes %>
+  <% end %>
+</div> 

@@ -52,16 +52,21 @@ ActiveRecord::Schema.define(version: 20140901201732) do
   end
 
   create_table "transportabschnitte", force: true do |t|
+    t.integer  "transport_id"
+    t.integer  "firma_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "transporte", force: true do |t|
-    t.float    "menge"
+    t.date     "datum"
+    t.integer  "start_anlage_id"
+    t.integer  "ziel_anlage_id"
+    t.integer  "transportgenehmigung_id"
+    t.decimal  "menge"
     t.string   "stoff"
     t.string   "behaeltertyp"
-    t.integer  "start"
-    t.integer  "ziel"
+    t.integer  "anzahl"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

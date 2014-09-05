@@ -1,0 +1,28 @@
+<h1>Datei einlesen</h1>
+
+<% if flash[:notice] %>
+  <%= flash[:notice] %>
+<% end %>
+
+<h2>Scnritt 4: Weitere Daten einlesen</h2>
+
+<p>
+  Gibt es in der Datei Angaben zu den Genehmigungen?
+  Dann bitte als nächstes die Genehmigungen einlesen:
+</p>
+
+<p> Hier soll ein Link dazu hin! </p>
+
+<p>
+  Gibt es in der Datei Angaben zu den Speditionen?
+  Dann bitte als nächstes die Speditionen einlesen:
+</p>
+
+<p> Hier soll ein Link dazu hin! </p>
+
+<p> 
+  Beides schon erledigt? Dann weiter machen mit dem Einlesen der Transportdaten.
+<p>
+<p> 
+  <%= link_to "Transportdaten einlesen", upload_read_transporte_path %>
+<p>

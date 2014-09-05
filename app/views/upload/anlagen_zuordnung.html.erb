@@ -4,13 +4,13 @@
   <%= flash[:notice] %>
 <% end %>
 
-<h2>Anlagen zuordnen.</h2>
+<h2>Schritt 3: Anlagen zuordnen.</h2>
 
-Neue Anlage anlegen:
+Falls die Anlage noch nicht vorhanden ist, kann hier die neue Anlage eingegeben werden:
 
 <%= render 'anlagen/form' %>
 
-Synonyme Anlagen zuordnen:
+Vorhandene Anlagen zuordnen:
 
 <% @synonym_liste.each do |synonym| %>
   <%= render "anlage_zuordnen", synonym: synonym %>
