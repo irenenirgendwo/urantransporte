@@ -37,9 +37,7 @@ class TransporteControllerTest < ActionController::TestCase
   end
 
   test "should update transport" do
-    patch :update, id: @transport, transport:  { behaeltertyp: @transport.behaeltertyp, menge: @transport.menge, 
-                                start_anlage: @transport.start_anlage, datum: @transport.datum,
-                                stoff: @transport.stoff, ziel_anlage: @transport.ziel_anlage }
+    patch :update, id: @transport, transport: { behaeltertyp: @transport.behaeltertyp, menge: @transport.menge, start: @transport.start, stoff: @transport.stoff, ziel: @transport.ziel }
     assert_redirected_to transport_path(assigns(:transport))
   end
 

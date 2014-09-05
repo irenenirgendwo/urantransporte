@@ -6,9 +6,7 @@
       <th>Datum</th>
       <th>Start</th>
       <th>Ziel</th>
-      <th>Menge</th>
       <th>Stoff</th>
-      <th>Behaeltertyp</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -19,9 +17,7 @@
         <td><%= transport.datum %></td>
         <td><%= transport.start_anlage.name %></td>
         <td><%= transport.ziel_anlage.name %></td>
-        <td><%= transport.menge %></td>
         <td><%= transport.stoff %></td>
-        <td><%= transport.behaeltertyp %></td>
         <td><%= link_to 'Show', transport %></td>
         <td><%= link_to 'Edit', edit_transport_path(transport) %></td>
         <td><%= link_to 'Destroy', transport, method: :delete, data: { confirm: 'Are you sure?' } %></td>

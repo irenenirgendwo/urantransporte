@@ -9,5 +9,4 @@ class TransportTest < ActiveSupport::TestCase
     transport = Transport.find(1)
     assert_equal "Urenco", transport.start_anlage.name
   end
-
 end

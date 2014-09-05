@@ -6,8 +6,8 @@ one:
   menge: 1.5
   stoff: MyString
   behaeltertyp: MyString
-  start_anlage_id: 1
-  ziel_anlage_id: 2
+  start_anlage: 1
+  ziel_anlage: 2
 
 two:
   id: 2
@@ -15,5 +15,5 @@ two:
   menge: 1.5
   stoff: MyString
   behaeltertyp: MyString
-  start_anlage_id: 1
-  ziel_anlage_id: 2
+  start_anlage: 1
+  ziel_anlage: 2

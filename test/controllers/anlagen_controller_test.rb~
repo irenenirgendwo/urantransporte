@@ -23,7 +23,7 @@ class AnlagenControllerTest < ActionController::TestCase
                     redirect_params: anlage_path(@anlage)
     end
 
-    #assert_redirected_to anlage_path(assigns(:anlage))
+    assert_redirected_to anlage_path(assigns(:anlage))
   end
 
   test "should show anlage" do
