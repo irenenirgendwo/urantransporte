@@ -1,21 +1,5 @@
 <p id="notice"><%= notice %></p>
 
-
-<p>
-  <strong>Datum:</strong>
-  <%= @transport.datum %>
-</p>
-
-<p>
-  <strong>Start:</strong>
-  <%= @transport.start_anlage.name %>
-</p>
-
-<p>
-  <strong>Ziel:</strong>
-  <%= @transport.ziel_anlage.name %>
-</p>
-
 <p>
   <strong>Menge:</strong>
   <%= @transport.menge %>
@@ -29,6 +13,16 @@
 <p>
   <strong>Behaeltertyp:</strong>
   <%= @transport.behaeltertyp %>
+</p>
+
+<p>
+  <strong>Start:</strong>
+  <%= @transport.start_anlage.name %>
+</p>
+
+<p>
+  <strong>Ziel:</strong>
+  <%= @transport.ziel_anlage.name %>
 </p>
 
 <%= link_to 'Edit', edit_transport_path(@transport) %> |

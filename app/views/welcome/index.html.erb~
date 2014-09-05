@@ -4,7 +4,7 @@
   <li><%= link_to "Transportdaten aus csv-Dateien einlesen", upload_index_path %></li>
   <li><%= link_to "Daten zu Atomanlagen bearbeiten", anlagen_path %></li>
   <li><%= link_to "Daten zu Transportfirmen bearbeiten", firmen_path %></li>
-  <li><%= link_to "Daten zu Transporten bearbeiten", transporte_path %></li>
+  <li><%= link_to "Daten zu Transporten bearbeiten", anlagen_path %></li>
   <li><%= link_to "Daten zu Beobachtungen bearbeiten", beobachtungen_path %></li>
   <li><%= link_to "Daten zu Umschlagorten bearbeiten", umschlagorte_path %></li>
 </ul>

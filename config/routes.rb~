@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'welcome/index'
+
   resources :transporte
 
   resources :beobachtungen
@@ -18,6 +20,7 @@ Rails.application.routes.draw do
   get "upload/anlagen_fertig_auswahl"
   get "upload/read_transporte"
   post "upload/save_transporte"
+  get "upload/fertig"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

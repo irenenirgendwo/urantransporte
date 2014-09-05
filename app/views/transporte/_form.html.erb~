@@ -22,7 +22,7 @@
   </div>
   <div class="field">
     <%= f.label :ziel %><br>
-    <%= f.text_field :ziel_anlage %>
+    <%= f.text_field :ziel_anlage, nil, @transport.ziel_anlage.name %>
   </div>
 
 
