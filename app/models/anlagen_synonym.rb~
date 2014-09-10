@@ -1,8 +1,0 @@
-class AnlagenSynonym < ActiveRecord::Base
-  belongs_to :anlage
-
-  def self.find_anlage_to_synonym(anlagen_name)
-    anlagen_synonym = AnlagenSynonym.find(synonym: anlagen_name)
-    anlagen_synonym.anlage
-  end
-end

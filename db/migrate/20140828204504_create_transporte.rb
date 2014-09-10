@@ -7,11 +7,12 @@ class CreateTransporte < ActiveRecord::Migration
       t.integer :ziel_anlage_id
 
       t.belongs_to :transportgenehmigung
-
-      t.decimal :menge
-      t.string :stoff
-      t.string :behaeltertyp
+      
+      t.decimal :menge # in Tonnen
       t.integer :anzahl
+      t.string :stoff
+      t.string :un_nummer
+      t.string :behaelter
 
       t.timestamps
     end

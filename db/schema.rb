@@ -31,7 +31,12 @@ ActiveRecord::Schema.define(version: 20140901201732) do
   end
 
   create_table "beobachtungen", force: true do |t|
+    t.date     "start_datum"
+    t.date     "end_datum"
+    t.string   "ort"
+    t.string   "geo_koordinaten"
     t.text     "beschreibung"
+    t.integer  "transportabschnitt_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -42,6 +47,7 @@ ActiveRecord::Schema.define(version: 20140901201732) do
     t.string   "plz"
     t.string   "ort"
     t.text     "beschreibung"
+    t.string   "typ"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -54,6 +60,11 @@ ActiveRecord::Schema.define(version: 20140901201732) do
   create_table "transportabschnitte", force: true do |t|
     t.integer  "transport_id"
     t.integer  "firma_id"
+    t.string   "verkehrstraeger"
+    t.date     "start_datum"
+    t.date     "end_datum"
+    t.string   "start_ort"
+    t.string   "end_ort"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -64,25 +75,44 @@ ActiveRecord::Schema.define(version: 20140901201732) do
     t.integer  "ziel_anlage_id"
     t.integer  "transportgenehmigung_id"
     t.decimal  "menge"
-    t.string   "stoff"
-    t.string   "behaeltertyp"
     t.integer  "anzahl"
+    t.string   "stoff"
+    t.string   "un_nummer"
+    t.string   "behaelter"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "transportgenehmigungen", force: true do |t|
+    t.string   "lfd_nr"
+    t.string   "antragssteller"
+    t.string   "stoff"
+    t.date     "antragsdatum"
+    t.integer  "max_anzahl"
+    t.boolean  "schiene"
+    t.boolean  "strasse"
+    t.boolean  "luft"
+    t.boolean  "umschlag"
+    t.date     "erstellungsdatum"
+    t.date     "gueltigkeit"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "umschlagorte", force: true do |t|
-    t.string   "ortsname"
+  create_table "umschlaege", force: true do |t|
+    t.string   "ort"
+    t.string   "terminal"
+    t.date     "start_datum"
+    t.date     "end_datum"
+    t.integer  "firma_id"
+    t.integer  "transport_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "versandstuecke", force: true do |t|
+    t.string   "container_nummer"
+    t.integer  "transport_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
