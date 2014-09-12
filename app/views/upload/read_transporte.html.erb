@@ -11,6 +11,8 @@
 </p>
 
 <%= form_tag({action: :save_transporte}, multipart: true) do %>
+
+  <h3> Unbedingt erforderliche Grundeingaben </h3>
   <p>
     Die Angabe zur <strong>Start-Anlage</strong> befindet sich in der Spalte mit dem Namen
     <%= text_field_tag :start_anlage %>
@@ -25,6 +27,44 @@
     Die Angabe zum <strong>Datum des Transports</strong> befindet sich in der Spalte mit dem Namen
     <%= text_field_tag :datum %>
   </p>
+
+  <h3> Angaben zum transportierten Material </h3>
+
+  <p>
+    Die Angabe zum transportierten <strong>Stoff</strong> befindet sich in der Spalte mit dem Namen
+    <%= text_field_tag :stoff %>
+  </p>
+
+  <p>
+    Die Angabe zum transportierten <strong>Masse)</strong> befindet sich in der Spalte mit dem Namen
+    <%= text_field_tag :menge %>. Umrechnungsfaktor um zu Tonnen zu kommen: <%= text_field_tag :menge_umrechnungsfaktor %>
+  </p>
+
+  <p>
+    Die Angabe zur <strong>Anzahl</strong> der transportierten Behälter befindet sich in der Spalte mit dem Namen
+    <%= text_field_tag :anzahl %>. 
+  </p>
+
+  <p>
+    Die Angabe zum <strong>Behältertyp</strong> befindet sich in der Spalte mit dem Namen
+    <%= text_field_tag :behaelter %>. 
+  </p>
+
+  <h3> Zur Genehmigung: </h3>
+
+  Zur Kenntnis: Die Sachen hier werden noch nicht eingelesen, da fehlt mir noch die richtige Idee für die Verknüpfung
+  mit der Genehmigungstabelle.
+
+  <p>
+    Die Angabe zur <strong>Genehmigungsnummer</strong> befindet sich in der Spalte mit dem Namen
+    <%= text_field_tag :genehmigung_nummer %>. 
+  </p>
+
+  <p>
+    Die Angabe zum/zur <strong>Genehmigungsinhaber*in</strong> befindet sich in der Spalte mit dem Namen
+    <%= text_field_tag :genehmigung_inhaberin %>. 
+  </p>
+
 
   <%= submit_tag "Transporte einlesen!" %>
 

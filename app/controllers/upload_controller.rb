@@ -114,6 +114,7 @@ class UploadController < ApplicationController
     end 
   end
 
+
   # Formular zum einlesen der Transporte mit Spaltenzuordnungen.
   #
   def read_transporte
@@ -126,6 +127,11 @@ class UploadController < ApplicationController
     start_anlage_spalten_name = params[:start_anlage]
     ziel_anlage_spalten_name = params[:ziel_anlage]
     datum_spalten_name = params[:datum]
+    stoff_spalten_name = params[:stoff]
+    anzahl_spalten_name = params[:anzahl]
+    menge_spalten_name = params[:menge]
+    menge_umrechnungsfaktor_spalten_name = params[:menge_umrechnungsfaktor]
+    behaelter_spalten_name = params[:behaelter]
     # TODO: das irgendwie in erweiterbarem Hash speichern sodass einlesen mit Schleife geht...
     # Mindestens bei den Daten, die nicht mit einer Tabelle verbunden sind.
     @transporte_liste = []
@@ -139,7 +145,13 @@ class UploadController < ApplicationController
         ziel_anlage =  AnlagenSynonym.find_anlage_to_synonym(row_as_hash[ziel_anlage_spalten_name])
         datum_werte = row_as_hash[datum_spalten_name].split(".") # Nehmen mal Format dd.mm.yyyy an.
         datum = Date.new(datum_werte[2].to_i, datum_werte[1].to_i,datum_werte[0].to_i)
-        transport = Transport.new(:start_anlage => start_anlage, :ziel_anlage => ziel_anlage, :datum => datum)
+        transport_params = { :start_anlage => start_anlage, :ziel_anlage => ziel_anlage, :datum => datum }
+        transport_params[:stoff] = row_as_hash[stoff_spalten_name] if stoff_spalten_name
+        transport_params[:anzahl] = row_as_hash[anzahl_spalten_name] if anzahl_spalten_name
+        transport_params[:menge] = menge_spalten_name.nil? ? nil : row_as_hash[menge_spalten_name].to_f *
+                                   row_as_hash[menge_umrechnungsfaktor_spalten_name].to_f
+        transport_params[:behaelter] = row_as_hash[behaelter_spalten_name] if behaelter_spalten_name
+        transport = Transport.new(transport_params)
         if transport.save 
           @transporte_anzahl += 1
         else 
