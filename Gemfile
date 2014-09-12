@@ -38,3 +38,8 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+#Leaflet zur Kartendarstellung
+gem 'leaflet-rails', '~> 0.7.3'
+
+#Bootstrap fürs Layout
+gem 'bootstrap-sass', '~> 3.2.0.0'
