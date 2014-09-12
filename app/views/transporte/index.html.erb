@@ -16,8 +16,8 @@
     <% @transporte.each do |transport| %>
       <tr>
         <td><%= transport.datum %></td>
-        <td><%= transport.start_anlage.name %></td>
-        <td><%= transport.ziel_anlage.name %></td>
+        <td><%= transport.start_anlage %></td>
+        <td><%= transport.ziel_anlage %></td>
         <td><%= transport.stoff %></td>
         <td><%= link_to 'Show', transport %></td>
         <td><%= link_to 'Edit', edit_transport_path(transport) %></td>

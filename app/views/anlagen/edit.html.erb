@@ -2,7 +2,32 @@
 
 <%= render 'form' %>
 
-<h2> Synonyme hinzufügen </h2>
+<h2> Synonyme bearbeiten </h2>
+
+<p>
+  Bisherige Synonyme: 
+  <ul>
+    <% @bisherige_synonyme .each do |synonym| %>
+      <li><%= synonym %> | 
+        <%= link_to 'Destroy', anlagen_destroy_synonym_path(:synonym_text => synonym, :anlage_id => @anlage.id), 
+                      method: :post, data: { confirm: 'Are you sure?' } %>
+      </li>
+    <% end %>
+  </ul>
+</p>
+
+<%= form_tag({action: :add_synonym}, multipart: true) do %>
+  <%= hidden_field_tag :anlage_id, @anlage.id %>
+
+  <p>
+    Synonym hinzufügen:
+    <%= text_field_tag :synonym, @anlage.name %>
+    <%= submit_tag "Hinzufügen" %>
+  </p>
+
+
+<% end %>
+
 
 <%= link_to 'Show', @anlage %> |
 <%= link_to 'Back', anlagen_path %>

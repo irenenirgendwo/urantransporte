@@ -1,6 +1,0 @@
-<h1>Bearbeite Anlage: <%= @anlage.name %></h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @anlage %> |
-<%= link_to 'Back', anlagen_path %>

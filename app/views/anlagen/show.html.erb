@@ -32,6 +32,14 @@
   <%= map(:center => { :latlng => [@anlage.lat, @anlage.lon], :zoom => 18 }) %>
 <% end %>
 
+<h3> Synonyme für die Anlage </h3>
+
+<ul>
+<% @synonyme.each do |synonym| %>
+  <li><%= synonym %></li>
+<% end %>
+</ul>
+
 <%= link_to 'Edit', edit_anlage_path(@anlage) %> |
 <%= link_to 'Back', anlagen_path %>
 

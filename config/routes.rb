@@ -6,9 +6,11 @@ Rails.application.routes.draw do
 
   resources :beobachtungen
 
-  resources :umschlagorte
+  resources :umschlaege
 
   resources :anlagen
+  post "anlagen/add_synonym"
+  post "anlagen/destroy_synonym"
 
   resources :firmen
 
