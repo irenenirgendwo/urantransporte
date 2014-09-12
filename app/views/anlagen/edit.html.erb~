@@ -2,7 +2,5 @@
 
 <%= render 'form' %>
 
-<h2> Synonyme hinzufügen </h2>
-
 <%= link_to 'Show', @anlage %> |
 <%= link_to 'Back', anlagen_path %>
