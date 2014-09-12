@@ -1,10 +1,27 @@
-<h1>Herzlich willkommen bei der Atomtransport-Datenbank</h1>
-<p>Was möchtest du tun?</p>
-<ul>
-  <li><%= link_to "Transportdaten aus csv-Dateien einlesen", upload_index_path %></li>
-  <li><%= link_to "Daten zu Atomanlagen bearbeiten", anlagen_path %></li>
-  <li><%= link_to "Daten zu Transportfirmen bearbeiten", firmen_path %></li>
-  <li><%= link_to "Daten zu Transporten bearbeiten", transporte_path %></li>
-  <li><%= link_to "Daten zu Beobachtungen bearbeiten", beobachtungen_path %></li>
-  <li><%= link_to "Daten zu Umschlagorten bearbeiten", umschlagorte_path %></li>
-</ul>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Atomtransporte-Datenbank</title>
+    <%= stylesheet_link_tag 'application', media: 'all',
+                                           'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="jumbotron">
+      <h1>Herzlich willkommen bei der Atomtransport-Datenbank</h1>
+      <p>Was möchtest du tun?</p>
+      <ul>
+        <li><%= link_to "Transportdaten aus csv-Dateien einlesen", upload_index_path %></li>
+        <li><%= link_to "Daten zu Atomanlagen bearbeiten", anlagen_path %></li>
+        <li><%= link_to "Daten zu Transportfirmen bearbeiten", firmen_path %></li>
+        <li><%= link_to "Daten zu Transporten bearbeiten", transporte_path %></li>
+        <li><%= link_to "Daten zu Beobachtungen bearbeiten", beobachtungen_path %></li>
+        <li><%= link_to "Daten zu Umschlagorten bearbeiten", umschlagorte_path %></li>
+      </ul>
+    </div>
+  </body>
+</html>
