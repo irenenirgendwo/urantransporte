@@ -15,5 +15,5 @@
 /log/*.log
 /tmp
 
-.rb~
-.html.erb~
+*.swp
+*~
