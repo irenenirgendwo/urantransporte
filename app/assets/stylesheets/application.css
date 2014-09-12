@@ -12,4 +12,7 @@
  *
  *= require_tree .
  *= require_self
+ *= require leaflet
+ *= depend_on_asset "layers.png"
+ *= depend_on_asset "layers-2x.png"
  */

@@ -25,5 +25,11 @@
   <%= @anlage.beschreibung %>
 </p>
 
+<% if @anlage.lat && @anlage.lon %>
+  <div id="map" style="height:200px;"></div>
+  <%= map(:center => { :latlng => [@anlage.lat, @anlage.lon], :zoom => 18 }) %>
+<% end %>
+
 <%= link_to 'Edit', edit_anlage_path(@anlage) %> |
 <%= link_to 'Back', anlagen_path %>
+
