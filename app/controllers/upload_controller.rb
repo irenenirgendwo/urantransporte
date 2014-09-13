@@ -4,11 +4,11 @@ class UploadController < ApplicationController
   require 'csv'
   require 'date'
 
-  # Startseite zum Einlesen
+  # Startseite zum Einlesen (Schritt 1)
   def index
   end
 
-  # Datei auf Server 
+  # Datei auf Server (Schritt 2)
   def upload_file
     if params[:upload].nil?
       flash[:notice] = "Bitte eine Datei auswählen"
@@ -18,6 +18,9 @@ class UploadController < ApplicationController
       File.open(@file_path, 'wb') do |file|
         file.write(uploaded_io.read)
       end
+      csv_text =  File.read(@file_path) 
+      csv = CSV.parse(csv_text, :headers => true, :col_sep => ",")
+      @headers = csv.headers
     end
   end
 

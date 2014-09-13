@@ -4,14 +4,22 @@
   <%= flash[:notice] %>
 <% end %>
 
-<h2>Schritt 3: Anlagen zuordnen.</h2>
+<div class="panel panel-default">
+  
+  <div class="panel-heading">
+    <h3 class="panel-title">Schritt 3: Anlagen zuordnen</h3>
+  </div>
+  
+  <div class="panel-body">
+    Falls die Anlage noch nicht vorhanden ist, kann hier die neue Anlage eingegeben werden:
 
-Falls die Anlage noch nicht vorhanden ist, kann hier die neue Anlage eingegeben werden:
+    <%= render 'anlagen/form' %>
 
-<%= render 'anlagen/form' %>
+    Vorhandene Anlagen zuordnen:
 
-Vorhandene Anlagen zuordnen:
-
-<% @synonym_liste.each do |synonym| %>
-  <%= render "anlage_zuordnen", synonym: synonym %>
-<% end %>
+    <% @synonym_liste.each do |synonym| %>
+      <%= render "anlage_zuordnen", synonym: synonym %>
+    <% end %>
+  </div>
+  
+</div>
