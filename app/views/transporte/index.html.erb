@@ -1,33 +1,6 @@
 <h1>Listing transporte</h1>
 
-<% unless @transporte.nil? %>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Datum</th>
-      <th>Start</th>
-      <th>Ziel</th>
-      <th>Stoff</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @transporte.each do |transport| %>
-      <tr>
-        <td><%= transport.datum %></td>
-        <td><%= transport.start_anlage %></td>
-        <td><%= transport.ziel_anlage %></td>
-        <td><%= transport.stoff %></td>
-        <td><%= link_to 'Show', transport %></td>
-        <td><%= link_to 'Edit', edit_transport_path(transport) %></td>
-        <td><%= link_to 'Destroy', transport, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<% end %>
+<%= render 'tabelle' %>
 
 <br>
 
