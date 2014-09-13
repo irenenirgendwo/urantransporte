@@ -11,6 +11,7 @@ class AnlagenController < ApplicationController
   # GET /anlagen/1.json
   def show
     @synonyme = @anlage.anlagen_synonyms.pluck(:synonym)
+    @transporte = Transport.where("start_anlage_id = ? OR ziel_anlage_id = ?", @anlage, @anlage)
   end
 
   # GET /anlagen/new
@@ -102,7 +103,7 @@ class AnlagenController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def anlage_params
-      params.require(:anlage).permit(:name, :adresse, :plz, :ort, :lat, :lon, :beschreibung)
+      params.require(:anlage).permit(:name, :adresse, :plz, :ort, :lat, :lon, :beschreibung, :bild_url, :bild_urheber)
     end
 
    # Never trust parameters from the scary internet, only allow the white list through.

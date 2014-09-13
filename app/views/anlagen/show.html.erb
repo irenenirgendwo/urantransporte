@@ -1,45 +1,82 @@
-<h1> Atomanlage: <%= @anlage.name %> </h1>
+<div class="btn-group header-buttons">
+      <%= link_to 'Bearbeiten', edit_anlage_path(@anlage), class: "btn btn-primary" %>
+      <%= link_to 'Löschen', @anlage, method: :delete, data: { confirm: 'Willst du die Anlage wirklich löschen?' }, class: "btn btn-danger" %></td>
+</div>
+<h1><%= @anlage.name %></h1>
 
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @anlage.name %>
-</p>
+<div class="row">
+  <div class="col-sm-7">
+    <% if @anlage.beschreibung? %>
+      <p><%= @anlage.beschreibung %></p>
+    <% end %>
+    <p>
+      <strong>Adresse:</strong>
+      <%= @anlage.adresse %>
+    </p>
 
-<p>
-  <strong>Adresse:</strong>
-  <%= @anlage.adresse %>
-</p>
+    <p>
+      <strong>Plz:</strong>
+      <%= @anlage.plz %>
+    </p>
 
-<p>
-  <strong>Plz:</strong>
-  <%= @anlage.plz %>
-</p>
+    <p>
+      <strong>Ort:</strong>
+      <%= @anlage.ort %>
+    </p>
 
-<p>
-  <strong>Ort:</strong>
-  <%= @anlage.ort %>
-</p>
+    <h3> Synonyme für die Anlage </h3>
 
-<p>
-  <strong>Beschreibung:</strong>
-  <%= @anlage.beschreibung %>
-</p>
+    <ul>
+    <% @synonyme.each do |synonym| %>
+      <li><%= synonym %></li>
+    <% end %>
+    </ul>
+  </div>
+  <div class="col-sm-5">
+    <% if @anlage.bild_url? %>
+      <img src="<%= @anlage.bild_url %>" class="img-responsive" alt="<%= @anlage.name %>">
+    <% end %>
 
-<% if @anlage.lat && @anlage.lon %>
-  <div id="map" style="height:200px;"></div>
-  <%= map(:center => { :latlng => [@anlage.lat, @anlage.lon], :zoom => 18 }) %>
+    <% if @anlage.lat? && @anlage.lon? %>
+      <div id="map" style="height:200px;"></div>
+      <%= map(:center => { :latlng => [@anlage.lat, @anlage.lon], :zoom => 17 }) %>
+    <% end %>
+  </div>
+</div>
+
+<h2>Transporte</h2>
+
+<% if @transporte.empty? %>
+  <p>Keine Transporte zur Anlage gefunden.</p>
+<% else %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Datum</th>
+        <th>Start</th>
+        <th>Ziel</th>
+        <th>Stoff</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @transporte.each do |transport| %>
+        <tr>
+          <td><%= transport.datum %></td>
+          <td><%= transport.start_anlage %></td>
+          <td><%= transport.ziel_anlage %></td>
+          <td><%= transport.stoff %></td>
+          <td><%= link_to 'Show', transport %></td>
+          <td><%= link_to 'Edit', edit_transport_path(transport) %></td>
+          <td><%= link_to 'Destroy', transport, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>
 
-<h3> Synonyme für die Anlage </h3>
-
-<ul>
-<% @synonyme.each do |synonym| %>
-  <li><%= synonym %></li>
-<% end %>
-</ul>
-
-<%= link_to 'Edit', edit_anlage_path(@anlage) %> |
 <%= link_to 'Back', anlagen_path %>
 

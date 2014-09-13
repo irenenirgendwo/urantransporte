@@ -1,2 +1,11 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+.header-buttons {
+  float: right;
+  margin-top: 20px;
+}
+
+.btn:visited {
+  color: white;
+}
