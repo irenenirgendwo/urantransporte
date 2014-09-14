@@ -120,7 +120,7 @@
 
     <div class="form-group">
       <label for="">Transportunternehmen</label>
-      <%= select_tag :gueltigkeit, options_for_select(@headers_with_nil), class: "form-control" %>
+      <%= select_tag :firmen, options_for_select(@headers_with_nil), class: "form-control" %>
       Mehrere Transportunternehmen werden mit dem Trennzeichen
       <%= text_field_tag :firma_trennzeichen, "," %> getrennt.
     </div>

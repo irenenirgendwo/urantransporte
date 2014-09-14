@@ -20,8 +20,8 @@ class UploadController < ApplicationController
       File.open(@file_path, 'wb') do |file|
         file.write(uploaded_io.read)
       end
-      @headers = read_headers_from_csv(@file_path)
       session[:csv_trennzeichen] = params[:trennzeichen]
+      @headers = read_headers_from_csv(@file_path)
     end
   end
 
@@ -135,12 +135,14 @@ class UploadController < ApplicationController
     @logger.puts params
     start_anlage_spalten_name = params[:start_anlage]
     ziel_anlage_spalten_name = params[:ziel_anlage]
-    datum_spalten_name = params[:datum]
-    stoff_spalten_name = params[:stoff]
-    anzahl_spalten_name = params[:anzahl]
-    menge_spalten_name = params[:menge]
+    datum_spalten_name = params[:datum]  
+    stoff_spalten_name = params[:stoff] == "Nicht vorhanden" ? nil : params[:stoff] 
+    anzahl_spalten_name = params[:anzahl] == "Nicht vorhanden" ? nil : params[:anzahl] 
+    menge_spalten_name = params[:menge] == "Nicht vorhanden" ? nil : params[:menge] 
     menge_umrechnungsfaktor_spalten_name = params[:menge_umrechnungsfaktor]
-    behaelter_spalten_name = params[:behaelter]
+    behaelter_spalten_name = params[:behaelter] == "Nicht vorhanden" ? nil : params[:behaelter] 
+    firmen_spalten_name = params[:firmen] == "Nicht vorhanden" ? nil : params[:firmen] 
+    firma_trennzeichen = params[:firma_trennzeichen] 
     # TODO: das irgendwie in erweiterbarem Hash speichern sodass einlesen mit Schleife geht...
     # Mindestens bei den Daten, die nicht mit einer Tabelle verbunden sind.
     @transporte_liste = []
@@ -162,21 +164,33 @@ class UploadController < ApplicationController
         transport_params[:menge] = menge_spalten_name.nil? ? nil : row_as_hash[menge_spalten_name].to_f *
                                    row_as_hash[menge_umrechnungsfaktor_spalten_name].to_f
         transport_params[:behaelter] = row_as_hash[behaelter_spalten_name] if behaelter_spalten_name
+        # Genehmigung erstellen!
+        
         transport = Transport.new(transport_params)
+        @logger.puts "Transport eingelesen #{transport.attributes}"
         if transport.save 
           @transporte_anzahl += 1
+          @logger.puts "Transport gespeichert."
+          # Transportabschnitte zu Transportfirmen erstellen, wenn vorhanden
+          if firmen_spalten_name
+            create_transportabschnitte_to_firmen(row_as_hash[firmen_spalten_name], firma_trennzeichen, transport)
+          end
         else 
           @transporte_liste << transport.attributes # TODO: Fehlerbehandlung
         end
+
+        
+
         #@transporte_liste << transport
     end 
     @logger.close
-    redirect_to upload_fertig_path
+    redirect_to upload_fertig_path, :transporte_anzahl => @transporte_anzahl
   end
 
 
   # Wenn alles eingelesen ist, aufräumen
   def fertig
+    @transporte_anzahl = params[:transporte_anzahl]
     session.clear
   end
 
@@ -188,6 +202,31 @@ class UploadController < ApplicationController
       csv_text =  File.read(file_path) 
       csv = CSV.parse(csv_text, :headers => true, :col_sep => session[:csv_trennzeichen])
       csv.headers
+    end
+
+
+    # Legt fuer jede im firmen_name_string vorkommenden Firmennamen einen Transportabschnitt zum transport an.
+    # Getrennt wird dabei der String durch das übergebene Trennzeichen.
+    #
+    def create_transportabschnitte_to_firmen(firmen_name_string, firma_trennzeichen, transport)
+          if firmen_name_string
+            firmen_namen = firmen_name_string.split(firma_trennzeichen)
+            firmen_namen.each do |firma_name|
+              firma = Firma.find_by(name: firma_name)
+              if firma.nil?
+                firma = Firma.new(name: firma_name)
+                unless firma.save
+                  # Fehlerbehandlung
+                end 
+              end
+              # Transportabschnitt fuer die Firma anlegen
+              transportabschnitt = Transportabschnitt.new(firma: firma, transport: transport) 
+              unless transportabschnitt.save
+                # Fehlerbehandlung
+              end
+            end
+             
+          end
     end
 
 
