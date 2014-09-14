@@ -1,7 +1,9 @@
 # Atomanlagen
 class Anlage < ActiveRecord::Base
   has_many :transportabschnitte
-  has_many :anlagen_synonyms
+  has_many :anlagen_synonyms, :dependent => :destroy
+
+  validates :name, presence: true, uniqueness: true
 
   def self.get_anlagen_for_selection_field
     all_anlagen = Hash.new
