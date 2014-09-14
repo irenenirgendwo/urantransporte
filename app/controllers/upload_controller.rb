@@ -4,10 +4,10 @@ class UploadController < ApplicationController
   require 'csv'
   require 'date'
 
-  CSV_TRENNZEICHEN = ","
 
   # Startseite zum Einlesen (Schritt 1)
   def index
+    @trennzeichen_liste = [",",";"]
   end
 
   # Datei auf Server (Schritt 2)
@@ -21,6 +21,7 @@ class UploadController < ApplicationController
         file.write(uploaded_io.read)
       end
       @headers = read_headers_from_csv(@file_path)
+      session[:csv_trennzeichen] = params[:trennzeichen]
     end
   end
 
@@ -40,7 +41,7 @@ class UploadController < ApplicationController
       # Erstelle @anlagen_liste als Liste von Namen, die in den Spalten auftauchen.
       @anlagen_liste = []
       csv_text =  File.read(file_path) 
-      csv = CSV.parse(csv_text, :headers => true, :col_sep => CSV_TRENNZEICHEN)
+      csv = CSV.parse(csv_text, :headers => true, :col_sep => session[:csv_trennzeichen])
       csv.each do |row|
         row_as_hash = row.to_hash
         @anlagen_liste << row_as_hash[@spalte_nr1]
@@ -130,6 +131,8 @@ class UploadController < ApplicationController
   # Spaltenzuordnungen.
   #
   def save_transporte
+    @logger = File.new("log/upload.log","wb")
+    @logger.puts params
     start_anlage_spalten_name = params[:start_anlage]
     ziel_anlage_spalten_name = params[:ziel_anlage]
     datum_spalten_name = params[:datum]
@@ -144,12 +147,14 @@ class UploadController < ApplicationController
     @transporte_anzahl = 0
     file_path = session[:file_path]
     csv_text =  File.read(file_path) 
-    csv = CSV.parse(csv_text, :headers => true, :col_sep => CSV_TRENNZEICHEN)
+    csv = CSV.parse(csv_text, :headers => true, :col_sep => session[:csv_trennzeichen])
+    # TODO: Fehlerbehandlung
     csv.each do |row|
         row_as_hash = row.to_hash
         start_anlage =  AnlagenSynonym.find_anlage_to_synonym(row_as_hash[start_anlage_spalten_name])
         ziel_anlage =  AnlagenSynonym.find_anlage_to_synonym(row_as_hash[ziel_anlage_spalten_name])
-        datum_werte = row_as_hash[datum_spalten_name].split(".") # Nehmen mal Format dd.mm.yyyy an.
+        # Nehmen mal Format dd.mm.yyyy an.
+        datum_werte = row_as_hash[datum_spalten_name].split(".") 
         datum = Date.new(datum_werte[2].to_i, datum_werte[1].to_i,datum_werte[0].to_i)
         transport_params = { :start_anlage => start_anlage, :ziel_anlage => ziel_anlage, :datum => datum }
         transport_params[:stoff] = row_as_hash[stoff_spalten_name] if stoff_spalten_name
@@ -165,11 +170,15 @@ class UploadController < ApplicationController
         end
         #@transporte_liste << transport
     end 
-    @transporte_anzahl 
-
-    render "fertig"
+    @logger.close
+    redirect_to upload_fertig_path
   end
 
+
+  # Wenn alles eingelesen ist, aufräumen
+  def fertig
+    session.clear
+  end
 
 
 
@@ -177,7 +186,7 @@ class UploadController < ApplicationController
     
     def read_headers_from_csv(file_path)
       csv_text =  File.read(file_path) 
-      csv = CSV.parse(csv_text, :headers => true, :col_sep => CSV_TRENNZEICHEN)
+      csv = CSV.parse(csv_text, :headers => true, :col_sep => session[:csv_trennzeichen])
       csv.headers
     end
 

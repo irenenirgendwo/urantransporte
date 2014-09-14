@@ -11,10 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140913080322) do
+ActiveRecord::Schema.define(version: 20140914112136) do
 
   create_table "anlagen", force: true do |t|
-    t.string   "name"
+    t.string   "name",         null: false
     t.string   "adresse"
     t.string   "plz"
     t.string   "ort"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20140913080322) do
 
   create_table "anlagen_synonyms", force: true do |t|
     t.integer  "anlage_id"
-    t.string   "synonym"
+    t.string   "synonym",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20140913080322) do
   end
 
   create_table "firmen", force: true do |t|
-    t.string   "name"
+    t.string   "name",         null: false
     t.string   "adresse"
     t.string   "plz"
     t.string   "ort"
@@ -74,9 +74,9 @@ ActiveRecord::Schema.define(version: 20140913080322) do
   end
 
   create_table "transporte", force: true do |t|
-    t.date     "datum"
-    t.integer  "start_anlage_id"
-    t.integer  "ziel_anlage_id"
+    t.date     "datum",                   null: false
+    t.integer  "start_anlage_id",         null: false
+    t.integer  "ziel_anlage_id",          null: false
     t.integer  "transportgenehmigung_id"
     t.decimal  "menge"
     t.integer  "anzahl"

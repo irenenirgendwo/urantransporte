@@ -11,7 +11,14 @@
     <div class="panel-body">
       <div class="form-group">
         <%= file_field_tag 'upload' %>
-        <p class="help-block">Bitte wähle die CSV-Datei aus, die ausgewertet werden soll.</p>
+        <p class="help-block">Bitte wähle die CSV-Datei aus, die ausgewertet werden soll. 
+             Beim Erstellen der csv-Datei ist darauf zu achten, dass in der oberesten Zeile die jeweiligen 
+             Spaltennamen stehen und diese keine Zeilenumbrüche enthalten (sonst gibts Chaos).</p>
+      </div>
+
+       <div class="form-group">
+        <p class="help-block">Bitte wähle das Trennezeichen aus, welches die Spalten in der Datei trennt.</p>
+        <%= select_tag :trennzeichen, options_for_select(@trennzeichen_liste) %>
       </div>
      </div>
    
