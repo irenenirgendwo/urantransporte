@@ -17,10 +17,10 @@ class TransporteControllerTest < ActionController::TestCase
   end
 
   test "should create transport" do
+    assert_equal Anlage.find(1), @transport.start_anlage
     assert_difference('Transport.count') do
-      post :create, transport: { behaeltertyp: @transport.behaeltertyp, menge: @transport.menge, 
-                                start_anlage: @transport.start_anlage, datum: @transport.datum,
-                                stoff: @transport.stoff, ziel_anlage: @transport.ziel_anlage }
+      post :create, transport: { start_anlage_id: 1, datum: Date.new(2014,3,12),
+                                stoff: "Uranhexafluorid", ziel_anlage_id: 2 }
     end
 
     assert_redirected_to transport_path(assigns(:transport))
@@ -37,7 +37,7 @@ class TransporteControllerTest < ActionController::TestCase
   end
 
   test "should update transport" do
-    patch :update, id: @transport, transport:  { behaeltertyp: @transport.behaeltertyp, menge: @transport.menge, 
+    patch :update, id: @transport, transport:  { behaelter: @transport.behaelter, menge: @transport.menge, 
                                 start_anlage: @transport.start_anlage, datum: @transport.datum,
                                 stoff: @transport.stoff, ziel_anlage: @transport.ziel_anlage }
     assert_redirected_to transport_path(assigns(:transport))

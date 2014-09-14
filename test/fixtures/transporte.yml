@@ -5,7 +5,7 @@ one:
   datum: 2013-09-01
   menge: 1.5
   stoff: MyString
-  behaeltertyp: MyString
+  behaelter: MyString
   start_anlage_id: 1
   ziel_anlage_id: 2
 
@@ -14,6 +14,6 @@ two:
   datum: 2011-06-05
   menge: 1.5
   stoff: MyString
-  behaeltertyp: MyString
+  behaelter: MyString
   start_anlage_id: 1
   ziel_anlage_id: 2

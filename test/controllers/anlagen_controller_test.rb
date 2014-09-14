@@ -2,7 +2,7 @@ require 'test_helper'
 
 class AnlagenControllerTest < ActionController::TestCase
   setup do
-    @anlage = anlagen(:one)
+    @anlage = anlagen(:urenco)
   end
 
   test "should get index" do
@@ -18,12 +18,11 @@ class AnlagenControllerTest < ActionController::TestCase
 
   test "should create anlage" do
     assert_difference('Anlage.count') do
-      post :create, anlage: { adresse: @anlage.adresse, beschreibung: @anlage.beschreibung, 
-                            name: @anlage.name, ort: @anlage.ort, plz: @anlage.plz },
-                    redirect_params: anlage_path(@anlage)
+      post :create, anlage: { adresse: "Lingen", beschreibung: "Brennelementefabrik", 
+                            name: "AKW Lingen", ort: "Lingen", plz: "59051" },
+                    redirect_params: anlagen_path
     end
-
-    #assert_redirected_to anlage_path(assigns(:anlage))
+    assert_redirected_to anlagen_path
   end
 
   test "should show anlage" do
@@ -48,4 +47,5 @@ class AnlagenControllerTest < ActionController::TestCase
 
     assert_redirected_to anlagen_path
   end
+  
 end

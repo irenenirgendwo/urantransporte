@@ -4,8 +4,13 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+urenco: 
+  anlage_id: 1
+  synonym: Urenco
+anf: 
+  synonym: ANF
+  anlage_id: 2
+lingen: 
+  synonym: Brennelementefabrik Lingen
+  anlage_id: 2
+

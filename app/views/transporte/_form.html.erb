@@ -17,12 +17,12 @@
   </div>
 
   <div class="field">
-    <%= f.label :start %><br>
-    <%= f.text_field :start_anlage %>
+    <%= f.label :start_anlage %><br>
+    <%= collection_select(:transport, :start_anlage_id, Anlage.all, :id, :name) %>
   </div>
   <div class="field">
-    <%= f.label :ziel %><br>
-    <%= f.text_field :ziel_anlage %>
+    <%= f.label :ziel_anlage %><br>
+    <%= collection_select(:transport, :ziel_anlage_id, Anlage.all, :id, :name) %>
   </div>
 
 
@@ -37,6 +37,11 @@
   <div class="field">
     <%= f.label :behaelter %><br>
     <%= f.text_field :behaelter %>
+  </div>
+  
+   <div class="anzahl">
+    <%= f.label :anzahl %><br>
+    <%= f.text_field :anzahl %>
   </div>
 
 

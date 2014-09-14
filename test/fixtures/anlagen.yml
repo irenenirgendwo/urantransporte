@@ -1,17 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+urenco:
   id: 1
   name: Urenco
   adresse: MyString
   plz: MyString
-  ort: MyString
+  ort: Gronau
   beschreibung: MyText
 
-two:
+anf:
   id: 2
-  name: MyString
+  name: ANF 
   adresse: MyString
   plz: MyString
-  ort: MyString
+  ort: Lingen
   beschreibung: MyText

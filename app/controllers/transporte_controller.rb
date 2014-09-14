@@ -69,6 +69,7 @@ class TransporteController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transport_params
-      params.require(:transport).permit(:menge, :stoff, :behaeltertyp, :start, :ziel, :datum)
+      params.require(:transport).permit(:menge, :stoff, :behaelter, :anzahl,
+                                 :start_anlage_id, :ziel_anlage_id, :datum)
     end
 end
