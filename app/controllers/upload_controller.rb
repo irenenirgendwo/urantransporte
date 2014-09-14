@@ -136,6 +136,7 @@ class UploadController < ApplicationController
     start_anlage_spalten_name = params[:start_anlage]
     ziel_anlage_spalten_name = params[:ziel_anlage]
     datum_spalten_name = params[:datum]  
+    # Weitere optionale Spaltennamen
     stoff_spalten_name = params[:stoff] == "Nicht vorhanden" ? nil : params[:stoff] 
     anzahl_spalten_name = params[:anzahl] == "Nicht vorhanden" ? nil : params[:anzahl] 
     menge_spalten_name = params[:menge] == "Nicht vorhanden" ? nil : params[:menge] 
@@ -143,10 +144,14 @@ class UploadController < ApplicationController
     behaelter_spalten_name = params[:behaelter] == "Nicht vorhanden" ? nil : params[:behaelter] 
     firmen_spalten_name = params[:firmen] == "Nicht vorhanden" ? nil : params[:firmen] 
     firma_trennzeichen = params[:firma_trennzeichen] 
-    # TODO: das irgendwie in erweiterbarem Hash speichern sodass einlesen mit Schleife geht...
-    # Mindestens bei den Daten, die nicht mit einer Tabelle verbunden sind.
+    # Genehmigungen werden nur eingelesen, wenn eine Genehmigungsnummer existiert.
+    genehmigungen = params[:genehmigung_nummer] == "Nicht vorhanden" ? nil : params[:genehmigung_nummer] 
+    genehmigungs_params = genehmigungen.nil? ? nil : read_genehmigungs_params
+    
     @transporte_liste = []
     @transporte_anzahl = 0
+
+    # Datei einlesen
     file_path = session[:file_path]
     csv_text =  File.read(file_path) 
     csv = CSV.parse(csv_text, :headers => true, :col_sep => session[:csv_trennzeichen])
@@ -165,7 +170,9 @@ class UploadController < ApplicationController
                                    row_as_hash[menge_umrechnungsfaktor_spalten_name].to_f
         transport_params[:behaelter] = row_as_hash[behaelter_spalten_name] if behaelter_spalten_name
         # Genehmigung erstellen!
-        
+        genehmigung = create_or_find_genehmigung(row_as_hash, genehmigungs_params)
+        transport_params[:transportgenehmigung] = genehmigung if genehmigung
+
         transport = Transport.new(transport_params)
         @logger.puts "Transport eingelesen #{transport.attributes}"
         if transport.save 
@@ -178,10 +185,6 @@ class UploadController < ApplicationController
         else 
           @transporte_liste << transport.attributes # TODO: Fehlerbehandlung
         end
-
-        
-
-        #@transporte_liste << transport
     end 
     @logger.close
     redirect_to upload_fertig_path, :transporte_anzahl => @transporte_anzahl
@@ -227,6 +230,30 @@ class UploadController < ApplicationController
             end
              
           end
+    end
+
+    def read_genehmigungs_params 
+      genehmigungs_params = Hash.new
+      genehmigungs_params[:genehmigung_nummer] = params[:genehmigungs_nummer]
+      genehmigungs_params[:antragssteller] = params[:antragssteller]
+      genehmigungs_params[:antragsdatum] = params[:antragsdatum]
+      genehmigungs_params[:max_anzahl] = params[:max_anzahl]
+      genehmigungs_params[:schiene] = params[:schiene]
+      genehmigungs_params[:strasse] = params[:strasse]
+      genehmigungs_params[:see] = params[:see]
+      genehmigungs_params[:luft] = params[:luft]
+      genehmigungs_params[:umschlag] = params[:umschlag]
+      genehmigungs_params[:erstellungsdatum] = params[:erstellungsdatum]
+      genehmigungs_params[:gueltigkeit] = params[:gueltigkeit]
+      genehmigungs_params
+    end
+
+    def create_or_find_genehmigung(row_as_hash, genehmigungs_params)
+      if genehmigungs_params
+	genehmigungs_params.each do |spalten_name|
+          # TODO: genehmigungen weiter machen
+        end
+      end
     end
 
 

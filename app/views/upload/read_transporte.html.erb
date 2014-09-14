@@ -4,7 +4,9 @@
   <%= flash[:notice] %>
 <% end %>
 
-<h2>Scnritt 4: Transporte einlesen</h2>
+
+
+    <h2> Scnritt 4: Transporte einlesen</h2>
 
 <p>
   Im Folgenden muss zugeordnet werden, welche Angaben sich in welcher Spalte befinden.
@@ -12,61 +14,73 @@
 
 <%= form_tag({action: :save_transporte}, multipart: true) do %>
 
-  <h3> Unbedingt erforderliche Grundeingaben </h3>
-  <p>
-    Die Angabe zur <strong>Start-Anlage</strong> befindet sich in der Spalte mit dem Namen
-     <%= select_tag :start_anlage, options_for_select(@headers), class: "form-control" %>
-  </p>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Unbedingt erforderliche Grundeingaben</h3>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      Die Angabe zur <strong>Start-Anlage</strong> befindet sich in der Spalte mit dem Namen
+      <%= select_tag :start_anlage, options_for_select(@headers), class: "form-control" %>
+    </div>
 
-  <p>
-    Die Angabe zur <strong>Ziel-Anlage</strong> befindet sich in der Spalte mit dem Namen
-     <%= select_tag :ziel_anlage, options_for_select(@headers), class: "form-control" %>
-  </p>
+    <div class="form-group">
+      Die Angabe zur <strong>Ziel-Anlage</strong> befindet sich in der Spalte mit dem Namen
+       <%= select_tag :ziel_anlage, options_for_select(@headers), class: "form-control" %>
+    </div>
+ 
+    <div class="form-group">
+      Die Angabe zum <strong>Datum des Transports</strong> befindet sich in der Spalte mit dem Namen
+      <%= select_tag :datum, options_for_select(@headers), class: "form-control"  %>
+    </div>
+  </div>
 
-  <p>
-    Die Angabe zum <strong>Datum des Transports</strong> befindet sich in der Spalte mit dem Namen
-    <%= select_tag :datum, options_for_select(@headers), class: "form-control"  %>
-  </p>
 
-  <h3> Angaben zum transportierten Material </h3>
 
-  <p>
-    Die Angabe zum transportierten <strong>Stoff</strong> befindet sich in der Spalte mit dem Namen
-     <%= select_tag :stoff, options_for_select(@headers_with_nil), class: "form-control"  %> 
-  </p>
+  <div class="panel-heading">
+    <h3 class="panel-title">Angaben zum transportierten Material </h3>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      Die Angabe zum transportierten <strong>Stoff</strong> befindet sich in der Spalte mit dem Namen
+       <%= select_tag :stoff, options_for_select(@headers_with_nil), class: "form-control"  %> 
+    </div>
 
-  <p>
-    Die Angabe zum transportierten <strong>Masse)</strong> befindet sich in der Spalte mit dem Namen
-    <%= select_tag :menge, options_for_select(@headers_with_nil), class: "form-control"  %> . 
-    Umrechnungsfaktor um zu Tonnen zu kommen: <%= text_field_tag :menge_umrechnungsfaktor, "1" %>
-  </p>
+    <div class="form-group">
+      Die Angabe zum transportierten <strong>Masse)</strong> befindet sich in der Spalte mit dem Namen
+      <%= select_tag :menge, options_for_select(@headers_with_nil), class: "form-control"  %> . 
+      Umrechnungsfaktor um zu Tonnen zu kommen: <%= text_field_tag :menge_umrechnungsfaktor, "1" %>
+    </div>
+ 
+    <div class="form-group">
+      Die Angabe zur <strong>Anzahl</strong> der transportierten Behälter befindet sich in der Spalte mit dem Namen
+       <%= select_tag :anzahl, options_for_select(@headers_with_nil), class: "form-control"  %> 
+    </div>
 
-  <p>
-    Die Angabe zur <strong>Anzahl</strong> der transportierten Behälter befindet sich in der Spalte mit dem Namen
-     <%= select_tag :anzahl, options_for_select(@headers_with_nil), class: "form-control"  %> 
-  </p>
-
-  <p>
-    Die Angabe zum <strong>Behältertyp</strong> befindet sich in der Spalte mit dem Namen
-    <%= select_tag :behaelter, options_for_select(@headers_with_nil), class: "form-control"  %> 
-  </p>
+    <div class="form-group">
+      Die Angabe zum <strong>Behältertyp</strong> befindet sich in der Spalte mit dem Namen
+      <%= select_tag :behaelter, options_for_select(@headers_with_nil), class: "form-control"  %> 
+    </div>
+  </div>
+</div>
 
   <h3> Zur Genehmigung: </h3>
 
 <!-- TODO: Einklappbar, falls keine Genehmigungen vorhanden -->
 
-  Zur Kenntnis: Die Sachen hier werden noch nicht eingelesen, da fehlt mir noch die richtige Idee für die Verknüpfung
-  mit der Genehmigungstabelle.
+    Zur Kenntnis: Die Sachen hier werden noch nicht eingelesen, da fehlt mir noch die richtige Idee für die Verknüpfung
+    mit der Genehmigungstabelle.
 
-  <p>
-    Die Angabe zur <strong>Genehmigungsnummer</strong> befindet sich in der Spalte mit dem Namen
-     <%= select_tag :genehmigung_nummer, options_for_select(@headers_with_nil), class: "form-control"  %> 
-  </p>
+    <div class="form-group">
+      Die Angabe zur <strong>Genehmigungsnummer</strong> befindet sich in der Spalte mit dem Namen
+      <%= select_tag :genehmigung_nummer, options_for_select(@headers_with_nil), class: "form-control"  %> 
+    </div>
 
-  <p>
-    Die Angabe zum/zur <strong>Genehmigungsinhaber*in / Antragssteller*in</strong> befindet sich in der Spalte mit dem Namen
-    <%= select_tag :antragssteller, options_for_select(@headers_with_nil), class: "form-control"  %> 
-  </p>
+    <div class="form-group">
+       Die Angabe zum/zur <strong>Genehmigungsinhaber*in / Antragssteller*in</strong>
+       befindet sich in der Spalte mit dem Namen
+       <%= select_tag :antragssteller, options_for_select(@headers_with_nil), class: "form-control"  %> 
+    </div>
 
     <div class="form-group">
       <label for="">Antragsdatum</label>
@@ -136,4 +150,5 @@
     <%= submit_tag "Transporte einlesen!" %>
   </div>
 <% end %>
+
 
