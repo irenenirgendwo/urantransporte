@@ -6,8 +6,9 @@
 <h3> Transportabschnitte </h3>
 
 <% @transport.transportabschnitte.each do |transport_abschnitt| %>
-  <%= render "show_abschnitt", abschnitt: transport_abschnitt %>
+  <%= render "_form_abschnitt", abschnitt: transport_abschnitt %>
 <% end %>
 
 
 <%= link_to 'Alle Transporte', transporte_path %>
+

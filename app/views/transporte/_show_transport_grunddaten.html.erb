@@ -1,0 +1,40 @@
+<div class="btn-group header-buttons">
+  <%= link_to 'Bearbeiten', edit_transport_path(@transport) , class: "btn btn-primary" %>
+  <%= link_to 'Löschen', @transport, method: :delete, data: { confirm: 'Willst du den Transport wirklich löschen?' }, class: "btn btn-danger" %></td>
+</div>
+<h1>Atomtransport</h1>
+
+<p id="notice"><%= notice %></p>
+
+
+<div class="row">
+  <div class="col-sm-7">
+    <p>
+      <strong>Datum:</strong>
+      <%= @transport.datum %>
+    </p>
+
+    <p>
+      <strong>Startanlage:</strong>
+      <%= link_to @transport.start_anlage.name, @transport.start_anlage %>
+    </p>
+
+    <p>
+      <strong>Zielanlage:</strong>
+      <%= link_to @transport.ziel_anlage.name, @transport.ziel_anlage %>
+    </p>
+    
+    <p>
+      <strong>Stoff:</strong>
+      <%= @transport.stoff %>
+    </p>
+
+    
+    <p>
+      Transportiert wurde<%= @transport.menge ? "n #{@transport.menge} Tonnen" : nil %> <%= @transport.stoff %>.
+      <%= @transport.behaelter ? "Die Behälter waren vom Typ #{@transport.behaelter}." : nil %>
+      <%= @transport.anzahl ? "Es fanden #{@transport.anzahl} Transporte statt." : nil %>
+    </p>
+
+  </div>
+</div>

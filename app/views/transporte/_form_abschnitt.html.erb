@@ -1,0 +1,49 @@
+<%= form_for(abschnitt) do |f| %>
+  <% if abschnitt.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(abschnitt.errors.count, "error") %> prohibited this transport from being saved:</h2>
+
+      <ul>
+      <% abschnitt.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class="row">
+    <div class="col-sm-6">
+      <p>
+        <strong>Start des Transportabschnittes:</strong>
+        <%= f.text_field :start_datum %>
+      </p>
+       <p>
+        <strong>Anfangsort:</strong>
+        <%= f.text_field :start_ort %>
+      </p>
+    </div>
+    <div class="col-sm-6">
+      <p>
+        <strong>Ende des Transportabschnittes:</strong>
+        <%= f.text_field :end_datum %>
+      </p>
+       <p>
+        <strong>Endort:</strong>
+        <%= f.text_field :end_ort %>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="field">
+        <%= f.label :verkehrstraeger %><br>
+        <%= f.text_field :verkehrstraeger %>
+      </div>
+      <div class="field">
+        Transportfirma:
+        <%= collection_select(:transportabschnitt, :firma_id, Firma.all, :id, :name) %>
+      </div>
+    </div>
+  </div>
+  
+<% end %>

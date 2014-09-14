@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'welcome/index'
 
   resources :transporte
+  get 'transporte/edit_abschnitte/:transport_id' => 'transporte#edit_abschnitte'
 
   resources :beobachtungen
 

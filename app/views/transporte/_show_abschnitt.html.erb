@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-sm-6">
+    <p>
+      <strong>Start des Transportabschnittes:</strong>
+      <%= abschnitt.start_datum %>
+      in <%= abschnitt.start_ort %>
+    </p>
+  </div>
+  <div class="col-sm-6">
+    <p>
+      Ende des Transportabschnittes:
+      <%= abschnitt.end_datum %>
+      in <%= abschnitt.end_ort %>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6">
+    <p>
+      Verkehrsträger:
+      <%= abschnitt.verkehrstraeger %>
+    </p>
+  </div>
+  <div class="col-sm-6">
+    <p>
+      Transportfirma:
+      <%= link_to abschnitt.firma.name, abschnitt.firma %>
+    </p>
+  </div>
+</div>
