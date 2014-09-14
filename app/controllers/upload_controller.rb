@@ -18,9 +18,7 @@ class UploadController < ApplicationController
       File.open(@file_path, 'wb') do |file|
         file.write(uploaded_io.read)
       end
-      csv_text =  File.read(@file_path) 
-      csv = CSV.parse(csv_text, :headers => true, :col_sep => ",")
-      @headers = csv.headers
+      @headers = read_headers_from_csv(@file_path)
     end
   end
 
@@ -93,7 +91,7 @@ class UploadController < ApplicationController
     @anlage = Anlage.new
     @redirect_params = upload_anlagen_zuordnung_path
     if @synonym_liste.empty?
-      render "anlagen_fertig_auswahl"
+      redirect_to upload_read_transporte_path
     end
   end
 
@@ -121,6 +119,9 @@ class UploadController < ApplicationController
   # Formular zum einlesen der Transporte mit Spaltenzuordnungen.
   #
   def read_transporte
+    @headers = read_headers_from_csv(session[:file_path])
+    @headers_with_nil = ["Nicht vorhanden"]
+    @headers_with_nil.concat(@headers)
   end
 
   # Post-Methode zum Einlesen der Transporte mit den vorgenommenen
@@ -171,7 +172,12 @@ class UploadController < ApplicationController
 
 
   private
-
+    
+    def read_headers_from_csv(file_path)
+      csv_text =  File.read(file_path) 
+      csv = CSV.parse(csv_text, :headers => true, :col_sep => ",")
+      csv.headers
+    end
 
 
 end

@@ -6,17 +6,19 @@
     <h3 class="panel-title">Schritt 1: Datei auswählen</h3>
   </div>
   
-  <div class="panel-body">
-    <%= form_tag({action: :upload_file}, multipart: true) do %>
+  <%= form_tag({action: :upload_file}, multipart: true) do %>
+
+    <div class="panel-body">
       <div class="form-group">
         <%= file_field_tag 'upload' %>
         <p class="help-block">Bitte wähle die CSV-Datei aus, die ausgewertet werden soll.</p>
       </div>
-   </div>
+     </div>
    
-   <div class="panel-footer">
-      <%= submit_tag "Weiter zum Auswerten", class: "btn btn-primary" %>
-    <% end %>
-  </div>
+     <div class="panel-footer">
+       <%= submit_tag "Weiter zum Auswerten", class: "btn btn-primary" %>
+     </div>
+
+   <% end %>
   
 </div>

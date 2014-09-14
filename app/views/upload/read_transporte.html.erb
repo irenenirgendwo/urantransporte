@@ -4,7 +4,7 @@
   <%= flash[:notice] %>
 <% end %>
 
-<h2>Scnritt 5: Transporte einlesen</h2>
+<h2>Scnritt 4: Transporte einlesen</h2>
 
 <p>
   Im Folgenden muss zugeordnet werden, welche Angaben sich in welcher Spalte befinden.
@@ -15,39 +15,40 @@
   <h3> Unbedingt erforderliche Grundeingaben </h3>
   <p>
     Die Angabe zur <strong>Start-Anlage</strong> befindet sich in der Spalte mit dem Namen
-    <%= text_field_tag :start_anlage %>
+     <%= select_tag :start_anlage, options_for_select(@headers), class: "form-control" %>
   </p>
 
   <p>
     Die Angabe zur <strong>Ziel-Anlage</strong> befindet sich in der Spalte mit dem Namen
-    <%= text_field_tag :ziel_anlage %>
+     <%= select_tag :ziel_anlage, options_for_select(@headers), class: "form-control" %>
   </p>
 
   <p>
     Die Angabe zum <strong>Datum des Transports</strong> befindet sich in der Spalte mit dem Namen
-    <%= text_field_tag :datum %>
+    <%= select_tag :datum, options_for_select(@headers), class: "form-control"  %>
   </p>
 
   <h3> Angaben zum transportierten Material </h3>
 
   <p>
     Die Angabe zum transportierten <strong>Stoff</strong> befindet sich in der Spalte mit dem Namen
-    <%= text_field_tag :stoff %>
+     <%= select_tag :stoff, options_for_select(@headers_with_nil), class: "form-control"  %> 
   </p>
 
   <p>
     Die Angabe zum transportierten <strong>Masse)</strong> befindet sich in der Spalte mit dem Namen
-    <%= text_field_tag :menge %>. Umrechnungsfaktor um zu Tonnen zu kommen: <%= text_field_tag :menge_umrechnungsfaktor %>
+    <%= select_tag :menge, options_for_select(@headers_with_nil), class: "form-control"  %> . 
+    Umrechnungsfaktor um zu Tonnen zu kommen: <%= text_field_tag :menge_umrechnungsfaktor, "1" %>
   </p>
 
   <p>
     Die Angabe zur <strong>Anzahl</strong> der transportierten Behälter befindet sich in der Spalte mit dem Namen
-    <%= text_field_tag :anzahl %>. 
+     <%= select_tag :anzahl, options_for_select(@headers_with_nil), class: "form-control"  %> 
   </p>
 
   <p>
     Die Angabe zum <strong>Behältertyp</strong> befindet sich in der Spalte mit dem Namen
-    <%= text_field_tag :behaelter %>. 
+    <%= select_tag :behaelter, options_for_select(@headers_with_nil), class: "form-control"  %> 
   </p>
 
   <h3> Zur Genehmigung: </h3>
@@ -57,22 +58,16 @@
 
   <p>
     Die Angabe zur <strong>Genehmigungsnummer</strong> befindet sich in der Spalte mit dem Namen
-    <%= text_field_tag :genehmigung_nummer %>. 
+     <%= select_tag :genehmigung_nummer, options_for_select(@headers_with_nil), class: "form-control"  %> 
   </p>
 
   <p>
     Die Angabe zum/zur <strong>Genehmigungsinhaber*in</strong> befindet sich in der Spalte mit dem Namen
-    <%= text_field_tag :genehmigung_inhaberin %>. 
+    <%= select_tag :genehmigung_inhaberin, options_for_select(@headers_with_nil), class: "form-control"  %> 
   </p>
 
 
   <%= submit_tag "Transporte einlesen!" %>
 
 <% end %>
-
-<!-- Form einfügen um Spalten hinzuzufügen -->
-<div>
-     submit_tag "Weitere Spalte mit Daten eingeben"
-
-</div> 
 
