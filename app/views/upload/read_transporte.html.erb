@@ -4,17 +4,17 @@
   <%= flash[:notice] %>
 <% end %>
 
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title"> Scnritt 4: Transporte einlesen</h2>
+  </div>
 
-
-    <h2> Scnritt 4: Transporte einlesen</h2>
-
-<p>
-  Im Folgenden muss zugeordnet werden, welche Angaben sich in welcher Spalte befinden.
-</p>
+  <p>
+    Im Folgenden muss zugeordnet werden, welche Angaben sich in welcher Spalte befinden.
+  </p>
 
 <%= form_tag({action: :save_transporte}, multipart: true) do %>
 
-<div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Unbedingt erforderliche Grundeingaben</h3>
   </div>
@@ -62,18 +62,23 @@
       <%= select_tag :behaelter, options_for_select(@headers_with_nil), class: "form-control"  %> 
     </div>
   </div>
-</div>
 
-  <h3> Zur Genehmigung: </h3>
+
+  <div class="panel-heading">
+    <h3 class="panel-title">Zur Genehmigung: </h3>
+  </div>
 
 <!-- TODO: Einklappbar, falls keine Genehmigungen vorhanden -->
-
-    Zur Kenntnis: Die Sachen hier werden noch nicht eingelesen, da fehlt mir noch die richtige Idee für die Verknüpfung
-    mit der Genehmigungstabelle.
+  <div class="panel-body">
+    <p> 
+	  Zur Kenntnis: Die Sachen hier werden noch nicht eingelesen, da fehlt mir noch die richtige Idee für die Verknüpfung
+      mit der Genehmigungstabelle.
+    </p>
+   
 
     <div class="form-group">
       Die Angabe zur <strong>Genehmigungsnummer</strong> befindet sich in der Spalte mit dem Namen
-      <%= select_tag :genehmigung_nummer, options_for_select(@headers_with_nil), class: "form-control"  %> 
+      <%= select_tag :lfd_nr, options_for_select(@headers_with_nil), class: "form-control"  %> 
     </div>
 
     <div class="form-group">
@@ -127,28 +132,37 @@
       <%= select_tag :gueltigkeit, options_for_select(@headers_with_nil), class: "form-control" %>
     </div>
 
-
-  <h3> Weitere Daten zu Transportabschnitten </h3>
-
-  Zu jedem der hier angegeben Daten wird ein entsprechender Transportabschnitt angelegt, da davon ausgegangen wird, das ein Transportabschnitt nur von einer Firma durchgeführt wird,.
-
+  </div>
+  
+  <div class="panel-heading">
+    <h3 class="panel-title">Weitere Daten zu Transportabschnitten </h3>
+  </div>
+  <div class="panel-body">
+    <p> 
+      Zu jedem der hier angegeben Daten wird ein entsprechender Transportabschnitt angelegt, da davon ausgegangen wird, das ein Transportabschnitt nur von einer Firma durchgeführt wird,.
+    </p>
     <div class="form-group">
       <label for="">Transportunternehmen</label>
       <%= select_tag :firmen, options_for_select(@headers_with_nil), class: "form-control" %>
       Mehrere Transportunternehmen werden mit dem Trennzeichen
       <%= text_field_tag :firma_trennzeichen, "," %> getrennt.
     </div>
+  </div>
+  <div class="panel-heading">
+    <h3 class="panel-title">Daten zu Umschlagorten</h3>
+  </div>
+  <div class="panel-body">
+    <p> 
+      Zu jedem der hier angegeben Daten wird ein entsprechender Umschlag angelegt.
 
-    <h3> Weitere Daten zu Umschlagorten, Zeiten usw. </h3>
-
-    Zu jedem der hier angegeben Daten wird ein entsprechender Umschlag angelegt.
-
-    Hier muss noch weiter gemacht werden.
-
+      Hier muss noch weiter gemacht werden.
+    </p>
+  </div>
 
   <div class="panel-footer">
     <%= submit_tag "Transporte einlesen!" %>
   </div>
+  
 <% end %>
 
-
+</div>

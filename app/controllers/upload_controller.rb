@@ -145,8 +145,8 @@ class UploadController < ApplicationController
     firmen_spalten_name = params[:firmen] == "Nicht vorhanden" ? nil : params[:firmen] 
     firma_trennzeichen = params[:firma_trennzeichen] 
     # Genehmigungen werden nur eingelesen, wenn eine Genehmigungsnummer existiert.
-    genehmigungen = params[:genehmigung_nummer] == "Nicht vorhanden" ? nil : params[:genehmigung_nummer] 
-    genehmigungs_params = genehmigungen.nil? ? nil : read_genehmigungs_params
+    genehmigungen = params[:lfd_nr] == "Nicht vorhanden" ? nil : params[:lfd_nr] 
+    genehmigungs_params = genehmigungen.nil? ? nil : read_genehmigungs_params(params)
     
     @transporte_liste = []
     @transporte_anzahl = 0
@@ -187,13 +187,13 @@ class UploadController < ApplicationController
         end
     end 
     @logger.close
-    redirect_to upload_fertig_path, :transporte_anzahl => @transporte_anzahl
+    redirect_to upload_fertig_path, "transporte_anzahl" => @transporte_anzahl
   end
 
 
   # Wenn alles eingelesen ist, aufräumen
   def fertig
-    @transporte_anzahl = params[:transporte_anzahl]
+    @transporte_anzahl = params["transporte_anzahl"]
     session.clear
   end
 
@@ -232,9 +232,11 @@ class UploadController < ApplicationController
           end
     end
 
-    def read_genehmigungs_params 
+    # Macht die Parameter mit den Spaltennamen für die Genehmigung
+    #
+    def read_genehmigungs_params params
       genehmigungs_params = Hash.new
-      genehmigungs_params[:genehmigung_nummer] = params[:genehmigungs_nummer]
+      genehmigungs_params[:lfd_nr] = params[:lfd_nr]
       genehmigungs_params[:antragssteller] = params[:antragssteller]
       genehmigungs_params[:antragsdatum] = params[:antragsdatum]
       genehmigungs_params[:max_anzahl] = params[:max_anzahl]
@@ -245,13 +247,30 @@ class UploadController < ApplicationController
       genehmigungs_params[:umschlag] = params[:umschlag]
       genehmigungs_params[:erstellungsdatum] = params[:erstellungsdatum]
       genehmigungs_params[:gueltigkeit] = params[:gueltigkeit]
+      genehmigungs_params[:stoff] = params[:stoff]
       genehmigungs_params
     end
 
+    # Liest aus der gegebenen Zeile die Daten für die Erstellung einer Genehmigung ein.
+    # Voraussetzung ist, dass die laufende Nummer der Genehmigung angegeben ist.
+    #
     def create_or_find_genehmigung(row_as_hash, genehmigungs_params)
       if genehmigungs_params
-	genehmigungs_params.each do |spalten_name|
-          # TODO: genehmigungen weiter machen
+        genehmigungs_hash = Hash.new
+        genehmigungs_params.each do |merkmal, spalten_name|
+          # Konvertierung der boolschen Felder
+          if [:schiene, :strasse, :see, :luft, :umschlag].include? merkmal
+			genehmigungs_hash[merkmal] = row_as_hash[spalten_name] == "ja"
+	      # Konvertierung der Datumsfelder
+          elsif [:erstellungsdatum, :gueltigkeit, :antragsdatum].include? merkmal
+            datum_werte = row_as_hash[datum_spalten_name].split(".") 
+            genehmigungs_hash[merkmal] = Date.new(datum_werte[2].to_i,datum_werte[1].to_i,datum_werte[0].to_i)
+          elsif merkmal == :max_anzahl
+            genehmigungs_hash[merkmal] = row_as_hash[spalten_name].to_i
+          # String-Felder werden übernommen
+          elsif [:lfd_nr, :antragssteller, :gueltigkeit, :stoff].include? merkmal
+            genehmigungs_hash[merkmal] = row_as_hash[spalten_name]
+          end
         end
       end
     end
