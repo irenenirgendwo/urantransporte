@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20140913080322) do
     t.integer  "max_anzahl"
     t.boolean  "schiene"
     t.boolean  "strasse"
+    t.boolean  "see"
     t.boolean  "luft"
     t.boolean  "umschlag"
     t.date     "erstellungsdatum"

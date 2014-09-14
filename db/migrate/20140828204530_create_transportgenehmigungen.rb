@@ -8,7 +8,7 @@ class CreateTransportgenehmigungen < ActiveRecord::Migration
       t.integer :max_anzahl
       t.boolean :schiene
       t.boolean :strasse
-      t.boolean :schiene
+      t.boolean :see
       t.boolean :luft
       t.boolean :umschlag
       t.date :erstellungsdatum

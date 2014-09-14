@@ -4,6 +4,8 @@ class UploadController < ApplicationController
   require 'csv'
   require 'date'
 
+  CSV_TRENNZEICHEN = ","
+
   # Startseite zum Einlesen (Schritt 1)
   def index
   end
@@ -38,7 +40,7 @@ class UploadController < ApplicationController
       # Erstelle @anlagen_liste als Liste von Namen, die in den Spalten auftauchen.
       @anlagen_liste = []
       csv_text =  File.read(file_path) 
-      csv = CSV.parse(csv_text, :headers => true, :col_sep => ",")
+      csv = CSV.parse(csv_text, :headers => true, :col_sep => CSV_TRENNZEICHEN)
       csv.each do |row|
         row_as_hash = row.to_hash
         @anlagen_liste << row_as_hash[@spalte_nr1]
@@ -142,7 +144,7 @@ class UploadController < ApplicationController
     @transporte_anzahl = 0
     file_path = session[:file_path]
     csv_text =  File.read(file_path) 
-    csv = CSV.parse(csv_text, :headers => true, :col_sep => ",")
+    csv = CSV.parse(csv_text, :headers => true, :col_sep => CSV_TRENNZEICHEN)
     csv.each do |row|
         row_as_hash = row.to_hash
         start_anlage =  AnlagenSynonym.find_anlage_to_synonym(row_as_hash[start_anlage_spalten_name])
@@ -175,7 +177,7 @@ class UploadController < ApplicationController
     
     def read_headers_from_csv(file_path)
       csv_text =  File.read(file_path) 
-      csv = CSV.parse(csv_text, :headers => true, :col_sep => ",")
+      csv = CSV.parse(csv_text, :headers => true, :col_sep => CSV_TRENNZEICHEN)
       csv.headers
     end
 
