@@ -2,8 +2,10 @@ Rails.application.routes.draw do
 
   get 'welcome/index'
 
-  resources :transporte
-  get 'transporte/edit_abschnitte/:transport_id' => 'transporte#edit_abschnitte'
+  resources :transporte do 
+    get 'edit_abschnitte', on: :member
+    post 'transporte/update_abschnitte', on: :member
+  end
 
   resources :beobachtungen
 

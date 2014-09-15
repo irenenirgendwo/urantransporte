@@ -62,7 +62,15 @@ class TransporteController < ApplicationController
   end
   
   def edit_abschnitte
-    @transport = Transport.find(params[:transport_id])
+    @transport = Transport.find(params[:id])
+  end 
+  
+  def update_abschnitte
+    @transport = Transport.find(params[:id])
+    
+    respond_to do |format|
+      redirect_to @transport, notice: 'Transportabschnitte wurden aktualisiert (tut noch nicht).' 
+    end
   end 
 
   private

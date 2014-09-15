@@ -1,4 +1,4 @@
-<%= form_for(abschnitt) do |f| %>
+
   <% if abschnitt.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(abschnitt.errors.count, "error") %> prohibited this transport from being saved:</h2>
@@ -15,35 +15,32 @@
     <div class="col-sm-6">
       <p>
         <strong>Start des Transportabschnittes:</strong>
-        <%= f.text_field :start_datum %>
+        <%= text_field_tag "#{abschnitt.id}_startdatum" %>
       </p>
        <p>
         <strong>Anfangsort:</strong>
-        <%= f.text_field :start_ort %>
+        <%= text_field_tag :start_ort %>
       </p>
+      <div class="field">
+        Verkehrstraeger: 
+        <%= text_field_tag :verkehrstraeger %>
+      </div>
     </div>
     <div class="col-sm-6">
       <p>
         <strong>Ende des Transportabschnittes:</strong>
-        <%= f.text_field :end_datum %>
+        <%= text_field_tag :end_datum %>
       </p>
        <p>
         <strong>Endort:</strong>
-        <%= f.text_field :end_ort %>
+        <%= text_field_tag :end_ort %>
       </p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="field">
-        <%= f.label :verkehrstraeger %><br>
-        <%= f.text_field :verkehrstraeger %>
-      </div>
       <div class="field">
         Transportfirma:
         <%= collection_select(:transportabschnitt, :firma_id, Firma.all, :id, :name) %>
+        <%= link_to "Neue Firma anlegen", new_firma_path %>
       </div>
     </div>
   </div>
   
-<% end %>
+ 
