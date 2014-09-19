@@ -4,8 +4,14 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
+petersburg_hamburg: 
+  start_ort: St. Petersburg
+  end_ort: Hamburg
+  transport_id: 3
 #
-two: {}
+hamburg_lingen: 
+  start_ort: Hamburg
+  end_ort: Lingen
+  firma_id: 1
+  transport_id: 4
 #  column: value

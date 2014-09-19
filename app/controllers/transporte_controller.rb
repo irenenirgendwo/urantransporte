@@ -21,6 +21,7 @@ class TransporteController < ApplicationController
   def edit
   end
 
+  # legt einen neuen Transport, erstmal ohne Transportabschnitte an.
   # POST /transporte
   # POST /transporte.json
   def create
@@ -61,10 +62,14 @@ class TransporteController < ApplicationController
     end
   end
   
+  # Macht alle Abschnittsdaten bearbeitbar.
+  #
   def edit_abschnitte
     @transport = Transport.find(params[:id])
   end 
   
+  
+  # TODO: unfertig, wie soll das eigentlich am besten aussehen?
   def update_abschnitte
     @transport = Transport.find(params[:id])
     
@@ -72,6 +77,13 @@ class TransporteController < ApplicationController
       redirect_to @transport, notice: 'Transportabschnitte wurden aktualisiert (tut noch nicht).' 
     end
   end 
+  
+  def union_transport
+    # oder zieltransport schon @transport und route zu ressourcen hinzufuegen?
+    ziel_transport = Transport.find(params[:ziel_transport].to_i)
+    add_transport = ziel_transport.add(Transport.find(params[:add_transport].to_i))
+    
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

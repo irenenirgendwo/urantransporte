@@ -11,7 +11,7 @@ class AnlageTest < ActiveSupport::TestCase
 
   test "get anlagen for selection field" do 
     anlagen = Anlage.get_anlagen_for_selection_field
-    assert_equal 2, anlagen.size
+    assert_equal 3, anlagen.size
     assert_equal 1, anlagen["Urenco"]
   end 
 
