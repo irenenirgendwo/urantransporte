@@ -20,13 +20,13 @@
   </div>
   <div class="panel-body">
     <div class="form-group">
-      Die Angabe zur <strong>Start-Anlage</strong> befindet sich in der Spalte mit dem Namen
-      <%= select_tag :start_anlage, options_for_select(@headers), class: "form-control" %>
+      Die Angabe zur <strong>Start-Anlage</strong> befindet sich in der Spalte mit dem Namen 
+      <%= session[:spalte_start] %> (Angabe bereits gemacht).
     </div>
 
     <div class="form-group">
-      Die Angabe zur <strong>Ziel-Anlage</strong> befindet sich in der Spalte mit dem Namen
-       <%= select_tag :ziel_anlage, options_for_select(@headers), class: "form-control" %>
+      Die Angabe zur <strong>Ziel-Anlage</strong> befindet sich in der Spalte mit dem Namen 
+      <%= session[:spalte_ziel] %> (Angabe bereits gemacht).
     </div>
  
     <div class="form-group">

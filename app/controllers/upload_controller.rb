@@ -37,6 +37,8 @@ class UploadController < ApplicationController
       session[:file_path] = file_path
       @spalte_nr1 = params[:start]
       @spalte_nr2 = params[:ziel]
+      session[:spalte_start] = @spalte_nr1
+      session[:spalte_ziel] = @spalte_nr2
       @logger.puts "Anlagen sind in #{@spalte_nr1} und #{@spalte_nr2}"
       # Erstelle @anlagen_liste als Liste von Namen, die in den Spalten auftauchen.
       @anlagen_liste = []
@@ -133,8 +135,8 @@ class UploadController < ApplicationController
   def save_transporte
     @logger = File.new("log/upload.log","wb")
     @logger.puts params
-    start_anlage_spalten_name = params[:start_anlage]
-    ziel_anlage_spalten_name = params[:ziel_anlage]
+    start_anlage_spalten_name = session[:spalte_start]
+    ziel_anlage_spalten_name = session[:spalte_ziel]
     datum_spalten_name = params[:datum]  
     # Weitere optionale Spaltennamen
     stoff_spalten_name = params[:stoff] == "Nicht vorhanden" ? nil : params[:stoff] 
