@@ -20,12 +20,17 @@ class TransportTest < ActiveSupport::TestCase
     assert_equal 1, @transport_russ_lingen_1.transportabschnitte.size
     assert_equal 1, @transport_russ_lingen_2.transportabschnitte.size
 
-    @transport_russ_lingen_1.add(@transport_russ_lingen_2)
+    assert @transport_russ_lingen_1.add(@transport_russ_lingen_2)
+    
     # Nicht vorhande Transportdaten hinzugefuegt?
-    assert @transport_russ_lingen_1.behaelter, "Behaelter wurde nicht hinzugefuegt"
+    assert @transport_russ_lingen_1.behaelter, "Behaelter sollte hinzugefuegt werden"
     assert_equal "UF6 ang.",@transport_russ_lingen_1.stoff, "Stoff ist geblieben"
+    
     # Transportabschnitte auch alle zusammen gefuegt
     assert_equal 2, @transport_russ_lingen_1.transportabschnitte.size
+    
+    #assert @transport_russ_lingen_1.save, "#{@transport_russ_lingen_1.errors.full_messages}"
+    assert Transport.find(3).behaelter, "Behaelter sollte hinzugefuegt werden"
   end
 
 end

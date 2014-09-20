@@ -14,18 +14,23 @@
     <% if @transporte_anzahl %>
       Es wurden <%= @transporte_anzahl %> Transporte eingelesen und neu erstellt.
     <% end %>
-    </p>
-      <% if @transporte_liste %>
+  </p>
+    <% unless @transporte_liste.nil? or @transporte_liste.empty? %>
         Die folgenden Transporte waren schon in der Datenbank vorhanden oder enthielten Fehler und wurden nicht hinzugefügt:
-      <ul>
+        <ul>
         <% @transporte_liste.each do |row_count, transport | %>
 	      <li>Zeile <%=row_count %>: 
 	         Von <%= transport.start_anlage %> nach 
              <%= transport.ziel_anlage %> am <%=transport.datum %>
 	      </li>
         <% end %>
-      </ul>
+        </ul>
     <% end %>
+    <p>
+      <% if @anzahl_verschmolzene %>
+        Es wurden <%= @anzahl_verschmolzene %> Transporte miteinander verschmolzen.
+      <% end %>
+    </p>
   </div> 
 </div>
 
@@ -35,12 +40,11 @@
   </div>
   <div class="panel-body">
 
-    </p>
-    <p>
-      <%= link_to "Neue Datei einlesen", upload_index_path %>
-    </p>
-    <p>
-      <%= link_to "Zur Startseite", welcome_index_path %>
-    </p>
+    <ul>
+	  <li><%= link_to "Neue Datei einlesen", upload_index_path %></li>
+	  <li><%= link_to "Transporte anschauen", transporte_path %></li>
+      <li><%= link_to "Zur Startseite", welcome_index_path %></li>
+    </ul>
+      
   </div>
 </div>

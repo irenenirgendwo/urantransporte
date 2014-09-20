@@ -166,6 +166,7 @@ class UploadController < ApplicationController
     
     @transporte_liste = {}
     @transporte_anzahl = 0
+    @anzahl_verschmolzene = 0
 
     # Datei einlesen
     file_path = session[:file_path]
@@ -219,10 +220,13 @@ class UploadController < ApplicationController
   # verschmilzt den Transport mit einem vorhandenen.
   def join_to_old_transport(row_count, new_transport)
     old_transport = Transport.find_by(datum: new_transport.datum, start_anlage: new_transport.start_anlage, ziel_anlage: new_transport.ziel_anlage)
-    @logger.puts "old_transport #{old_transport.attributes}"
     if old_transport
       if old_transport.add(new_transport)
-        @logger.puts "Verschmelzen hat geklappt"
+        if old_transport.save
+          @anzahl_verschmolzene += 1
+        else 
+          @transporte_liste[row_count] = old_transport.errors.full_messages
+        end
       else
         @transporte_liste[row_count] = new_transport
       end

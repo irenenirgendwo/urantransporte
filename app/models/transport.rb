@@ -16,6 +16,7 @@ class Transport < ActiveRecord::Base
   
   # Integriert in diesen Transport den übergebenen Transport.
   # Dabei werden alle Transportabschnitte und Umschlaege in diesen Transport uebernommen.
+  # Transport wird in der Datenbank gespeichert.
   #
   def add(other_transport)
     # Attribute die nur im neuen Transport sind, im jetzigen setzen.
@@ -32,7 +33,7 @@ class Transport < ActiveRecord::Base
 	  umschlag.transport = self
 	  return nil unless umschlag.save 
     end
-    return nil unless self.save
+    #return nil unless self.save
     # TODO: Bei gleichem Umschlag / Fahrtabschnitt 
     # evtl. was anderes machen als einfach hinzufuegen.
     return true
