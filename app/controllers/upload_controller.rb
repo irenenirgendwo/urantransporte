@@ -139,7 +139,7 @@ class UploadController < ApplicationController
     @headers = read_headers_from_csv(session[:file_path])
     @headers_with_nil = ["Nicht vorhanden"]
     @headers_with_nil.concat(@headers)
-    @einstellungen_vorhandene_transporte = {"Nicht einlesen" => false, "Verschmelzen" => true}
+    @einstellungen_vorhandene_transporte = {"Nicht einlesen" => "N", "Verschmelzen" => "J"}
   end
 
   # 4. Schritt Speichern, eigentliches Einlesen der Datei.
@@ -200,7 +200,13 @@ class UploadController < ApplicationController
             create_transportabschnitte_to_firmen(row_as_hash[firmen_spalten_name], firma_trennzeichen, transport)
           end
         else 
-          @transporte_liste[row_count] = transport # TODO: Fehlerbehandlung
+          # Je nach Einstellung Transporte verschmelzen
+          if params[:einstellung_vorhandene_transporte] == "J"
+            @logger.puts "Verschmelze_Transporte"
+            join_to_old_transport(row_count, transport) 
+          else 
+            @transporte_liste[row_count] = transport 
+          end
         end
         row_count += 1
     end 
@@ -210,10 +216,20 @@ class UploadController < ApplicationController
   end
 
  
-  # GET 
-  def join_transporte
-    transports_to_join = params[:transporte_ids].split("_")
-    render "#{transports_to_join}"
+  # verschmilzt den Transport mit einem vorhandenen.
+  def join_to_old_transport(row_count, new_transport)
+    old_transport = Transport.find_by(datum: new_transport.datum, start_anlage: new_transport.start_anlage, ziel_anlage: new_transport.ziel_anlage)
+    @logger.puts "old_transport #{old_transport.attributes}"
+    if old_transport
+      if old_transport.add(new_transport)
+        @logger.puts "Verschmelzen hat geklappt"
+      else
+        @transporte_liste[row_count] = new_transport
+      end
+    else
+      # Zu Fehlerliste hinzufuegen 
+      @transporte_liste[row_count] = new_transport 
+    end
   end 
   
 

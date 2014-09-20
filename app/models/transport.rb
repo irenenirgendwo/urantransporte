@@ -1,8 +1,9 @@
 class Transport < ActiveRecord::Base
-  
+
   has_many :transportabschnitte
   belongs_to :transportgenehmigung
   has_many :versandstuecke
+  has_many :umschlaege
 
   belongs_to :start_anlage, :class_name => 'Anlage'
   belongs_to :ziel_anlage, :class_name => 'Anlage'	
@@ -25,18 +26,16 @@ class Transport < ActiveRecord::Base
     # Frage: Wie Transportabschnitte identifiziert?
     other_transport.transportabschnitte.each do |abschnitt|
 	  abschnitt.transport = self
-	  unless abschnitt.save 
-	   # Fehlerbehandlung
-	  end
+	  return nil unless abschnitt.save 
     end
     other_transport.umschlaege.each do |umschlag|
 	  umschlag.transport = self
-	  unless umschlag.save 
-	   # Fehlerbehandlung
-	  end
+	  return nil unless umschlag.save 
     end
+    return nil unless self.save
     # TODO: Bei gleichem Umschlag / Fahrtabschnitt 
     # evtl. was anderes machen als einfach hinzufuegen.
+    return true
   end
 
 end
