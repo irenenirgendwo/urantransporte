@@ -1,0 +1,10 @@
+<h1>Editing transportabschnitt</h1>
+<h3> Transportgrunddaten</h3>
+  <div class="btn-group header-buttons">
+    <%= link_to 'Zur Transport-Anzeige', @transport , class: "btn btn-primary" %>  
+  </div>
+<%= render "transporte/show_transport_grunddaten" %>  
+
+<h3> Transportabschnitt </h3>
+
+<%= render 'form' %>

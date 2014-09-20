@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<h2> Anzeige des Transportabschnitt von <%= @transportabschnitt.start_ort %> 
+     nach <%= @transportabschnitt.end_ort %> 
+</h2>
+
+<% if @transport %>
+  <h3> Transportgrunddaten</h3>
+    <div class="btn-group header-buttons">
+      <%= link_to 'Zur Transport-Anzeige', @transport , class: "btn btn-primary" %>  
+    </div>
+  <%= render "transporte/show_transport_grunddaten" %>
+<% end %>
+
+<h3> Transportabschnitt </h3>
+
+  <div class="btn-group header-buttons">
+    <%= link_to 'Bearbeiten', edit_transportabschnitt_path(@transportabschnitt) , class: "btn btn-primary" %>  
+  </div>
+<%= render "show_abschnitt", :abschnitt => @transportabschnitt %>

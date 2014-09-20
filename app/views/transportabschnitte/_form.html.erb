@@ -1,39 +1,41 @@
-
-  <% if abschnitt.errors.any? %>
+<%= form_for(@transportabschnitt) do |f| %>
+  <% if @transportabschnitt.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(abschnitt.errors.count, "error") %> prohibited this transport from being saved:</h2>
+      <h2><%= pluralize(@transportabschnitt.errors.count, "error") %> prohibited this transportabschnitt from being saved:</h2>
 
       <ul>
-      <% abschnitt.errors.full_messages.each do |message| %>
+      <% @transportabschnitt.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
     </div>
   <% end %>
   
+  <%= hidden_field_tag :transport_id, (@transport ? @transport.id : nil) %>
+  
   <div class="row">
     <div class="col-sm-6">
       <p>
-        <strong>Start des Transportabschnittes:</strong>
-        <%= text_field_tag "#{abschnitt.id}_startdatum" %>
+        <strong>Startdatum des Transportabschnittes:</strong>
+        <%= f.text_field :start_datum %>
       </p>
        <p>
         <strong>Anfangsort:</strong>
-        <%= text_field_tag :start_ort %>
+        <%= f.text_field  :start_ort %>
       </p>
       <div class="field">
         Verkehrstraeger: 
-        <%= text_field_tag :verkehrstraeger %>
+        <%= f.text_field  :verkehrstraeger %>
       </div>
     </div>
     <div class="col-sm-6">
       <p>
         <strong>Ende des Transportabschnittes:</strong>
-        <%= text_field_tag :end_datum %>
+        <%= f.text_field  :end_datum %>
       </p>
        <p>
         <strong>Endort:</strong>
-        <%= text_field_tag :end_ort %>
+        <%= f.text_field  :end_ort %>
       </p>
       <div class="field">
         Transportfirma:
@@ -44,3 +46,8 @@
   </div>
   
  
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

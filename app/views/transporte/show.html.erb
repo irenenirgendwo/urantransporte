@@ -1,13 +1,26 @@
+<div class="btn-group header-buttons">
+  <%= link_to 'Bearbeiten', edit_transport_path(@transport) , class: "btn btn-primary" %>
+  <%= link_to 'Löschen', @transport, method: :delete, data: { confirm: 'Willst du den Transport wirklich löschen?' }, class: "btn btn-danger" %></td>
+</div>
+<h1>Atomtransport</h1>
+
+<p id="notice"><%= notice %></p>
+
+
 <%= render "show_transport_grunddaten" %>
 
-<div class="btn-group header-buttons">
-      <%= link_to 'Bearbeiten', edit_abschnitte_transport_path(@transport) , class: "btn btn-primary" %>
-</div>
+
 <h3> Transportabschnitte </h3>
 
 <% @transport.transportabschnitte.each do |transport_abschnitt| %>
-  <%= render "show_abschnitt", abschnitt: transport_abschnitt %>
+  <div class="btn-group header-buttons">
+    <%= link_to 'Details anzeigen', transportabschnitt_path(transport_abschnitt) , class: "btn btn-primary" %>
+    <%= link_to 'Bearbeiten', edit_transportabschnitt_path(transport_abschnitt) , class: "btn btn-primary" %>  
+  </div>
+  <%= render "transportabschnitte/show_abschnitt", abschnitt: transport_abschnitt %>
 <% end %>
 
 
-<%= link_to 'Alle Transporte', transporte_path %>
+  <%= link_to 'Neuer Transportabschnitt', new_transport_transportabschnitt_path(@transport) %> |
+  <%= link_to 'Alle Transporte anzeigen', transporte_path %>
+

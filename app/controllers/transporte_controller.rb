@@ -64,19 +64,19 @@ class TransporteController < ApplicationController
   
   # Macht alle Abschnittsdaten bearbeitbar.
   #
-  def edit_abschnitte
-    @transport = Transport.find(params[:id])
-  end 
+  #def edit_abschnitte
+  #  @transport = Transport.find(params[:id])
+  #end 
   
   
   # TODO: unfertig, wie soll das eigentlich am besten aussehen?
-  def update_abschnitte
-    @transport = Transport.find(params[:id])
-    
-    respond_to do |format|
-      redirect_to @transport, notice: 'Transportabschnitte wurden aktualisiert (tut noch nicht).' 
-    end
-  end 
+  #def update_abschnitte
+  #  @transport = Transport.find(params[:id])
+  #  
+  #  respond_to do |format|
+  #    redirect_to @transport, notice: 'Transportabschnitte wurden aktualisiert (tut noch nicht).' 
+  #  end
+  #end 
   
   def union_transport
     # oder zieltransport schon @transport und route zu ressourcen hinzufuegen?
