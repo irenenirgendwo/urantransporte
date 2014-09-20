@@ -13,43 +13,74 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+  <div class="row">
+  
+    <div class="col-sm-7">
+      <div class="form-group">
+        <%= f.label :name %><br>
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :beschreibung %><br>
+        <%= f.text_area :beschreibung, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :adresse %><br>
+        <%= f.text_field :adresse, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :plz %><br>
+        <%= f.text_field :plz, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :ort %><br>
+        <%= f.text_field :ort, class: "form-control" %>
+      </div>
+    </div>
+    
+    <div class="col-sm-5">
+    
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">Standort</h2>
+          </div>
+        <div class="panel-body">
+          <p>Klicke auf die Karte, um den Standort zu aktualisieren.</p>
+          <div class="form-group">
+            <%= f.label :lat %><br>
+            <%= f.text_field :lat, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :lon %><br>
+            <%= f.text_field :lon, class: "form-control" %>
+          </div>
+          <p>Hier kommt eine Karte hin. Die Eingabefelder werden versteckt.</p>
+        </div>
+        <div id="map"></div>
+      </div>
+      
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">Bild</h2>
+        </div>
+        <div class="panel-body">
+          <p>Hier kann ein Link zu einem Bild der Anlage angegeben werden.
+          <div class="form-group">
+            <%= f.label :bild_url %><br>
+            <%= f.text_field :bild_url, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :bild_urheber %><br>
+            <%= f.text_field :bild_urheber, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+ 
   </div>
-  <div class="field">
-    <%= f.label :adresse %><br>
-    <%= f.text_field :adresse %>
-  </div>
-  <div class="field">
-    <%= f.label :plz %><br>
-    <%= f.text_field :plz %>
-  </div>
-  <div class="field">
-    <%= f.label :ort %><br>
-    <%= f.text_field :ort %>
-  </div>
-  <div class="field">
-    <%= f.label :lat %><br>
-    <%= f.text_field :lat %>
-  </div>
-  <div class="field">
-    <%= f.label :lon %><br>
-    <%= f.text_field :lon %>
-  </div>
-  <div class="field">
-    <%= f.label :beschreibung %><br>
-    <%= f.text_area :beschreibung %>
-  </div>
-  <div class="field">
-    <%= f.label :bild_url %><br>
-    <%= f.text_field :bild_url %>
-  </div>
-  <div class="field">
-    <%= f.label :bild_urheber %><br>
-    <%= f.text_field :bild_urheber %>
-  </div>
+  
   <div class="actions">
-    <%= f.submit %>
-  </div>
+      <%= f.submit class: "btn btn-primary" %>
+    </div>
 <% end %>
