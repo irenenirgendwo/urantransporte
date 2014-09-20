@@ -14,6 +14,7 @@ class UploadController < ApplicationController
   def upload_file
     if params[:upload].nil?
       flash[:notice] = "Bitte eine Datei auswählen"
+      redirect_to upload_index_path
     else 
       uploaded_io = params[:upload]
       @file_path = Rails.root.join('public', 'uploads', uploaded_io.original_filename)
@@ -26,7 +27,7 @@ class UploadController < ApplicationController
   end
 
   # Datei einlesen.
-  # 1. Schritt: Anlagen einlesen
+  # 2. Schritt: Anlagen einlesen
   # Wo die Datei liegt, wird gespeichert in der session, um bei weiteren Schritten
   # darauf zugreifen zu koennen.
   # 
