@@ -13,8 +13,7 @@ class UploadController < ApplicationController
   # Datei auf Server (Schritt 2)
   def upload_file
     if params[:upload].nil?
-      flash[:notice] = "Bitte eine Datei auswählen"
-      redirect_to upload_index_path
+      upload_fehler("Bitte eine Datei auswählen.")
     else 
       uploaded_io = params[:upload]
       @file_path = Rails.root.join('public', 'uploads', uploaded_io.original_filename)
@@ -22,7 +21,14 @@ class UploadController < ApplicationController
         file.write(uploaded_io.read)
       end
       session[:csv_trennzeichen] = params[:trennzeichen]
-      @headers = read_headers_from_csv(@file_path)
+      begin 
+        @headers = read_headers_from_csv(@file_path)
+        if @header.nil? || @headers.empty?
+          upload_fehler("Dateiformat nicht korrekt, konnte keine Überschriften finden.")
+        end
+      rescue ArgumentError
+        upload_fehler("Dateiformat nicht korrekt.")
+      end
     end
   end
 
@@ -83,6 +89,7 @@ class UploadController < ApplicationController
     redirect_to upload_anlagen_zuordnung_path
   end
 
+  # 3. Schritt
   # Weitere Anlagen zuordnen, 
   # GET-Methode, damit darauf weiter geleitet werden kann
   # zeigt alle nicht zugeordneten Synonyme.
@@ -101,6 +108,7 @@ class UploadController < ApplicationController
     end
   end
 
+  # 3. Schritt jeweils speichern 
   # Zuordnung synonym zu Anlage speichern.
   #
   def save_zuordnung
@@ -122,6 +130,7 @@ class UploadController < ApplicationController
   end
 
 
+  # 4. Schritt
   # Formular zum einlesen der Transporte mit Spaltenzuordnungen.
   #
   def read_transporte
@@ -130,6 +139,7 @@ class UploadController < ApplicationController
     @headers_with_nil.concat(@headers)
   end
 
+  # 4. Schritt Speichern, eigentliches Einlesen der Datei.
   # Post-Methode zum Einlesen der Transporte mit den vorgenommenen
   # Spaltenzuordnungen.
   #
@@ -151,7 +161,7 @@ class UploadController < ApplicationController
     genehmigungen = params[:lfd_nr] == "Nicht vorhanden" ? nil : params[:lfd_nr] 
     genehmigungs_params = genehmigungen.nil? ? nil : read_genehmigungs_params(params)
     
-    @transporte_liste = []
+    @transporte_liste = {}
     @transporte_anzahl = 0
 
     # Datei einlesen
@@ -159,6 +169,7 @@ class UploadController < ApplicationController
     csv_text =  File.read(file_path) 
     csv = CSV.parse(csv_text, :headers => true, :col_sep => session[:csv_trennzeichen])
     # TODO: Fehlerbehandlung
+    row_count = 2 # Start bei Zeile 2 wegen Überschriften
     csv.each do |row|
         row_as_hash = row.to_hash
         start_anlage =  AnlagenSynonym.find_anlage_to_synonym(row_as_hash[start_anlage_spalten_name])
@@ -186,20 +197,22 @@ class UploadController < ApplicationController
             create_transportabschnitte_to_firmen(row_as_hash[firmen_spalten_name], firma_trennzeichen, transport)
           end
         else 
-          @transporte_liste << transport.attributes # TODO: Fehlerbehandlung
+          @transporte_liste[row_count] = transport # TODO: Fehlerbehandlung
         end
+        row_count += 1
     end 
     @logger.close
-    redirect_to upload_fertig_path, "transporte_anzahl" => @transporte_anzahl
+	session.clear if @transporte_liste.empty?
+	render "fertig"
   end
 
-
-  # Wenn alles eingelesen ist, aufräumen
-  def fertig
-    @transporte_anzahl = params["transporte_anzahl"]
-    session.clear
-  end
-
+ 
+  # GET 
+  def join_transporte
+    transports_to_join = params[:transporte_ids].split("_")
+    render "#{transports_to_join}"
+  end 
+  
 
 
   private
@@ -276,6 +289,13 @@ class UploadController < ApplicationController
           end
         end
       end
+    end
+    
+    # Zum Anzeigen unterschiedlicher Fehlermeldungen.
+    #
+    def upload_fehler(notice_string)
+      flash[:notice] = notice_string
+      redirect_to upload_index_path
     end
 
 

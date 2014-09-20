@@ -3,10 +3,11 @@ Rails.application.routes.draw do
   get 'welcome/index'
 
   resources :transporte do 
-    post 'union_transport', on: :member
+    get 'union', on: :member
     #get 'edit_abschnitte', on: :member
     #post 'transporte/update_abschnitte', on: :member
   end
+  
   
   resources :transportabschnitte
 
@@ -29,6 +30,7 @@ Rails.application.routes.draw do
   get "upload/read_transporte"
   post "upload/save_transporte"
   get "upload/fertig"
+  get "upload/join_transporte/:transporte_ids" => 'upload#join_transporte', as: :upload_join_transporte
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

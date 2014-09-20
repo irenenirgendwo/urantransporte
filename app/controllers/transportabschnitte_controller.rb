@@ -1,5 +1,6 @@
 class TransportabschnitteController < ApplicationController
   before_action :set_transportabschnitt, only: [:show, :edit, :update, :destroy]
+  
 
   # GET /transportabschnitte
   # GET /transportabschnitte.json

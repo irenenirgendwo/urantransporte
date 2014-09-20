@@ -1,22 +1,46 @@
-<h1>Datei einlesen</h1>
+<h1>Datei eingelesen</h1>
 
 <% if flash[:notice] %>
   <%= flash[:notice] %>
 <% end %>
 
-<h2>Fertig</h2>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title"> Fertig eingelesen</h2>
+  </div>
+  <div class="panel-body">
+  <p>
+    Danke für die Geduld. 
+    <% if @transporte_anzahl %>
+      Es wurden <%= @transporte_anzahl %> Transporte eingelesen und neu erstellt.
+    <% end %>
+    </p>
+      <% if @transporte_liste %>
+        Die folgenden Transporte waren schon in der Datenbank vorhanden oder enthielten Fehler und wurden nicht hinzugefügt:
+      <ul>
+        <% @transporte_liste.each do |row_count, transport | %>
+	      <li>Zeile <%=row_count %>: 
+	         Von <%= transport.start_anlage %> nach 
+             <%= transport.ziel_anlage %> am <%=transport.datum %>
+	      </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div> 
+</div>
 
-<%= @transporte_liste %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title"> Was willst du als nächstes tun?</h2>
+  </div>
+  <div class="panel-body">
 
-<p>
-  Danke für die Geduld. Es wurden <%= @transporte_anzahl %> Transporte eingelesen und neu erstellt.
-</p>
-<p>
-  Was willst du als nächstes tun?
-</p>
-<p>
-  <%= link_to "Neue Datei einlesen", upload_index_path %>
-</p>
-<p>
-  <%= link_to "Zur Startseite", welcome_index_path %>
-</p>
+    </p>
+    <p>
+      <%= link_to "Neue Datei einlesen", upload_index_path %>
+    </p>
+    <p>
+      <%= link_to "Zur Startseite", welcome_index_path %>
+    </p>
+  </div>
+</div>

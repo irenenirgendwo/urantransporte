@@ -1,0 +1,34 @@
+<h1>Datei einlesen - Fehler</h1>
+
+<% if flash[:notice] %>
+  <%= flash[:notice] %>
+<% end %>
+
+<h2>Fertig - Transporte schon vorhanden </h2>
+
+<p>
+  Danke für die Geduld. Es wurden <%= @transporte_anzahl %> Transporte eingelesen und neu erstellt.
+</p>
+
+Die folgenden Transporte waren schon in der Datenbank vorhanden
+<ul>
+  <% @transporte_liste.each do |row_count, transport | %>
+    <li>Zeile <%=row_count %>: <%=transport.datum %> 
+       Von <%= transport.start_anlage %> nach 
+       <%= transport.ziel_anlage %>
+    </li>
+  <% end %>
+</ul>
+
+String mit Transportliste: <%= @transport_liste_string %>
+
+<p>
+  Was soll damit passieren?
+</p>
+<p>
+  <%= link_to "Transporte zusammen führen mit existenten Transporten", 
+                upload_join_transporte_path(:transporte_ids => @transport_liste_string) %>
+</p>
+<p>
+  <%= link_to "Nichts weiter. Zur Startseite", welcome_index_path %>
+</p>
