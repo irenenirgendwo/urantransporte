@@ -4,7 +4,12 @@ class TransporteController < ApplicationController
   # GET /transporte
   # GET /transporte.json
   def index
-    @transporte = Transport.all
+    if params[:stoff]
+      @transporte = Transport.where(:stoff => params[:stoff])
+    else
+      @transporte = Transport.all
+    end
+    @stoffe = Transport.uniq.pluck(:stoff);
   end
 
   # GET /transporte/1

@@ -1,7 +1,28 @@
-<h1>Listing transporte</h1>
+<div class="btn-group header-buttons">
+  <%= link_to 'Neuer Transport', new_transport_path, class: "btn btn-success" %>
+</div>
 
-<%= render 'tabelle' %>
+<h1>Transporte</h1>
 
-<br>
+<div class="row">
 
-<%= link_to 'New Transport', new_transport_path %>
+  <div class="col-sm-3">
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Stoff</h3>
+      </div>
+      <ul class="list-group">
+        <% @stoffe.each do |stoff| %>
+          <%= link_to stoff, transporte_path(:stoff =>stoff), class: "list-group-item" %>
+        <% end %>
+      </ul>
+    </div>
+    
+  </div>
+  
+  <div class="col-sm-9">
+    <%= render 'tabelle' %>
+  </div>
+  
+</div>
