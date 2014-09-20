@@ -34,6 +34,16 @@
       <%= select_tag :datum, options_for_select(@headers), class: "form-control"  %>
     </div>
   </div>
+  
+  <div class="panel-heading">
+    <h3 class="panel-title">Einstellungen</h3>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      Wie soll mit Transporten verfahren werden, die schon in der Datenbank sind?
+      <%= select_tag :einstellung_vorhandene_transporte, options_for_select(@einstellungen_vorhandene_transporte), class: "form-control"  %>
+    </div>
+  </div>
 
 
 

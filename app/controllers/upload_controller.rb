@@ -23,8 +23,10 @@ class UploadController < ApplicationController
       session[:csv_trennzeichen] = params[:trennzeichen]
       begin 
         @headers = read_headers_from_csv(@file_path)
-        if @header.nil? || @headers.empty?
+        if @headers.nil? || @headers.empty?
           upload_fehler("Dateiformat nicht korrekt, konnte keine Überschriften finden.")
+        else
+          render "upload_file"
         end
       rescue ArgumentError
         upload_fehler("Dateiformat nicht korrekt.")
@@ -137,6 +139,7 @@ class UploadController < ApplicationController
     @headers = read_headers_from_csv(session[:file_path])
     @headers_with_nil = ["Nicht vorhanden"]
     @headers_with_nil.concat(@headers)
+    @einstellungen_vorhandene_transporte = {"Nicht einlesen" => false, "Verschmelzen" => true}
   end
 
   # 4. Schritt Speichern, eigentliches Einlesen der Datei.
