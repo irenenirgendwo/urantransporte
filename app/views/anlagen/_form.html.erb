@@ -42,25 +42,6 @@
     
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h2 class="panel-title">Standort</h2>
-          </div>
-        <div class="panel-body">
-          <p>Klicke auf die Karte, um den Standort zu aktualisieren.</p>
-          <div class="form-group">
-            <%= f.label :lat %><br>
-            <%= f.text_field :lat, class: "form-control" %>
-          </div>
-          <div class="form-group">
-            <%= f.label :lon %><br>
-            <%= f.text_field :lon, class: "form-control" %>
-          </div>
-          <p>Hier kommt eine Karte hin. Die Eingabefelder werden versteckt.</p>
-        </div>
-        <div id="map"></div>
-      </div>
-      
-      <div class="panel panel-default">
-        <div class="panel-heading">
           <h2 class="panel-title">Bild</h2>
         </div>
         <div class="panel-body">
@@ -74,6 +55,42 @@
             <%= f.text_field :bild_urheber, class: "form-control" %>
           </div>
         </div>
+      </div>
+    
+      <div class="panel panel-default" id="mapedit" >
+        <div class="panel-heading">
+          <h2 class="panel-title">Standort</h2>
+        </div>
+        <div class="panel-body">
+          <p>Klicke auf die Karte, um den Standort genau festzulegen.</p>
+          <input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control">
+            <%= f.hidden_field :lat, class: "form-control" %>
+            <%= f.hidden_field :lon, class: "form-control" %>
+        </div>
+        
+        <div id="map" style="height: 300px;"></div>
+        <script>
+          var lat, lon;
+          if(document.getElementById('anlage_lat').value) {
+            lat = document.getElementById('anlage_lat').value;
+            lon = document.getElementById('anlage_lon').value;
+          }
+          else {
+            lat = 52.2152;
+            lon = 7.0793
+          }
+          var map = L.map('map', {attributionControl: false}).setView([lat, lon], 7);
+          var marker = L.marker([lat, lon]).addTo(map);
+          L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+          map.on('click', function(e) {
+            marker.setLatLng(e.latlng);
+            map.panTo(e.latlng);
+            
+            document.getElementById('anlage_lat').value = e.latlng.lat.toFixed(6);
+            document.getElementById('anlage_lon').value = e.latlng.lng.toFixed(6);
+          });
+        </script>
+        
       </div>
       
     </div>

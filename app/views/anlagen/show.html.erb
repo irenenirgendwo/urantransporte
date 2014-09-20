@@ -41,7 +41,7 @@
 
     <% if @anlage.lat? && @anlage.lon? %>
       <div id="map" style="height:200px;"></div>
-      <%= map(:center => { :latlng => [@anlage.lat, @anlage.lon], :zoom => 17 }) %>
+      <%= map(:center => { :latlng => [@anlage.lat, @anlage.lon], :zoom => 15 }) %>
     <% end %>
   </div>
 </div>
