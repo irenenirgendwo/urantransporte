@@ -3,11 +3,11 @@
 <div class="panel panel-default">
   
   <div class="panel-heading">
-    <h3 class="panel-title">Schritt 2: Anlagen einlesen</h3>
+    <h3 class="panel-title">Schritt 2: Atomanlagen erkennen</h3>
   </div>
   
   <div class="panel-body">
-    <p>Bitte wähle die Spalten aus, in der die Atomanlagen gespeichert sind.</p>
+    <p>Bitte wähle die Spalten aus, in der die Atomanlagen gespeichert sind, an denen der Transport begonnen und beendet wurde.</p>
     <%= form_tag({action: :read_anlagen}, multipart: true) do %> 
       <div class="form-group">
         <label for="start">Startanlage</label>
@@ -21,7 +21,7 @@
     </div>
     
     <div class="panel-footer">
-      <%= submit_tag "Weiter zum Auswerten", class: "btn btn-primary" %>
+      <%= submit_tag "Anlagen erkennen", class: "btn btn-primary" %>
     </div>
   <% end %>
 </div>

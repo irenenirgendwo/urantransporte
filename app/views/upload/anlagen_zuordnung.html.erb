@@ -1,3 +1,5 @@
+<%= render 'anlagen/form_modal' %>
+
 <h1>Datei einlesen</h1>
 
 <% if flash[:notice] %>
@@ -7,19 +9,17 @@
 <div class="panel panel-default">
   
   <div class="panel-heading">
-    <h3 class="panel-title">Schritt 3: Anlagen zuordnen</h3>
+    <h3 class="panel-title">Schritt 3: Atomanlagen zuordnen</h3>
   </div>
   
   <div class="panel-body">
-    Falls die Anlage noch nicht vorhanden ist, kann hier die neue Anlage eingegeben werden:
-
-    <%= render 'anlagen/form' %>
-
-    Vorhandene Anlagen zuordnen:
+    
+    <p>Einige Bezeichnungen wurden nicht in der Datenbank gefunden. Ordne diese der passenden Atomanlage zu. Wenn es die Anlage noch nicht in der Datenbank gibt, kannst du diese neu erstellen.</p>
 
     <% @synonym_liste.each do |synonym| %>
       <%= render "anlage_zuordnen", synonym: synonym %>
-    <% end %>
+    <% end %>    
+    
   </div>
   
 </div>

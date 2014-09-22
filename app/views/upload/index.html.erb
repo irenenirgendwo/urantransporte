@@ -9,15 +9,17 @@
   <%= form_tag({action: :upload_file}, multipart: true) do %>
 
     <div class="panel-body">
+      <p>Bitte wähle die CSV-Datei aus, die ausgewertet werden soll.
+      Beim Erstellen der CSV-Datei ist darauf zu achten, dass in der ersten Zeile die jeweiligen 
+      Spaltennamen stehen und diese keine Zeilenumbrüche enthalten (sonst gibts Chaos).</p>
       <div class="form-group">
+        <label for="upload">Datei</label>
         <%= file_field_tag 'upload' %>
-        <p class="help-block">Bitte wähle die CSV-Datei aus, die ausgewertet werden soll. 
-             Beim Erstellen der csv-Datei ist darauf zu achten, dass in der oberesten Zeile die jeweiligen 
-             Spaltennamen stehen und diese keine Zeilenumbrüche enthalten (sonst gibts Chaos).</p>
+        <p class="help-block"></p>
       </div>
 
        <div class="form-group">
-        <p class="help-block">Bitte wähle das Trennezeichen aus, welches die Spalten in der Datei trennt.</p>
+        <label for="trennzeichen">Spalten-Trennzeichen</label>
         <%= select_tag :trennzeichen, options_for_select(@trennzeichen_liste) %>
       </div>
      </div>

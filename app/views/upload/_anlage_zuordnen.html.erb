@@ -1,9 +1,21 @@
-<div>
-  <%= form_tag({action: :save_zuordnung}, multipart: true) do %>
-      Ausgelesener Anlagenname: <%= synonym.synonym %>
-      Zugeordnete Anlage: <%= select_tag :anlage, options_for_select(@all_anlagen) %>
-    <%= hidden_field_tag 'synonym', synonym.id %>
-    <%= submit_tag "Zuordnung vornehmen" %>
-    <%= synonym.attributes %>
-  <% end %>
+<div class="row">
+  <div class="col-sm-10">
+    <%= form_tag({action: :save_zuordnung}, multipart: true, class: "form-horizontal") do %>
+      <div class="form-group">
+        
+        <label for="anlage" class="col-sm-3 control-label"><code><%= synonym.synonym %></code></label>
+        
+        <div class="col-sm-9">
+          <%= select_tag :anlage, options_for_select(@all_anlagen), class: "form-control" %>
+          <%= hidden_field_tag 'synonym', synonym.id %>
+          <%= submit_tag "Zuordnung vornehmen" %>
+        </div>
+      
+      </div>
+    <% end %>
+  </div>
+  <div class="col-sm-2">
+    <button class="btn btn-success" data-toggle="modal" data-target="#anlagenModal">Neue Atomanlage</button>
+  </div>
+  
 </div> 
