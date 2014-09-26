@@ -25,6 +25,14 @@
             <%= f.label :name %><br>
             <%= f.text_field :name, class: "form-control" %>
           </div>
+          <div class="form-group">
+	    <%= f.label :ort, "Ort (optional)" %>
+	    <%= f.text_field :ort, class: "form-control" %>
+	  </div>
+	  <div class="form-group">
+	    <%= f.label :beschreibung, "Beschreibung (optional)" %>
+	    <%= f.text_area :beschreibung, class: "form-control" %>
+	  </div>
         </div>
     
         <div class="modal-footer">
