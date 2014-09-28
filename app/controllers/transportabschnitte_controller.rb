@@ -18,10 +18,12 @@ class TransportabschnitteController < ApplicationController
   def new
     @transport = Transport.find(params[:transport_id].to_i) if params[:transport_id]
     @transportabschnitt = Transportabschnitt.new
+    @firma = Firma.new
   end
 
   # GET /transportabschnitte/1/edit
   def edit
+    @firma = Firma.new
   end
 
   # POST /transportabschnitte
