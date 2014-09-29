@@ -1,6 +1,8 @@
 # Atomanlagen
 class Anlage < ActiveRecord::Base
   has_many :transportabschnitte
+  has_many :start_transporte, :foreign_key => 'start_anlage_id', :class_name => "Transport", :dependent => :restrict_with_error
+  has_many :ziel_transporte, :foreign_key => 'ziel_anlage_id', :class_name => "Transport", :dependent => :restrict_with_error
   has_many :anlagen_synonyms, :dependent => :destroy
   belongs_to :anlagen_kategorie
 

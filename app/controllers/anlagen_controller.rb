@@ -61,10 +61,19 @@ class AnlagenController < ApplicationController
   # DELETE /anlagen/1
   # DELETE /anlagen/1.json
   def destroy
-    @anlage.destroy
+    begin
+	  success = @anlage.destroy
+	rescue
+	  success = false
+	end  
     respond_to do |format|
-      format.html { redirect_to anlagen_url, notice: 'Anlage was successfully destroyed.' }
-      format.json { head :no_content }
+      if success 
+        format.html { redirect_to anlagen_url, notice: 'Anlage was successfully destroyed.' }
+        format.json { head :no_content }
+      else 
+        format.html { redirect_to @anlage, notice: 'Die Anlage ist noch Start- oder Zielanlage eines Transports. Deshalb ist das Löschen der Anlage nicht möglich.' }
+        format.json { head :no_content }
+      end
     end
   end
 
