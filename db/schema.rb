@@ -11,10 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140914112136) do
+ActiveRecord::Schema.define(version: 20140929185256) do
 
   create_table "anlagen", force: true do |t|
-    t.string   "name",         null: false
+    t.string   "name",                 null: false
     t.string   "adresse"
     t.string   "plz"
     t.string   "ort"
@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(version: 20140914112136) do
     t.float    "lon"
     t.string   "bild_url"
     t.string   "bild_urheber"
+    t.integer  "anlagen_kategorie_id"
+  end
+
+  create_table "anlagen_kategorien", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "anlagen_synonyms", force: true do |t|

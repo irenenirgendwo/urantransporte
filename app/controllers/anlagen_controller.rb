@@ -103,7 +103,7 @@ class AnlagenController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def anlage_params
-      params.require(:anlage).permit(:name, :adresse, :plz, :ort, :lat, :lon, :beschreibung, :bild_url, :bild_urheber)
+      params.require(:anlage).permit(:name, :adresse, :plz, :ort, :lat, :lon, :beschreibung, :bild_url, :bild_urheber, :anlagen_kategorie, :anlagen_kategorie_id)
     end
 
    # Never trust parameters from the scary internet, only allow the white list through.

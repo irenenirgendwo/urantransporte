@@ -2,6 +2,7 @@
 class Anlage < ActiveRecord::Base
   has_many :transportabschnitte
   has_many :anlagen_synonyms, :dependent => :destroy
+  belongs_to :anlagen_kategorie
 
   validates :name, presence: true, uniqueness: true
 
