@@ -25,7 +25,7 @@
       </p>
       <div class="field">
         Verkehrstraeger: 
-        <%= f.text_field  :verkehrstraeger %>
+        <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX) %>
       </div>
     </div>
     <div class="col-sm-6">
