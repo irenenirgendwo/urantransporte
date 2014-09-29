@@ -1,4 +1,8 @@
-<h1>Listing firmen</h1>
+<div class="btn-group header-buttons">
+  <%= link_to 'Neue Transportfirma', new_firma_path, class: "btn btn-success" %>
+</div>
+
+<h1>Transportfirmen</h1>
 
 <table class="table table-striped">
   <thead>
@@ -15,19 +19,15 @@
   <tbody>
     <% @firmen.each do |firma| %>
       <tr>
-        <td><%= firma.name %></td>
+        <td><%= link_to firma.name, firma %></td>
         <td><%= firma.adresse %></td>
         <td><%= firma.plz %></td>
         <td><%= firma.ort %></td>
         <td><%= firma.beschreibung %></td>
         <td><%= link_to 'Show', firma %></td>
-        <td><%= link_to 'Edit', edit_firma_path(firma) %></td>
-        <td><%= link_to 'Destroy', firma, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Bearbeiten', edit_firma_path(firma) %></td>
+        <td><%= link_to 'Löschen', firma, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Firma', new_firma_path %>

@@ -21,8 +21,8 @@
           <td><%= link_to transport.ziel_anlage, transport.ziel_anlage %></td>
           <td><%= transport.stoff %></td>
           <td><%= link_to 'Show', transport %></td>
-          <td><%= link_to 'Edit', edit_transport_path(transport) %></td>
-          <td><%= link_to 'Destroy', transport, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Bearbeiten', edit_transport_path(transport) %></td>
+          <td><%= link_to 'Löschen', transport, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
     </tbody>

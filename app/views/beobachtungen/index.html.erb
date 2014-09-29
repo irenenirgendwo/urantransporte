@@ -1,4 +1,8 @@
-<h1>Listing beobachtungen</h1>
+<div class="btn-group header-buttons">
+  <%= link_to 'Neue Beobachtung', new_beobachtung_path, class: "btn btn-success" %>
+</div>
+
+<h1>Beobachtungen</h1>
 
 <table class="table table-striped">
   <thead>
@@ -13,13 +17,9 @@
       <tr>
         <td><%= beobachtung.beschreibung %></td>
         <td><%= link_to 'Show', beobachtung %></td>
-        <td><%= link_to 'Edit', edit_beobachtung_path(beobachtung) %></td>
-        <td><%= link_to 'Destroy', beobachtung, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Bearbeiten', edit_beobachtung_path(beobachtung) %></td>
+        <td><%= link_to 'Löschen', beobachtung, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Beobachtung', new_beobachtung_path %>
