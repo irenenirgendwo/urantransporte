@@ -1,0 +1,2 @@
+module StoffeHelper
+end

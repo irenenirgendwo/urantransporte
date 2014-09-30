@@ -28,6 +28,11 @@
       Die Angabe zur <strong>Ziel-Anlage</strong> befindet sich in der Spalte mit dem Namen 
       <%= session[:spalte_ziel] %> (Angabe bereits gemacht).
     </div>
+    
+    <div class="form-group">
+      Die Angabe zum transportierten <strong>Stoff</strong> befindet sich in der Spalte mit dem Namen 
+      <%= session[:spalte_stoff] %> (Angabe bereits gemacht).
+    </div>
  
     <div class="form-group">
       Die Angabe zum <strong>Datum des Transports</strong> befindet sich in der Spalte mit dem Namen
@@ -43,18 +48,19 @@
       Wie soll mit Transporten verfahren werden, die schon in der Datenbank sind?
       <%= select_tag :einstellung_vorhandene_transporte, options_for_select(@einstellungen_vorhandene_transporte), class: "form-control"  %>
     </div>
+
+    <div class="form-group">
+      Die <strong>Quelle</strong> der einzulesenden Tabelle ist (z.B. BfS-Genehmigungen, Hamburger Senat etc.):
+      <%= text_field_tag :quelle %>
+    </div>
   </div>
 
 
 
   <div class="panel-heading">
-    <h3 class="panel-title">Angaben zum transportierten Material </h3>
+    <h3 class="panel-title">Angaben zur transportierten Menge </h3>
   </div>
   <div class="panel-body">
-    <div class="form-group">
-      Die Angabe zum transportierten <strong>Stoff</strong> befindet sich in der Spalte mit dem Namen
-       <%= select_tag :stoff, options_for_select(@headers_with_nil), class: "form-control"  %> 
-    </div>
 
     <div class="form-group">
       Die Angabe zum transportierten <strong>Masse)</strong> befindet sich in der Spalte mit dem Namen

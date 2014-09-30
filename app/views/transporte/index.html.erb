@@ -13,8 +13,9 @@
         <h3 class="panel-title">Stoff</h3>
       </div>
       <ul class="list-group">
-        <% @stoffe.each do |stoff| %>
-          <%= link_to stoff, transporte_path(:stoff =>stoff), class: "list-group-item" %>
+		<%= link_to "Alle", transporte_path , class: "list-group-item" %>
+        <% @stoffe.each do |stoff, stoff_id| %>
+          <%= link_to stoff, transporte_path(:stoff => stoff_id), class: "list-group-item" %>
         <% end %>
       </ul>
     </div>

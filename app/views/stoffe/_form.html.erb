@@ -1,0 +1,33 @@
+<%= form_for(@stoff) do |f| %>
+  <% if @stoff.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@stoff.errors.count, "error") %> prohibited this stoff from being saved:</h2>
+
+      <ul>
+      <% @stoff.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :bezeichnung %><br>
+    <%= f.text_field :bezeichnung %>
+  </div>
+  <div class="field">
+    <%= f.label :beschreibung %><br>
+    <%= f.text_area :beschreibung %>
+  </div>
+  <div class="field">
+    <%= f.label :un_nummer %><br>
+    <%= f.text_field :un_nummer %>
+  </div>
+  <div class="field">
+    <%= f.label :gefahr_nummer %><br>
+    <%= f.text_field :gefahr_nummer %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

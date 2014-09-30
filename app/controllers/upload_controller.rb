@@ -46,49 +46,42 @@ class UploadController < ApplicationController
       session[:file_path] = file_path
       @spalte_nr1 = params[:start]
       @spalte_nr2 = params[:ziel]
+      @spalte_stoff = params[:stoff]
       session[:spalte_start] = @spalte_nr1
       session[:spalte_ziel] = @spalte_nr2
+      session[:spalte_stoff] = @spalte_stoff
       @logger.puts "Anlagen sind in #{@spalte_nr1} und #{@spalte_nr2}"
       # Erstelle @anlagen_liste als Liste von Namen, die in den Spalten auftauchen.
       @anlagen_liste = []
+      @stoff_liste = []
       csv_text =  File.read(file_path) 
       csv = CSV.parse(csv_text, :headers => true, :col_sep => session[:csv_trennzeichen])
       csv.each do |row|
         row_as_hash = row.to_hash
         @anlagen_liste << row_as_hash[@spalte_nr1]
         @anlagen_liste << row_as_hash[@spalte_nr2]
+        @stoff_liste << row_as_hash[@spalte_stoff]
         @logger.puts "Anlage Start #{row_as_hash[@spalte_nr1]}"
       end 
       # Duplikate rauswerfen
       @anlagen_liste.uniq!
-      @logger.puts "Anlagenliste #{@anlagenliste}"
+      @stoff_liste.uniq!
+      @logger.puts "Stoffliste #{@stoff_liste}"
       # Für jeden Anlagennamen ein Synonym erstellen und speichern.
-      @synonym_liste = []
-      synonym_ids = []
-      @anlagen_liste.each do |anlage_name|
-        # Synonym
-        synonym = AnlagenSynonym.find_by synonym: anlage_name
-        synonym ||= AnlagenSynonym.new({:synonym => anlage_name})
-        if synonym.save 
-          @synonym_liste << synonym
-          synonym_ids << synonym.id
-        else 
-          # TODO: Fehlerbehandlung
-        end
-      end
-      session[:synonym_liste] = synonym_ids # wird momentan nicht gebraucht, vielleicht aber bei Umstellung
-      @logger.puts "Synonym ids #{synonym_ids}"
-    @all_anlagen = Anlage.get_anlagen_for_selection_field
-    @logger.puts "all Anlagen #{@all_anlagen}"
-    # Für das neue-Anlage-Formular
-    @anlage = Anlage.new
-    @redirect_params = upload_anlagen_zuordnung_path
-    # Zu jedem dieser Synonyme muss manuell eine Anlage zugeordnet werden,
-    # alternativ eine neue angelegt werden, die dann mit dem Synonym verbunden wird. 
-    # Hierzu wird weiter geleitet, da die Zuordnung iterativ passiert
-    # zur Vermeidung von Code-Doppelungen.
-    @logger.close
-    redirect_to upload_anlagen_zuordnung_path
+      create_anlagen_synonyme(@anlagen_liste) 
+      create_stoff_synonyme(@stoff_liste)
+      
+      @all_anlagen = Anlage.get_anlagen_for_selection_field
+      @logger.puts "all Anlagen #{@all_anlagen}"
+      # Für das neue-Anlage-Formular
+      @anlage = Anlage.new
+      @redirect_params = upload_anlagen_zuordnung_path
+      # Zu jedem dieser Synonyme muss manuell eine Anlage zugeordnet werden,
+      # alternativ eine neue angelegt werden, die dann mit dem Synonym verbunden wird. 
+      # Hierzu wird weiter geleitet, da die Zuordnung iterativ passiert
+      # zur Vermeidung von Code-Doppelungen.
+      @logger.close
+      redirect_to upload_anlagen_zuordnung_path
   end
 
   # 3. Schritt
@@ -106,7 +99,7 @@ class UploadController < ApplicationController
     @anlage = Anlage.new
     @redirect_params = upload_anlagen_zuordnung_path
     if @synonym_liste.empty?
-      redirect_to upload_read_transporte_path
+      redirect_to upload_stoffe_zuordnung_path #upload_read_transporte_path
     end
   end
 
@@ -114,22 +107,55 @@ class UploadController < ApplicationController
   # Zuordnung synonym zu Anlage speichern.
   #
   def save_zuordnung
-    @logger = File.new("log/upload.log","w")
-    @logger.puts params
-    @logger.puts "synonym id #{params[:synonym].to_i}"
     synonym = AnlagenSynonym.find(params[:synonym].to_i)
-    @logger.puts synonym.attributes
     synonym.anlage = Anlage.find(params[:anlage].to_i)
-    @logger.puts synonym.anlage.attributes
-    @logger.puts synonym.anlage.nil?
     if synonym.save
-      @logger.close
       flash[:notice] = "Zuordnung erfolgreich"
       redirect_to upload_anlagen_zuordnung_path
     else
       # TODO: Fehlerbehandlung
     end 
   end
+  
+   # 4. Schritt
+  # Stoffzuordnung
+  # GET-Methode, damit darauf weiter geleitet werden kann
+  # zeigt alle nicht zugeordneten Synonyme.
+  #
+  def stoffe_zuordnung
+    @synonym_liste = StoffSynonym.get_all_unused_synonyms
+    @all_stoffe = Stoff.get_stoffe_for_selection_field
+    @stoff = Stoff.new
+    @redirect_params = upload_stoffe_zuordnung_path
+    if @synonym_liste.empty?
+      redirect_to upload_read_transporte_path
+    end
+  end
+
+  # 2. Schritt jeweils speichern 
+  # Zuordnung synonym zu Stoff speichern.
+  #
+  def save_stoffe_zuordnung
+    #@logger = File.new("log/upload.log","w")
+    #@logger.puts params
+    #@logger.puts "synonym id #{params[:synonym].to_i}"
+    synonym = StoffSynonym.find(params[:synonym].to_i)
+    #@logger.puts synonym.attributes
+    synonym.stoff = Stoff.find(params[:stoff].to_i)
+    #@logger.puts synonym.anlage.attributes
+    #@logger.puts synonym.anlage.nil?
+    if synonym.save
+      #@logger.close
+      flash[:notice] = "Zuordnung erfolgreich"
+      redirect_to upload_stoffe_zuordnung_path
+    else
+      # TODO: Fehlerbehandlung
+    end 
+  end
+  
+  
+  
+  
 
 
   # 4. Schritt
@@ -151,9 +177,9 @@ class UploadController < ApplicationController
     @logger.puts params
     start_anlage_spalten_name = session[:spalte_start]
     ziel_anlage_spalten_name = session[:spalte_ziel]
+    stoff_spalten_name = session[:spalte_stoff]
     datum_spalten_name = params[:datum]  
     # Weitere optionale Spaltennamen
-    stoff_spalten_name = params[:stoff] == "Nicht vorhanden" ? nil : params[:stoff] 
     anzahl_spalten_name = params[:anzahl] == "Nicht vorhanden" ? nil : params[:anzahl] 
     menge_spalten_name = params[:menge] == "Nicht vorhanden" ? nil : params[:menge] 
     menge_umrechnungsfaktor_spalten_name = params[:menge_umrechnungsfaktor]
@@ -163,6 +189,7 @@ class UploadController < ApplicationController
     # Genehmigungen werden nur eingelesen, wenn eine Genehmigungsnummer existiert.
     genehmigungen = params[:lfd_nr] == "Nicht vorhanden" ? nil : params[:lfd_nr] 
     genehmigungs_params = genehmigungen.nil? ? nil : read_genehmigungs_params(params)
+    quelle = params[:quelle]
     
     @transporte_liste = {}
     @transporte_anzahl = 0
@@ -182,11 +209,14 @@ class UploadController < ApplicationController
         datum_werte = row_as_hash[datum_spalten_name].split(".") 
         datum = Date.new(datum_werte[2].to_i, datum_werte[1].to_i,datum_werte[0].to_i)
         transport_params = { :start_anlage => start_anlage, :ziel_anlage => ziel_anlage, :datum => datum }
-        transport_params[:stoff] = row_as_hash[stoff_spalten_name] if stoff_spalten_name
+        transport_params[:stoff] = StoffSynonym.find_stoff_to_synonym(row_as_hash[stoff_spalten_name]) 
+        
+        # Optionale Parameter
         transport_params[:anzahl] = row_as_hash[anzahl_spalten_name] if anzahl_spalten_name
         transport_params[:menge] = menge_spalten_name.nil? ? nil : row_as_hash[menge_spalten_name].to_f *
                                    row_as_hash[menge_umrechnungsfaktor_spalten_name].to_f
         transport_params[:behaelter] = row_as_hash[behaelter_spalten_name] if behaelter_spalten_name
+        transport_params[:quelle] = quelle
         # Genehmigung erstellen!
         genehmigung = create_or_find_genehmigung(row_as_hash, genehmigungs_params)
         transport_params[:transportgenehmigung] = genehmigung if genehmigung
@@ -319,6 +349,39 @@ class UploadController < ApplicationController
     def upload_fehler(notice_string)
       flash[:notice] = notice_string
       redirect_to upload_index_path
+    end
+    
+    def create_anlagen_synonyme(anlagen_strings)
+      @synonym_liste = []
+      synonym_ids = []
+      anlagen_strings.each do |anlage_name|
+        # Synonym
+        synonym = AnlagenSynonym.find_by synonym: anlage_name
+        synonym ||= AnlagenSynonym.new({:synonym => anlage_name})
+        if synonym.save 
+          @synonym_liste << synonym
+          synonym_ids << synonym.id
+        else 
+          # TODO: Fehlerbehandlung
+        end
+      end
+      session[:synonym_liste] = synonym_ids # wird momentan nicht gebraucht, vielleicht aber bei Umstellung
+      synonym_ids
+    end
+    
+    def create_stoff_synonyme(stoff_strings)
+      synonym_ids = []
+      stoff_strings.each do |stoff_name|
+        # Synonym
+        synonym = StoffSynonym.find_by synonym: stoff_name
+        synonym ||= StoffSynonym.new({:synonym => stoff_name})
+        if synonym.save 
+          synonym_ids << synonym.id
+        else 
+          # TODO: Fehlerbehandlung
+        end
+      end
+      synonym_ids
     end
 
 

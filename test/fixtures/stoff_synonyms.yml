@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  synonym: MyString
+  stoff_id: 1
+
+two:
+  synonym: MyString
+  stoff_id: 1

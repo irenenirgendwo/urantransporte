@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :stoffe
+
   get 'welcome/index'
 
   resources :transporte do 
@@ -26,6 +28,8 @@ Rails.application.routes.draw do
   post "upload/read_anlagen"
   get "upload/anlagen_zuordnung"
   post "upload/save_zuordnung"
+  get "upload/stoffe_zuordnung"
+  post "upload/save_stoffe_zuordnung"
   get "upload/anlagen_fertig_auswahl"
   get "upload/read_transporte"
   post "upload/save_transporte"

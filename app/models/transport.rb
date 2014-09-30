@@ -7,6 +7,7 @@ class Transport < ActiveRecord::Base
 
   belongs_to :start_anlage, :class_name => 'Anlage'
   belongs_to :ziel_anlage, :class_name => 'Anlage'	
+  belongs_to :stoff
 
   # Validations, eindeutige Identifizierung des Transports durch Datum, Start- und Zielanlage
   validates :datum, presence: true

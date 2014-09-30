@@ -3,12 +3,12 @@
 <div class="panel panel-default">
   
   <div class="panel-heading">
-    <h3 class="panel-title">Schritt 2: Atomanlagen erkennen</h3>
+    <h3 class="panel-title">Schritt 2: Atomanlagen und Stoffe erkennen</h3>
   </div>
   
   <div class="panel-body">
-    <p>Bitte wähle die Spalten aus, in der die Atomanlagen gespeichert sind, an denen der Transport begonnen und beendet wurde.</p>
     <%= form_tag({action: :read_anlagen}, multipart: true) do %> 
+      <p>Bitte wähle die Spalten aus, in der die Atomanlagen gespeichert sind, an denen der Transport begonnen und beendet wurde.</p>
       <div class="form-group">
         <label for="start">Startanlage</label>
         <%= select_tag 'start', options_for_select(@headers), class: "form-control" %>
@@ -16,6 +16,11 @@
       <div class="form-group">
         <label for="ziel">Zielanlage</label>
         <%= select_tag 'ziel', options_for_select(@headers), class: "form-control" %>
+      </div>
+      <p>Bitte wähle die Spalte aus, in der Angaben über die Art des transportierten Stoffs stehen.</p>
+      <div class="form-group">
+        <label for="stoff">Stoff / Inhalt:</label>
+        <%= select_tag 'stoff', options_for_select(@headers), class: "form-control" %>
       </div>
       <%= hidden_field_tag 'file_path', @file_path %>
     </div>

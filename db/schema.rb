@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140929185256) do
+ActiveRecord::Schema.define(version: 20140930185629) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                 null: false
@@ -68,6 +68,22 @@ ActiveRecord::Schema.define(version: 20140929185256) do
     t.datetime "updated_at"
   end
 
+  create_table "stoff_synonyms", force: true do |t|
+    t.string   "synonym"
+    t.integer  "stoff_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "stoffe", force: true do |t|
+    t.string   "bezeichnung"
+    t.text     "beschreibung"
+    t.string   "un_nummer"
+    t.string   "gefahr_nummer"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "transportabschnitte", force: true do |t|
     t.integer  "transport_id"
     t.integer  "firma_id"
@@ -87,11 +103,12 @@ ActiveRecord::Schema.define(version: 20140929185256) do
     t.integer  "transportgenehmigung_id"
     t.decimal  "menge"
     t.integer  "anzahl"
-    t.string   "stoff"
     t.string   "un_nummer"
     t.string   "behaelter"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "stoff_id"
+    t.string   "quelle"
   end
 
   create_table "transportgenehmigungen", force: true do |t|

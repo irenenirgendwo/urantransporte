@@ -28,4 +28,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.irregular 'umschlag', 'umschlaege'
   inflect.irregular 'anlagen_kategorie', "anlagen_kategorien"
   inflect.irregular 'kategorie', "kategorien"
+  inflect.irregular 'stoff', "stoffe"
 end

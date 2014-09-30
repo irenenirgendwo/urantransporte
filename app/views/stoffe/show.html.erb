@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Bezeichnung:</strong>
+  <%= @stoff.bezeichnung %>
+</p>
+
+<p>
+  <strong>Beschreibung:</strong>
+  <%= @stoff.beschreibung %>
+</p>
+
+<p>
+  <strong>Un nummer:</strong>
+  <%= @stoff.un_nummer %>
+</p>
+
+<p>
+  <strong>Gefahr nummer:</strong>
+  <%= @stoff.gefahr_nummer %>
+</p>
+
+  <h3> Synonyme für den Stoff </h3>
+
+    <ul>
+    <% @synonyme.each do |synonym| %>
+      <li><%= synonym %></li>
+    <% end %>
+    </ul>
+
+<%= link_to 'Edit', edit_stoff_path(@stoff) %> |
+<%= link_to 'Back', stoffe_path %>

@@ -25,15 +25,15 @@
     <%= collection_select(:transport, :ziel_anlage_id, Anlage.all, :id, :name) %>
   </div>
 
-
+ <div class="field">
+    <%= f.label :stoff %><br>
+    <%= collection_select(:transport, :stoff_id, Stoff.all, :id, :bezeichnung) %>
+  </div>
   <div class="field">
     <%= f.label :menge %><br>
     <%= f.text_field :menge %>
   </div>
-  <div class="field">
-    <%= f.label :stoff %><br>
-    <%= f.text_field :stoff %>
-  </div>
+ 
   <div class="field">
     <%= f.label :behaelter %><br>
     <%= f.text_field :behaelter %>

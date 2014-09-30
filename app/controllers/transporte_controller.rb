@@ -5,11 +5,11 @@ class TransporteController < ApplicationController
   # GET /transporte.json
   def index
     if params[:stoff]
-      @transporte = Transport.where(:stoff => params[:stoff])
+      @transporte = Transport.where(:stoff_id => params[:stoff])
     else
       @transporte = Transport.all
     end
-    @stoffe = Transport.uniq.pluck(:stoff);
+    @stoffe = Stoff.get_stoffe_for_selection_field
   end
 
   # GET /transporte/1
@@ -98,7 +98,7 @@ class TransporteController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transport_params
-      params.require(:transport).permit(:menge, :stoff, :behaelter, :anzahl,
-                                 :start_anlage_id, :ziel_anlage_id, :datum)
+      params.require(:transport).permit(:menge, :stoff, :stoff_id, :behaelter, :anzahl,
+                                 :start_anlage_id, :ziel_anlage_id, :datum, :quelle)
     end
 end

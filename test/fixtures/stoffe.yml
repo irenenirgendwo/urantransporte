@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bezeichnung: MyString
+  beschreibung: MyText
+  un_nummer: MyString
+  gefahr_nummer: MyString
+
+two:
+  bezeichnung: MyString
+  beschreibung: MyText
+  un_nummer: MyString
+  gefahr_nummer: MyString

@@ -1,0 +1,52 @@
+<%= form_for(@stoff) do |f| %>
+
+  <div class="modal fade" id="stoffModal" tabindex="-1" role="dialog" aria-labelledby="stoffModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
+          <h4 class="modal-title">Stoff erstellen</h4>
+        </div>
+        
+        <div class="modal-body">
+          <%= hidden_field_tag :redirect_params, @redirect_params %>
+          <% if @stoff.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@anlage.errors.count, "error") %> prohibited this anlage from being saved:</h2>
+              <ul>
+              <% @stoff.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
+           
+          <div class="field">
+            <%= f.label :bezeichnung %><br>
+            <%= f.text_field :bezeichnung %>
+          </div>
+          <div class="field">
+            <%= f.label :beschreibung %><br>
+            <%= f.text_area :beschreibung %>
+          </div>
+          <div class="field">
+            <%= f.label :gefahr_nummer %><br>
+            <%= f.text_field :gefahr_nummer %>
+          </div>
+          <div class="field">
+            <%= f.label :un_nummer %><br>
+            <%= f.text_field :un_nummer %>
+          </div>
+        </div>
+    
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+          <%= f.submit class: "btn btn-success" %>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+  
+<% end %>
