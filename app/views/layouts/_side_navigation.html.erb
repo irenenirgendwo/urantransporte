@@ -1,0 +1,34 @@
+
+    <h2> Navigation </h2>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Daten-Eingabe</h3>
+      </div>
+      <ul class="list-group">
+		<%= link_to "Transportdaten aus csv-Dateien einlesen", upload_index_path, class: "list-group-item" %>
+        <%= link_to "Beobachtung eingeben", new_beobachtung_path, class: "list-group-item" %>
+      </ul>
+    </div>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Daten-Bearbeitung</h3>
+      </div>
+      <ul class="list-group">
+		<%= link_to "Daten zu Atomanlagen bearbeiten", anlagen_path, class: "list-group-item" %>
+        <%= link_to "Daten zu Transportfirmen bearbeiten", firmen_path, class: "list-group-item" %>
+        <%= link_to "Daten zu Transporten bearbeiten", transporte_path, class: "list-group-item" %>
+        <%= link_to "Daten zu Beobachtungen bearbeiten", beobachtungen_path, class: "list-group-item" %>
+      </ul>
+    </div>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Daten-Abruf</h3>
+      </div>
+      <ul class="list-group">
+		<%= link_to "Daten zu Transporten bearbeiten", transporte_path, class: "list-group-item" %>
+        <div class: "list-group-item"><%= "Transportabfragen" %></div>
+      </ul>
+    </div>

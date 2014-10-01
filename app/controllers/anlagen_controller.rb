@@ -17,6 +17,7 @@ class AnlagenController < ApplicationController
   # GET /anlagen/new
   def new
     @anlage = Anlage.new
+    @synonym = params[:synonym]
   end
 
   # GET /anlagen/1/edit
@@ -31,6 +32,10 @@ class AnlagenController < ApplicationController
   def create
     @anlage = Anlage.new(anlage_params)
     @redirect_params = params[:redirect_params]
+    if params[:synonym]
+	  synonym = AnlagenSynonym.find_by(synonym: params[:synonym])
+	  synonym.anlage = @anlage
+    end
 
     respond_to do |format|
       if @anlage.save
@@ -112,7 +117,8 @@ class AnlagenController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def anlage_params
-      params.require(:anlage).permit(:name, :adresse, :plz, :ort, :lat, :lon, :beschreibung, :bild_url, :bild_urheber, :anlagen_kategorie, :anlagen_kategorie_id)
+      params.require(:anlage).permit(:name, :adresse, :plz, :ort, :lat, :lon, :beschreibung, 
+                                  :bild_url, :bild_urheber, :anlagen_kategorie, :anlagen_kategorie_id)
     end
 
    # Never trust parameters from the scary internet, only allow the white list through.

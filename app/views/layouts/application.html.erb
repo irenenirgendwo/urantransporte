@@ -12,8 +12,17 @@
         <%= link_to 'Atomtransport-Datenbank', root_path, class: "navbar-brand" %>
       </div>
     </header>
-    <div class="container">
-      <%= yield %>
+    
+    <% unless params[:controller] == "welcome" %>
+      <div class="col-sm-2" id="navigation_seitenleiste">   
+        <%= render "layouts/side_navigation" %>
+      </div>
+    <% end %>
+    
+    <div class="col-sm-9">
+      <div class="container">
+        <%= yield %>
+      </div>
     </div>
   </body>
 </html>
