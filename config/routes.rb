@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  get 'abfragen/index'
+
+  post 'abfragen/show'
+
+  get 'abfragen/calendar'
+
   resources :stoffe
 
   get 'welcome/index'

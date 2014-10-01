@@ -34,7 +34,7 @@ class AnlagenController < ApplicationController
     @redirect_params = params[:redirect_params]
     if params[:synonym]
 	  synonym = AnlagenSynonym.find_by(synonym: params[:synonym])
-	  synonym.anlage = @anlage
+	  synonym.anlage = @anlage if synonym
     end
 
     respond_to do |format|

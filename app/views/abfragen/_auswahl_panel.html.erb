@@ -1,0 +1,17 @@
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= typ %> </h3>
+      </div>
+      <ul class="list-group">
+		<div class: "list-group-item">
+		  <%= check_box_tag "#{typ}_alle" %>
+		  Alle
+		</div>
+        <% auswahl.each do |auswahl_bezeichnung, auswahl_id| %>
+          <div class: "list-group-item"> 
+		    <%= check_box_tag "#{typ}_#{auswahl_id}" %>
+            <%= auswahl_bezeichnung %>
+          </div>
+        <% end %>
+      </ul>
+    </div>

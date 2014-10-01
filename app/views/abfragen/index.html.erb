@@ -1,0 +1,12 @@
+<h1>Transport-Abfragen</h1>
+
+<%= form_tag({action: :show}, multipart: true) do %>
+
+  <%= render "auswahl_panel", typ: "Stoff", auswahl: @stoff_auswahl %>
+  
+  <%= render "auswahl_panel", typ: "Start-Anlage", auswahl: @start_anlagen %>
+  
+  <%= render "auswahl_panel", typ: "Ziel-Anlage", auswahl: @ziel_anlagen %>
+
+   <%= submit_tag "Passende Transporte anzeigen" %>
+<% end %>

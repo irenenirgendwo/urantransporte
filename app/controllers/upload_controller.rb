@@ -95,11 +95,15 @@ class UploadController < ApplicationController
     all_synonym_liste.each do |synonym|
       @synonym_liste << synonym if synonym.anlage.nil?
     end
-    @all_anlagen = Anlage.get_anlagen_for_selection_field
+    @all_werte = Anlage.get_anlagen_for_selection_field
     @anlage = Anlage.new
     @redirect_params = upload_anlagen_zuordnung_path
     if @synonym_liste.empty?
       redirect_to upload_stoffe_zuordnung_path #upload_read_transporte_path
+    else
+      @typ = "anlage"   
+      @wert_modal = 'anlagen/form_modal'
+      render "werte_zuordnung"
     end
   end
 
@@ -124,11 +128,15 @@ class UploadController < ApplicationController
   #
   def stoffe_zuordnung
     @synonym_liste = StoffSynonym.get_all_unused_synonyms
-    @all_stoffe = Stoff.get_stoffe_for_selection_field
+    @all_werte = Stoff.get_stoffe_for_selection_field
     @stoff = Stoff.new
     @redirect_params = upload_stoffe_zuordnung_path
     if @synonym_liste.empty?
       redirect_to upload_read_transporte_path
+    else 
+      @typ = "stoff"   
+      @wert_modal = 'stoffe/form_modal'
+      render "werte_zuordnung"
     end
   end
 
