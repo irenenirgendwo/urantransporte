@@ -1,5 +1,4 @@
 
-    <h2> Navigation </h2>
 
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -28,7 +27,7 @@
         <h3 class="panel-title">Daten-Abruf</h3>
       </div>
       <ul class="list-group">
-		<%= link_to "Daten zu Transporten bearbeiten", transporte_path, class: "list-group-item" %>
-        <div class: "list-group-item"><%= "Transportabfragen" %></div>
+		<%= link_to "Listing der Transporte", transporte_path, class: "list-group-item" %>
+        <%= link_to "Transport-Abfragen", abfragen_index_path, class: "list-group-item" %>
       </ul>
     </div>

@@ -1,12 +1,11 @@
 <div class="center jumbotron">
   <h1>Herzlich willkommen bei der Atomtransport-Datenbank</h1>
-  <p>Was möchtest du tun?</p>
-  <ul>
-    <li><%= link_to "Transportdaten aus csv-Dateien einlesen", upload_index_path %></li>
-    <li><%= link_to "Daten zu Atomanlagen bearbeiten", anlagen_path %></li>
-    <li><%= link_to "Daten zu Transportfirmen bearbeiten", firmen_path %></li>
-    <li><%= link_to "Daten zu Transporten bearbeiten", transporte_path %></li>
-    <li><%= link_to "Daten zu Beobachtungen bearbeiten", beobachtungen_path %></li>
-  </ul>
-  <img  width="300" height="187" alt="14072014_Uranzug4" src="http://umweltfairaendern.de/wp-content/uploads/2014/07/14072014_Uranzug4-300x187.jpg"></img>
 </div>
+  <div class="col-sm-5">
+    <h2>Was möchtest du tun?</h2>
+    <%= render "layouts/side_navigation" %>
+  </div>
+  <div class="col-sm-4">
+    <img  width="600" height="374" alt="14072014_Uranzug4" src="http://umweltfairaendern.de/wp-content/uploads/2014/07/14072014_Uranzug4-300x187.jpg"></img>
+  </div>
+
