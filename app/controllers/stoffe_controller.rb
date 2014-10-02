@@ -11,6 +11,7 @@ class StoffeController < ApplicationController
   # GET /stoffe/1.json
   def show
     @synonyme = @stoff.stoff_synonyms.pluck(:synonym)
+    @transporte = Transport.where("stoff_id = ?", @stoff)
   end
 
   # GET /stoffe/new

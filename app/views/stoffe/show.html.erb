@@ -17,13 +17,6 @@
 
 <p><%= @stoff.beschreibung %></p>
 
-<h3> Synonyme für den Stoff </h3>
+<h2>Transporte</h2>
 
-<ul>
-  <% @synonyme.each do |synonym| %>
-    <li><%= synonym %></li>
-  <% end %>
-</ul>
-
-<%= link_to 'Edit', edit_stoff_path(@stoff) %> |
-<%= link_to 'Back', stoffe_path %>
+<%= render 'transporte/tabelle' %>
