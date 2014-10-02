@@ -22,21 +22,21 @@
             </div>
           <% end %>
           <div class="form-group">
-            <%= f.label :name %><br>
+            <%= f.label :name, "Name" %>
             <%= f.text_field :name, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :anlagen_kategorie, "Typ" %>
+            <%= collection_select(:anlage, :anlagen_kategorie_id, AnlagenKategorie.all, :id, :name, {}, class: "form-control") %>
           </div>
           <div class="form-group">
             <%= f.label :ort, "Ort (optional)" %>
             <%= f.text_field :ort, class: "form-control" %>
           </div>
           <div class="form-group">
-            <%= f.label :anlagen_kategorie %><br>
-            <%= collection_select(:anlage, :anlagen_kategorie_id, AnlagenKategorie.all, :id, :name, class: "form-control") %>
+            <%= f.label :beschreibung, "Beschreibung (optional)" %>
+            <%= f.text_area :beschreibung, class: "form-control" %>
           </div>
-	      <div class="form-group">
-	        <%= f.label :beschreibung, "Beschreibung (optional)" %>
-	        <%= f.text_area :beschreibung, class: "form-control" %>
-	      </div>
         </div>
         
         <%= hidden_field_tag :synonym, @synonym %>

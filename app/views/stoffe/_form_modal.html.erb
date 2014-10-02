@@ -22,21 +22,23 @@
             </div>
           <% end %>
            
-          <div class="field">
-            <%= f.label :bezeichnung %><br>
-            <%= f.text_field :bezeichnung %>
+          <div class="form-group">
+            <%= f.label :bezeichnung, "Bezeichung" %>
+            <%= f.text_field :bezeichnung, class: "form-control" %>
           </div>
-          <div class="field">
-            <%= f.label :beschreibung %><br>
-            <%= f.text_area :beschreibung %>
+          <div class="row">
+            <div class="form-group col-xs-6">
+              <%= f.label :gefahr_nummer, "Gefahr-Nummer (optional)" %>
+              <%= f.text_field :gefahr_nummer, class: "form-control" %>
+            </div>
+            <div class="form-group col-xs-6">
+              <%= f.label :un_nummer, "UN-Nummer (optional)" %>
+              <%= f.text_field :un_nummer, class: "form-control" %>
+            </div>
           </div>
-          <div class="field">
-            <%= f.label :gefahr_nummer %><br>
-            <%= f.text_field :gefahr_nummer %>
-          </div>
-          <div class="field">
-            <%= f.label :un_nummer %><br>
-            <%= f.text_field :un_nummer %>
+          <div class="form-group">
+            <%= f.label :beschreibung, "Beschreibung (optional)" %>
+            <%= f.text_area :beschreibung, class: "form-control" %>
           </div>
         </div>
     
