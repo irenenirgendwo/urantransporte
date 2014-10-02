@@ -7,11 +7,8 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <header class="navbar navbar-default">
-      <div class="navbar-header">
-        <%= link_to 'Atomtransport-Datenbank', root_path, class: "navbar-brand" %>
-      </div>
-    </header>
+  
+    <%= render "layouts/navbar" %>
     
     <% unless params[:controller] == "welcome" %>
       <div class="col-sm-2" id="navigation_seitenleiste">  
@@ -25,5 +22,6 @@
         <%= yield %>
       </div>
     </div>
+    
   </body>
 </html>
