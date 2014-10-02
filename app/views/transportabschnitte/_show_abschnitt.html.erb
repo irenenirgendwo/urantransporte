@@ -24,7 +24,11 @@
   <div class="col-sm-6">
     <p>
       Transportfirma:
-      <%= link_to abschnitt.firma.name, abschnitt.firma %>
+      <% if abschnitt.firma %>
+        <%= link_to abschnitt.firma.name, abschnitt.firma %>
+      <% else %>
+        unbekannt
+      <% end %>
     </p>
   </div>
 </div>
