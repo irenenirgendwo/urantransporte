@@ -1,32 +1,29 @@
+<div class="btn-group header-buttons">
+      <%= link_to 'Bearbeiten', edit_stoff_path(@stoff), class: "btn btn-primary" %>
+      <%= link_to 'Löschen', @stoff, method: :delete, data: { confirm: 'Willst du den Stoff wirklich löschen?' }, class: "btn btn-danger" %></td>
+</div>
+<h1><%= @stoff.bezeichnung %></h1>
+
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Bezeichnung:</strong>
-  <%= @stoff.bezeichnung %>
-</p>
+<div class="gefahrentafel pull-right">
+  <div class="gefahr-nummer">
+    <span><%= @stoff.gefahr_nummer %></span>
+  </div>
+  <div class="un-nummer">
+    <span><%= @stoff.un_nummer %></span>
+  </div>
+</div>
 
-<p>
-  <strong>Beschreibung:</strong>
-  <%= @stoff.beschreibung %>
-</p>
+<p><%= @stoff.beschreibung %></p>
 
-<p>
-  <strong>Un nummer:</strong>
-  <%= @stoff.un_nummer %>
-</p>
+<h3> Synonyme für den Stoff </h3>
 
-<p>
-  <strong>Gefahr nummer:</strong>
-  <%= @stoff.gefahr_nummer %>
-</p>
-
-  <h3> Synonyme für den Stoff </h3>
-
-    <ul>
-    <% @synonyme.each do |synonym| %>
-      <li><%= synonym %></li>
-    <% end %>
-    </ul>
+<ul>
+  <% @synonyme.each do |synonym| %>
+    <li><%= synonym %></li>
+  <% end %>
+</ul>
 
 <%= link_to 'Edit', edit_stoff_path(@stoff) %> |
 <%= link_to 'Back', stoffe_path %>
