@@ -7,6 +7,10 @@ Rails.application.routes.draw do
   get 'abfragen/calendar'
 
   resources :stoffe
+  
+  resources :users
+  get 'signup'  => 'users#new'
+
 
   get 'welcome/index'
 
