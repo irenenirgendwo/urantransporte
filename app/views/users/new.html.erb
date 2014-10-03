@@ -1,6 +1,9 @@
 <h1>Registrieren</h1>
 
 <%= form_for(@user) do |f| %>
+
+  <%= render 'shared/error_messages' %>
+
   <div class="form-group">
     <%= f.label :name, "Name" %>
     <%= f.text_field :name, class: "form-control" %>
