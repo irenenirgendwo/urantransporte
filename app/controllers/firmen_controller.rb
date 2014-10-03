@@ -4,7 +4,7 @@ class FirmenController < ApplicationController
   # GET /firmen
   # GET /firmen.json
   def index
-    @firmen = Firma.all
+    @firmen = Firma.paginate(page: params[:page], per_page: 20)
   end
 
   # GET /firmen/1

@@ -4,7 +4,7 @@ class AnlagenController < ApplicationController
   # GET /anlagen
   # GET /anlagen.json
   def index
-    @anlagen = Anlage.all
+    @anlagen = Anlage.paginate(page: params[:page], per_page: 20)
   end
 
   # GET /anlagen/1

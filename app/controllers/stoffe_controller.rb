@@ -4,7 +4,7 @@ class StoffeController < ApplicationController
   # GET /stoffe
   # GET /stoffe.json
   def index
-    @stoffe = Stoff.all
+    @stoffe = Stoff.paginate(page: params[:page], per_page: 20)
   end
 
   # GET /stoffe/1

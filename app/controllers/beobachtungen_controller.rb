@@ -4,7 +4,7 @@ class BeobachtungenController < ApplicationController
   # GET /beobachtungen
   # GET /beobachtungen.json
   def index
-    @beobachtungen = Beobachtung.all
+    @beobachtungen = Beobachtung.paginate(page: params[:page], per_page: 20)
   end
 
   # GET /beobachtungen/1

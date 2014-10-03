@@ -5,9 +5,9 @@ class TransporteController < ApplicationController
   # GET /transporte.json
   def index
     if params[:stoff]
-      @transporte = Transport.where(:stoff_id => params[:stoff])
+      @transporte = Transport.where(:stoff_id => params[:stoff]).paginate(page: params[:page], per_page: 20)
     else
-      @transporte = Transport.all
+      @transporte = Transport.paginate(page: params[:page], per_page: 20)
     end
     @stoffe = Stoff.get_stoffe_for_selection_field
   end
