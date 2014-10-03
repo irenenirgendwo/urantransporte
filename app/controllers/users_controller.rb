@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      log_in @user
       flash[:success] = "Willkommen bei der Atomtransporte-Datenbank!"
       redirect_to @user
     else
