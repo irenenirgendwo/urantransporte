@@ -1,0 +1,27 @@
+<h1>Einstellungen</h1>
+
+<%= form_for(@user) do |f| %>
+  <%= render 'shared/error_messages' %>
+
+  <div class="form-group">
+    <%= f.label :name, "Name" %>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :email, "E-Mail" %>
+    <%= f.text_field :email, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :password, "Passwort" %>
+    <%= f.password_field :password, class: 'form-control' %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :password_confirmation, "Passwort-Wiederholung" %>
+    <%= f.password_field :password_confirmation, class: 'form-control' %>
+  </div>
+  
+  <%= f.submit "Änderungen speichern", class: "btn btn-primary" %>
+<% end %>
