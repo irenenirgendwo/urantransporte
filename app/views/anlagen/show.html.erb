@@ -1,7 +1,9 @@
-<div class="btn-group header-buttons">
-      <%= link_to 'Bearbeiten', edit_anlage_path(@anlage), class: "btn btn-primary" %>
-      <%= link_to 'Löschen', @anlage, method: :delete, data: { confirm: 'Willst du die Anlage wirklich löschen?' }, class: "btn btn-danger" %></td>
-</div>
+<% if logged_in? && current_user.admin? %>
+  <div class="btn-group header-buttons">
+        <%= link_to 'Bearbeiten', edit_anlage_path(@anlage), class: "btn btn-primary" %>
+        <%= link_to 'Löschen', @anlage, method: :delete, data: { confirm: 'Willst du die Anlage wirklich löschen?' }, class: "btn btn-danger" %></td>
+  </div>
+<% end %>
 <h1><%= @anlage.name %></h1>
 
 <p id="notice"><%= notice %></p>

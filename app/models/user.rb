@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   attr_accessor :remember_token
   
+  enum role: [:subscriber, :editor, :admin]
+  
   before_save { self.email = email.downcase }
   
   validates :name, presence: true, length: { maximum: 50 }
