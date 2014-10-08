@@ -1,11 +1,17 @@
 <h1>Benutzerverwaltung</h1>
 
-<ul class="users">
-  <% @users.each do |user| %>
-    <li>
-      <%= link_to user.name, user %>
-    </li>
-  <% end %>
-</ul>
+<table class="table table-striped">
+  
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><span class="glyphicon glyphicon-user"></span> <%= link_to user.name, user %></td>
+        <td><%= user.email %></td>
+        <td><%= user.role %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  
+</table>
 
 <%= will_paginate %>

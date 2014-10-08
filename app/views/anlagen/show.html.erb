@@ -1,4 +1,4 @@
-<% if logged_in? && current_user.admin? %>
+<% if editor? %>
   <div class="btn-group header-buttons">
         <%= link_to 'Bearbeiten', edit_anlage_path(@anlage), class: "btn btn-primary" %>
         <%= link_to 'Löschen', @anlage, method: :delete, data: { confirm: 'Willst du die Anlage wirklich löschen?' }, class: "btn btn-danger" %></td>
