@@ -11,16 +11,38 @@
 
 
 <h3> Transportabschnitte </h3>
+<% if @transport.transportabschnitte.nil? || @transport.transportabschnitte.empty? %>
+  Noch keine Transportabschnitte eingegeben.
+  <%= link_to 'Neuer Transportabschnitt', new_transport_transportabschnitt_path(@transport) %> |
+<% else %>
+  <% @transport.transportabschnitte.each do |transport_abschnitt| %>
+    <div class="btn-group header-buttons">
+      <%= link_to 'Details anzeigen', transportabschnitt_path(transport_abschnitt) , class: "btn btn-primary" %>
+      <%= link_to 'Bearbeiten', edit_transportabschnitt_path(transport_abschnitt) , class: "btn btn-primary" %>  
+    </div>
+    <%= render "transportabschnitte/show_abschnitt", abschnitt: transport_abschnitt %>
+  <% end %>
+<% end %>
 
-<% @transport.transportabschnitte.each do |transport_abschnitt| %>
-  <div class="btn-group header-buttons">
-    <%= link_to 'Details anzeigen', transportabschnitt_path(transport_abschnitt) , class: "btn btn-primary" %>
-    <%= link_to 'Bearbeiten', edit_transportabschnitt_path(transport_abschnitt) , class: "btn btn-primary" %>  
-  </div>
-  <%= render "transportabschnitte/show_abschnitt", abschnitt: transport_abschnitt %>
+<h3> Umschläge </h3>
+<% if @transport.umschlaege.nil? || @transport.umschlaege.empty? %>
+  <p>
+    Kein Umschlag vorhanden.
+    <%= link_to 'Neuer Umschlag', new_transport_umschlag_path(@transport) %> 
+  </p>
+<% else %>
+  <% @transport.umschlaege.each do |umschlag| %>
+    <div class="btn-group header-buttons">
+      <%= link_to 'Details anzeigen', umschlag_path(umschlag) , class: "btn btn-primary" %>
+      <%= link_to 'Bearbeiten', edit_umschlag_path(umschlag) , class: "btn btn-primary" %>  
+    </div>
+    <%= render "umschlaege/show_umschlag", umschlag: umschlag %>
+  <% end %>
 <% end %>
 
 
   <%= link_to 'Neuer Transportabschnitt', new_transport_transportabschnitt_path(@transport) %> |
+  <%= link_to 'Neuer Umschlag', new_transport_umschlag_path(@transport) %> |
+  
   <%= link_to 'Alle Transporte anzeigen', transporte_path %>
 
