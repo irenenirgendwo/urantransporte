@@ -3,6 +3,7 @@ require 'test_helper'
 class UmschlaegeControllerTest < ActionController::TestCase
   setup do
     @umschlag = umschlaege(:one)
+    @transport = transporte(:petersburg_lingen1)
   end
 
   test "should get index" do
@@ -18,7 +19,7 @@ class UmschlaegeControllerTest < ActionController::TestCase
 
   test "should create umschlag" do
     assert_difference('Umschlag.count') do
-      post :create, umschlag: {  }
+      post :create, umschlag: { ort: "Hamburg", terminal: "Burchardkai", transport_id: @transport.id }
     end
 
     assert_redirected_to umschlag_path(assigns(:umschlag))
@@ -35,7 +36,7 @@ class UmschlaegeControllerTest < ActionController::TestCase
   end
 
   test "should update umschlag" do
-    patch :update, id: @umschlag, umschlag: {  }
+    patch :update, id: @umschlag, umschlag: {ort: "Hamburg", terminal: "Burchardkai", transport_id: @transport.id }
     assert_redirected_to umschlag_path(assigns(:umschlag))
   end
 

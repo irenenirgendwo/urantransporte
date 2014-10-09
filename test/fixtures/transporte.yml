@@ -4,7 +4,7 @@ one:
   id: 1
   datum: 2013-09-01
   menge: 1.5
-  stoff: MyString
+  stoff_id: 1
   behaelter: MyString
   start_anlage_id: 1
   ziel_anlage_id: 2
@@ -13,7 +13,6 @@ two:
   id: 2
   datum: 2011-06-05
   menge: 1.5
-  stoff: MyString
   behaelter: MyString
   start_anlage_id: 1
   ziel_anlage_id: 2
@@ -22,14 +21,14 @@ petersburg_lingen1:
   id: 3
   datum: 2012-07-05
   menge: 1.5
-  stoff: UF6 ang.
+  stoff_id: 2
   start_anlage_id: 3
   ziel_anlage_id: 2
 
 petersburg_lingen2:
   id: 4
-  datum: 2012-07-05
-  stoff: UF6
+  datum: 2012-07-07
+  stoff_id: 1
   behaelter: 48Y
   anzahl: 12
   start_anlage_id: 3

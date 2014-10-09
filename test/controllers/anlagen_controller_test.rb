@@ -41,8 +41,13 @@ class AnlagenControllerTest < ActionController::TestCase
   end
 
   test "should destroy anlage" do
+    # Unmögliche Löschung
+    assert_equal 4, Anlage.count
+    delete :destroy, id: @anlage
+    assert_equal 4, Anlage.count, "Anlage darf nicht gelöscht werden weil Transporte vorhanden"
+    # mögliche Löschung
     assert_difference('Anlage.count', -1) do
-      delete :destroy, id: @anlage
+      delete :destroy, id: 4
     end
 
     assert_redirected_to anlagen_path

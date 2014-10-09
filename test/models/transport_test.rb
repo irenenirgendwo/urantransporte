@@ -16,6 +16,7 @@ class TransportTest < ActiveSupport::TestCase
 
   test "add another transport" do 
     # Vorherige Daten
+    stoff1 = @transport_russ_lingen_1.stoff
     assert_nil @transport_russ_lingen_1.behaelter
     assert_equal 1, @transport_russ_lingen_1.transportabschnitte.size
     assert_equal 1, @transport_russ_lingen_2.transportabschnitte.size
@@ -24,12 +25,12 @@ class TransportTest < ActiveSupport::TestCase
     
     # Nicht vorhande Transportdaten hinzugefuegt?
     assert @transport_russ_lingen_1.behaelter, "Behaelter sollte hinzugefuegt werden"
-    assert_equal "UF6 ang.",@transport_russ_lingen_1.stoff, "Stoff ist geblieben"
+    assert_equal stoff1, @transport_russ_lingen_1.stoff, "Stoff ist geblieben #{@transport_russ_lingen_1.attributes}"
     
     # Transportabschnitte auch alle zusammen gefuegt
     assert_equal 2, @transport_russ_lingen_1.transportabschnitte.size
     
-    #assert @transport_russ_lingen_1.save, "#{@transport_russ_lingen_1.errors.full_messages}"
+    assert @transport_russ_lingen_1.save, "#{@transport_russ_lingen_1.errors.full_messages}"
     assert Transport.find(3).behaelter, "Behaelter sollte hinzugefuegt werden"
   end
 

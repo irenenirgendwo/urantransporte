@@ -3,6 +3,7 @@ require 'test_helper'
 class TransporteControllerTest < ActionController::TestCase
   setup do
     @transport = transporte(:one)
+    @stoff = stoffe(:one)
   end
 
   test "should get index" do
@@ -20,7 +21,7 @@ class TransporteControllerTest < ActionController::TestCase
     assert_equal Anlage.find(1), @transport.start_anlage
     assert_difference('Transport.count') do
       post :create, transport: { start_anlage_id: 1, datum: Date.new(2014,3,12),
-                                stoff: "Uranhexafluorid", ziel_anlage_id: 2 }
+                                stoff_id: 1, ziel_anlage_id: 2 }
     end
 
     assert_redirected_to transport_path(assigns(:transport))

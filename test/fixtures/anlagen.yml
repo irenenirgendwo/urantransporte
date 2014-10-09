@@ -23,3 +23,11 @@ russland:
   plz: MyString
   ort: Russland
   beschreibung: MyText
+
+ohne_transporte:
+  id: 4
+  name: beliebig 
+  adresse: MyString
+  plz: MyString
+  ort: Russland
+  beschreibung: MyText
