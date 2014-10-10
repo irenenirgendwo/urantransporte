@@ -28,7 +28,7 @@ class StoffeController < ApplicationController
   # POST /stoffe.json
   def create
     @stoff = Stoff.new(stoff_params)
-    @redirect_params = params[:redirect_params]
+    @redirect_params = params[:redirect_params] ? params[:redirect_params] : @stoff
 
     respond_to do |format|
       if @stoff.save

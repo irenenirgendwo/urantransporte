@@ -17,6 +17,9 @@ class AbfragenController < ApplicationController
   
   private
   
+    # berechnet Arrays mit Ids von Stoffen, Start-Anlagen und Zielanlagen
+    # aus den übergebenen Parametern.
+    #
     def extract_params 
       stoffe = []
       verkehrstraeger = []
@@ -51,6 +54,8 @@ class AbfragenController < ApplicationController
       return stoffe, verkehrstraeger, start_anlagen, ziel_anlagen
     end
     
+    # fragt alle Transporte mit den übergebenen Parametern ab.
+    #
     def calculate_transporte 
       start_datum = params["start_datum"].to_date
       end_datum = params["end_datum"].to_date
