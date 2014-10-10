@@ -1,5 +1,7 @@
 class AnlagenKategorie < ActiveRecord::Base
 
+  validates :name, presence: true, uniqueness: true
+
   has_many :anlagen
 
   def self.get_kategorien_for_selection_field
