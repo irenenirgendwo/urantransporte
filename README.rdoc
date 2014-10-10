@@ -2,17 +2,15 @@
 
 === How to work on the project
 
-Install ruby, version 2.1.
-Install rails with "gem install rails"
-
-Install git.
-Get projekt with "git clone https://github.com/irenenirgendwo/urantransporte" to local folder.
-Run "bundle install" in project folder.
-Run "rake db:migrate" to create the database.
-Run "rails server" to start the development server.
-
-Watch http://localhost:3000/ to enjoy the work. 
-
+* Install ruby, version 2.1.
+* Install rails with "gem install rails".
+* Install git.
+* Get projekt with "git clone https://github.com/irenenirgendwo/urantransporte" to local folder.
+* Run "bundle install" in project folder.
+* Run "rake db:setup" or "rake db:migrate" and "rake db:seed" to create the database.
+* Run "rails server" to start the development server.
+If it does not work, maybe you'll need a javascript runtime environment, install for example node.js
+* Watch http://localhost:3000/ to enjoy the work. 
 
 === Later: How to get the application running
 
