@@ -8,12 +8,20 @@ class Anlage < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true
 
-  def self.get_anlagen_for_selection_field
+  def self.get_anlagen_for_selection_field(kategorie = nil)
     all_anlagen = Hash.new
-    Anlage.order(:name).each do |anlage|
+    anlagen = Anlage.order(:name)
+    anlagen = anlagen.where(anlagen_kategorie_id: kategorie.to_i) if kategorie
+    anlagen.each do |anlage|
         all_anlagen[anlage.name] = anlage.id
     end 
     all_anlagen
+  end
+  
+  def self.get_anlagen_for_list_field(kategorie = nil)
+    anlagen = Anlage.order(:name)
+    anlagen = anlagen.where(anlagen_kategorie_id: kategorie.to_i) if kategorie
+    anlagen
   end
 
   # to_string Methode für die Darstellung

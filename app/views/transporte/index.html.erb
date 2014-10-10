@@ -24,6 +24,10 @@
   
   <div class="col-sm-9">
     <%= render 'tabelle' %>
+    <% unless @transporte.empty? %>
+      <%= will_paginate @transporte %>
+    <% end %>
+    
   </div>
   
 </div>

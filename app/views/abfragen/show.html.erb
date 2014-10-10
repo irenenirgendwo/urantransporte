@@ -1,2 +1,9 @@
-<h1>Abfragen#show</h1>
-<p>Find me in app/views/abfragen/show.html.erb</p>
+<h1>Ausgewählte Transporte</h1>
+<!--Params: <%= params %>-->
+<p> Zeitraum: <%= @zeitraum %></p>
+<p> Stoffe : <%= @stoffe ? @stoffe : "Alle" %> </p>
+<p> Start-Anlagen : <%= @start_anlagen ? @start_anlagen : "Alle"  %> </p>
+<p> Ziel-Anlagen : <%= @ziel_anlagen ? @ziel_anlagen : "Alle" %> </p>
+<div class="col-sm-9">
+    <%= render 'transporte/tabelle' %>
+</div>

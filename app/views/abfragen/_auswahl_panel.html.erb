@@ -4,12 +4,12 @@
       </div>
       <ul class="list-group">
 		<div class: "list-group-item">
-		  <%= check_box_tag "#{typ}_alle" %>
+		  <%= check_box_tag "#{typ}-alle" %>
 		  Alle
 		</div>
         <% auswahl.each do |auswahl_bezeichnung, auswahl_id| %>
           <div class: "list-group-item"> 
-		    <%= check_box_tag "#{typ}_#{auswahl_id}" %>
+		    <%= check_box_tag "#{typ}-#{auswahl_id}" %>
             <%= auswahl_bezeichnung %>
           </div>
         <% end %>
