@@ -1,3 +1,4 @@
+# encoding: utf-8
 class AnlagenKategorie < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true

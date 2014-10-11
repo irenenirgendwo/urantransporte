@@ -1,3 +1,4 @@
+# encoding: utf-8
 class AbfragenController < ApplicationController
   def index
     @stoff_auswahl = Stoff.get_stoffe_for_selection_field

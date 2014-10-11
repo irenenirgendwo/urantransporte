@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Transport < ActiveRecord::Base
 
   has_many :transportabschnitte

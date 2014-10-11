@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Atomanlagen
 class Anlage < ActiveRecord::Base
   has_many :transportabschnitte

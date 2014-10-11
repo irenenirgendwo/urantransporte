@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Stoff < ActiveRecord::Base
   
   has_many :stoff_synonyms

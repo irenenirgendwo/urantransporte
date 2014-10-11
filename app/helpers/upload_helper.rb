@@ -1,3 +1,4 @@
+# encoding: utf-8
 module UploadHelper
 
   # Setzt entsprechend des Typs die Werte für das anzuzeigende Partial.
