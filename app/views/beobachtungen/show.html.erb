@@ -45,50 +45,28 @@
   <%= @beobachtung.verkehrstraeger %>
 </p>
 
-<p>
-  <strong>Kennzeichen radioaktiv:</strong>
-  <%= @beobachtung.kennzeichen_radioaktiv %>
-</p>
+<h3> Kennzeichnung: </h3>
 
-<p>
-  <strong>Kennzeichen aetzend:</strong>
-  <%= @beobachtung.kennzeichen_aetzend %>
-</p>
+<%= render "stoffe/gefahr_tafel", gefahr_nummer: @beobachtung.gefahr_nummer, un_nummer: @beobachtung.un_nummer %>
 
-<p>
-  <strong>Kennzeichen spaltbar:</strong>
-  <%= @beobachtung.kennzeichen_spaltbar %>
-</p>
 
-<p>
-  <strong>Kennzeichen umweltgefaehrend:</strong>
-  <%= @beobachtung.kennzeichen_umweltgefaehrend %>
-</p>
+<% if @beobachtung.kennzeichen_radioaktiv %>
+  <%= image_tag "radioaktiv.jpg", alt: "radioaktiv", size: "70x70" %>
+<% end %>
 
-<p>
-  <strong>Gefahr nummer:</strong>
-  <%= @beobachtung.gefahr_nummer %>
-</p>
+<% if @beobachtung.kennzeichen_aetzend %>
+  <%= image_tag "aetzend.jpg", alt: "ätzend", size: "70x70" %>
+<% end %>
 
-<p>
-  <strong>Un nummer:</strong>
-  <%= @beobachtung.un_nummer %>
-</p>
+<% if @beobachtung.kennzeichen_spaltbar %>
+  <%= image_tag "spaltbar.jpg", alt: "spaltbar", size: "70x70" %>
+<% end %>
 
-<p>
-  <strong>Firma:</strong>
-  <%= @beobachtung.firma_id %>
-</p>
+<% if @beobachtung.kennzeichen_umweltgefaehrdend %>
+  <%= image_tag "umweltgefaehrdend.jpg", alt: "umweltgefährdend", size: "70x70" %>
+<% end %>
 
-<p>
-  <strong>Firma beschreibung:</strong>
-  <%= @beobachtung.firma_beschreibung %>
-</p>
 
-<p>
-  <strong>Lok farbe:</strong>
-  <%= @beobachtung.lok_farbe %>
-</p>
 
 <p>
   <strong>Container beschreibung:</strong>
@@ -100,35 +78,50 @@
   <%= @beobachtung.anzahl_container %>
 </p>
 
-<p>
-  <strong>Zug beschreibung:</strong>
-  <%= @beobachtung.zug_beschreibung %>
-</p>
+<% case @beobachtung.verkehrstraeger %>
+<% when "LKW" then %>
+  <p>
+    <strong>Anzahl lkw:</strong>
+    <%= @beobachtung.anzahl_lkw %>
+  </p>
+  
+  <p>
+    <strong>Kennzeichen lkw:</strong>
+    <%= @beobachtung.kennzeichen_lkw %>
+  </p>
+  
+  <p>
+    <strong>Lkw beschreibung:</strong>
+    <%= @beobachtung.lkw_beschreibung %>
+  </p>
+
+<% when "Zug" then %>
+  <p>
+    <strong>Lok Beschreibung:</strong>
+    <%= @beobachtung.lok_beschreibung %>
+  </p>
+  <p>
+    <strong>Zug beschreibung:</strong>
+    <%= @beobachtung.zug_beschreibung %>
+  </p>
+<% when "Schiff" then %>
+  <p>
+    <strong>Schiff name:</strong>
+    <%= @beobachtung.schiff_name %>
+  </p>
+  
+  <p>
+    <strong>Schiff beschreibung:</strong>
+    <%= @beobachtung.schiff_beschreibung %>
+  </p>
+<% end %>
+
 
 <p>
-  <strong>Anzahl lkw:</strong>
-  <%= @beobachtung.anzahl_lkw %>
+  <strong>Firma beschreibung:</strong>
+  <%= @beobachtung.firma_beschreibung %>
 </p>
 
-<p>
-  <strong>Kennzeichen lkw:</strong>
-  <%= @beobachtung.kennzeichen_lkw %>
-</p>
-
-<p>
-  <strong>Lkw beschreibung:</strong>
-  <%= @beobachtung.lkw_beschreibung %>
-</p>
-
-<p>
-  <strong>Schiff name:</strong>
-  <%= @beobachtung.schiff_name %>
-</p>
-
-<p>
-  <strong>Schiff beschreibung:</strong>
-  <%= @beobachtung.schiff_beschreibung %>
-</p>
 
 <p>
   <strong>Polizei:</strong>

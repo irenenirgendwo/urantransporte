@@ -6,14 +6,7 @@
 
 <p id="notice"><%= notice %></p>
 
-<div class="gefahrentafel pull-right">
-  <div class="gefahr-nummer">
-    <span><%= @stoff.gefahr_nummer %></span>
-  </div>
-  <div class="un-nummer">
-    <span><%= @stoff.un_nummer %></span>
-  </div>
-</div>
+<%= render "gefahr_tafel", gefahr_nummer: @stoff.gefahr_nummer, un_nummer: @stoff.un_nummer %>
 
 <p><%= @stoff.beschreibung %></p>
 

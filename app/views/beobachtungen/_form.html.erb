@@ -23,11 +23,12 @@
 					
 			    <div class="form-group">
             <%= f.label :ort %><br>
-            <%= f.text_field :ort %>
+            <%= f.text_field :ort %><br>
+            Klicke auf die Karte, um den Standort genau festzulegen.
           </div>
   
           <div class="form-group">
-            Fahrtrichtung des Transports:
+            Fahrtrichtung des Transports:<br>
             <%= f.text_field :fahrtrichtung %>
           </div>
 					
@@ -63,7 +64,7 @@
 					
 				</div>
 				<div class="col-sm-5">
-          <p>Klicke auf die Karte, um den Standort genau festzulegen.</p>
+
           <input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control">
             <%= f.hidden_field :lat, class: "form-control" %>
             <%= f.hidden_field :lon, class: "form-control" %>
@@ -85,46 +86,49 @@
           <h2 class="panel-title">Kennzeichnung</h2>
     </div>    
     <div class="panel-body">   
-        <div class="field">
-          <%= f.label :kennzeichen_radioaktiv %><br>
-          <%= f.check_box :kennzeichen_radioaktiv %>
-        </div>
-        <div class="field">
-          <%= f.label :kennzeichen_aetzend %><br>
+        <div class="form-group">
+          <%= f.check_box :kennzeichen_radioaktiv %> 
+          <%= image_tag "radioaktiv.jpg", alt: "radioaktiv", size: "70x70" %>
+          
           <%= f.check_box :kennzeichen_aetzend %>
-        </div>
-        <div class="field">
-          <%= f.label :kennzeichen_spaltbar %><br>
+          <%= image_tag "aetzend.jpg", alt: "ätzend", size: "70x70" %>
+
           <%= f.check_box :kennzeichen_spaltbar %>
-        </div>
-        <div class="field">
-          <%= f.label :kennzeichen_umweltgefaehrdend %><br>
+          <%= image_tag "spaltbar.jpg", alt: "spaltbar", size: "70x70" %>
+
           <%= f.check_box :kennzeichen_umweltgefaehrdend %>
+          <%= image_tag "umweltgefaehrdend.jpg", alt: "umweltgefährdend", size: "70x70" %>
         </div>
-        <div class="field">
-          <%= f.label :gefahr_nummer %><br>
-          <%= f.text_field :gefahr_nummer %>
-        </div>
-        <div class="field">
-          <%= f.label :un_nummer %><br>
-          <%= f.text_field :un_nummer %>
+        <strong>Orange Gefahrguttafel:</strong>
+        <div class="form-group">
+					<div class="row">
+						<div class="col-sm-5">
+							Obere Nummer (zweistellig):
+							<%= f.text_field :gefahr_nummer %>
+					  </div>
+						<div class="col-sm-5">
+							Untere Nummter (vierstellig):
+							<%= f.text_field :un_nummer %>
+					  </div>
+					</div>
         </div>
     </div>   
   </div>
   
-  <div class="panel panel-default" >
+  <div class="panel panel-default">
     <div class="panel-heading">
           <h2 class="panel-title">Verkehrsmittel</h2>
     </div>    
     <div class="panel-body"> 
       <div class="field">
           Verkehrsmittel: 
-          <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX) %>
+          <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX) %><br>
           Nach der Auswahl soll sich der nächste Teil jeweils anpassen. 
           (Javascript entsprechend schreiben mit ein und Ausblenden je nach Auswahl)
       </div>
     </div>
   </div>
+  
   
   <div class="panel panel-default" >
     <div class="panel-heading">
