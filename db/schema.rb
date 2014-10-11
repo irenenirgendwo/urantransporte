@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141008165502) do
+ActiveRecord::Schema.define(version: 20141011172927) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                 null: false
@@ -45,11 +45,37 @@ ActiveRecord::Schema.define(version: 20141008165502) do
     t.date     "start_datum"
     t.date     "end_datum"
     t.string   "ort"
-    t.string   "geo_koordinaten"
     t.text     "beschreibung"
     t.integer  "transportabschnitt_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "ankunft_zeit"
+    t.time     "abfahrt_zeit"
+    t.float    "lat"
+    t.float    "lon"
+    t.string   "verkehrstraeger"
+    t.boolean  "kennzeichen_radioaktiv"
+    t.boolean  "kennzeichen_aetzend"
+    t.boolean  "kennzeichen_spaltbar"
+    t.boolean  "kennzeichen_umweltgefaehrdend"
+    t.string   "fahrtrichtung"
+    t.string   "gefahr_nummer"
+    t.string   "un_nummer"
+    t.string   "firma_beschreibung"
+    t.text     "lok_beschreibung"
+    t.text     "container_beschreibung"
+    t.integer  "anzahl_container"
+    t.text     "zug_beschreibung"
+    t.string   "anzahl_lkw"
+    t.string   "kennzeichen_lkw"
+    t.string   "lkw_beschreibung"
+    t.string   "schiff_name"
+    t.text     "schiff_beschreibung"
+    t.boolean  "polizei"
+    t.boolean  "hubschrauber"
+    t.boolean  "foto"
+    t.string   "email"
+    t.string   "quelle"
   end
 
   create_table "firmen", force: true do |t|

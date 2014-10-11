@@ -62,13 +62,13 @@ class BeobachtungenController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+  # Use callbacks to share common setup or constraints between actions.
     def set_beobachtung
       @beobachtung = Beobachtung.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def beobachtung_params
-      params.require(:beobachtung).permit(:beschreibung)
+      params.require(:beobachtung).permit(:ankunft_zeit, :abfahrt_zeit, :start_datum, :end_datum, :ort, :lat, :lon, :fahrtrichtung, :verkehrstraeger, :kennzeichen_radioaktiv, :kennzeichen_aetzend, :kennzeichen_spaltbar, :kennzeichen_umweltgefaehrend, :gefahr_nummer, :un_nummer, :firma_id, :firma_beschreibung, :lok_farbe, :container_beschreibung, :anzahl_container, :zug_beschreibung, :anzahl_lkw, :kennzeichen_lkw, :lkw_beschreibung, :schiff_name, :schiff_beschreibung, :polizei, :hubschrauber, :foto, :quelle, :email)
     end
 end
