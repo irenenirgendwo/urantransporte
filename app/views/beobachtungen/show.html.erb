@@ -183,32 +183,41 @@
 <% else %>
 
   <h3>Mögliche Transportabschnitte:</h3>
+  
+  <% if @transportabschnitte.empty? %>
+    <p>
+      Es wurde kein von den Daten her passender Transportabschnitt gefunden.
+    </p>
+    <%= link_to 'Neuen Transportabschnitt anlegen', new_transportabschnitt_path(beobachtung_id: @beobachtung.id), class: "btn btn-primary" %>
 
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Startdatum</th>
-          <th>Endatum</th>
-          <th>Start</th>
-          <th>Ziel</th>
-          <th>Stoff</th>
-          <th colspan="2"></th>
-        </tr>
-      </thead>
+  <% else %>
 
-      <tbody>
-        <% @transportabschnitte.each do |transportabschnitt| %>
+      <table class="table table-striped">
+        <thead>
           <tr>
-            <td> <%= transportabschnitt.start_datum %></td>
-            <td> <%= transportabschnitt.end_datum %></td>
-            <td> <%= transportabschnitt.start_ort %></td>
-            <td> <%= transportabschnitt.end_ort %></td>
-            <td> <%= transportabschnitt.transport ? transportabschnitt.transport.stoff : nil %></td>
-            <td><%= link_to 'Show', transportabschnitt %></td>
-            <td><%= link_to 'Zuordnen', abschnitt_zuordnen_beobachtung_path(@beobachtung, abschnitt: transportabschnitt.id) %></td>
+            <th>Startdatum</th>
+            <th>Endatum</th>
+            <th>Start</th>
+            <th>Ziel</th>
+            <th>Stoff</th>
+            <th colspan="2"></th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          <% @transportabschnitte.each do |transportabschnitt| %>
+            <tr>
+              <td> <%= transportabschnitt.start_datum %></td>
+              <td> <%= transportabschnitt.end_datum %></td>
+              <td> <%= transportabschnitt.start_ort %></td>
+              <td> <%= transportabschnitt.end_ort %></td>
+              <td> <%= transportabschnitt.transport ? transportabschnitt.transport.stoff : nil %></td>
+              <td><%= link_to 'Show', transportabschnitt %></td>
+              <td><%= link_to 'Zuordnen', abschnitt_zuordnen_beobachtung_path(@beobachtung, abschnitt: transportabschnitt.id) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+  <% end %>
   
 <% end %>

@@ -17,6 +17,7 @@ class TransportabschnitteController < ApplicationController
   # GET /transportabschnitte/new
   def new
     @transport = Transport.find(params[:transport_id].to_i) if params[:transport_id]
+    @beobachtung_id = params[:beobachtung_id].to_i if params[:beobachtung_id]
     @transportabschnitt = Transportabschnitt.new
   end
 
@@ -28,11 +29,19 @@ class TransportabschnitteController < ApplicationController
   # POST /transportabschnitte.json
   def create
     @transportabschnitt = Transportabschnitt.new(transportabschnitt_params)
-    transport = Transport.find(params[:transport_id].to_i)
-    @transportabschnitt.transport = transport
-    redirection_path = transport.nil? ? @transportabschnitt : transport
+    redirection_path = @transportabschnitt
+    if params[:transport_id]
+      transport = Transport.find(params[:transport_id].to_i)
+      @transportabschnitt.transport = transport
+      redirection_path = transport if transport 
+    elsif params[:beobachtung_id]
+      beobachtung = Beobachtung.find(params[:beobachtung_id].to_i)
+      beobachtung.transportabschnitt = @transportabschnitt if beobachtung 
+      redirection_path = beobachtung if beobachtung
+    end
     respond_to do |format|
       if @transportabschnitt.save
+        beobachtung.save if beobachtung
         format.html { redirect_to redirection_path, notice: 'Transportabschnitt was successfully created.' }
         format.json { render :show, status: :created, location: @transportabschnitt }
       else

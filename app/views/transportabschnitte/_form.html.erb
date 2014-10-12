@@ -11,7 +11,12 @@
     </div>
   <% end %>
   
-  <%= hidden_field_tag :transport_id, (@transport ? @transport.id : nil) %>
+  <% if @transport %>
+    <%= hidden_field_tag :transport_id, @transport.id %>
+  <% elsif %>
+    <%= hidden_field_tag :beobachtung_id, @beobachtung_id %>
+  <% end %>
+  
   
   <div class="row">
     <div class="col-sm-6">
