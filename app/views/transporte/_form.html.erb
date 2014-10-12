@@ -39,10 +39,14 @@
     <%= f.text_field :behaelter %>
   </div>
   
-   <div class="anzahl">
+  <div class="anzahl">
     <%= f.label :anzahl %><br>
     <%= f.text_field :anzahl %>
   </div>
+  
+  <% if @beobachtung_id %>
+    <%= hidden_field_tag :beobachtung_id, @beobachtung_id %>
+  <% end %>
 
 
   <div class="actions">

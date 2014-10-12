@@ -34,7 +34,8 @@ class TransportabschnitteController < ApplicationController
       transport = Transport.find(params[:transport_id].to_i)
       @transportabschnitt.transport = transport
       redirection_path = transport if transport 
-    elsif params[:beobachtung_id]
+    end
+    if params[:beobachtung_id]
       beobachtung = Beobachtung.find(params[:beobachtung_id].to_i)
       beobachtung.transportabschnitt = @transportabschnitt if beobachtung 
       redirection_path = beobachtung if beobachtung

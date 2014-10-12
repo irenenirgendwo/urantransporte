@@ -16,6 +16,10 @@ class Transport < ActiveRecord::Base
   validates :ziel_anlage, presence: true
   validates :datum, :uniqueness => {:scope => [:start_anlage, :ziel_anlage]}
   
+  def self.get_transporte_around(datum,plus_minus_tage)
+    Transport.where("datum >= ? and datum <= ?", datum.to_date - plus_minus_tage.days, datum.to_date + plus_minus_tage.days)
+  end
+  
   # Integriert in diesen Transport den übergebenen Transport.
   # Dabei werden alle Transportabschnitte und Umschlaege in diesen Transport uebernommen.
   # Transport wird in der Datenbank gespeichert.

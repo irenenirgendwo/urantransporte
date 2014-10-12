@@ -1,5 +1,12 @@
 <h1>Neuer Transport</h1>
 
-<%= render 'form' %>
+<div class="row">
+  <div class="col-sm-6">
+    <%= render 'form' %>
+  </div>
+  <% if @beobachtung %>
+    <%= render "beobachtungen/eingabehilfe", beobachtung: @beobachtung %>
+  <% end %>
+</div>
 
 <%= link_to 'Back', transporte_path %>

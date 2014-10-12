@@ -1,0 +1,103 @@
+<div class="panel panel-default" id="mapedit" >
+    <div class="panel-heading">
+      <h2 class="panel-title">Zuordnung zu einem Transport(abschnitt)</h2>
+    </div>
+    <div class="panel-body">
+
+
+        <% if @beobachtung.transportabschnitt %>
+          <h4>Zugeordneter Transport</h4>
+          <% if @beobachtung.transportabschnitt.transport %>
+            <h4>Transportdaten</h4>
+            <%= render "transporte/show_transport_grunddaten", transport: @beobachtung.transportabschnitt.transport %>
+          <% end %>
+          <h4>Transportabschnitt</h4>
+          <%= render "transportabschnitte/show_abschnitt", :abschnitt => @beobachtung.transportabschnitt  %>
+
+          
+        <% else %>
+
+          <h4>Mögliche Transportabschnitte:</h4>
+          
+          <% if @transportabschnitte.empty? %>
+            <p>
+              Es wurde kein von den Daten her passender Transportabschnitt gefunden.
+            </p>
+           
+          <% else %>
+              Mit "Zuordnen" wird diese Beobachtung dem ausgewählten Transportabschnitt zugeordnet.
+              Jede Beobachtung kann nur einem Transportabschnitt zugeordnet werden.
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Startdatum</th>
+                    <th>Endatum</th>
+                    <th>Start</th>
+                    <th>Ziel</th>
+                    <th>Stoff</th>
+                    <th colspan="2"></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <% @transportabschnitte.each do |transportabschnitt| %>
+                    <tr>
+                      <td> <%= transportabschnitt.start_datum %></td>
+                      <td> <%= transportabschnitt.end_datum %></td>
+                      <td> <%= transportabschnitt.start_ort %></td>
+                      <td> <%= transportabschnitt.end_ort %></td>
+                      <td> <%= transportabschnitt.transport ? transportabschnitt.transport.stoff : nil %></td>
+                      <td><%= link_to 'Show', transportabschnitt %></td>
+                      <td><%= link_to 'Zuordnen', abschnitt_zuordnen_beobachtung_path(@beobachtung, abschnitt: transportabschnitt.id) %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+          <% end %>
+          
+          <h4>Mögliche Transporte</h4>
+          
+          <% if @transporte.nil? || @transporte.empty? %>
+              <p>
+                Passende Transporte wurden auch nicht gefunden.
+              </p>
+          <%  else %>
+            Wenn die Beobachtung zu einem der folgenden aufgelisteteten Transporte passt, wähle "Neuen Transportabschnitt anlegen"
+            um einen neuen Transportabschnitt zum jeweiligen Transport zu erstellen, der automatisch dieser Beobachtung zugeordnet wird.
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Datum</th>
+                  <th>Start</th>
+                  <th>Ziel</th>
+                  <th>Stoff</th>
+                  <th colspan="2"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @transporte.each do |transport| %>
+                  <tr>
+                    <td><%= transport.datum %></td>
+                    <td><%= link_to transport.start_anlage, transport.start_anlage %></td>
+                    <td><%= link_to transport.ziel_anlage, transport.ziel_anlage %></td>
+                    <td><%= link_to transport.stoff, transport.stoff %></td>
+                    <td><%= link_to 'Show', transport %></td>
+                    <td><%= link_to 'Neuen Transportabschnitt anlegen', new_transportabschnitt_path(beobachtung_id: @beobachtung.id, transport_id: transport.id) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          
+          <% end %>
+          
+          <h4> Nicht passendes gefunden? </h4>
+          Wenn die angezeigten Transporte und Transportabschnitte nicht passen (oder keine gefunden wurden),
+          gibt es hier die Möglichkeit, einen neuen Transport anzulegen. 
+          Danach kann dann ein neuer Transportabschnitt für den angelegten Trasnport und diese Beobachtung erstellt werden.
+           
+          <strong><%= link_to 'Neuen Transport anlegen', new_transport_path(beobachtung_id: @beobachtung.id) %></strong>
+          
+        <% end %>  
+    </div>
+</div>

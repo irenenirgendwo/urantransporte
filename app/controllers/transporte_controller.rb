@@ -20,6 +20,8 @@ class TransporteController < ApplicationController
   # GET /transporte/new
   def new
     @transport = Transport.new
+    @beobachtung_id = params[:beobachtung_id].to_i if params[:beobachtung_id]
+    @beobachtung = Beobachtung.find(@beobachtung_id) if params[:beobachtung_id]
   end
 
   # GET /transporte/1/edit
@@ -31,10 +33,15 @@ class TransporteController < ApplicationController
   # POST /transporte.json
   def create
     @transport = Transport.new(transport_params)
+    redirection = @transport
+    if params[:beobachtung_id]
+      @beobachtung = Beobachtung.find(params[:beobachtung_id].to_i)
+      redirection = beobachtung_path(@beobachtung)
+    end
 
     respond_to do |format|
       if @transport.save
-        format.html { redirect_to @transport, notice: 'Transport was successfully created.' }
+        format.html { redirect_to redirection, notice: 'Transport was successfully created.' }
         format.json { render :show, status: :created, location: @transport }
       else
         format.html { render :new }

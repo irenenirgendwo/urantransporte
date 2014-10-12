@@ -1,0 +1,50 @@
+<div class="panel panel-default" id="mapedit" >
+    <div class="panel-heading">
+          <h2 class="panel-title">Eckdaten</h2>
+    </div>
+    <div class="panel-body">
+			<div class="row">
+        
+        <div class="col-sm-7">
+          <p>
+            <strong>Beobachtungs- / Ankunftszeit:</strong>
+            <%= beobachtung.ankunft_zeit.to_formatted_s(:dmyz) %>
+          </p>
+          
+          <p>
+            <strong>Abfahrtszeit:</strong>
+            <%= beobachtung.abfahrt_zeit.to_formatted_s(:dmyz) %>
+          </p>
+          
+          <p>
+            <strong>Ort:</strong>
+            <%= beobachtung.ort %>
+          </p>
+          
+          <p>
+            <strong>Fahrtrichtung:</strong>
+            <%= beobachtung.fahrtrichtung %>
+          </p>
+          
+          <p>
+            <strong>Quelle:</strong>
+            <%= beobachtung.quelle %>
+          </p>
+
+          <p>
+            <strong>Email:</strong>
+            <%= beobachtung.email %>
+          </p>
+          
+        </div>
+        
+        <div class="col-sm-5">
+          <% if beobachtung.lat? && beobachtung.lon? %>
+            <div id="map" style="height:200px;"></div>
+            <%= map(:center => { :latlng => [beobachtung.lat, beobachtung.lon], :zoom => 10 }) %>
+          <% end %>
+        </div>
+            
+      </div>
+    </div>
+</div>

@@ -13,7 +13,8 @@
   
   <% if @transport %>
     <%= hidden_field_tag :transport_id, @transport.id %>
-  <% elsif %>
+  <% end %>
+  <% if @beobachtung_id %>
     <%= hidden_field_tag :beobachtung_id, @beobachtung_id %>
   <% end %>
   

@@ -19,6 +19,7 @@ class BeobachtungenController < ApplicationController
   # GET /beobachtungen/1.json
   def show
     @transportabschnitte = Transportabschnitt.get_abschnitte_from_time(@beobachtung.ankunft_zeit)
+    @transporte = Transport.get_transporte_around(@beobachtung.ankunft_zeit,4)
   end
 
   # GET /beobachtungen/new
