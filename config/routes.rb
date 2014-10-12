@@ -26,7 +26,9 @@ Rails.application.routes.draw do
   
   resources :transportabschnitte
 
-  resources :beobachtungen
+  resources :beobachtungen do
+    get "abschnitt_zuordnen", on: :member
+  end 
 
   resources :umschlaege
 

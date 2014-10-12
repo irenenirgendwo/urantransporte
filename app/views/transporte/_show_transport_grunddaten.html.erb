@@ -4,29 +4,29 @@
   <div class="col-sm-7">
     <p>
       <strong>Datum:</strong>
-      <%= @transport.datum %>
+      <%= transport.datum %>
     </p>
 
     <p>
       <strong>Startanlage:</strong>
-      <%= link_to @transport.start_anlage.name, @transport.start_anlage %>
+      <%= link_to transport.start_anlage.name, transport.start_anlage %>
     </p>
 
     <p>
       <strong>Zielanlage:</strong>
-      <%= link_to @transport.ziel_anlage.name, @transport.ziel_anlage %>
+      <%= link_to transport.ziel_anlage.name, transport.ziel_anlage %>
     </p>
     
     <p>
       <strong>Stoff:</strong>
-      <%= link_to @transport.stoff, @transport.stoff %>
+      <%= link_to transport.stoff, transport.stoff %>
     </p>
 
     
     <p>
-      Transportiert wurde<%= @transport.menge ? "n #{@transport.menge} Tonnen" : nil %> <%= @transport.stoff %>.
-      <%= @transport.behaelter ? "Die Behälter waren vom Typ #{@transport.behaelter}." : nil %>
-      <%= @transport.anzahl ? "Es fanden #{@transport.anzahl} Transporte statt." : nil %>
+      Transportiert wurde<%= transport.menge ? "n #{transport.menge} Tonnen" : nil %> <%= transport.stoff %>.
+      <%= transport.behaelter ? "Die Behälter waren vom Typ #{transport.behaelter}." : nil %>
+      <%= transport.anzahl ? "Es fanden #{transport.anzahl} Transporte statt." : nil %>
     </p>
 
   </div>

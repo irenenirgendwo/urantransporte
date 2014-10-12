@@ -3,7 +3,7 @@
   <div class="btn-group header-buttons">
     <%= link_to 'Zur Transport-Anzeige', @transport , class: "btn btn-primary" %>  
   </div>
-<%= render "transporte/show_transport_grunddaten" %>  
+<%= render "transporte/show_transport_grunddaten", transport: @transport %>  
 
 <h3> Transportabschnitt </h3>
 

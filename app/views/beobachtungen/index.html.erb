@@ -12,8 +12,9 @@
         <h3 class="panel-title">Anzeigen</h3>
       </div>
       <ul class="list-group">
-		    <%= link_to "Alle", beobachtungen_path , class: "list-group-item" %>
-        <%= link_to "Nicht Zugeordnete", beobachtungen_path(:transportabschnitt_id => nil) , class: "list-group-item" %>
+		    <%= link_to "Alle", beobachtungen_path(:zugeordnet => "a") , class: "list-group-item" %>
+        <%= link_to "Zugeordnete", beobachtungen_path(:zugeordnet => "j") , class: "list-group-item" %>
+        <%= link_to "Neue", beobachtungen_path(:zugeordnet => "n") , class: "list-group-item" %>
       </ul>
     </div>
     

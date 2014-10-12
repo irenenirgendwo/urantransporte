@@ -36,13 +36,9 @@
               <!--Javascript: Datum von abfahrts-zeit automatisch setzen bei veraenderung ankunfts_datum -->
               <div class="form-group">
                 Ankunftszeit:
-                <%= f.datetime_select :ankunft_zeit %>
+                <%= f.datetime_select(:ankunft_zeit, start_year:1990) %>
               </div>
             
-         
-         
-            
-          
               <div class="form-group">
                 Abfahrtszeit:
                 <%= f.datetime_select :abfahrt_zeit %>
