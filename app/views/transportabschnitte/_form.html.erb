@@ -18,31 +18,47 @@
     <%= hidden_field_tag :beobachtung_id, @beobachtung_id %>
   <% end %>
   
-  
-  <div class="row">
-    <div class="col-sm-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Start</h2>
+    </div>
+    <div class="panel-body">
       <p>
-        <strong>Startdatum des Transportabschnittes:</strong>
-        <%= f.text_field :start_datum %>
+        <strong>Startdatum des Transportabschnittes:</strong><br>
+        <%= f.datetime_select(:start_datum, start_year:1990) %>
       </p>
        <p>
         <strong>Anfangsort:</strong>
-        <%= f.text_field  :start_ort %>
+        <%= f.text_field  :start_ort, class: "form-control" %>
       </p>
-      <div class="field">
-        Verkehrstraeger: 
-        <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX) %>
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Ende</h2>
+    </div>
+    <div class="panel-body">
+      <div class="form-group">
+        <strong>Ende des Transportabschnittes:</strong><br>
+        <%= f.datetime_select(:end_datum, start_year:1990) %>
+      </div>
+      <div class="form-group">
+        <strong>Endort:</strong>
+        <%= f.text_field  :end_ort, class: "form-control" %>
       </div>
     </div>
-    <div class="col-sm-6">
-      <p>
-        <strong>Ende des Transportabschnittes:</strong>
-        <%= f.text_field  :end_datum %>
-      </p>
-       <p>
-        <strong>Endort:</strong>
-        <%= f.text_field  :end_ort %>
-      </p>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Verkehrsmittel</h2>
+    </div>
+    <div class="panel-body">
+      <div class="field">
+        Verkehrstraeger: 
+        <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, "unbekannt"), class: "form-control" %>
+      </div>
       <div class="field">
         Transportfirma:
         <%= collection_select(:transportabschnitt, :firma_id, Firma.all, :id, :name) %>
@@ -50,10 +66,9 @@
       </div>
     </div>
   </div>
-  
  
 
-  <div class="actions">
+  <div class="button">
     <%= f.submit %>
   </div>
 <% end %>

@@ -23,13 +23,13 @@
 					
 			    <div class="form-group">
             <%= f.label :ort %><br>
-            <%= f.text_field :ort %><br>
+            <%= f.text_field :ort, class: "form-control"  %><br>
             Klicke auf die Karte, um den Standort genau festzulegen.
           </div>
   
           <div class="form-group">
             Fahrtrichtung des Transports:<br>
-            <%= f.text_field :fahrtrichtung %>
+            <%= f.text_field :fahrtrichtung, class: "form-control" %>
           </div>
 					
 		      
@@ -89,11 +89,11 @@
 					<div class="row">
 						<div class="col-sm-5">
 							Obere Nummer (zweistellig):
-							<%= f.text_field :gefahr_nummer %>
+							<%= f.text_field :gefahr_nummer, class: "form-control" %>
 					  </div>
 						<div class="col-sm-5">
 							Untere Nummter (vierstellig):
-							<%= f.text_field :un_nummer %>
+							<%= f.text_field :un_nummer, class: "form-control" %>
 					  </div>
 					</div>
         </div>
@@ -107,7 +107,8 @@
     <div class="panel-body"> 
       <div class="field">
           Verkehrsmittel: 
-          <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX) %><br>
+          <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, "unbekannt"), 
+             class: "form-control", id: "beobachtung_verkehrsmittel" %><br>
           Nach der Auswahl soll sich der nächste Teil jeweils anpassen. 
           (Javascript entsprechend schreiben mit ein und Ausblenden je nach Auswahl)
       </div>
@@ -120,58 +121,66 @@
           <h2 class="panel-title">Beschreibung</h2>
     </div>    
     <div class="panel-body"> 
-        <div class="form-group">
-          Beschreibung der Container / Ladung:<br>
-          <%= f.text_area :container_beschreibung %>
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="form-group">
+            Beschreibung der Container / Ladung:<br>
+            <%= f.text_area :container_beschreibung, class: "form-control" %>
+          </div>
         </div>
-        <div class="field">
-          <%= f.label :anzahl_container %><br>
-          <%= f.number_field :anzahl_container %>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <%= f.label :anzahl_container %><br>
+            <%= f.number_field :anzahl_container, class: "form-control", min:0 %>
+          </div>
         </div>
         
        
+        
+      </div>
+        
         <div class="beobachtung_zug">
 					<div class="field">
-						<%= f.label :lok_beschreibung %><br>
-						<%= f.text_field :lok_beschreibung %>
+						<strong>Beschreibung der Lok</strong> (Farbe, Aufschriften, Eisenbahngesellschaft, Typ, Diesel oder elektrisch)
+						<%= f.text_field :lok_beschreibung, class: "form-control" %>
 					</div>
 			  </div>
         
-        
         <div class="beobachtung_zug">
           <div class="field">
-            <%= f.label :zug_beschreibung %><br>
-            <%= f.text_area :zug_beschreibung %>
+            <strong>Beschreibung des Zuges</strong> (z.B. welche Wagen kommen im ganzen Zug vor, in welcher Reihenfolge, wo sind die Uranwagen positioniert,
+            gibt es Graffiti, wie viele Waggons hat der Zug?)
+            <%= f.text_area :zug_beschreibung, class: "form-control" %>
           </div>
         </div>
         <div class="beobachtung_lkw">
           <div class="field">
             <%= f.label :anzahl_lkw %><br>
-            <%= f.number_field :anzahl_lkw %>
+            <%= f.number_field :anzahl_lkw, class: "form-control", min:0 %>
           </div>
           <div class="field">
             <%= f.label :kennzeichen_lkw %><br>
-            <%= f.text_field :kennzeichen_lkw %>
+            <%= f.text_field :kennzeichen_lkw, class: "form-control" %>
           </div>
           <div class="field">
             <%= f.label :lkw_beschreibung %><br>
-            <%= f.text_area :lkw_beschreibung %>
+            <%= f.text_area :lkw_beschreibung, class: "form-control" %>
           </div>
         </div>
         <div class="beobachtung_schiff">
           <div class="field">
             <%= f.label :schiff_name %><br>
-            <%= f.text_field :schiff_name %>
+            <%= f.text_field :schiff_name, class: "form-control" %>
           </div>
           <div class="field">
             <%= f.label :schiff_beschreibung %><br>
-            <%= f.text_area :schiff_beschreibung %>
+            <%= f.text_area :schiff_beschreibung, class: "form-control" %>
           </div>
         </div>
         
         <div class="form-group">
           Transportfirma (Aufschrift der Reederei, Spedition, Bahnunternehmen):<br>
-          <%= f.text_field :firma_beschreibung %>
+          <%= f.text_field :firma_beschreibung, class: "form-control" %>
         </div>
       </div>
   </div>

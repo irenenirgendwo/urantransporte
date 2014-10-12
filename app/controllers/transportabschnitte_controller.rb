@@ -18,6 +18,7 @@ class TransportabschnitteController < ApplicationController
   def new
     @transport = Transport.find(params[:transport_id].to_i) if params[:transport_id]
     @beobachtung_id = params[:beobachtung_id].to_i if params[:beobachtung_id]
+    @beobachtung = Beobachtung.find(@beobachtung_id)
     @transportabschnitt = Transportabschnitt.new
   end
 
@@ -36,13 +37,13 @@ class TransportabschnitteController < ApplicationController
       redirection_path = transport if transport 
     end
     if params[:beobachtung_id]
-      beobachtung = Beobachtung.find(params[:beobachtung_id].to_i)
-      beobachtung.transportabschnitt = @transportabschnitt if beobachtung 
-      redirection_path = beobachtung if beobachtung
+      @beobachtung = Beobachtung.find(params[:beobachtung_id].to_i)
+      @beobachtung.transportabschnitt = @transportabschnitt if @beobachtung 
+      redirection_path = @beobachtung if @beobachtung
     end
     respond_to do |format|
       if @transportabschnitt.save
-        beobachtung.save if beobachtung
+        @beobachtung.save if @beobachtung
         format.html { redirect_to redirection_path, notice: 'Transportabschnitt was successfully created.' }
         format.json { render :show, status: :created, location: @transportabschnitt }
       else
