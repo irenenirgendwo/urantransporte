@@ -4,26 +4,43 @@
 
 <h1>Beobachtungen</h1>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Datum</th>
-      <th>Ort</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div class="row">
+  <div class="col-sm-3">
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Anzeigen</h3>
+      </div>
+      <ul class="list-group">
+		    <%= link_to "Alle", beobachtungen_path , class: "list-group-item" %>
+        <%= link_to "Nicht Zugeordnete", beobachtungen_path(:transportabschnitt_id => nil) , class: "list-group-item" %>
+      </ul>
+    </div>
+    
+  </div>
+  <div class="col-sm-9">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Ort</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <% @beobachtungen.each do |beobachtung| %>
-      <tr>
-        <td><%= beobachtung.start_datum.to_formatted_s(:dmy)   %></td>
-        <td><%= beobachtung.ort %></td>
-        <td><%= link_to 'Show', beobachtung %></td>
-        <td><%= link_to 'Bearbeiten', edit_beobachtung_path(beobachtung) %></td>
-        <td><%= link_to 'Löschen', beobachtung, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <tbody>
+        <% @beobachtungen.each do |beobachtung| %>
+          <tr>
+            <td><%= beobachtung.ankunft_zeit.to_formatted_s(:dmyz)   %></td>
+            <td><%= beobachtung.ort %></td>
+            <td><%= link_to 'Show', beobachtung %></td>
+            <td><%= link_to 'Bearbeiten', edit_beobachtung_path(beobachtung) %></td>
+            <td><%= link_to 'Löschen', beobachtung, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-<%= will_paginate %>
+    <%= will_paginate %>
+  </div>
+</div>

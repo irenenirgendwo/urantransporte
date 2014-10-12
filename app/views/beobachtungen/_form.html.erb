@@ -32,34 +32,23 @@
             <%= f.text_field :fahrtrichtung %>
           </div>
 					
-					<div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                Datum der Sichtung: 
-                <%= f.text_field :start_datum %>
-              </div>
-            </div>
-            <div class="col-sm-6">
+		      
+              <!--Javascript: Datum von abfahrts-zeit automatisch setzen bei veraenderung ankunfts_datum -->
               <div class="form-group">
                 Ankunftszeit:
-                <%= f.time_select :ankunft_zeit %>
+                <%= f.datetime_select :ankunft_zeit %>
               </div>
-            </div>
-         </div>
-         <div class="row">
-            <div class="col-sm-6">
-               <div class="form-group">
-                Abfahrtsdatum:
-                <%= f.text_field :end_datum %>
-              </div>
-            </div>
-            <div class="col-sm-6">
+            
+         
+         
+            
+          
               <div class="form-group">
                 Abfahrtszeit:
-                <%= f.time_select :abfahrt_zeit %>
+                <%= f.datetime_select :abfahrt_zeit %>
               </div>
-            </div>
-        </div>
+            
+       
 					
 					
 				</div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141011172927) do
+ActiveRecord::Schema.define(version: 20141012103238) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                 null: false
@@ -42,15 +42,13 @@ ActiveRecord::Schema.define(version: 20141011172927) do
   end
 
   create_table "beobachtungen", force: true do |t|
-    t.date     "start_datum"
-    t.date     "end_datum"
     t.string   "ort"
     t.text     "beschreibung"
     t.integer  "transportabschnitt_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.time     "ankunft_zeit"
-    t.time     "abfahrt_zeit"
+    t.datetime "ankunft_zeit"
+    t.datetime "abfahrt_zeit"
     t.float    "lat"
     t.float    "lon"
     t.string   "verkehrstraeger"
