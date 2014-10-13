@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" id="show_transportabschnitt_panel">
     <div class="panel-heading">
       <h2 class="panel-title">Zuordnung zu einem Transport(abschnitt)</h2>
     </div>
@@ -56,14 +56,23 @@
           <% end %>
           
           <h4>Mögliche Transporte</h4>
+          <p> 
+            Es werden die Transportabschnitte rund um das Beobachtungsdatum herum angezeigt. Dabei werden
+            <%= number_field_tag "toleranz_tage", @toleranz_tage, min:0 %> Tage vor bzw. nach dem Datum angerechnet.
+            <script type="text/javascript">
+              beobachtung_toleranz_tage()
+            </script>
+          </p>
           
           <% if @transporte.nil? || @transporte.empty? %>
               <p>
-                Passende Transporte wurden auch nicht gefunden.
+                Passende Transporte wurden nicht gefunden.
               </p>
           <%  else %>
-            Wenn die Beobachtung zu einem der folgenden aufgelisteteten Transporte passt, wähle "Neuen Transportabschnitt anlegen"
-            um einen neuen Transportabschnitt zum jeweiligen Transport zu erstellen, der automatisch dieser Beobachtung zugeordnet wird.
+            <p>
+               Wenn die Beobachtung zu einem der folgenden aufgelisteteten Transporte passt, wähle "Neuen Transportabschnitt anlegen"
+               um einen neuen Transportabschnitt zum jeweiligen Transport zu erstellen, der automatisch dieser Beobachtung zugeordnet wird.
+            </p>
             <table class="table table-striped">
               <thead>
                 <tr>

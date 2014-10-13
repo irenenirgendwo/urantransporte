@@ -16,3 +16,15 @@
 //= require_tree .
 //= require leaflet
 //= require bootstrap
+
+function beobachtung_toleranz_tage(){          
+  $("#toleranz_tage").change(function() {
+    var beobachtung_id, tage;
+    beobachtung_id = $("#beobachtung_id").val();
+    tage = $("#toleranz_tage").val();
+    jQuery.get("/beobachtungen/set_toleranz_tage/" + beobachtung_id + "/" + tage, function(data) {
+      return $("#show_transportabschnitt_panel").html(data);
+    });
+    return false;
+  });
+}

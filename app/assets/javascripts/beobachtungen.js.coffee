@@ -24,5 +24,3 @@ $(document).on "ready page:change", ->
         $(".beobachtung_lkw").hide()
         $(".beobachtung_zug").hide()
         $(".beobachtung_schiff").hide()
-  $("#radioaktiv_kennzeichen").click ->
-    alert("radioaktiv gewaehlt")

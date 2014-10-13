@@ -1,5 +1,5 @@
 class BeobachtungenController < ApplicationController
-  before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :abschnitt_zuordnen]
+  before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :abschnitt_zuordnen, :set_toleranz_tage]
 
   # GET /beobachtungen
   # GET /beobachtungen.json
@@ -18,6 +18,7 @@ class BeobachtungenController < ApplicationController
   # GET /beobachtungen/1
   # GET /beobachtungen/1.json
   def show
+    @toleranz_tage = params[:tage] ? params[:tage].to_i : 4
     @transportabschnitte = Transportabschnitt.get_abschnitte_from_time(@beobachtung.ankunft_zeit)
     @transporte = Transport.get_transporte_around(@beobachtung.ankunft_zeit,4)
   end
@@ -79,6 +80,13 @@ class BeobachtungenController < ApplicationController
       end
    end
    redirect_to @beobachtung, notice: "Fehler: Transportabschnitt wurde nicht zugeordnet."
+  end
+  
+  def set_toleranz_tage
+    @transportabschnitte = Transportabschnitt.get_abschnitte_from_time(@beobachtung.ankunft_zeit)
+    @toleranz_tage = params[:tage].to_i
+    @transporte = Transport.get_transporte_around(@beobachtung.ankunft_zeit,@toleranz_tage)
+    render :partial => "show_transportabschnitt", :locals => {:beobachtung => @beobachtung}
   end
 
   private

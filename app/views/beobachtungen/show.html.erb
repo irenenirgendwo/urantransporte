@@ -10,6 +10,8 @@
 
 <!-- Fuer die Uebersichtlichkeit ausgelagerte einzelne Panels -->
 
+<%= hidden_field_tag "beobachtung_id", @beobachtung.id %>
+
 <%= render "show_eckdaten", beobachtung: @beobachtung %>
 
 <%= render "show_beschreibung", beobachtung: @beobachtung %>

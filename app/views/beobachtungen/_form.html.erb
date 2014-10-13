@@ -17,11 +17,11 @@
           <h2 class="panel-title">Eckdaten</h2>
     </div>
     <div class="panel-body">
-			
-			<div class="row">
-				<div class="col-sm-6">
-					
-			    <div class="form-group">
+      
+      <div class="row">
+        <div class="col-sm-6">
+          
+          <div class="form-group">
             <%= f.label :ort %><br>
             <%= f.text_field :ort, class: "form-control"  %><br>
             Klicke auf die Karte, um den Standort genau festzulegen.
@@ -31,8 +31,8 @@
             Fahrtrichtung des Transports:<br>
             <%= f.text_field :fahrtrichtung, class: "form-control" %>
           </div>
-					
-		      
+          
+          
               <!--Javascript: Datum von abfahrts-zeit automatisch setzen bei veraenderung ankunfts_datum -->
               <div class="form-group">
                 Ankunftszeit:
@@ -45,10 +45,10 @@
               </div>
             
        
-					
-					
-				</div>
-				<div class="col-sm-5">
+          
+          
+        </div>
+        <div class="col-sm-5">
 
           <input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control">
             <%= f.hidden_field :lat, class: "form-control" %>
@@ -86,16 +86,16 @@
         </div>
         <strong>Orange Gefahrguttafel:</strong>
         <div class="form-group">
-					<div class="row">
-						<div class="col-sm-5">
-							Obere Nummer (zweistellig):
-							<%= f.text_field :gefahr_nummer, class: "form-control" %>
-					  </div>
-						<div class="col-sm-5">
-							Untere Nummter (vierstellig):
-							<%= f.text_field :un_nummer, class: "form-control" %>
-					  </div>
-					</div>
+          <div class="row">
+            <div class="col-sm-5">
+              Obere Nummer (zweistellig):
+              <%= f.text_field :gefahr_nummer, class: "form-control" %>
+            </div>
+            <div class="col-sm-5">
+              Untere Nummter (vierstellig):
+              <%= f.text_field :un_nummer, class: "form-control" %>
+            </div>
+          </div>
         </div>
     </div>   
   </div>
@@ -140,11 +140,11 @@
       </div>
         
         <div class="beobachtung_zug">
-					<div class="field">
-						<strong>Beschreibung der Lok</strong> (Farbe, Aufschriften, Eisenbahngesellschaft, Typ, Diesel oder elektrisch)
-						<%= f.text_field :lok_beschreibung, class: "form-control" %>
-					</div>
-			  </div>
+          <div class="field">
+            <strong>Beschreibung der Lok</strong> (Farbe, Aufschriften, Eisenbahngesellschaft, Typ, Diesel oder elektrisch)
+            <%= f.text_field :lok_beschreibung, class: "form-control" %>
+          </div>
+        </div>
         
         <div class="beobachtung_zug">
           <div class="field">
