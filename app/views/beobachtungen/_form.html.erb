@@ -73,7 +73,7 @@
     <div class="panel-body">   
         <div class="form-group">
           <%= f.check_box :kennzeichen_radioaktiv %> 
-          <%= image_tag "radioaktiv.jpg", alt: "radioaktiv", size: "70x70" %>
+          <%= image_tag "radioaktiv.jpg", alt: "radioaktiv", size: "70x70", id: "radioaktiv_kennzeichen" %>
           
           <%= f.check_box :kennzeichen_aetzend %>
           <%= image_tag "aetzend.jpg", alt: "ätzend", size: "70x70" %>
@@ -108,7 +108,7 @@
       <div class="field">
           Verkehrsmittel: 
           <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, "unbekannt"), 
-             class: "form-control", id: "beobachtung_verkehrsmittel" %><br>
+             class: "form-control" %><br>
           Nach der Auswahl soll sich der nächste Teil jeweils anpassen. 
           (Javascript entsprechend schreiben mit ein und Ausblenden je nach Auswahl)
       </div>
