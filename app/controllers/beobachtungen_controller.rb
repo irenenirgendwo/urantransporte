@@ -1,8 +1,10 @@
 class BeobachtungenController < ApplicationController
   before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :abschnitt_zuordnen, :set_toleranz_tage]
 
+  # Zeigt alle noch nicht zu Transportabschnitten zugeordneten Beobachtungen an. (zugeordnet="n"
+  # Es ist auch möglich, alle Beobachtungen anzeigen zu lassen (zugeordnet="a").
   # GET /beobachtungen
-  # GET /beobachtungen.json
+  #
   def index
     @beobachtungen = 
       case params[:zugeordnet]
@@ -15,12 +17,16 @@ class BeobachtungenController < ApplicationController
       end 
   end
 
+  # Zeigt eine Beobachtung mit allen Daten und zugeordnetem Transportabschnitt an.
+  # Ist kein Transportabschnitt zugeordnet, kann einer ausgewaehlt werden.
   # GET /beobachtungen/1
-  # GET /beobachtungen/1.json
+  #
   def show
     @toleranz_tage = params[:tage] ? params[:tage].to_i : 4
-    @transportabschnitte = Transportabschnitt.get_abschnitte_from_time(@beobachtung.ankunft_zeit)
-    @transporte = Transport.get_transporte_around(@beobachtung.ankunft_zeit,4)
+    unless @beobachtung.transportabschnitt
+      @transportabschnitte = Transportabschnitt.get_abschnitte_from_time(@beobachtung.ankunft_zeit)
+      @transporte = Transport.get_transporte_around(@beobachtung.ankunft_zeit,4)
+    end
   end
 
   # GET /beobachtungen/new
@@ -64,6 +70,7 @@ class BeobachtungenController < ApplicationController
 
   # DELETE /beobachtungen/1
   # DELETE /beobachtungen/1.json
+  #
   def destroy
     @beobachtung.destroy
     respond_to do |format|
@@ -72,6 +79,10 @@ class BeobachtungenController < ApplicationController
     end
   end
   
+  # Ordnet einen Transportabschnitt dieser Beobachtung zu.
+  # Danach wird wieder die Beobachtung angezeigt (show-Methode).
+  # POST
+  #
   def abschnitt_zuordnen
     if params[:abschnitt].to_i
       @beobachtung.transportabschnitt = Transportabschnitt.find(params[:abschnitt].to_i)
@@ -82,6 +93,11 @@ class BeobachtungenController < ApplicationController
    redirect_to @beobachtung, notice: "Fehler: Transportabschnitt wurde nicht zugeordnet."
   end
   
+  # laedt das Partial zu der Transporabschnittszuordnung neu, mit einer neuen Toleranzschwelle 
+  # fuer das Transportdatum der angezeigten passenden Transporte.
+  # Wird mittels Javascript beim Setzen des neuen Schwellenwertes aufgerufen.
+  # GET beobachtung/set_toleranz_tage/1/5
+  #
   def set_toleranz_tage
     @transportabschnitte = Transportabschnitt.get_abschnitte_from_time(@beobachtung.ankunft_zeit)
     @toleranz_tage = params[:tage].to_i

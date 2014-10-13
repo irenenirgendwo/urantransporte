@@ -7,6 +7,18 @@
   <% if @beobachtung %>
     <%= render "beobachtungen/eingabehilfe", beobachtung: @beobachtung %>
   <% end %>
+  <% if @transport %>
+    <div class="col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1 class="panel-title">Eingabehilfe: Transportgrunddaten </h1>
+        </div>
+        <div class="panel-body">
+          <%= render "transporte/show_transport_grunddaten", transport: @transport %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
 
 <%= link_to 'Back', transportabschnitte_path %>

@@ -1,3 +1,18 @@
 // Place all the styles related to the stoffe controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.gefahrentafel {
+  height: 9em;
+  width: 12em;
+  background-color: #fe9900;
+  border: 2px solid black;
+}
+
+.un-nummer, .gefahr-nummer {
+  border: 2px solid black;
+  height: 50%;
+  text-align: center;
+  font-size: 300%;
+  line-height: 1.2em;
+}

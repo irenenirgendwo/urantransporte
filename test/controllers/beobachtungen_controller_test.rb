@@ -2,7 +2,8 @@ require 'test_helper'
 
 class BeobachtungenControllerTest < ActionController::TestCase
   setup do
-    @beobachtung = beobachtungen(:one)
+    @beobachtung = beobachtungen(:zug)
+    @beobachtung_lkw = beobachtungen(:lkw)
   end
 
   test "should get index" do
@@ -17,8 +18,17 @@ class BeobachtungenControllerTest < ActionController::TestCase
   end
 
   test "should create beobachtung" do
+    # Ohne Zeit geht nichts
+    assert_no_difference('Beobachtung.count') do
+      post :create, beobachtung: { ort: @beobachtung.ort }
+    end
+    # Ohne Ort auch nicht
+    assert_no_difference('Beobachtung.count') do
+      post :create, beobachtung: { ankunft_zeit: @beobachtung.abfahrt_zeit }
+    end
+    # So muss es gehen
     assert_difference('Beobachtung.count') do
-      post :create, beobachtung: { beschreibung: @beobachtung.beschreibung }
+      post :create, beobachtung: { ort: @beobachtung.ort, ankunft_zeit: @beobachtung.ankunft_zeit }
     end
 
     assert_redirected_to beobachtung_path(assigns(:beobachtung))

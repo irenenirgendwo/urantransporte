@@ -10,20 +10,7 @@
   color: white;
 }
 
-.gefahrentafel {
-  height: 9em;
-  width: 12em;
-  background-color: #fe9900;
-  border: 2px solid black;
-}
 
-.un-nummer, .gefahr-nummer {
-  border: 2px solid black;
-  height: 50%;
-  text-align: center;
-  font-size: 300%;
-  line-height: 1.2em;
-}
 
 .field_with_errors {
   @extend .has-error;

@@ -1,7 +1,52 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  beschreibung: MyText
+zug:
+  ankunft_zeit: 2014-10-11 19:46:58
+  abfahrt_zeit: 2014-10-11 19:46:58
+  ort: MyString
+  lat: 1.5
+  lon: 1.5
+  fahrtrichtung: MyString
+  verkehrstraeger: MyString
+  kennzeichen_radioaktiv: false
+  kennzeichen_aetzend: false
+  kennzeichen_spaltbar: false
+  kennzeichen_umweltgefaehrdend: false
+  gefahr_nummer: MyString
+  un_nummer: 
+  firma_beschreibung: MyString
+  lok_beschreibung: MyString
+  container_beschreibung: MyText
+  anzahl_container: 1
+  zug_beschreibung: MyText
+  polizei: false
+  hubschrauber: false
+  foto: false
+  quelle: MyString
+  email: MyString
 
-two:
-  beschreibung: MyText
+lkw:
+  ankunft_zeit: 2014-10-11 19:46:58
+  abfahrt_zeit: 2014-10-11 19:46:58
+  ort: MyString
+  lat: 1.5
+  lon: 1.5
+  fahrtrichtung: MyString
+  verkehrstraeger: MyString
+  kennzeichen_radioaktiv: false
+  kennzeichen_aetzend: false
+  kennzeichen_spaltbar: false
+  kennzeichen_umweltgefaehrdend: false
+  gefahr_nummer: MyString
+  un_nummer: 
+  firma_beschreibung: MyString
+  container_beschreibung: MyText
+  anzahl_container: 1
+  anzahl_lkw: 1
+  kennzeichen_lkw: MyString
+  lkw_beschreibung: MyText
+  polizei: false
+  hubschrauber: false
+  foto: false
+  quelle: MyString
+  email: MyString

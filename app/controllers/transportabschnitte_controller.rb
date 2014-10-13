@@ -17,8 +17,10 @@ class TransportabschnitteController < ApplicationController
   # GET /transportabschnitte/new
   def new
     @transport = Transport.find(params[:transport_id].to_i) if params[:transport_id]
-    @beobachtung_id = params[:beobachtung_id].to_i if params[:beobachtung_id]
-    @beobachtung = Beobachtung.find(@beobachtung_id)
+    if params[:beobachtung_id]
+      @beobachtung_id = params[:beobachtung_id].to_i if params[:beobachtung_id]
+      @beobachtung = Beobachtung.find(@beobachtung_id)
+    end
     @transportabschnitt = Transportabschnitt.new
   end
 
