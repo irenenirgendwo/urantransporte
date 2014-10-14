@@ -3,14 +3,20 @@
 === How to work on the project
 
 * Install ruby, version 2.1.
-* Install rails with "gem install rails".
+* Install rails with <code>gem install rails</code>.
 * Install git.
-* Get projekt with "git clone https://github.com/irenenirgendwo/urantransporte" to local folder.
-* Run "bundle install" in project folder.
-* Run "rake db:setup" or "rake db:migrate" and "rake db:seed" to create the database.
-* Run "rails server" to start the development server.
+* Get projekt with <code>git clone https://github.com/irenenirgendwo/urantransporte</code> to local folder.
+* Run <code>bundle install</code> in project folder.
+* Run <code>rake db:setup</code> or <code>rake db:migrate</code> and <code>rake db:seed</code> to create the database.
+* Run <code>rails server</code> to start the development server.
 If it does not work, maybe you'll need a javascript runtime environment, install for example node.js
-* Watch http://localhost:3000/ to enjoy the work. 
+* Watch http://localhost:3000/ to enjoy the work.
+
+==== Get admin rights
+* Create user
+* Run <code>rails c</code> to enter rails console
+* Run <code>user = User.find_by(email: "your email")</code> to find your user
+* Run <code>user.update(:role => :admin)</code> or <code>user.update(:role => :editor)</code> to set your user role
 
 === Later: How to get the application running
 
