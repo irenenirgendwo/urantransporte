@@ -15,3 +15,12 @@
 .field_with_errors {
   @extend .has-error;
 }
+
+.jumbotron-image {
+  background-image: url('background-jumbotron.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  margin-top: -20px;
+}

@@ -1,11 +1,11 @@
-
-
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Daten-Eingabe</h3>
       </div>
       <ul class="list-group">
-		<%= link_to "Transportdaten aus csv-Dateien einlesen", upload_index_path, class: "list-group-item" %>
+        <% if is_editor? %>
+          <%= link_to "Transportdaten aus csv-Dateien einlesen", upload_index_path, class: "list-group-item" %>
+        <% end %>
         <%= link_to "Beobachtung eingeben", new_beobachtung_path, class: "list-group-item" %>
       </ul>
     </div>

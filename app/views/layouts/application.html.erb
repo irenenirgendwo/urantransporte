@@ -10,16 +10,8 @@
   
     <%= render "layouts/navbar" %>
     
-    <% unless true %>
-      <div class="col-sm-2" id="navigation_seitenleiste">  
-        <h2> Navigation </h2> 
-        <%= render "layouts/side_navigation" %>
-      </div>
-      <div class="col-sm-9">
-        <div class="container">
-          <%= yield %>
-        </div>
-      </div>
+    <% if current_page?('/') %>
+      <%= yield %>
     <% else %>
       <div class="container">
         <% flash.each do |message_type, message| %>
