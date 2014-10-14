@@ -1,6 +1,6 @@
 class StoffeController < ApplicationController
   before_action :set_stoff, only: [:show, :edit, :update, :destroy]
-
+  before_action :editor_user, only: [:new, :edit, :create, :update, :destroy]
   # GET /stoffe
   # GET /stoffe.json
   def index

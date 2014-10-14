@@ -1,5 +1,6 @@
 # encoding: UTF-8
 class UploadController < ApplicationController
+  before_action :editor_user
 
   require 'csv'
   require 'date'

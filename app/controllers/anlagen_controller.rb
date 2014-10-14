@@ -1,7 +1,8 @@
 # encoding: utf-8
 class AnlagenController < ApplicationController
   before_action :set_anlage, only: [:show, :edit, :update, :destroy]
-
+  before_action :editor_user, only: [:new, :edit, :create, :update, :destroy]
+  
   # GET /anlagen
   # GET /anlagen.json
   def index

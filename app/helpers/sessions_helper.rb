@@ -50,12 +50,33 @@ module SessionsHelper
     session[:forwarding_url] = request.url if request.get?
   end
   
-  def admin?
+  def is_admin?
     logged_in? && current_user.admin?
   end
   
-  def editor?
+  def is_editor?
     logged_in? && (current_user.admin? || current_user.editor?)
+  end
+  
+  def logged_in_user
+    unless logged_in?
+      store_location
+      flash[:danger] = "Bitte anmelden."
+      redirect_to login_url
+    end
+  end
+    
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_url) unless current_user?(@user) || is_admin?
+  end
+    
+  def admin_user
+    redirect_to(root_url) unless is_admin?
+  end
+  
+  def editor_user
+    redirect_to(root_url) unless is_editor?
   end
   
 end

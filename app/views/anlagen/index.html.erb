@@ -20,9 +20,10 @@
         <td><%= link_to anlage.name, anlage %></td>
         <td><%= anlage.ort %></td>
         <td><%= anlage.beschreibung %></td>
-        <td><%= link_to 'Show', anlage %></td>
-        <td><%= link_to 'Bearbeiten', edit_anlage_path(anlage) %></td>
-        <td><%= link_to 'Löschen', anlage, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if is_editor? %>
+          <td><%= link_to 'Bearbeiten', edit_anlage_path(anlage) %></td>
+          <td><%= link_to 'Löschen', anlage, method: :delete, data: { confirm: 'Möchtest du die Atomanlage wirklich löschen?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

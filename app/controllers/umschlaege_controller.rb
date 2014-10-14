@@ -1,5 +1,6 @@
 class UmschlaegeController < ApplicationController
   before_action :set_umschlag, only: [:show, :edit, :update, :destroy]
+  before_action :editor_user, only: [:new, :edit, :create, :update, :destroy]
 
   # GET /umschlaege
   # GET /umschlaege.json

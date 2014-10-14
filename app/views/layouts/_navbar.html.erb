@@ -42,7 +42,7 @@
       
       <ul class="nav navbar-nav navbar-right">
         <% if logged_in? %>
-          <% if admin? %>
+          <% if is_admin? %>
             <li><%= link_to "Benutzerverwaltung", users_path %></li>
           <% end %>
           <li class="dropdown">
