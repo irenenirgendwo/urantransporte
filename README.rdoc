@@ -16,7 +16,7 @@ If it does not work, maybe you'll need a javascript runtime environment, install
 * Create user
 * Run <code>rails c</code> to enter rails console
 * Run <code>user = User.find_by(email: "your email")</code> to find your user
-* Run <code>user.update(:role => :admin</code> or <code>user.update(:role => :editor</code> to set your user role
+* Run <code>user.update(:role => :admin)</code> or <code>user.update(:role => :editor)</code> to set your user role
 
 === Later: How to get the application running
 
