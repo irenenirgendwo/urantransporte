@@ -1,6 +1,8 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
+# Funktioniert aus irgendeinem Grund nicht ausser bei Seite aktualisieren, 
+# deswegen jetzt mit Javascript in application.js
 $(document).on "ready page:change", ->
   $(".beobachtung_lkw").hide()
   $(".beobachtung_zug").hide()
