@@ -27,8 +27,15 @@
 
 .thumbnail .thumbnail-div {
   width: 100%;
-  height: 200px;
+  height: 170px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.thumbnail .caption h4 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
 }

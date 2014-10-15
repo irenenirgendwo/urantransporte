@@ -6,11 +6,15 @@ class AnlagenController < ApplicationController
   # GET /anlagen
   # GET /anlagen.json
   def index
+    @anlagen = Anlage.all
     if params[:search]
-      @anlagen = Anlage.where("name LIKE ?", "%#{params[:search]}%").order(:name).paginate(page: params[:page], per_page: 12)
-    else
-      @anlagen = Anlage.order(:name).paginate(page: params[:page], per_page: 12)
+      @anlagen = @anlagen.where("name LIKE ?", "%#{params[:search]}%")
     end
+    if params[:kategorie]
+      @anlagen = @anlagen.where(:anlagen_kategorie_id => params[:kategorie])
+    end
+    @kategorien = AnlagenKategorie.get_kategorien_for_selection_field;
+    @anlagen = @anlagen.order(:name).paginate(page: params[:page], per_page: 12)
   end
 
   # GET /anlagen/1
