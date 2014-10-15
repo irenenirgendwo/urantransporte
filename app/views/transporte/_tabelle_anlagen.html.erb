@@ -1,0 +1,38 @@
+<% unless transporte.empty? %>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Datum</th>
+        <th>Stoff</th>
+        <% if mode == :an %>
+          <th>Start</th>
+        <% else %>
+          <th>Ziel</th>
+        <% end %>
+        <% if is_editor? %>
+          <th colspan="2"></th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% transporte.each do |transport| %>
+        <tr>
+          <td><%= link_to transport.datum, transport %></td>
+          <td><%= link_to transport.stoff, transport.stoff %></td>
+          <% if mode == :an %>
+            <td><%= link_to transport.start_anlage, transport.start_anlage %></td>
+          <% else %>
+            <td><%= link_to transport.ziel_anlage, transport.ziel_anlage %></td>
+          <% end %>
+          <% if is_editor? %>
+            <td><%= link_to 'Bearbeiten', edit_transport_path(transport) %></td>
+            <td><%= link_to 'Löschen', transport, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+<% end %>

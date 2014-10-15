@@ -4,44 +4,36 @@
         <%= link_to 'Löschen', @anlage, method: :delete, data: { confirm: 'Willst du die Anlage wirklich löschen?' }, class: "btn btn-danger" %></td>
   </div>
 <% end %>
-<h1><%= @anlage.name %></h1>
-
-<p id="notice"><%= notice %></p>
+<h1>
+  <%= @anlage.name %> 
+  <br>
+  <small>
+  <% unless @anlage.name.include?(@anlage.anlagen_kategorie.to_s) %>
+    <%= @anlage.anlagen_kategorie %>
+  <% end %>
+  <% unless @anlage.name.include?(@anlage.ort) %>
+    in <%= @anlage.ort %>
+  <% end %>
+  </small>
+</h1>
 
 <div class="row">
-  <div class="col-sm-7">
+  <div class="col-sm-8">
     <% if @anlage.beschreibung? %>
       <p><%= @anlage.beschreibung %></p>
     <% end %>
-    <p>
-      <strong>Adresse:</strong>
-      <%= @anlage.adresse %>
-    </p>
 
-    <p>
-      <strong>Plz:</strong>
-      <%= @anlage.plz %>
-    </p>
-
-    <p>
-      <strong>Ort:</strong>
-      <%= @anlage.ort %>
-    </p>
-    
-    <p>
-      <strong>Kategorie:</strong>
-      <%= @anlage.anlagen_kategorie %>
-    </p>
-
-    <h3> Synonyme für die Anlage </h3>
-
-    <ul>
-    <% @synonyme.each do |synonym| %>
-      <li><%= synonym %></li>
+    <% if is_editor? %>
+      <h3> Synonyme für die Anlage </h3>
+      <ul>
+      <% @synonyme.each do |synonym| %>
+        <li><%= synonym %></li>
+      <% end %>
+      </ul>
     <% end %>
-    </ul>
+      
   </div>
-  <div class="col-sm-5">
+  <div class="col-sm-4">
     <% if @anlage.bild_url? %>
       <img src="<%= @anlage.bild_url %>" class="img-responsive" alt="<%= @anlage.name %>">
     <% end %>
@@ -53,9 +45,18 @@
   </div>
 </div>
 
-<h2>Transporte</h2>
-
-<%= render 'transporte/tabelle' %>
-
-<%= link_to 'Back', anlagen_path %>
+<div class="row">
+  <% unless @transporte_ab.empty? %>
+    <div class="col-sm-6">
+      <h3>Transporte von hier</h3>
+      <%= render "transporte/tabelle_anlagen", transporte: @transporte_ab, mode: :ab %>
+    </div>
+  <% end %>
+  <% unless @transporte_an.empty? %>
+    <div class="col-sm-6">
+      <h3>Transporte hierher</h3>
+      <%= render "transporte/tabelle_anlagen", transporte: @transporte_an, mode: :an %>
+    </div>
+  <% end %>
+</div>
 
