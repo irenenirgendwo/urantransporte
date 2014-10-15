@@ -44,5 +44,9 @@ class Transport < ActiveRecord::Base
     # evtl. was anderes machen als einfach hinzufuegen.
     return true
   end
+  
+  def self.get_orte
+    Transport
+  end
 
 end
