@@ -1,32 +1,45 @@
-<div class="btn-group header-buttons">
-  <%= link_to 'Neue Atomanlage', new_anlage_path, class: "btn btn-success" %>
-</div>
+<% if is_editor? %>
+  <div class="btn-group header-buttons">
+    <%= link_to 'Neue Atomanlage', new_anlage_path, class: "btn btn-success" %>
+  </div>
+<% end %>
 
 <h1>Atomanlagen</h1>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Ort</th>
-      <th>Beschreibung</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<%= form_tag anlagen_path, method: 'get' do %>
+  <div class="form-group">
+    <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "Suchen" %>
+  </div>
+<% end %>
 
-  <tbody>
+<% unless @anlagen %>
+
+  <p>Keine Anlagen gefunden.</p>
+  
+<% else %>
+
+  <div class="row">
     <% @anlagen.each do |anlage| %>
-      <tr>
-        <td><%= link_to anlage.name, anlage %></td>
-        <td><%= anlage.ort %></td>
-        <td><%= anlage.beschreibung %></td>
-        <% if is_editor? %>
-          <td><%= link_to 'Bearbeiten', edit_anlage_path(anlage) %></td>
-          <td><%= link_to 'Löschen', anlage, method: :delete, data: { confirm: 'Möchtest du die Atomanlage wirklich löschen?' } %></td>
-        <% end %>
-      </tr>
+      <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+          <%= link_to anlage do %>
+            <div class="thumbnail-div"
+              <% if anlage.bild_url? %>
+                style="background-image: url(<%= anlage.bild_url %>)"
+              <% else %>
+                style="background-image: url(http://upload.wikimedia.org/wikipedia/commons/1/16/Nuclear_power_plant_2D.svg)"
+              <% end %>
+            ></div>
+          <% end %>
+          <div class="caption">
+            <h4><%= link_to anlage.name, anlage %></h4>
+          </div>
+        </div>
+      </div>
     <% end %>
-  </tbody>
-</table>
+  </div>
+  
+  <%= will_paginate %>
+  
+<% end %>
 
-<%= will_paginate %>

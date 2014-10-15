@@ -6,7 +6,11 @@ class AnlagenController < ApplicationController
   # GET /anlagen
   # GET /anlagen.json
   def index
-    @anlagen = Anlage.paginate(page: params[:page], per_page: 20)
+    if params[:search]
+      @anlagen = Anlage.where("name LIKE ?", "%#{params[:search]}%").order(:name).paginate(page: params[:page], per_page: 12)
+    else
+      @anlagen = Anlage.order(:name).paginate(page: params[:page], per_page: 12)
+    end
   end
 
   # GET /anlagen/1
