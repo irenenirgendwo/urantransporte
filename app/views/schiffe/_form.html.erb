@@ -1,18 +1,43 @@
 <%= form_for(@schiff) do |f| %>
 
-  <div class="form-group">
-    <%= f.label :name, "Name" %><br>
-    <%= f.text_field :name, class: "form-control" %>
+  <div class="row">
+
+    <div class="col-sm-7">
+      <div class="form-group">
+        <%= f.label :name, "Name" %><br>
+        <%= f.text_field :name, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :imo, "IMO-Nummer" %><br>
+        <%= f.text_field :imo, class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :vesselfinder_url, "Vesselfinder-URL" %><br>
+        <%= f.text_field :vesselfinder_url, class: "form-control" %>
+      </div>
+    </div>
+    
+    <div class="col-sm-5">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">Bild</h2>
+        </div>
+        <div class="panel-body">
+          <p>Hier kann ein Link zu einem Bild der Anlage angegeben werden.
+          <div class="form-group">
+            <%= f.label :bild_url, "URL" %><br>
+            <%= f.text_field :bild_url, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :bild_urheber, "Quellenangabe" %><br>
+            <%= f.text_field :bild_urheber, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </div>
-  <div class="form-group">
-    <%= f.label :imo, "IMO-Nummer" %><br>
-    <%= f.text_field :imo, class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= f.label :vesselfinder_url, "Vesselfinder-URL" %><br>
-    <%= f.text_field :vesselfinder_url, class: "form-control" %>
-  </div>
-  
+ 
   <div class="actions">
     <%= f.submit class: "btn btn-primary" %>
   </div>

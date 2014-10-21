@@ -13,7 +13,7 @@
         <div class="thumbnail">
           <%= link_to schiff do %>
             <div class="thumbnail-div"
-              <% if false %>
+              <% if schiff.bild_url? %>
                 style="background-image: url(<%= schiff.bild_url %>)"
               <% else %>
                 style="background-image: url(http://upload.wikimedia.org/wikipedia/commons/7/7c/Ferry_grey.svg)"

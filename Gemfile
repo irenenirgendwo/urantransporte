@@ -53,3 +53,6 @@ gem 'bootstrap-will_paginate', '0.0.10'
 
 #Screen Scraping
 gem 'nokogiri', '~> 1.6.3.1'
+
+#Cron
+gem 'whenever', '~> 0.9.3'

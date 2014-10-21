@@ -24,4 +24,14 @@ module SchiffeHelper
     rescue
     end
   end
+  
+  def storeAllPositions
+    schiffe = Schiff.all
+    
+    schiffe.each do |schiff|
+      if schiff.vesselfinder_url
+        storePosition(schiff)
+      end
+    end
+  end
 end

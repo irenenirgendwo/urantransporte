@@ -1,16 +1,15 @@
 # encoding: utf-8
 class SchiffeController < ApplicationController
   include SchiffeHelper
+  
   before_action :set_schiff, only: [:show, :edit, :update, :destroy]
+  before_action :editor_user
   
   def index
-    @schiffe = Schiff.paginate(page: params[:page], per_page: 20)
+    @schiffe = Schiff.order(:name).paginate(page: params[:page], per_page: 20)
   end
   
   def show
-    if @schiff.vesselfinder_url
-      storePosition(@schiff)
-    end
   end
   
   # GET /anlagen/new
@@ -26,14 +25,20 @@ class SchiffeController < ApplicationController
     @schiff = Schiff.new(schiff_params)
     
     if @schiff.save
-        redirect_to @schiff
-      else
-        render :new
+      if @schiff.vesselfinder_url
+        storePosition(@schiff)
       end
+      redirect_to @schiff
+    else
+      render :new
+    end
   end
   
   def update
     if @schiff.update(schiff_params)
+      if @schiff.vesselfinder_url
+        storePosition(@schiff)
+      end
       redirect_to @schiff
     else
       render :edit
@@ -48,7 +53,7 @@ class SchiffeController < ApplicationController
   private
   
     def schiff_params
-      params.require(:schiff).permit(:name, :imo, :vesselfinder_url)
+      params.require(:schiff).permit(:name, :imo, :vesselfinder_url, :bild_url, :bild_urheber)
     end
     
     def set_schiff

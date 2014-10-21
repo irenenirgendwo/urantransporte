@@ -14,7 +14,7 @@
 
 <% if @schiff.current_lat && @schiff.current_lon %>
   <div id="map" style="height:400px;"></div>
-    <%= map(:center => { :latlng => [@schiff.current_lat, @schiff.current_lon], :zoom => 7 },
+    <%= map(:center => { :latlng => [@schiff.current_lat, @schiff.current_lon], :zoom => 5 },
             :markers => [{:latlng => [@schiff.current_lat, @schiff.current_lon]}]) %>
   </div>
 <% end %>
