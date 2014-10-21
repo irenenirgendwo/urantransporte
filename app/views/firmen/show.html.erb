@@ -1,4 +1,9 @@
-<p id="notice"><%= notice %></p>
+<% if is_editor? %>
+  <div class="btn-group header-buttons">
+        <%= link_to 'Bearbeiten', edit_firma_path(@firma), class: "btn btn-primary" %>
+        <%= link_to 'Löschen', @firma, method: :delete, data: { confirm: 'Willst du die Firma wirklich löschen?' }, class: "btn btn-danger" %></td>
+  </div>
+<% end %>
 
 <p>
   <strong>Name:</strong>

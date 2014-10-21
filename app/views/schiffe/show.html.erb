@@ -1,5 +1,9 @@
-<p id="notice"><%= notice %></p>
-
+<% if is_editor? %>
+  <div class="btn-group header-buttons">
+        <%= link_to 'Bearbeiten', edit_schiff_path(@schiff), class: "btn btn-primary" %>
+        <%= link_to 'Löschen', @schiff, method: :delete, data: { confirm: 'Willst du das Schiff wirklich löschen?' }, class: "btn btn-danger" %></td>
+  </div>
+<% end %>
 
 <h1><%= @schiff.name %></h1>
 
@@ -7,3 +11,10 @@
   <strong>IMO:</strong>
   <%= @schiff.imo %>
 </p>
+
+<% if @schiff.current_lat && @schiff.current_lon %>
+  <div id="map" style="height:400px;"></div>
+    <%= map(:center => { :latlng => [@schiff.current_lat, @schiff.current_lon], :zoom => 7 },
+            :markers => [{:latlng => [@schiff.current_lat, @schiff.current_lon]}]) %>
+  </div>
+<% end %>

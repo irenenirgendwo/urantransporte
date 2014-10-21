@@ -50,3 +50,6 @@ gem 'bcrypt-ruby', '3.1.2'
 #Pagination
 gem 'will_paginate',           '3.0.7'
 gem 'bootstrap-will_paginate', '0.0.10'
+
+#Screen Scraping
+gem 'nokogiri', '~> 1.6.3.1'

@@ -1,5 +1,6 @@
 # encoding: utf-8
 class SchiffeController < ApplicationController
+  include SchiffeHelper
   before_action :set_schiff, only: [:show, :edit, :update, :destroy]
   
   def index
@@ -7,6 +8,9 @@ class SchiffeController < ApplicationController
   end
   
   def show
+    if @schiff.vesselfinder_url
+      storePosition(@schiff)
+    end
   end
   
   # GET /anlagen/new
@@ -44,7 +48,7 @@ class SchiffeController < ApplicationController
   private
   
     def schiff_params
-      params.require(:schiff).permit(:name, :imo)
+      params.require(:schiff).permit(:name, :imo, :vesselfinder_url)
     end
     
     def set_schiff
