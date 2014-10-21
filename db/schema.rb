@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141012170711) do
+ActiveRecord::Schema.define(version: 20141021132941) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                 null: false
@@ -88,6 +88,15 @@ ActiveRecord::Schema.define(version: 20141012170711) do
   end
 
   create_table "orte", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "schiffe", force: true do |t|
+    t.string   "name"
+    t.integer  "imo"
+    t.integer  "mmsi"
+    t.string   "vesselfinder_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

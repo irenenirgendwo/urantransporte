@@ -17,16 +17,17 @@
 
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.irregular 'anlage', 'anlagen'
-  inflect.irregular 'umschlagort', 'umschlagorte'
+  inflect.irregular 'anlagen_kategorie', 'anlagen_kategorien'
+  inflect.irregular 'beobachtung', 'beobachtungen'
+  inflect.irregular 'firma', 'firmen'
+  inflect.irregular 'genehmigung', 'genehmigungen'
+  inflect.irregular 'kategorie', 'kategorien'
+  inflect.irregular 'ort', 'orte'
+  inflect.irregular 'schiff', 'schiffe'
+  inflect.irregular 'stoff', 'stoffe'
   inflect.irregular 'transport', 'transporte'
   inflect.irregular 'transportabschnitt', 'transportabschnitte'
-  inflect.irregular 'genehmigung', 'genehmigungen'
-  inflect.irregular 'versandstueck', 'versandstuecke'
-  inflect.irregular 'firma', 'firmen'
-  inflect.irregular 'ort', 'orte'
-  inflect.irregular 'beobachtung', 'beobachtungen'
   inflect.irregular 'umschlag', 'umschlaege'
-  inflect.irregular 'anlagen_kategorie', "anlagen_kategorien"
-  inflect.irregular 'kategorie', "kategorien"
-  inflect.irregular 'stoff', "stoffe"
+  inflect.irregular 'umschlagort', 'umschlagorte'
+  inflect.irregular 'versandstueck', 'versandstuecke' 
 end

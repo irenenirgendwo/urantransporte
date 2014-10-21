@@ -39,7 +39,7 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 #Leaflet zur Kartendarstellung
-gem 'leaflet-rails', '~> 0.7.3'
+gem 'leaflet-rails', '~> 0.7.4'
 
 #Bootstrap fürs Layout
 gem 'bootstrap-sass', '~> 3.2.0.0'
