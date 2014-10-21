@@ -1,0 +1,31 @@
+<div class="btn-group header-buttons">
+  <%= link_to 'Neues Schiff', new_schiff_path, class: "btn btn-success" %>
+</div>
+
+<h1>Schiffe</h1>
+
+<% unless @schiffe %>
+  <p>Keine Schiffe gefunden.</p>
+<% else %>
+  <div class="row">
+    <% @schiffe.each do |schiff| %>
+      <div class="col-sm-4 col-md-3">
+        <div class="thumbnail">
+          <%= link_to schiff do %>
+            <div class="thumbnail-div"
+              <% if false %>
+                style="background-image: url(<%= schiff.bild_url %>)"
+              <% else %>
+                style="background-image: url(http://upload.wikimedia.org/wikipedia/commons/7/7c/Ferry_grey.svg)"
+              <% end %>
+            ></div>
+          <% end %>
+          <div class="caption">
+            <%= link_to schiff.name, schiff %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= will_paginate %>      
+<% end %>

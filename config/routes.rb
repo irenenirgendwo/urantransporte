@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  resources :firmen
+  resources :schiffe
+  resources :stoffe
+  resources :transportabschnitte
+  resources :umschlaege
+  
   resources :users
   get 'signup'  => 'users#new'
   
@@ -13,8 +19,6 @@ Rails.application.routes.draw do
 
   get 'abfragen/calendar'
 
-  resources :stoffe
-
   get 'welcome/index'
 
   resources :transporte do 
@@ -22,23 +26,15 @@ Rails.application.routes.draw do
     #get 'edit_abschnitte', on: :member
     #post 'transporte/update_abschnitte', on: :member
   end
-  
-  
-  resources :transportabschnitte
 
   resources :beobachtungen do
     get "abschnitt_zuordnen", on: :member
   end 
   get "beobachtungen/set_toleranz_tage/:id/:tage" => 'beobachtungen#set_toleranz_tage', as: :set_toleranz_tage_beobachtung
 
-
-  resources :umschlaege
-
   resources :anlagen
   post "anlagen/add_synonym"
   post "anlagen/destroy_synonym"
-
-  resources :firmen
 
   get "upload/index"
   post "upload/upload_file"
