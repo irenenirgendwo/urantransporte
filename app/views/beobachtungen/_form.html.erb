@@ -22,13 +22,13 @@
         <div class="col-sm-6">
           
           <div class="form-group">
-            <%= f.label :ort %><br>
+            Standort bei der Beobachtung (z.B. Stadt oder Geokoordinaten): <br>
             <%= f.text_field :ort, class: "form-control"  %><br>
-            Klicke auf die Karte, um den Standort genau festzulegen.
+            Klicke auf die Karte, um den Standort genau einzutragen.
           </div>
   
           <div class="form-group">
-            Fahrtrichtung des Transports:<br>
+            Fahrtrichtung des Transports (z.B. Himmelsrichtung oder nächste Ortschaft):<br>
             <%= f.text_field :fahrtrichtung, class: "form-control" %>
           </div>
           
@@ -48,7 +48,7 @@
           
           
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-6">
 
           <input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control">
             <%= f.hidden_field :lat, class: "form-control" %>
@@ -72,6 +72,9 @@
     </div>    
     <div class="panel-body">   
         <div class="form-group">
+          <%= render "stoffe/gefahr_tafel", gefahr_nummer: "78", un_nummer: "2978" %>
+
+          
           <%= f.check_box :kennzeichen_radioaktiv %> 
           <%= image_tag "radioaktiv.jpg", alt: "radioaktiv", size: "70x70", id: "radioaktiv_kennzeichen" %>
           
@@ -92,7 +95,7 @@
               <%= f.text_field :gefahr_nummer, class: "form-control" %>
             </div>
             <div class="col-sm-5">
-              Untere Nummter (vierstellig):
+              Untere Nummer (vierstellig):
               <%= f.text_field :un_nummer, class: "form-control" %>
             </div>
           </div>
