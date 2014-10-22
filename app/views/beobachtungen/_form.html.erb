@@ -72,7 +72,6 @@
     </div>    
     <div class="panel-body">   
         <div class="form-group">
-          <%= render "stoffe/gefahr_tafel", gefahr_nummer: "78", un_nummer: "2978" %>
 
           
           <%= f.check_box :kennzeichen_radioaktiv %> 
@@ -90,13 +89,17 @@
         <strong>Orange Gefahrguttafel:</strong>
         <div class="form-group">
           <div class="row">
-            <div class="col-sm-5">
+            <div class="col-sm-4">
               Obere Nummer (zweistellig):
               <%= f.text_field :gefahr_nummer, class: "form-control" %>
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
               Untere Nummer (vierstellig):
               <%= f.text_field :un_nummer, class: "form-control" %>
+            </div>
+            <div class="col-sm-4">
+              Beispiel:
+              <%= render "stoffe/gefahr_tafel", gefahr_nummer: "78", un_nummer: "2978" %>
             </div>
           </div>
         </div>
@@ -112,8 +115,7 @@
           Verkehrsmittel: 
           <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, "unbekannt"), 
              class: "form-control" %><br>
-          Nach der Auswahl soll sich der nächste Teil jeweils anpassen. 
-          (Javascript entsprechend schreiben mit ein und Ausblenden je nach Auswahl)
+          Bitte vor der Beschreibung angeben.
       </div>
     </div>
   </div>
@@ -127,13 +129,13 @@
       <div class="row">
         <div class="col-sm-9">
           <div class="form-group">
-            Beschreibung der Container / Ladung:<br>
+            Beschreibung der Container / Ladung (Farbe, Größe, Logos, Form, Gestelle, Container-Nummern):<br>
             <%= f.text_area :container_beschreibung, class: "form-control" %>
           </div>
         </div>
         <div class="col-sm-3">
           <div class="form-group">
-            <%= f.label :anzahl_container %><br>
+            Anzahl Container: <br>
             <%= f.number_field :anzahl_container, class: "form-control", min:0 %>
           </div>
         </div>
@@ -147,39 +149,39 @@
         
         <div class="beobachtung_zug">
           <div class="field">
-            <strong>Beschreibung der Lok</strong> (Farbe, Aufschriften, Eisenbahngesellschaft, Typ, Diesel oder elektrisch)
+            Beschreibung der Lok (Farbe, Aufschriften, Nummer, Eisenbahngesellschaft, Diesel oder elektrisch)
             <%= f.text_field :lok_beschreibung, class: "form-control" %>
           </div>
         </div>
         
         <div class="beobachtung_zug">
           <div class="field">
-            <strong>Beschreibung des Zuges</strong> (z.B. welche Wagen kommen im ganzen Zug vor, in welcher Reihenfolge, wo sind die Uranwagen positioniert,
+            Beschreibung des Zuges (z.B. welche Wagen kommen im ganzen Zug vor, in welcher Reihenfolge, wo sind die Uranwagen positioniert,
             gibt es Graffiti, wie viele Waggons hat der Zug?)
             <%= f.text_area :zug_beschreibung, class: "form-control" %>
           </div>
         </div>
         <div class="beobachtung_lkw">
           <div class="field">
-            <%= f.label :anzahl_lkw %><br>
+            Anzahl LKW:<br>
             <%= f.number_field :anzahl_lkw, class: "form-control", min:0 %>
           </div>
           <div class="field">
-            <%= f.label :kennzeichen_lkw %><br>
+            Auto-Kennzeichen der LKW:
             <%= f.text_field :kennzeichen_lkw, class: "form-control" %>
           </div>
           <div class="field">
-            <%= f.label :lkw_beschreibung %><br>
+            Beschreibung des LKW (Fahrgestell, Farbe, Aufschrift):
             <%= f.text_area :lkw_beschreibung, class: "form-control" %>
           </div>
         </div>
         <div class="beobachtung_schiff">
           <div class="field">
-            <%= f.label :schiff_name %><br>
+            Schiffsname: <br>
             <%= f.text_field :schiff_name, class: "form-control" %>
           </div>
           <div class="field">
-            <%= f.label :schiff_beschreibung %><br>
+            Beschreibung des Schiffs (Größe, Aussehen, ...):
             <%= f.text_area :schiff_beschreibung, class: "form-control" %>
           </div>
         </div>
@@ -195,18 +197,39 @@
     <div class="panel-heading">
           <h2 class="panel-title">Begleitumstände</h2>
     </div>    
-    <div class="panel-body">     
-        <div class="field">     
-          <%= f.check_box :polizei %><%= f.label :polizei %>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-4">  
+                 
+            <div class="field">     
+              <%= f.check_box :polizei %> Polizei
+            </div>
+            <div class="field">
+              <%= f.check_box :hubschrauber %> Polizeihubschrauber
+            </div>
         </div>
-        <div class="field">
-          <%= f.check_box :hubschrauber %><%= f.label :hubschrauber %>
+         <div class="col-sm-8">  
+                 
+            <div class="field">     
+              Weitere Beschreibung:
+            </div>
         </div>
+      </div>
+        
+    </div>
+  </div>
+  <div class="panel panel-default" >
+    <div class="panel-heading">
+          <h2 class="panel-title">Foto und Kontakt (freiwillig)</h2>
+    </div>    
+    <div class="panel-body">       
+        
         <div class="field">
           <%= f.check_box :foto %> Foto gemacht? (Hochladen ermöglichen)
+          <%= file_field_tag 'upload_foto' %>
         </div>
         <div class="field">
-          E-Mail-Adresse für Nachfragen:
+          E-Mail-Adresse für Nachfragen (freiwillige Angabe):
           <%= f.text_field :email %>
         </div>
     </div>
