@@ -20,3 +20,24 @@ function geomap(typ){
             document.getElementById(typ+'_lon').value = e.latlng.lng.toFixed(6);
           });
 }
+
+function schiffMap(lat, lon, rot){
+  var map = L.map('map', {attributionControl: false}).setView([lat, lon], 6);
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+  var marker = new L.marker([lat, lon]);
+  marker.addTo(map);
+
+};
+
+function allSchiffMap() {
+  $.getJSON("/schiffe.json", function(data) {
+    var geojson = L.geoJson(data, {
+      onEachFeature: function (feature, layer) {
+        layer.bindPopup(feature.properties.name);
+      }
+    });
+    var map = L.map('map', {attributionControl: false}).fitBounds(geojson.getBounds());
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    geojson.addTo(map);
+  });
+}

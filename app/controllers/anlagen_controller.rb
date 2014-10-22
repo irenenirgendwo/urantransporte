@@ -15,6 +15,11 @@ class AnlagenController < ApplicationController
     end
     @kategorien = AnlagenKategorie.get_kategorien_for_selection_field;
     @anlagen = @anlagen.order(:name).paginate(page: params[:page], per_page: 12)
+    
+    respond_to do |format|
+      format.html  # index.html.erb
+      format.json  { render :json => @anlagen }
+    end
   end
 
   # GET /anlagen/1

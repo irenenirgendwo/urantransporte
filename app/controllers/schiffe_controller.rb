@@ -10,6 +10,7 @@ class SchiffeController < ApplicationController
   end
   
   def show
+    storePosition(@schiff)
   end
   
   # GET /anlagen/new
@@ -25,9 +26,7 @@ class SchiffeController < ApplicationController
     @schiff = Schiff.new(schiff_params)
     
     if @schiff.save
-      if @schiff.vesselfinder_url
-        storePosition(@schiff)
-      end
+      storePosition(@schiff)
       redirect_to @schiff
     else
       render :new
@@ -36,9 +35,7 @@ class SchiffeController < ApplicationController
   
   def update
     if @schiff.update(schiff_params)
-      if @schiff.vesselfinder_url
-        storePosition(@schiff)
-      end
+      storePosition(@schiff)
       redirect_to @schiff
     else
       render :edit
