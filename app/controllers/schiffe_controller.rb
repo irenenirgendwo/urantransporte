@@ -1,16 +1,14 @@
 # encoding: utf-8
 class SchiffeController < ApplicationController
-  include SchiffeHelper
-  
   before_action :set_schiff, only: [:show, :edit, :update, :destroy]
   before_action :editor_user
   
   def index
-    @schiffe = Schiff.order(:name).paginate(page: params[:page], per_page: 20)
+    @schiffe = Schiff.order(:name)
   end
   
   def show
-    storePosition(@schiff)
+    @schiff.storePosition
   end
   
   # GET /anlagen/new
@@ -26,7 +24,7 @@ class SchiffeController < ApplicationController
     @schiff = Schiff.new(schiff_params)
     
     if @schiff.save
-      storePosition(@schiff)
+      @schiff.storePosition
       redirect_to @schiff
     else
       render :new
@@ -35,7 +33,7 @@ class SchiffeController < ApplicationController
   
   def update
     if @schiff.update(schiff_params)
-      storePosition(@schiff)
+      @schiff.Schiff.storePosition
       redirect_to @schiff
     else
       render :edit
