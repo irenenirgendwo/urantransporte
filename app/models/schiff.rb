@@ -1,5 +1,5 @@
 class Schiff < ActiveRecord::Base
-  serialize :next_ports, Array
+  serialize :next_ports
   
   def storePosition
     require 'nokogiri'
@@ -46,7 +46,7 @@ class Schiff < ActiveRecord::Base
         # Mehrdimensionales Array der Ankunftstabelle erzeugen
         temptext = page.text.split("\n")
         textend = temptext.map do |a1|
-          a1.split(%r{\s{2,}})
+          a1.split(%r{\s{2,}}) # Aufsplitten, wenn mindestens zwei Leerzeichen dazwischen sind.
         end
         
         # Alte Ankunftsdaten löschen
@@ -54,19 +54,27 @@ class Schiff < ActiveRecord::Base
           search2 = textend[5][i]
           unless search1.empty? || search2.empty?
             schiff = self.where('name LIKE ? AND name LIKE ?', "%#{search1}%", "%#{search2}%").first
-            self.update(schiff, next_ports: Array.new)
+            self.update(schiff, next_ports: {})
           end
         end
         
         # Neue Ankunftsdaten schreiben
+        # Alle Zeilen durchgehen
         textend.each do |line|
-          if line[0].to_s.include? "Hamburg"
-            textend[3].each_with_index do |search1,i|
-              search2 = textend[5][i]
-              unless search1.empty? || search2.empty?
-                schiff = self.where('name LIKE ? AND name LIKE ?', "%#{search1}%", "%#{search2}%").first
-                array = schiff.next_ports << line[i].to_s
-                self.update(schiff, next_ports: array)
+          hash = Hash.new
+          # Alle Häfen durchgehen
+          ports = ["Hamburg", "Rotterdam", "Vigo"]
+          ports.each do |port|
+            if line[0].to_s.include? port
+              # Alle Spalten durchgehen
+              textend[3].each_with_index do |search1,i|
+                search2 = textend[5][i]
+                unless search1.empty? || search2.empty?
+                  schiff = self.where('name LIKE ? AND name LIKE ?', "%#{search1}%", "%#{search2}%").first
+                  hash = schiff.next_ports
+                  hash[Date.parse line[i]] = port
+                  self.update(schiff, next_ports: hash)
+                end
               end
             end
           end
