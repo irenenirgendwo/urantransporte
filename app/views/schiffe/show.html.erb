@@ -7,15 +7,32 @@
 
 <h1><%= @schiff.name %></h1>
 
-<p>
-  <strong>IMO:</strong>
-  <%= @schiff.imo %>
-</p>
+<div class="row">
 
-<% if @schiff.current_lat && @schiff.current_lon %>
-  <div id="map" style="height:400px;"></div>
-    <script type="text/javascript">
-        schiffMap(<%= @schiff.current_lat %>, <%= @schiff.current_lon %>, 0)
-      </script>
+  <div class="col-sm-6">
+    <p>
+      <strong>IMO:</strong>
+      <%= @schiff.imo %>
+    </p>
+
+    <p>
+      <strong>Nächstes Mal in Hamburg:</strong>
+      <ul>
+        <% @schiff.next_ports.each do |date| %>
+          <li><%= date %></li>
+        <% end %>
+      </ul>
+    </p>
   </div>
-<% end %>
+
+  <div class="col-sm-6">
+    <% if @schiff.current_lat && @schiff.current_lon %>
+      <div id="map" class="panel" style="height:400px;"></div>
+        <script type="text/javascript">
+            schiffMap(<%= @schiff.current_lat %>, <%= @schiff.current_lon %>, 0)
+          </script>
+      </div>
+    <% end %>
+  
+
+</div>

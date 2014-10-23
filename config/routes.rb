@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
 
   resources :firmen
-  resources :schiffe
   resources :stoffe
   resources :transportabschnitte
   resources :umschlaege
+  
+  resources :schiffe
+  get 'readMacs' => 'schiffe#readMacs', as: :read_macs
   
   resources :users
   get 'signup'  => 'users#new'

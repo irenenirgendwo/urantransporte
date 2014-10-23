@@ -1,8 +1,11 @@
-<div class="btn-group header-buttons">
-  <%= link_to 'Neues Schiff', new_schiff_path, class: "btn btn-success" %>
-</div>
-
-<h1>Schiffe</h1>
+<h1>
+  Schiffe
+  <% if is_editor? %>
+    <div class="btn-group header-buttons">
+      <%= link_to 'Neues Schiff', new_schiff_path, class: "btn btn-success" %>
+    </div>
+  <% end %>
+</h1>
 
 <div id="map" class="panel" style="height:400px;"></div>
 <script type="text/javascript">

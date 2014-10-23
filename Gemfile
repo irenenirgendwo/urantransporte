@@ -56,3 +56,6 @@ gem 'nokogiri', '~> 1.6.3.1'
 
 #Cron
 gem 'whenever', '~> 0.9.3'
+
+#PDF
+gem 'pdf-reader', '~> 1.3.3'

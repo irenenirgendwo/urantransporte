@@ -45,6 +45,11 @@ class SchiffeController < ApplicationController
     redirect_to schiffe_url
   end
   
+  def readMacs
+    Schiff.getMacsSchedule
+    redirect_to schiffe_url, flash: { success: 'Fahrplandaten erfolgreich eingelesen.' }
+  end
+  
   private
   
     def schiff_params

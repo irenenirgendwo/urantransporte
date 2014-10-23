@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141021195509) do
+ActiveRecord::Schema.define(version: 20141023165232) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                 null: false
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20141021195509) do
     t.float    "current_lon"
     t.string   "bild_url"
     t.string   "bild_urheber"
+    t.text     "next_ports"
   end
 
   create_table "stoff_synonyms", force: true do |t|
