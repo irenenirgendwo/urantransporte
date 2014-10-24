@@ -112,25 +112,24 @@ class Schiff < ActiveRecord::Base
         end
          
         # Neue Ankunftsdaten schreiben
-        # Alle Zeilen durchgehen
-        table.each do |line|
-          hash = Hash.new
-          # Alle Häfen durchgehen
-          ports = ["Hamburg", "Rotterdam", "Vigo"]
-          ports.each do |port|
-            if line[0].to_s.include? port
-              # Alle Spalten durchgehen
-              table[0].each_with_index do |search1,i|
-                search2 = table[1][i]
-                unless search1.empty? || search2.empty? || line[i].empty?
-                  schiff = self.where('name LIKE ? AND name LIKE ?', "%#{search1}%", "%#{search2}%").first
-                  if schiff
-                    hash = schiff.next_ports
-                    hash[Date.parse line[i]] = port
-                    self.update(schiff, next_ports: hash)
+        ports = ["Hamburg", "Rotterdam", "Vigo", "Walvis Bay", "Richardsbay", "Durban", "Cape Town", "Antwerp"]
+        
+        #Alle Spalten durchgehen und Schiffe zuordnen
+        table[0].each_with_index do |search1,index|
+          search2 = table[1][index]
+          unless search1.empty? || search2.empty?
+            schiff = self.where('name LIKE ? AND name LIKE ?', "%#{search1}%", "%#{search2}%").first
+            if schiff
+              hash = schiff.next_ports
+              #Alle Zeilen durchgehen und Häfen zuordnen
+              table.each do |line|
+                ports.each do |port|
+                  if line[0].to_s.include?(port) && !line[index].to_s.empty?
+                    hash[Date.parse line[index]] = port
                   end
                 end
               end
+              self.update(schiff, next_ports: hash)
             end
           end
         end

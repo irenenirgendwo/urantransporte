@@ -11,7 +11,7 @@
 
   <div class="col-sm-6">
       
-    <% unless @schiff.next_ports.empty? %>
+    <% if @schiff.next_ports && !@schiff.next_ports.empty? %>
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">Fahrplan</h3>
