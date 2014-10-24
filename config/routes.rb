@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :umschlaege
   
   resources :schiffe
+  get 'read_schedules' => 'schiffe#read_schedules'
   get 'readMacs' => 'schiffe#readMacs', as: :read_macs
   
   resources :users
