@@ -19,7 +19,10 @@
         <table class="table">
           <tbody>
             <% @schiff.next_ports.sort_by {|k,v| k}.each do |date,port| %>
-              <tr>
+              <tr
+                <% if date.past? %>
+                  class="active"
+                <% end %>>
                 <td><%= date.strftime("%d.%m.%Y") %></td>
                 <td><%= port %></td>
               </tr>
