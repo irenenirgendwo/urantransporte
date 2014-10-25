@@ -12,11 +12,40 @@
   allSchiffMap()
 </script>
 
-<% unless @schiffe %>
+<% unless @reedereien %>
   <p>Keine Schiffe gefunden.</p>
 <% else %>
+  <% @reedereien.each do |r| %>
+    <% unless r.schiffe.empty? %>
+      <h3><%= r.name %></h3>
+      <div class="row">
+        <% r.schiffe.each do |schiff| %>
+          <div class="col-sm-4 col-md-3">
+            <div class="thumbnail">
+              <%= link_to schiff do %>
+                <div class="thumbnail-div"
+                  <% if schiff.bild_url? %>
+                    style="background-image: url(<%= schiff.bild_url %>)"
+                  <% else %>
+                    style="background-image: url(http://upload.wikimedia.org/wikipedia/commons/7/7c/Ferry_grey.svg)"
+                  <% end %>
+                ></div>
+              <% end %>
+              <div class="caption">
+                <%= link_to schiff.name, schiff %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% unless @ohne_reederei.empty? %>
+  <h3>Keine Reederei</h3>
   <div class="row">
-    <% @schiffe.each do |schiff| %>
+    <% @ohne_reederei.each do |schiff| %>
       <div class="col-sm-4 col-md-3">
         <div class="thumbnail">
           <%= link_to schiff do %>
@@ -34,5 +63,5 @@
         </div>
       </div>
     <% end %>
-  </div>     
+  </div>
 <% end %>

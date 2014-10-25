@@ -1,11 +1,12 @@
 # encoding: utf-8
 class SchiffeController < ApplicationController
   before_action :set_schiff, only: [:show, :edit, :update, :destroy]
-  before_action :get_reedereien, only: [:edit, :update]
+  before_action :get_reedereien, only: [:index, :edit, :update]
   before_action :editor_user
   
   def index
     @schiffe = Schiff.order(:name)
+    @ohne_reederei = Schiff.where(firma_id: nil)
   end
   
   def show
