@@ -1,6 +1,7 @@
 # encoding: utf-8
 class SchiffeController < ApplicationController
   before_action :set_schiff, only: [:show, :edit, :update, :destroy]
+  before_action :get_reedereien, only: [:edit, :update]
   before_action :editor_user
   
   def index
@@ -33,7 +34,7 @@ class SchiffeController < ApplicationController
   
   def update
     if @schiff.update(schiff_params)
-      @schiff.Schiff.storePosition
+      @schiff.storePosition
       redirect_to @schiff
     else
       render :edit
@@ -56,11 +57,14 @@ class SchiffeController < ApplicationController
   private
   
     def schiff_params
-      params.require(:schiff).permit(:name, :imo, :vesselfinder_url, :bild_url, :bild_urheber)
+      params.require(:schiff).permit(:name, :imo, :vesselfinder_url, :bild_url, :bild_urheber, :firma, :firma_id)
     end
     
     def set_schiff
       @schiff = Schiff.find(params[:id])
     end
-  
+    
+    def get_reedereien
+      @reedereien = Firma.where(:reederei =>  true)
+    end
 end

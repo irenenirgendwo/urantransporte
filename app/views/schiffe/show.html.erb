@@ -1,16 +1,28 @@
-<% if is_editor? %>
-  <div class="btn-group header-buttons">
-        <%= link_to 'Bearbeiten', edit_schiff_path(@schiff), class: "btn btn-primary" %>
-        <%= link_to 'Löschen', @schiff, method: :delete, data: { confirm: 'Willst du das Schiff wirklich löschen?' }, class: "btn btn-danger" %></td>
-  </div>
-<% end %>
-
-<h1><%= @schiff.name %> <small>IMO <%= @schiff.imo %></small></h1>
+<h1>
+  <%= @schiff.name %>
+  <% if is_editor? %>
+    <div class="btn-group header-buttons">
+      <%= link_to 'Bearbeiten', edit_schiff_path(@schiff), class: "btn btn-primary" %>
+      <%= link_to 'Löschen', @schiff, method: :delete, data: { confirm: 'Willst du das Schiff wirklich löschen?' }, class: "btn btn-danger" %></td>
+    </div>
+  <% end %>
+  <br>
+  <small><%= @schiff.firma %></small>
+</h1>
 
 <div class="row">
 
   <div class="col-sm-6">
-      
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Daten</h3>
+      </div>
+      <div class="panel-body">
+        <strong>IMO </strong><%= @schiff.imo %>
+      </div>
+    </div>
+
     <% if @schiff.next_ports && !@schiff.next_ports.empty? %>
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -34,7 +46,6 @@
     
   </div>
  
-
   <div class="col-sm-6">
     <% if @schiff.current_lat && @schiff.current_lon %>
       <div id="map" class="panel" style="height:400px;"></div>

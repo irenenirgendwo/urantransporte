@@ -1,34 +1,17 @@
-<% if is_editor? %>
-  <div class="btn-group header-buttons">
-        <%= link_to 'Bearbeiten', edit_firma_path(@firma), class: "btn btn-primary" %>
-        <%= link_to 'Löschen', @firma, method: :delete, data: { confirm: 'Willst du die Firma wirklich löschen?' }, class: "btn btn-danger" %></td>
-  </div>
-<% end %>
-
-<p>
-  <strong>Name:</strong>
+<h1>
   <%= @firma.name %>
-</p>
+    <% if is_editor? %>
+    <div class="btn-group header-buttons">
+      <%= link_to 'Bearbeiten', edit_firma_path(@firma), class: "btn btn-primary" %>
+      <%= link_to 'Löschen', @firma, method: :delete, data: { confirm: 'Willst du die Firma wirklich löschen?' }, class: "btn btn-danger" %></td>
+    </div>
+  <% end %>
+  <br>
+  <small>
+    <% if @firma.reederei? %>
+      Reederei
+    <% end %>
+  </small>
+</h1>
 
-<p>
-  <strong>Adresse:</strong>
-  <%= @firma.adresse %>
-</p>
-
-<p>
-  <strong>Plz:</strong>
-  <%= @firma.plz %>
-</p>
-
-<p>
-  <strong>Ort:</strong>
-  <%= @firma.ort %>
-</p>
-
-<p>
-  <strong>Beschreibung:</strong>
-  <%= @firma.beschreibung %>
-</p>
-
-<%= link_to 'Edit', edit_firma_path(@firma) %> |
-<%= link_to 'Back', firmen_path %>
+<p><%= @firma.beschreibung %></p>

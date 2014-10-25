@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141023165232) do
+ActiveRecord::Schema.define(version: 20141025173145) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                 null: false
@@ -78,13 +78,11 @@ ActiveRecord::Schema.define(version: 20141023165232) do
 
   create_table "firmen", force: true do |t|
     t.string   "name",         null: false
-    t.string   "adresse"
-    t.string   "plz"
-    t.string   "ort"
     t.text     "beschreibung"
     t.string   "typ"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "reederei"
   end
 
   create_table "orte", force: true do |t|
@@ -104,7 +102,10 @@ ActiveRecord::Schema.define(version: 20141023165232) do
     t.string   "bild_url"
     t.string   "bild_urheber"
     t.text     "next_ports"
+    t.integer  "firma_id"
   end
+
+  add_index "schiffe", ["firma_id"], name: "index_schiffe_on_firma_id"
 
   create_table "stoff_synonyms", force: true do |t|
     t.string   "synonym"

@@ -70,6 +70,6 @@ class FirmenController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def firma_params
-      params.require(:firma).permit(:name, :adresse, :plz, :ort, :beschreibung)
+      params.require(:firma).permit(:name, :beschreibung, :reederei)
     end
 end
