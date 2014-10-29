@@ -102,6 +102,10 @@
             <p>
               Aufgenommen von: <%= beobachtung.foto_recht %>
             </p>
+          <% else %>
+            <p> 
+              <%= link_to "Foto hochladen", load_foto_beobachtung_path(beobachtung) %>
+            </p>
           <% end %>
 
         </div>

@@ -46,7 +46,7 @@ class BeobachtungenController < ApplicationController
 
     respond_to do |format|
       if @beobachtung.save
-        format.html { redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung was successfully created.' }
+        format.html { redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.' }
         format.json { render :show, status: :created, location: @beobachtung }
       else
         format.html { render :new }
@@ -60,7 +60,7 @@ class BeobachtungenController < ApplicationController
   def update
     respond_to do |format|
       if @beobachtung.update(beobachtung_params)
-        format.html { redirect_to @beobachtung, notice: 'Beobachtung was successfully updated.' }
+        format.html { redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde aktualisiert.' }
         format.json { render :show, status: :ok, location: @beobachtung }
       else
         format.html { render :edit }
