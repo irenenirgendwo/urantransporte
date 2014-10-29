@@ -1,34 +1,14 @@
-<div class="row">
-  <div class="col-sm-6">
-    <p>
-      <strong>Start des Transportabschnittes:</strong>
-      <%= abschnitt.start_datum %>
-      in <%= abschnitt.start_ort %>
-    </p>
-  </div>
-  <div class="col-sm-6">
-    <p>
-      Ende des Transportabschnittes:
-      <%= abschnitt.end_datum %>
-      in <%= abschnitt.end_ort %>
-    </p>
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-6">
-    <p>
-      Verkehrsträger:
-      <%= abschnitt.verkehrstraeger %>
-    </p>
-  </div>
-  <div class="col-sm-6">
-    <p>
-      Transportfirma:
-      <% if abschnitt.firma %>
-        <%= link_to abschnitt.firma.name, abschnitt.firma %>
-      <% else %>
-        unbekannt
-      <% end %>
-    </p>
-  </div>
+<div class="transportabschnitt">
+  <% if abschnitt.verkehrstraeger == "Schiff" %>
+    Schiffstransport
+  <% elsif abschnitt.verkehrstraeger == "LKW" %>
+    LKW-Transport
+  <% elsif abschnitt.verkehrstraeger == "Flugzeug" %>
+    Flugzeugtransport
+  <% elsif abschnitt.verkehrstraeger == "Zug" %>
+    Bahn-Transport
+  <% else %>
+    Transport
+  <% end %>
+  (<%= abschnitt.start_datum.strftime("%d.%m.%Y") %> – <%= abschnitt.end_datum.strftime("%d.%m.%Y") %>)
 </div>
