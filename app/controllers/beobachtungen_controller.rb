@@ -43,7 +43,16 @@ class BeobachtungenController < ApplicationController
   # POST /beobachtungen.json
   def create
     @beobachtung = Beobachtung.new(beobachtung_params)
-
+    unless params[:beobachtung][:quelle]
+      quelle = 
+        if logged_in? 
+          current_user.name
+        else
+          "Formular"
+        end
+      @beobachtung.quelle = quelle
+    end 
+    
     respond_to do |format|
       if @beobachtung.save
         format.html { redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.' }
@@ -118,7 +127,7 @@ class BeobachtungenController < ApplicationController
       file.write(uploaded_io.read)
     end
     respond_to do |format|
-      if @beobachtung.update(:foto_path => uploaded_io.original_filename)
+      if @beobachtung.update(:foto_path => uploaded_io.original_filename, :foto_recht => params[:foto_recht])
         format.html { redirect_to @beobachtung, notice: 'Foto zur Beobachtung hochgeladen.' }
         format.json { render :show, status: :created, location: @beobachtung }
       else
@@ -138,7 +147,7 @@ class BeobachtungenController < ApplicationController
     def beobachtung_params
       params.require(:beobachtung).permit(:ankunft_zeit, :abfahrt_zeit, :start_datum, :end_datum, :ort, :lat, :lon, 
                   :fahrtrichtung, :verkehrstraeger, 
-                  :kennzeichen_radioaktiv, :kennzeichen_aetzend, :kennzeichen_spaltbar, :kennzeichen_umweltgefaehrend, 
+                  :kennzeichen_radioaktiv, :kennzeichen_aetzend, :kennzeichen_spaltbar, :kennzeichen_umweltgefaehrdend, 
                   :gefahr_nummer, :un_nummer, 
                   :firma_id, :firma_beschreibung, :lok_farbe, :container_beschreibung, :anzahl_container, 
                   :zug_beschreibung, :anzahl_lkw, :kennzeichen_lkw, :lkw_beschreibung, 
