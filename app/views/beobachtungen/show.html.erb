@@ -15,7 +15,7 @@
 <%= hidden_field_tag "beobachtung_id", @beobachtung.id %>
 
 <!--Eckdaten Panel, zeigt Ort und Zeit der Beobachtung -->
-<%= render "show_eckdaten", beobachtung: @beobachtung %>
+<%= render "show_eckdaten", beobachtung: @beobachtung, titel: "Eckdaten" %>
 
 <!--Zeigt Beschreibung des Transports und die Gefahrgut-Kennzeichnung -->
 <%= render "show_beschreibung", beobachtung: @beobachtung %>

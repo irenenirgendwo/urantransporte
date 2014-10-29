@@ -18,3 +18,22 @@
     <%= link_to 'Bearbeiten', edit_transportabschnitt_path(@transportabschnitt) , class: "btn btn-primary" %>  
   </div>
 <%= render "show_abschnitt", :abschnitt => @transportabschnitt %>
+
+
+<h3> Beobachtungen / Durchfahrtsorte </h3>
+<% if @transportabschnitt.beobachtungen %>
+
+  
+    <% @transportabschnitt.beobachtungen.each do |beob| %>
+      <div class="btn-group header-buttons">
+        <%= link_to 'Beobachtung anzeigen', beob , class: "btn btn-primary" %>  
+      </div>
+      <!--Eckdaten Panel, zeigt Ort und Zeit der Beobachtung -->
+      <%= render "beobachtungen/show_eckdaten", beobachtung: beob, titel: "Beobachtung #{beob.ort}" %>
+    <% end %>
+  
+
+<% else %>
+
+
+<% end %> 
