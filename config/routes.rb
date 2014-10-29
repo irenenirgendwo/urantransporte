@@ -32,6 +32,8 @@ Rails.application.routes.draw do
 
   resources :beobachtungen do
     get "abschnitt_zuordnen", on: :member
+    get "load_foto", on: :member
+    post "update_foto", on: :member
   end 
   get "beobachtungen/set_toleranz_tage/:id/:tage" => 'beobachtungen#set_toleranz_tage', as: :set_toleranz_tage_beobachtung
 

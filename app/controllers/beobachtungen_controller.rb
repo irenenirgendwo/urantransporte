@@ -1,5 +1,5 @@
 class BeobachtungenController < ApplicationController
-  before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :abschnitt_zuordnen, :set_toleranz_tage]
+  before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :load_foto, :update_foto, :abschnitt_zuordnen, :set_toleranz_tage]
   before_action :editor_user, only: [:edit, :update, :destroy]
   
   # Zeigt alle noch nicht zu Transportabschnitten zugeordneten Beobachtungen an. (zugeordnet="n"
@@ -46,7 +46,7 @@ class BeobachtungenController < ApplicationController
 
     respond_to do |format|
       if @beobachtung.save
-        format.html { redirect_to @beobachtung, notice: 'Beobachtung was successfully created.' }
+        format.html { redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung was successfully created.' }
         format.json { render :show, status: :created, location: @beobachtung }
       else
         format.html { render :new }
@@ -105,6 +105,28 @@ class BeobachtungenController < ApplicationController
     @transporte = Transport.get_transporte_around(@beobachtung.ankunft_zeit,@toleranz_tage)
     render :partial => "show_transportabschnitt", :locals => {:beobachtung => @beobachtung}
   end
+  
+  # Zum Danke sagen und Foto hochladen
+  def load_foto
+    
+  end 
+  
+  def update_foto
+    uploaded_io = params[:upload_foto]
+    file_path = Rails.root.join('public', 'fotos', uploaded_io.original_filename)
+    File.open(file_path, 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+    respond_to do |format|
+      if @beobachtung.update(:foto_path => uploaded_io.original_filename)
+        format.html { redirect_to @beobachtung, notice: 'Foto zur Beobachtung hochgeladen.' }
+        format.json { render :show, status: :created, location: @beobachtung }
+      else
+        format.html { render :new }
+        format.json { render json: @beobachtung.errors, status: :unprocessable_entity }
+      end
+    end
+  end 
 
   private
   # Use callbacks to share common setup or constraints between actions.
@@ -123,4 +145,7 @@ class BeobachtungenController < ApplicationController
                   :schiff_name, :schiff_beschreibung, :polizei, :hubschrauber, :foto, :quelle, :email,
                   :transportabschnitt_id)
     end
+    
+    
+
 end

@@ -96,12 +96,13 @@
             <%= image_tag "umweltgefaehrdend.jpg", alt: "umweltgefährdend", size: "70x70" %>
           <% end %>
 
-          
-          <h4>Foto:</h4>
-          <p>
-            <strong>Foto:</strong>
-            <%= beobachtung.foto %>
-          </p>
+          <% if beobachtung.foto_path %>
+            <h4>Foto:</h4>
+            <img src="/fotos/<%=beobachtung.foto_path%>" alt="Transport-Foto" width="400">
+            <p>
+              Aufgenommen von: <%= beobachtung.foto_recht %>
+            </p>
+          <% end %>
 
         </div>
         

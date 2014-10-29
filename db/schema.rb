@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025173145) do
+ActiveRecord::Schema.define(version: 20141029180404) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                 null: false
@@ -74,6 +74,9 @@ ActiveRecord::Schema.define(version: 20141025173145) do
     t.boolean  "foto"
     t.string   "email"
     t.string   "quelle"
+    t.string   "foto_path"
+    t.string   "foto_recht"
+    t.text     "begleitung_beschreibung"
   end
 
   create_table "firmen", force: true do |t|
