@@ -15,6 +15,8 @@
     
     <% if ((umschlag = @transport.umschlaege.find_by ort: abschnitt.start_ort) && umschlag != umschlag_alt ) %>
       <%= render "umschlaege/show_umschlag", umschlag: umschlag %>
+    <% elsif umschlag_alt.ort != abschnitt.start_ort %>
+        <div class="umschlag"><%= abschnitt.start_ort%></div>
     <% end %>
     
     <%= render "transportabschnitte/show_abschnitt", abschnitt: abschnitt %>
