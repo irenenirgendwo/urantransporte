@@ -11,112 +11,134 @@
     </div>
   <% end %>
   
-  
   <div class="panel panel-default" id="mapedit" >
     <div class="panel-heading">
-          <h2 class="panel-title">Eckdaten</h2>
+      <h3 class="panel-title">Ort und Zeit</h3>
     </div>
     <div class="panel-body">
       
       <div class="row">
-        <div class="col-sm-6">
-          
+        
+        <div class="col-sm-6">          
           <div class="form-group">
-            Standort bei der Beobachtung (z.B. Stadt oder Geokoordinaten): <br>
-            <%= f.text_field :ort, placeholder:"z.B. Hamburg", class: "form-control"  %><br>
-            Klicke auf die Karte, um den Standort genau einzutragen.
+            <%= f.label :ort, "Ort der Beobachtung" %>
+            <%= f.text_field :ort, placeholder:"z.B. Hamburg", class: "form-control"  %>
           </div>
-  
           <div class="form-group">
-            Fahrtrichtung des Transports (z.B. Himmelsrichtung oder nächste Ortschaft):<br>
+            <%= f.label :fahrtrichtung, "Fahrtrichtung des Transports" %>
             <%= f.text_field :fahrtrichtung, placeholder:"z.B. Süden oder Buchholz", class: "form-control" %>
           </div>
-          
-          
-              <!--Javascript: Datum von abfahrts-zeit automatisch setzen bei veraenderung ankunfts_datum -->
-              <div class="form-group">
-                Ankunftszeit:
-                <%= f.datetime_select(:ankunft_zeit, start_year:1990) %>
-              </div>
-            
-              <div class="form-group">
-                Abfahrtszeit:
-                <%= f.datetime_select :abfahrt_zeit, start_year:1990 %>
-              </div>
-            
-       
-          
-          
+          <!--Javascript: Datum von abfahrts-zeit automatisch setzen bei veraenderung ankunfts_datum -->
+          <div class="form-group">
+            <%= f.label :ankunft_zeit, "Ankunftszeit" %>
+            <div class='input-group date' id='datetimepicker-ankunft'>
+              <%= f.text_field :ankunft_zeit, start_year:1990, class: "form-control" %>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= f.label :abfahrt_zeit, "Abfahrtszeit" %>
+            <div class='input-group date' id='datetimepicker-abfahrt'>
+              <%= f.text_field :abfahrt_zeit, start_year:1990, class: "form-control" %>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+          </div>
+          <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker-ankunft').datetimepicker({
+                    language: 'de'
+                });
+                $('#datetimepicker-abfahrt').datetimepicker({
+                    language: 'de'
+                });
+                $("#datetimepicker-ankunft").on("dp.change",function (e) {
+                  $('#datetimepicker-abfahrt').data("DateTimePicker").setMinDate(e.date);
+                });
+                $("#datetimepicker-abfahrt").on("dp.change",function (e) {
+                  $('#datetimepicker-ankunft').data("DateTimePicker").setMaxDate(e.date);
+                });
+            });
+          </script>
         </div>
+        
         <div class="col-sm-6">
-
-          <input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control">
-            <%= f.hidden_field :lat, class: "form-control" %>
-            <%= f.hidden_field :lon, class: "form-control" %>
-            
-          <div id="map" style="height: 300px;"></div>
+          <p>Klicke auf die Karte, um den Standort genau einzutragen.</p>
+          <!--<input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control"> -->
+          <%= f.hidden_field :lat, class: "form-control" %>
+          <%= f.hidden_field :lon, class: "form-control" %>
+          <div id="map" class="panel" style="height: 250px;"></div>
           <script>
             geomap('beobachtung');
           </script> 
         </div>
+        
       </div>
-    </div>
-        
-        
-        
+    
+    </div>   
   </div>
        
   <div class="panel panel-default" id="mapedit" >
     <div class="panel-heading">
-          <h2 class="panel-title">Kennzeichnung</h2>
+      <h3 class="panel-title">Kennzeichnung</h3>
     </div>    
-    <div class="panel-body">   
-        <div class="form-group">
-
-          
-          <%= f.check_box :kennzeichen_radioaktiv %> 
-          <%= image_tag "radioaktiv.jpg", alt: "radioaktiv", size: "70x70", id: "radioaktiv_kennzeichen" %>
-          
-          <%= f.check_box :kennzeichen_aetzend %>
-          <%= image_tag "aetzend.jpg", alt: "ätzend", size: "70x70" %>
-
-          <%= f.check_box :kennzeichen_spaltbar %>
-          <%= image_tag "spaltbar.jpg", alt: "spaltbar", size: "70x70" %>
-          
-          <%= f.check_box :kennzeichen_umweltgefaehrend %>
-          <%= image_tag "umweltgefaehrdend.jpg", alt: "umweltgefährdend", size: "70x70" %>
-
+    <div class="panel-body">
+      <div class="row">
+      
+        <div class="col-sm-6">
+          <h4>Gefahrzeichen</h4>
+          <span>Wähle die Zeichen aus, die am Behälter angebracht waren.</span>
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-default">
+              <%= f.check_box :kennzeichen_radioaktiv %> 
+              <%= image_tag "radioaktiv.png", alt: "radioaktiv", size: "70x70", id: "radioaktiv_kennzeichen" %>
+            </label>
+            <label class="btn btn-default">
+              <%= f.check_box :kennzeichen_aetzend %>
+              <%= image_tag "aetzend.png", alt: "ätzend", size: "70x70" %>
+            </label>
+            <label class="btn btn-default">
+              <%= f.check_box :kennzeichen_spaltbar %>
+              <%= image_tag "spaltbar.png", alt: "spaltbar", size: "70x70" %>
+            </label>
+            <label class="btn btn-default">
+              <%= f.check_box :kennzeichen_umweltgefaehrdend %>
+              <%= image_tag "umweltgefaehrdend.png", alt: "umweltgefährdend", size: "70x70" %>
+            </label>
+          </div>
         </div>
-        <strong>Orange Gefahrguttafel:</strong>
-        <div class="form-group">
+        
+        <div class="col-sm-6">
+          <h4>Orangene Gefahrguttafel</h4>
           <div class="row">
-            <div class="col-sm-4">
-              Obere Nummer (zweistellig):
-              <%= f.text_field :gefahr_nummer, placeholder:"z.B. 78", class: "form-control" %>
+            <div class="col-xs-6">
+              <div class="form-group">
+                <%= f.label :gefahr_nummer, "Obere Nummer" %>
+                <%= f.text_field :gefahr_nummer, placeholder:"z.B. 78", class: "form-control" %>
+              </div>
+              <div class="form-group">
+                <%= f.label :un_nummer, "Untere Nummer" %>
+                <%= f.text_field :un_nummer, placeholder:"z.B. 2978", class: "form-control" %>
+              </div>
             </div>
-            <div class="col-sm-4">
-              Untere Nummer (vierstellig):
-              <%= f.text_field :un_nummer, placeholder:"z.B. 2978", class: "form-control" %>
-            </div>
-            <div class="col-sm-4">
-              Beispiel:
+            <div class="col-xs-6">
+              <p>Beispiel:</p>
               <%= render "stoffe/gefahr_tafel", gefahr_nummer: "78", un_nummer: "2978" %>
             </div>
           </div>
         </div>
+        
+      </div>
     </div>   
   </div>
   
   <div class="panel panel-default">
     <div class="panel-heading">
-          <h2 class="panel-title">Verkehrsmittel</h2>
+      <h3 class="panel-title">Verkehrsmittel</h3>
     </div>    
     <div class="panel-body"> 
-      <div class="field">
-          Verkehrsmittel: 
-          <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, "unbekannt"), 
-             class: "form-control" %><br>
-          Bitte vor der Beschreibung angeben.
+      <p>Bitte vor dem weiteren Ausfüllen angeben!</p>
+      <div class="form-group">
+          <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, "unbekannt"), {}, class: "form-control" %>
       </div>
     </div>
   </div>
@@ -124,19 +146,19 @@
   
   <div class="panel panel-default" >
     <div class="panel-heading">
-          <h2 class="panel-title">Beschreibung</h2>
+      <h3 class="panel-title">Beschreibung</h3>
     </div>    
     <div class="panel-body"> 
       <div class="row">
         <div class="col-sm-9">
           <div class="form-group">
-            Beschreibung der Container / Ladung (Farbe, Größe, Logos, Form, Gestelle, Container-Nummern):<br>
+            <%= f.label :container_beschreibung, "Beschreibung der Container / Ladung (Farbe, Größe, Logos, Form, Gestelle, Container-Nummern)" %>
             <%= f.text_area :container_beschreibung, placeholder:"z.B. zylinderförmige graue Behälter, füllen Container nicht aus", class: "form-control" %>
           </div>
         </div>
         <div class="col-sm-3">
           <div class="form-group">
-            Anzahl Container: <br>
+            <%= f.label :anzahl_container, "Anzahl der Container" %>
             <%= f.number_field :anzahl_container, placeholder:1, class: "form-control", min:0 %>
           </div>
         </div>
@@ -149,48 +171,48 @@
       </div>
         
         <div class="beobachtung_zug">
-          <div class="field">
-            Beschreibung der Lok (Farbe, Aufschriften, Nummer, Eisenbahngesellschaft, Diesel oder elektrisch)
+          <div class="form-group">
+            <%= f.label :lok_beschreibung, "Beschreibung der Lok (Farbe, Aufschriften, Nummer, Eisenbahngesellschaft, Diesel oder elektrisch)" %>
             <%= f.text_field :lok_beschreibung, placeholder:"z.B. dunkelrot mit weißen Streifen, BE-24", class: "form-control" %>
           </div>
         </div>
         
         <div class="beobachtung_zug">
-          <div class="field">
-            Beschreibung des Zuges (z.B. welche Wagen kommen im ganzen Zug vor, in welcher Reihenfolge, wo sind die Uranwagen positioniert,
-            gibt es Graffiti, wie viele Waggons hat der Zug?)
+          <div class="form-group">
+            <%= f.label :zug_beschreibung, "Beschreibung des Zuges (z.B. welche Wagen kommen im ganzen Zug vor, in welcher Reihenfolge, wo sind die Uranwagen positioniert,
+            gibt es Graffiti, wie viele Waggons hat der Zug?)" %>
             <%= f.text_area :zug_beschreibung, 
                 placeholder:"z.B. die Uranwaggons kommen zuerst, dahinter ca. 30 Kesselwagen mit Gefahrgut, dann einige Waggons mit Holz", 
                 class: "form-control" %>
           </div>
         </div>
         <div class="beobachtung_lkw">
-          <div class="field">
-            Anzahl LKW:<br>
+          <div class="form-group">
+            <%= f.label :anzahl_lkw, "Anzahl LKW" %>
             <%= f.number_field :anzahl_lkw, placeholer: 1, class: "form-control", min:0 %>
           </div>
-          <div class="field">
-            Auto-Kennzeichen der LKW:
+          <div class="form-group">
+            <%= f.label :kennzeichen_lkw, "Auto-Kennzeichen der LKW" %>
             <%= f.text_field :kennzeichen_lkw, class: "form-control" %>
           </div>
-          <div class="field">
-            Beschreibung des LKW (Fahrgestell, Farbe, Aufschrift):
+          <div class="form-group">
+            <%= f.label :lkw_beschreibung, "Beschreibung des LKW (Fahrgestell, Farbe, Aufschrift)" %>
             <%= f.text_area :lkw_beschreibung, placeholder:"z.B. grüner LKW mit Auflieger", class: "form-control" %>
           </div>
         </div>
         <div class="beobachtung_schiff">
-          <div class="field">
-            Schiffsname: <br>
+          <div class="form-group">
+            <%= f.label :schiff_name, "Schiffsname" %>
             <%= f.text_field :schiff_name, class: "form-control" %>
           </div>
-          <div class="field">
-            Beschreibung des Schiffs (Größe, Aussehen, ...):
+          <div class="form-group">
+            <%= f.label :schiff_beschreibung, "Beschreibung des Schiffs (Größe, Aussehen, ...)" %>
             <%= f.text_area :schiff_beschreibung, placeholder:"z.B. ca. 200m lang, rote Außenwand, nur 3 Container an Deck", class: "form-control" %>
           </div>
         </div>
         
         <div class="form-group">
-          Transportfirma (Aufschrift der Reederei, Spedition, Bahnunternehmen):<br>
+          <%= f.label :firma_beschreibung, "Transportfirma (Aufschrift der Reederei, Spedition, Bahnunternehmen)" %>
           <%= f.text_field :firma_beschreibung, placeholder:"z.B. Kieserling", class: "form-control" %>
         </div>
       </div>
@@ -198,23 +220,25 @@
         
   <div class="panel panel-default" >
     <div class="panel-heading">
-          <h2 class="panel-title">Begleitumstände</h2>
+      <h3 class="panel-title">Begleitumstände</h3>
     </div>    
     <div class="panel-body">
       <div class="row">
         <div class="col-sm-4">  
-                 
-            <div class="field">     
-              <%= f.check_box :polizei %> Polizei
+            <div class="checkbox">
+              <label>
+                <%= f.check_box :polizei %> Polizei
+              </label>
             </div>
-            <div class="field">
-              <%= f.check_box :hubschrauber %> Polizeihubschrauber
+            <div class="checkbox">
+              <label>
+                <%= f.check_box :hubschrauber %> Polizeihubschrauber
+              </label>
             </div>
         </div>
-         <div class="col-sm-8">  
-                 
-            <div class="field">     
-              Weitere Beschreibung:
+         <div class="col-sm-8">    
+            <div class="form-group">     
+              <%= f.label :begleitung_beschreibung, "Weitere Beschreibung" %>
               <%= f.text_area :begleitung_beschreibung, class: "form-control" %>
             </div>
         </div>
@@ -224,20 +248,23 @@
   </div>
   <div class="panel panel-default" >
     <div class="panel-heading">
-          <h2 class="panel-title">Foto und Kontakt (freiwillig)</h2>
+      <h3 class="panel-title">Foto und Kontakt (freiwillig)</h3>
     </div>    
     <div class="panel-body">       
         
-        <div class="field">
-          <%= f.check_box :foto %> Foto gemacht? (Nach der Eingabe der Beobachtung können Sie das Foto hochladen.)
+        <div class="checkbox">
+          <label>
+            <%= f.check_box :foto %> Foto gemacht? (Nach der Eingabe der Beobachtung können Sie das Foto hochladen.)
+          </label>
         </div>
-        <div class="field">
-          E-Mail-Adresse für Nachfragen (freiwillige Angabe):
-          <%= f.text_field :email %>
+        <div class="form-group">
+          <%= f.label :email, "E-Mail-Adresse für Nachfragen (freiwillige Angabe)" %>
+          <%= f.text_field :email, class: "form-control" %>
         </div>
     </div>
   </div>
-        <div class="actions">
-          <%= f.submit %>
-        </div>
+  
+  <div class="actions">
+    <%= f.submit class: "btn btn-primary" %>
+  </div>
 <% end %>

@@ -42,14 +42,14 @@ gem 'spring',        group: :development
 gem 'leaflet-rails', '~> 0.7.4'
 
 #Bootstrap fürs Layout
-gem 'bootstrap-sass', '~> 3.2.0.0'
+gem 'bootstrap-sass',                   '~> 3.2.0.0'
+gem 'momentjs-rails',                   '>= 2.8.1'
+gem 'bootstrap3-datetimepicker-rails',  '~> 3.1.3'
+gem 'will_paginate',                    '~> 3.0.7'
+gem 'bootstrap-will_paginate',          '~> 0.0.10'
 
 #Passwoerter
 gem 'bcrypt-ruby', '3.1.2'
-
-#Pagination
-gem 'will_paginate',           '3.0.7'
-gem 'bootstrap-will_paginate', '0.0.10'
 
 #Screen Scraping
 gem 'nokogiri', '~> 1.6.3.1'

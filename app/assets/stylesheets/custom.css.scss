@@ -1,5 +1,6 @@
 @import "bootstrap-sprockets";
-@import "bootstrap";
+@import 'bootstrap';
+@import 'bootstrap-datetimepicker';
 
 .header-buttons {
   float: right;
@@ -37,4 +38,9 @@
   white-space: nowrap;
   overflow: hidden;
   width: 100%;
+}
+
+
+.panel-body .panel {
+  margin-bottom: 0;
 }

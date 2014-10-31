@@ -16,6 +16,9 @@
 //= require_tree .
 //= require leaflet
 //= require bootstrap
+//= require moment
+//= require bootstrap-datetimepicker
+//= require moment/de
 
 function beobachtung_toleranz_tage(){          
   $("#toleranz_tage").change(function() {
