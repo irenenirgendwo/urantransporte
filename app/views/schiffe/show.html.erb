@@ -16,10 +16,19 @@
   
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Daten</h3>
+        <h3 class="panel-title">Aktuelle Daten</h3>
       </div>
       <div class="panel-body">
-        <strong>IMO </strong><%= @schiff.imo %>
+        <dl class="dl-horizontal">
+          <% if @schiff.current_destination %>
+            <dt>Zielhafen</dt>
+            <dd><%= @schiff.current_destination %></dd>
+          <% end %>
+          <% if @schiff.current_eta %>
+            <dt>Erwartete Ankunfszeit</dt>
+            <dd><%= @schiff.current_eta.strftime("%d.%m.%Y, %H:%M Uhr") %></dd>
+          <% end %>
+        </dl>      
       </div>
     </div>
 

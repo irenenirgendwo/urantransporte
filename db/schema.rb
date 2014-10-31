@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141029180404) do
+ActiveRecord::Schema.define(version: 20141031094848) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                 null: false
@@ -106,6 +106,8 @@ ActiveRecord::Schema.define(version: 20141029180404) do
     t.string   "bild_urheber"
     t.text     "next_ports"
     t.integer  "firma_id"
+    t.string   "current_destination"
+    t.datetime "current_eta"
   end
 
   add_index "schiffe", ["firma_id"], name: "index_schiffe_on_firma_id"

@@ -11,20 +11,24 @@ class Schiff < ActiveRecord::Base
         doc = Nokogiri::HTML(open(self.vesselfinder_url.to_s))
         lattext = doc.at_css("span[itemprop='latitude']").text
         lontext = doc.at_css("span[itemprop='longitude']").text
+        destext = doc.at_css("span[itemprop='currentDestination']").text
+        etatext = doc.at_css("span[itemprop='shipETA']").text
+        
         lat = lattext.split(' ')
         lon = lontext.split(' ')
-        
         if lat[1] == "S"
           self.update(current_lat: lat[0].to_f*(-1))
         else
           self.update(current_lat: lat[0].to_f)
-        end
-        
+        end       
         if lon[1] == "W"
           self.update(current_lon: lon[0].to_f*(-1))
         else
           self.update(current_lon: lon[0].to_f)
         end
+        
+        self.update(current_destination: destext)
+        self.update(current_eta: etatext)
       rescue
       end
     end
