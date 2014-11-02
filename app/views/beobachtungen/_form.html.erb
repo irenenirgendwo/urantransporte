@@ -21,12 +21,16 @@
         
         <div class="col-sm-6">          
           <div class="form-group">
-            <%= f.label :ort, "Ort der Beobachtung" %>
-            <%= f.text_field :ort, placeholder:"z.B. Hamburg", class: "form-control"  %>
+            <%= f.label :ort do %>
+              Ort der Beobachtung <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title="z.B. Stadt oder Koordinaten"></span>
+            <% end %>
+            <%= f.text_field :ort, class: "form-control"  %>
           </div>
           <div class="form-group">
-            <%= f.label :fahrtrichtung, "Fahrtrichtung des Transports" %>
-            <%= f.text_field :fahrtrichtung, placeholder:"z.B. Süden oder Buchholz", class: "form-control" %>
+            <%= f.label :fahrtrichtung do %>
+              Fahrtrichtung des Transports <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title="z.B. Himmelsrichtung oder nächster Ort"></span>
+            <% end %>
+            <%= f.text_field :fahrtrichtung, class: "form-control" %>
           </div>
           <!--Javascript: Datum von abfahrts-zeit automatisch setzen bei veraenderung ankunfts_datum -->
           <div class="form-group">
@@ -57,6 +61,7 @@
                 $("#datetimepicker-abfahrt").on("dp.change",function (e) {
                   $('#datetimepicker-ankunft').data("DateTimePicker").setMaxDate(e.date);
                 });
+                $('.glyphicon-question-sign').tooltip();
             });
           </script>
         </div>
@@ -86,7 +91,7 @@
       
         <div class="col-sm-6">
           <h4>Gefahrzeichen</h4>
-          <span>Wähle die Zeichen aus, die am Behälter angebracht waren.</span>
+          <p>Wähle die Zeichen aus, die am Behälter angebracht waren.</p>
           <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-default">
               <%= f.check_box :kennzeichen_radioaktiv %> 
@@ -152,7 +157,9 @@
       <div class="row">
         <div class="col-sm-9">
           <div class="form-group">
-            <%= f.label :container_beschreibung, "Beschreibung der Container / Ladung (Farbe, Größe, Logos, Form, Gestelle, Container-Nummern)" %>
+            <%= f.label :container_beschreibung do %>
+            Beschreibung der Container/Ladung <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title="z.B. Farbe, Größe, Logos, Form, Gestelle, Container-Nummern)"></span>
+            <% end %>
             <%= f.text_area :container_beschreibung, placeholder:"z.B. zylinderförmige graue Behälter, füllen Container nicht aus", class: "form-control" %>
           </div>
         </div>
@@ -172,15 +179,18 @@
         
         <div class="beobachtung_zug">
           <div class="form-group">
-            <%= f.label :lok_beschreibung, "Beschreibung der Lok (Farbe, Aufschriften, Nummer, Eisenbahngesellschaft, Diesel oder elektrisch)" %>
+            <%= f.label :lok_beschreibung do %>
+            Beschreibung der Lok <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title="z.B. Farbe, Aufschriften, Nummer, Eisenbahngesellschaft, Diesel oder elektrisch)"></span>
+            <% end %>
             <%= f.text_field :lok_beschreibung, placeholder:"z.B. dunkelrot mit weißen Streifen, BE-24", class: "form-control" %>
           </div>
         </div>
         
         <div class="beobachtung_zug">
           <div class="form-group">
-            <%= f.label :zug_beschreibung, "Beschreibung des Zuges (z.B. welche Wagen kommen im ganzen Zug vor, in welcher Reihenfolge, wo sind die Uranwagen positioniert,
-            gibt es Graffiti, wie viele Waggons hat der Zug?)" %>
+            <%= f.label :zug_beschreibung do %>
+            Beschreibung des Zuges <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title="z.B. welche Wagen kommen im ganzen Zug vor, in welcher Reihenfolge, wo sind die Uranwagen positioniert, gibt es Graffiti, wie viele Waggons hat der Zug?"></span>
+            <% end %>
             <%= f.text_area :zug_beschreibung, 
                 placeholder:"z.B. die Uranwaggons kommen zuerst, dahinter ca. 30 Kesselwagen mit Gefahrgut, dann einige Waggons mit Holz", 
                 class: "form-control" %>
@@ -196,7 +206,9 @@
             <%= f.text_field :kennzeichen_lkw, class: "form-control" %>
           </div>
           <div class="form-group">
-            <%= f.label :lkw_beschreibung, "Beschreibung des LKW (Fahrgestell, Farbe, Aufschrift)" %>
+            <%= f.label :lkw_beschreibung do %>
+            Beschreibung des LKW <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title="z.B. Fahrgestell, Farbe, Aufschrift"></span>
+            <% end %>
             <%= f.text_area :lkw_beschreibung, placeholder:"z.B. grüner LKW mit Auflieger", class: "form-control" %>
           </div>
         </div>
@@ -212,7 +224,9 @@
         </div>
         
         <div class="form-group">
-          <%= f.label :firma_beschreibung, "Transportfirma (Aufschrift der Reederei, Spedition, Bahnunternehmen)" %>
+          <%= f.label :firma_beschreibung do %>
+          Transportfirma <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title="z.B. Reederei, Spedition, Bahnunternehmen"></span>
+          <% end %>
           <%= f.text_field :firma_beschreibung, placeholder:"z.B. Kieserling", class: "form-control" %>
         </div>
       </div>
