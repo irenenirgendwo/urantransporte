@@ -1,6 +1,6 @@
 class BeobachtungenController < ApplicationController
   before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :load_foto, :update_foto, :abschnitt_zuordnen, :set_toleranz_tage]
-  before_action :editor_user, only: [:edit, :update, :destroy]
+  before_action :editor_user, only: [:edit, :update, :destroy, :index]
   
   # Zeigt alle noch nicht zu Transportabschnitten zugeordneten Beobachtungen an. (zugeordnet="n"
   # Es ist auch möglich, alle Beobachtungen anzeigen zu lassen (zugeordnet="a").
