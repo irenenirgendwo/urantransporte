@@ -15,7 +15,8 @@
 <h3> Transportabschnitt </h3>
 
   <div class="btn-group header-buttons">
-    <%= link_to 'Bearbeiten', edit_transportabschnitt_path(@transportabschnitt) , class: "btn btn-primary" %>  
+    <%= link_to 'Bearbeiten', edit_transportabschnitt_path(@transportabschnitt) , class: "btn btn-primary" %> 
+    <%= link_to 'Löschen', @transportabschnitt, method: :delete, data: { confirm: 'Willst du den Transportabschnitt wirklich löschen?' }, class: "btn btn-danger" %></td>
   </div>
 <%= render "show_abschnitt", :abschnitt => @transportabschnitt %>
 

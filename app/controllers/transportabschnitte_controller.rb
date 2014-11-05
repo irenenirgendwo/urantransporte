@@ -74,9 +74,10 @@ class TransportabschnitteController < ApplicationController
   # DELETE /transportabschnitte/1
   # DELETE /transportabschnitte/1.json
   def destroy
+    transport = @transportabschnitt.transport
     @transportabschnitt.destroy
     respond_to do |format|
-      format.html { redirect_to transportabschnitte_url, notice: 'Transportabschnitt was successfully destroyed.' }
+      format.html { redirect_to transport, notice: 'Transportabschnitt was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
