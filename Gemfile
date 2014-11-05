@@ -38,6 +38,9 @@ gem 'spring',        group: :development
 #Leaflet zur Kartendarstellung
 gem 'leaflet-rails', '~> 0.7.4'
 
+# Kalender-Darstellung
+# ???
+
 #Bootstrap fürs Layout
 gem 'bootstrap-sass',                   '~> 3.2.0.0'
 gem 'momentjs-rails',                   '>= 2.8.1'

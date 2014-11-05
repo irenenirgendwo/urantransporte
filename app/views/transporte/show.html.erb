@@ -10,22 +10,12 @@
   Noch keine Transportabschnitte eingegeben.
   <%= link_to 'Neuer Transportabschnitt', new_transport_transportabschnitt_path(@transport) %> |
 <% else %>
-  <% umschlag_alt = nil; %>
-  <% @transport.transportabschnitte.order(:end_datum).each do |abschnitt| %>
-    
-    <% if ((umschlag = @transport.umschlaege.find_by ort: abschnitt.start_ort) && umschlag != umschlag_alt ) %>
-      <%= render "umschlaege/show_umschlag", umschlag: umschlag %>
-    <% elsif umschlag_alt.ort != abschnitt.start_ort %>
-        <div class="umschlag"><%= abschnitt.start_ort%></div>
+  <% @abschnitt_umschlag_list.each do |anzeigen| %>
+    <% if anzeigen.is_a? Umschlag %>
+      <%= render "umschlaege/show_umschlag", umschlag: anzeigen %>
+    <% else %>
+      <%= render "transportabschnitte/show_abschnitt", abschnitt: anzeigen %>
     <% end %>
-    
-    <%= render "transportabschnitte/show_abschnitt", abschnitt: abschnitt %>
-    
-    <% if (umschlag = @transport.umschlaege.find_by ort: abschnitt.end_ort) %>
-      <%= render "umschlaege/show_umschlag", umschlag: umschlag %>
-      <% umschlag_alt = umschlag %>
-    <% end %>
-    
   <% end %>
 <% end %>
 

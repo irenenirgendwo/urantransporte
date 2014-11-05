@@ -15,7 +15,27 @@ class TransporteController < ApplicationController
 
   # GET /transporte/1
   # GET /transporte/1.json
+  # Sortiert Transportabschnitte und Umschlaege (Logik in den Controller).
+  # Funktioniert auch bei unvollstaendigen Umschlaegen oder Transportabschnitten.
   def show
+    @abschnitt_umschlag_list = []
+    abschnitte = @transport.transportabschnitte.order(:end_datum)
+    listed_umschlaege = []
+    abschnitte.each do |abschnitt|
+      @abschnitt_umschlag_list << abschnitt
+      umschlag = @transport.umschlaege.find_by ort: abschnitt.end_ort
+      unless umschlag.nil?
+        @abschnitt_umschlag_list << umschlag
+        listed_umschlaege << umschlag
+      end
+    end 
+    if listed_umschlaege.size < @transport.umschlaege.size
+      @transport.umschlaege.each do |umschlag|
+        unless listed_umschlaege.include? umschlag
+          @abschnitt_umschlag_list << umschlag
+        end
+      end 
+    end 
   end
 
   # GET /transporte/new

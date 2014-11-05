@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141031094848) do
+ActiveRecord::Schema.define(version: 20141105182938) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                 null: false
@@ -175,8 +175,8 @@ ActiveRecord::Schema.define(version: 20141031094848) do
   create_table "umschlaege", force: true do |t|
     t.string   "ort"
     t.string   "terminal"
-    t.date     "start_datum"
-    t.date     "end_datum"
+    t.datetime "start_datum"
+    t.datetime "end_datum"
     t.integer  "firma_id"
     t.integer  "transport_id"
     t.datetime "created_at"
