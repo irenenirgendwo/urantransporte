@@ -1,6 +1,6 @@
 class TransporteController < ApplicationController
-  before_action :set_transport, only: [:show, :edit, :update, :destroy, :set_aehnliche_transporte_options, :aehnliche_transporte]
-  before_action :editor_user, only: [:new, :edit, :create, :update, :destroy, :set_aehnliche_transporte_options, :aehnliche_transporte]
+  before_action :set_transport, only: [:show, :edit, :update, :destroy, :union, :set_aehnliche_transporte_options, :aehnliche_transporte]
+  before_action :editor_user, only: [:new, :edit, :create, :update, :destroy, :union, :set_aehnliche_transporte_options, :aehnliche_transporte]
 
   # GET /transporte
   # GET /transporte.json
@@ -58,11 +58,13 @@ class TransporteController < ApplicationController
   
   # zum zusammen fuehren optionen setzen
   def set_aehnliche_transporte_options
+    File.open("log/transport.log","w"){|f| f.puts "set aehnliche Transporte mit #{params}"}
     @toleranz_tage = params[:tage].to_i
-    @start = params[:start] ? @transport.start_anlage : nil
-    @ziel_gleich = params[:ziel]
-    @transporte = Transport.get_transporte_around_options(@beobachtung.ankunft_zeit,@toleranz_tage, @start_gleich, @ziel_gleich)
-    rrender "show_transport_grunddaten", transport: @transport
+    @start = params[:start]=="true" ? @transport.start_anlage : nil
+    @ziel = params[:ziel]=="true" ? @transport.ziel_anlage : nil
+    @transporte = Transport.get_transporte_around_options(@transport.datum,@toleranz_tage, 
+                  @start, @ziel).where("id > ? or id < ?", @transport.id, @transport.id)
+    render :partial => "aehnliche", :locals => {:transport => @transport}
   end
 
   # legt einen neuen Transport, erstmal ohne Transportabschnitte an.
@@ -111,27 +113,20 @@ class TransporteController < ApplicationController
     end
   end
   
-  # Macht alle Abschnittsdaten bearbeitbar.
+  # GET transporte/union/:id/:add_transport_id
   #
-  #def edit_abschnitte
-  #  @transport = Transport.find(params[:id])
-  #end 
-  
-  
-  # TODO: unfertig, wie soll das eigentlich am besten aussehen?
-  #def update_abschnitte
-  #  @transport = Transport.find(params[:id])
-  #  
-  #  respond_to do |format|
-  #    redirect_to @transport, notice: 'Transportabschnitte wurden aktualisiert (tut noch nicht).' 
-  #  end
-  #end 
-  
-  def union_transport
-    # oder zieltransport schon @transport und route zu ressourcen hinzufuegen?
-    ziel_transport = Transport.find(params[:ziel_transport].to_i)
-    add_transport = ziel_transport.add(Transport.find(params[:add_transport].to_i))
-    
+  def union
+    adding_transport = Transport.find(params[:add_transport].to_i)
+    if adding_transport 
+      @transport.add(adding_transport)
+      if @transport.save
+        redirect_to @transport, notice: "Transport #{params[:add_transport]} erfolgreich hinzugefügt und aus der Datenbank gelöscht."
+      else 
+        redirect_to @transport, notice: "Transport konnte nicht gespeichert werden."
+      end
+    else
+      redirect_to aehnliche_transporte_transport_path(@transport)
+    end
   end
 
   private

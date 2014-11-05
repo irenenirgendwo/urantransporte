@@ -1,4 +1,5 @@
 <div class="panel panel-default" id="show_aehnliche_panel">
+    <%= hidden_field_tag "transport_id", transport.id %>
     <div class="panel-heading">
       <h2 class="panel-title">Gefundene Transporte</h2>
     </div>
@@ -24,14 +25,14 @@
               </thead>
 
               <tbody>
-                <% @transporte.each do |transport| %>
+                <% @transporte.each do |trans| %>
                   <tr>
-                    <td><%= transport.datum %></td>
-                    <td><%= link_to transport.start_anlage, transport.start_anlage %></td>
-                    <td><%= link_to transport.ziel_anlage, transport.ziel_anlage %></td>
-                    <td><%= link_to transport.stoff, transport.stoff %></td>
-                    <td><%= link_to 'Show', transport %></td>
-                    <td><%= link_to 'Zu aktuellem Transport hinzufügen (löscht den hier)', transport %></td>
+                    <td><%= trans.datum %></td>
+                    <td><%= link_to trans.start_anlage, trans.start_anlage %></td>
+                    <td><%= link_to trans.ziel_anlage, trans.ziel_anlage %></td>
+                    <td><%= link_to trans.stoff, trans.stoff %></td>
+                    <td><%= link_to 'Show', trans %></td>
+                    <td><%= link_to 'Zu aktuellem Transport hinzufügen (löscht den hier)', union_transport_path(transport, add_transport: trans.id) %></td>
                   </tr>
                 <% end %>
               </tbody>
