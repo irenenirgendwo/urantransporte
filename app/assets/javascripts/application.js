@@ -20,6 +20,7 @@
 //= require bootstrap-datetimepicker
 //= require moment/de
 
+
 function beobachtung_toleranz_tage(){          
   $("#toleranz_tage").change(function() {
     var beobachtung_id, tage;

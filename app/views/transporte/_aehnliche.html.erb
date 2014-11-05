@@ -1,0 +1,42 @@
+<div class="panel panel-default" id="show_aehnliche_panel">
+    <div class="panel-heading">
+      <h2 class="panel-title">Gefundene Transporte</h2>
+    </div>
+    <div class="panel-body">
+          <% if @transporte.nil? || @transporte.empty? %>
+              <p>
+                Passende Transporte wurden nicht gefunden.
+              </p>
+          <%  else %>
+            <p>
+               Wenn die Beobachtung zu einem der folgenden aufgelisteteten Transporte passt, wähle "Neuen Transportabschnitt anlegen"
+               um einen neuen Transportabschnitt zum jeweiligen Transport zu erstellen, der automatisch dieser Beobachtung zugeordnet wird.
+            </p>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Datum</th>
+                  <th>Start</th>
+                  <th>Ziel</th>
+                  <th>Stoff</th>
+                  <th colspan="2"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @transporte.each do |transport| %>
+                  <tr>
+                    <td><%= transport.datum %></td>
+                    <td><%= link_to transport.start_anlage, transport.start_anlage %></td>
+                    <td><%= link_to transport.ziel_anlage, transport.ziel_anlage %></td>
+                    <td><%= link_to transport.stoff, transport.stoff %></td>
+                    <td><%= link_to 'Show', transport %></td>
+                    <td><%= link_to 'Zu aktuellem Transport hinzufügen (löscht den hier)', transport %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          
+          <% end %>
+    </div>
+</div>

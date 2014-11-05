@@ -21,6 +21,7 @@
 
   <%= link_to 'Neuer Transportabschnitt', new_transport_transportabschnitt_path(@transport) %> |
   <%= link_to 'Neuer Umschlag', new_transport_umschlag_path(@transport) %> |
-  
-  <%= link_to 'Alle Transporte anzeigen', transporte_path %>
-
+ 
+  <%= link_to "Ähnliche Transporte zeigen", aehnliche_transporte_transport_path(@transport) %> |
+ 
+  <%= link_to 'Alle Transporte anzeigen', transporte_path %> 

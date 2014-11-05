@@ -1,6 +1,6 @@
 class TransporteController < ApplicationController
-  before_action :set_transport, only: [:show, :edit, :update, :destroy]
-  before_action :editor_user, only: [:new, :edit, :create, :update, :destroy]
+  before_action :set_transport, only: [:show, :edit, :update, :destroy, :set_aehnliche_transporte_options, :aehnliche_transporte]
+  before_action :editor_user, only: [:new, :edit, :create, :update, :destroy, :set_aehnliche_transporte_options, :aehnliche_transporte]
 
   # GET /transporte
   # GET /transporte.json
@@ -15,9 +15,10 @@ class TransporteController < ApplicationController
 
   # GET /transporte/1
   # GET /transporte/1.json
-  # Sortiert Transportabschnitte und Umschlaege (Logik in den Controller).
-  # Funktioniert auch bei unvollstaendigen Umschlaegen oder Transportabschnitten.
+  #
   def show
+    # Sortiert Transportabschnitte und Umschlaege (Logik in den Controller).
+    # Funktioniert auch bei unvollstaendigen Umschlaegen oder Transportabschnitten.
     @abschnitt_umschlag_list = []
     abschnitte = @transport.transportabschnitte.order(:end_datum)
     listed_umschlaege = []
@@ -47,6 +48,21 @@ class TransporteController < ApplicationController
 
   # GET /transporte/1/edit
   def edit
+  end
+  
+  # Zum zusammenfuehren von Transporten suche nach aehnlichen Transporten
+  def aehnliche_transporte
+    @toleranz_tage = params[:tage] ? params[:tage].to_i : 4
+    @transporte = Transport.get_transporte_around(@transport.datum,4)
+  end 
+  
+  # zum zusammen fuehren optionen setzen
+  def set_aehnliche_transporte_options
+    @toleranz_tage = params[:tage].to_i
+    @start = params[:start] ? @transport.start_anlage : nil
+    @ziel_gleich = params[:ziel]
+    @transporte = Transport.get_transporte_around_options(@beobachtung.ankunft_zeit,@toleranz_tage, @start_gleich, @ziel_gleich)
+    rrender "show_transport_grunddaten", transport: @transport
   end
 
   # legt einen neuen Transport, erstmal ohne Transportabschnitte an.

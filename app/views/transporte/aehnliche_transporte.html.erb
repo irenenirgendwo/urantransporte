@@ -1,0 +1,19 @@
+<h2>Atomtransport - Grunddaten</h2>
+
+<%= render "show_transport_grunddaten", transport: @transport %>
+
+<h2> Ähnliche Transporte </h2>
+
+<p> 
+  Es werden die Transportabschnitte rund um das Beobachtungsdatum herum angezeigt. Dabei werden
+  <%= number_field_tag "toleranz_tage", @toleranz_tage, min:0 %> Tage vor bzw. nach dem Datum angerechnet.          
+</p>
+<p> <%= check_box_tag "start" %> Nur Transporte mit gleicher Start-Anlage anzeigen </p>
+<p> <%= check_box_tag "ziel"%> Nur Transporte mit gleicher Ziel-Anlage anzeigen </p>
+
+<!-- Automatisch updaten -->
+<script type="text/javascript">
+  set_aehnliche_transporte_options();
+</script>
+
+<%= render "aehnliche", transport: @transport %>

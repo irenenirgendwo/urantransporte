@@ -20,6 +20,13 @@ class Transport < ActiveRecord::Base
     Transport.where("datum >= ? and datum <= ?", datum.to_date - plus_minus_tage.days, datum.to_date + plus_minus_tage.days)
   end
   
+  def self.get_transporte_around_options(datum,plus_minus_tage, start, ziel)
+    transporte = get_transporte_around(datum,plus_minus_tage)
+    transporte = transporte.where(start_anlage: start) if start 
+    transporte = transporte.where(ziel_anlage: ziel) if ziel
+    transporte
+  end
+  
   # Integriert in diesen Transport den übergebenen Transport.
   # Dabei werden alle Transportabschnitte und Umschlaege in diesen Transport uebernommen.
   # Transport wird in der Datenbank gespeichert.

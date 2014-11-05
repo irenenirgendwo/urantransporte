@@ -26,9 +26,12 @@ Rails.application.routes.draw do
 
   resources :transporte do 
     get 'union', on: :member
+    get "aehnliche_transporte", on: :member
     #get 'edit_abschnitte', on: :member
     #post 'transporte/update_abschnitte', on: :member
   end
+  get "transporte/set_aehnliche_transporte_options/:id/:tage/:start/:ziel" => 'transporte#set_aehnliche_transporte_options', as: :set_aehnliche_transporte_options_transport
+
 
   resources :beobachtungen do
     get "abschnitt_zuordnen", on: :member
