@@ -34,6 +34,7 @@ class AnlagenController < ApplicationController
   def new
     @anlage = Anlage.new
     @synonym = params[:synonym]
+    session[:redirect_params] = params[:redirect_params]
   end
 
   # GET /anlagen/1/edit
@@ -47,10 +48,18 @@ class AnlagenController < ApplicationController
   # POST /anlagen.json
   def create
     @anlage = Anlage.new(anlage_params)
-    @redirect_params = params[:redirect_params]
+    @redirect_params = params[:redirect_params] ? params[:redirect_params] : (session[:redirect_params]  ? session[:redirect_params] : @anlage)
+    
+    File.open("log/anlagen.log","w"){|f| f.puts @redirect_params }
+    File.open("log/anlagen.log","a"){|f| f.puts "flash #{flash[:redirect_params]}" }
+    session[:redirect_params] = nil
+    
     if params[:synonym]
-	  synonym = AnlagenSynonym.find_by(synonym: params[:synonym])
-	  synonym.anlage = @anlage if synonym
+      synonym = AnlagenSynonym.find_by(synonym: params[:synonym])
+      if synonym 
+        synonym.anlage = @anlage
+        synonym.save 
+      end
     end
 
     respond_to do |format|
