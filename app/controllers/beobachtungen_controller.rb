@@ -55,8 +55,8 @@ class BeobachtungenController < ApplicationController
     
     respond_to do |format|
       if @beobachtung.save
-        format.html { redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.' }
-        format.json { render :show, status: :created, location: @beobachtung }
+          format.html { redirect_to @beobachtung.foto ? load_foto_beobachtung_path(@beobachtung) : beobachtung_path(@beobachtung) , notice: 'Beobachtung wurde angelegt.' }
+      format.json { render :show, status: :created, location: @beobachtung }
       else
         format.html { render :new }
         format.json { render json: @beobachtung.errors, status: :unprocessable_entity }
