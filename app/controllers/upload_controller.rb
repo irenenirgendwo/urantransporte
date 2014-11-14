@@ -31,7 +31,7 @@ class UploadController < ApplicationController
         else
           render "upload_file"
         end
-      rescue ArgumentError
+      rescue 
         upload_fehler("Dateiformat nicht korrekt.")
       end
     end
