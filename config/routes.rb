@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
   post 'abfragen/show'
 
-  get 'abfragen/calendar'
+  post 'abfragen/calendar'
 
   get 'welcome/index'
 
