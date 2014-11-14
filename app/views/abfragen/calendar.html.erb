@@ -1,51 +1,54 @@
-<h1>Transporte in Kalenderdarstellung</h1>
+<h1>Ausgewählte Transporte in Kalenderdarstellung</h1>
 <% params %>
 
+    <div class="panel panel-default">
+      <div class="panel-heading">
+          <div class="well controls">
+            <div class="col-sm-4">
+              <%= form_tag({action: :calendar}, multipart: true) do %>
 
-<div class="row">
-  <div class="well controls">
-    <div class="col-sm-4">
-      <%= form_tag({action: :calendar}, multipart: true) do %>
+                <% @transporte.each do |trans| %>
+                  <%= hidden_field_tag "transport_#{trans.id}", trans.id %>
+                <% end %>
+                
+                <%= hidden_field_tag "year", @year - 1 %> 
 
-        <% @transporte.each do |trans| %>
-          <%= hidden_field_tag "transport_#{trans.id}", trans.id %>
-        <% end %>
-        
-        <%= hidden_field_tag "year", @year - 1 %> 
+                <div class="col-sm-4">
+                  <%= submit_tag "<<" %>
+                </div>
+              <% end %>
+            </div>
+            <div class="col-sm-4">
+              <%= "#{@year}" %>
+            </div>
+            <div class="col-sm-4">
+              <%= form_tag({action: :calendar}, multipart: true) do %>
 
-        <div class="col-sm-4">
-          <%= submit_tag "<<" %>
+                <% @transporte.each do |trans| %>
+                  <%= hidden_field_tag "transport_#{trans.id}", trans.id %>
+                <% end %>
+                
+                <%= hidden_field_tag "year", @year + 1 %> 
+
+                <div class="col-sm-4">
+                  <%= submit_tag ">>" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+      </div>
+      
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-12">
+            <%= calendar @date do |date| %>
+              <% if @transporte_per_day[date] %>
+                <% @transporte_per_day[date].each do |transport| %>
+                  <p class="small info"> <%= transport.start_anlage %> --> <%= transport.ziel_anlage %></p>
+                <% end %>
+              <% end %>  
+            <% end %>
+          </div>
         </div>
-      <% end %>
+      </div>
     </div>
-    <div class="col-sm-4">
-      <%= "#{@year}" %>
-    </div>
-    <div class="col-sm-4">
-      <%= form_tag({action: :calendar}, multipart: true) do %>
-
-        <% @transporte.each do |trans| %>
-          <%= hidden_field_tag "transport_#{trans.id}", trans.id %>
-        <% end %>
-        
-        <%= hidden_field_tag "year", @year + 1 %> 
-
-        <div class="col-sm-4">
-          <%= submit_tag ">>" %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-12">
-    <%= calendar @date do |date| %>
-      <% if @transporte_per_day[date] %>
-          <% @transporte_per_day[date].each do |transport| %>
-            <p> <%= transport.start_anlage %> --> <%= transport.ziel_anlage %></p>
-          <% end %>
-      <% end %>  
-    <% end %>
-  </div>
-</div>

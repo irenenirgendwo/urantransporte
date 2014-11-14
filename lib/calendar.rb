@@ -6,7 +6,7 @@ class Calendar < Struct.new(:view, :date, :callback)
     delegate :content_tag, to: :view
  
     def table year=2014
-      content_tag :table, class: "calendar table table-bordered table-striped" do
+      content_tag :table, class: "calendar table table-bordered table-condensed" do
         header + month_rows(year)
       end
     end
@@ -46,6 +46,7 @@ class Calendar < Struct.new(:view, :date, :callback)
  
     def day_classes(day)
       classes = []
+      classes << "active" if day.saturday? || day.sunday?
       classes << "today" if day == Date.today
       classes << "not-month" if day.month != date.month
       classes.empty? ? nil : classes.join(" ")
