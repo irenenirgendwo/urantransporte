@@ -17,6 +17,13 @@ class UsersController < ApplicationController
   
   def edit
   end
+
+  def destroy
+    user = User.find(params[:id])
+    user.destroy
+#    flash[:success] = "Benutzer gelöscht"
+    redirect_to users_url
+  end
   
   def create
     @user = User.new(user_params)
