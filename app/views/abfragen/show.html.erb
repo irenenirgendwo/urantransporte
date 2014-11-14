@@ -7,3 +7,20 @@
 <div class="col-sm-9">
     <%= render 'transporte/tabelle' %>
 </div>
+
+<% params %>
+
+<%= form_tag({action: :calendar}, multipart: true) do %>
+
+  <% @transporte.each do |trans| %>
+    <%= hidden_field_tag "transport_#{trans.id}", trans.id %>
+  <% end %>
+  
+  <%= hidden_field_tag "year", @year %> 
+
+  <div class="col-sm-4">
+    <%= submit_tag "In Kalenderdarstellung anzeigen" %>
+  </div>
+
+  
+<% end %>

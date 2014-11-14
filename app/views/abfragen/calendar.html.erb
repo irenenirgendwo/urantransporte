@@ -1,2 +1,51 @@
-<h1>Abfragen#calendar</h1>
-<p>Find me in app/views/abfragen/calendar.html.erb</p>
+<h1>Transporte in Kalenderdarstellung</h1>
+<% params %>
+
+
+<div class="row">
+  <div class="well controls">
+    <div class="col-sm-4">
+      <%= form_tag({action: :calendar}, multipart: true) do %>
+
+        <% @transporte.each do |trans| %>
+          <%= hidden_field_tag "transport_#{trans.id}", trans.id %>
+        <% end %>
+        
+        <%= hidden_field_tag "year", @year - 1 %> 
+
+        <div class="col-sm-4">
+          <%= submit_tag "<<" %>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-sm-4">
+      <%= "#{@year}" %>
+    </div>
+    <div class="col-sm-4">
+      <%= form_tag({action: :calendar}, multipart: true) do %>
+
+        <% @transporte.each do |trans| %>
+          <%= hidden_field_tag "transport_#{trans.id}", trans.id %>
+        <% end %>
+        
+        <%= hidden_field_tag "year", @year + 1 %> 
+
+        <div class="col-sm-4">
+          <%= submit_tag ">>" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <%= calendar @date do |date| %>
+      <% if @transporte_per_day[date] %>
+          <% @transporte_per_day[date].each do |transport| %>
+            <p> <%= transport.start_anlage %> --> <%= transport.ziel_anlage %></p>
+          <% end %>
+      <% end %>  
+    <% end %>
+  </div>
+</div>

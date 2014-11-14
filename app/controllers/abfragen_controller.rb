@@ -9,14 +9,37 @@ class AbfragenController < ApplicationController
 
   def show
     @transporte = calculate_transporte
+    # aktuellstes Transportjahr berechnen
+    @year = 1990
+    @transporte.each {|t| @year = t.datum.year if t.datum.year > @year }
   end
 
   def calendar
-    @transporte = calculate_transporte
+    @year = params["year"] ? params["year"].to_i : 2014
+    @date = Date.new(@year,1,1)
+    @transporte = []
+    params.each do |key, value|
+      if key =~ /transport/
+        trans =  Transport.find(value.to_i)
+        @transporte << trans if trans
+      end
+    end
+    @transporte_per_day = calculate_transporte_per_day(@transporte)
   end
   
   
   private
+  
+    # sollen eigentlich noch nach transportabschnitten ueber mehrere tage 
+    # einsortiert werden.
+    def calculate_transporte_per_day transporte 
+      transporte_per_day = Hash.new
+      transporte.each do |transport|
+        transporte_per_day[transport.datum] ||= []
+        transporte_per_day[transport.datum] << transport
+      end
+      transporte_per_day
+    end 
   
     # berechnet Arrays mit Ids von Stoffen, Start-Anlagen und Zielanlagen
     # aus den übergebenen Parametern.
