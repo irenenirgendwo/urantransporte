@@ -26,6 +26,8 @@ class UploadController < ApplicationController
         @headers = read_headers_from_csv(@file_path)
         if @headers.nil? || @headers.empty?
           upload_fehler("Dateiformat nicht korrekt, konnte keine Überschriften finden.")
+        elsif @headers.count == 1
+          upload_fehler("Nur eine Spalte - falsches Trennzeichen?")
         else
           render "upload_file"
         end
