@@ -8,12 +8,12 @@
         <div class="col-sm-7">
           <p>
             <strong>Beobachtungs- / Ankunftszeit:</strong>
-            <%= beobachtung.ankunft_zeit.to_formatted_s(:dmyz) %>
+            <%= beobachtung.ankunft_zeit ?  beobachtung.ankunft_zeit.to_formatted_s(:dmyz) : "keine Angabe" %>
           </p>
           
           <p>
             <strong>Abfahrtszeit:</strong>
-            <%= beobachtung.abfahrt_zeit.to_formatted_s(:dmyz) %>
+            <%= beobachtung.abfahrt_zeit ? beobachtung.abfahrt_zeit.to_formatted_s(:dmyz) : "keine Angabe" %>
           </p>
           
           <p>
