@@ -8,13 +8,25 @@ petersburg_hamburg:
   start_ort: St. Petersburg
   end_ort: Hamburg
   transport_id: 3
-#
+  start_datum: 2012-07-01
+  end_datum: 2012-07-04
+
+hamburg_lingen_1: 
+  start_ort: Hamburg
+  end_ort: Lingen
+  firma_id: 1
+  transport_id: 3
+  start_datum: 2012-07-05
+  end_datum: 2012-07-05
+
+
 hamburg_lingen: 
   start_ort: Hamburg
   end_ort: Lingen
   firma_id: 1
   transport_id: 4
 #  column: value
+
 
 to_delete: 
   start_ort: Hamburg

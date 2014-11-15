@@ -12,8 +12,6 @@ class ActiveSupport::TestCase
   
   def login_admin_anna
     user = User.find_by(name: "Anna")
-    #user.update(:role => :admin)
-    #user.save
     log_in(user)
   end 
   

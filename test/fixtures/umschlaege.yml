@@ -4,9 +4,10 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: 
-  ort: Bremen
+hamburg: 
+  ort: Hamburg
   terminal: Südwest
   firma_id: 1
   transport_id: 3
-
+  start_datum: 2012-07-04
+  end_datum: 2012-07-05

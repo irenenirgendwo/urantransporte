@@ -4,7 +4,7 @@ class UmschlaegeControllerTest < ActionController::TestCase
   
   setup do
     login_admin_anna
-    @umschlag = umschlaege(:one)
+    @umschlag = umschlaege(:hamburg)
     @transport = transporte(:petersburg_lingen1)
   end
 
