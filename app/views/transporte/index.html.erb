@@ -13,9 +13,13 @@
         <h3 class="panel-title">Stoff</h3>
       </div>
       <ul class="list-group">
-		<%= link_to "Alle", transporte_path , class: "list-group-item" %>
+        <%= link_to "Alle", transporte_path , class: params[:stoff]==nil ? "list-group-item active":"list-group-item" %>
         <% @stoffe.each do |stoff, stoff_id| %>
-          <%= link_to stoff, transporte_path(:stoff => stoff_id), class: "list-group-item" %>
+          <% if params[:stoff].to_i == stoff_id %>
+            <%= link_to stoff, transporte_path(:stoff => stoff_id), class: "list-group-item active" %>
+          <% else %>
+            <%= link_to stoff, transporte_path(:stoff => stoff_id), class: "list-group-item" %>
+          <% end %>
         <% end %>
       </ul>
     </div>
