@@ -1,3 +1,4 @@
+# encoding: utf-8
 class TransportabschnitteController < ApplicationController
   before_action :set_transportabschnitt, only: [:show, :edit, :update, :destroy]
   before_action :editor_user, only: [:new, :edit, :create, :update, :destroy]

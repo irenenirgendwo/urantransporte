@@ -1,3 +1,4 @@
+#encoding: UTF-8
 class TransporteController < ApplicationController
   before_action :set_transport, only: [:show, :edit, :update, :destroy, :union, :set_aehnliche_transporte_options, :aehnliche_transporte]
   before_action :editor_user, only: [:new, :edit, :create, :update, :destroy, :union, :set_aehnliche_transporte_options, :aehnliche_transporte]

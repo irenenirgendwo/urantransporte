@@ -1,3 +1,4 @@
+# encoding: utf-8
 module TransportabschnitteHelper
 
   def new_transport_transportabschnitt_path(transport)

@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Transportgenehmigung < ActiveRecord::Base
   has_many :transporte
 

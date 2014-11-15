@@ -1,3 +1,4 @@
+# encoding: utf-8
 class FirmenController < ApplicationController
   before_action :set_firma, only: [:show, :edit, :update, :destroy]
   before_action :editor_user, only: [:new, :edit, :create, :update, :destroy]

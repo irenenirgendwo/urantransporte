@@ -1,3 +1,4 @@
+# encoding: utf-8
 class AnlagenSynonym < ActiveRecord::Base
   belongs_to :anlage
   validates :synonym, presence: true

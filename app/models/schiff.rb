@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Schiff < ActiveRecord::Base
   serialize :next_ports
   belongs_to :firma

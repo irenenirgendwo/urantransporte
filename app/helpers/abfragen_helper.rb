@@ -1,3 +1,4 @@
+# encoding: utf-8
 module AbfragenHelper
 
   def calendar(date = Date.today.date, &block)

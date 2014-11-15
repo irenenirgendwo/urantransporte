@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Transportabschnitt < ActiveRecord::Base
   #belongs_to :ort, as: :start
   #belongs_to :ort, as: :ziel

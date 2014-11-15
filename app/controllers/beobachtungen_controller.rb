@@ -1,3 +1,4 @@
+# encoding: utf-8
 class BeobachtungenController < ApplicationController
   before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :load_foto, :update_foto, :abschnitt_zuordnen, :set_toleranz_tage]
   before_action :editor_user, only: [:edit, :update, :destroy, :index]

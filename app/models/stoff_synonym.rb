@@ -1,3 +1,4 @@
+# encoding: utf-8
 class StoffSynonym < ActiveRecord::Base
 
   belongs_to :stoff

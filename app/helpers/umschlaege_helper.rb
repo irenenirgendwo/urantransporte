@@ -1,3 +1,4 @@
+# encoding: utf-8
 module UmschlaegeHelper
 
  def new_transport_umschlag_path(transport)
