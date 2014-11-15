@@ -27,6 +27,14 @@ class Transport < ActiveRecord::Base
     transporte
   end
   
+  def get_umschlag date
+    self.umschlaege.where("start_datum <= ? and end_datum >= ?", date, date).first
+  end
+  
+  def get_abschnitt date
+    self.transportabschnitte.where("start_datum <= ? and end_datum >= ?", date, date).first
+  end
+  
   # Integriert in diesen Transport den übergebenen Transport.
   # Dabei werden alle Transportabschnitte und Umschlaege in diesen Transport uebernommen.
   # Transport wird in der Datenbank gespeichert.
@@ -56,6 +64,8 @@ class Transport < ActiveRecord::Base
     Transport
   end
 
+  # Sucht das Gesamtstart- und Enddatum aus den Transportabschnitten raus.
+  #
   def get_start_and_end_datum abschnitt_umschlag_list
     start_datum = self.datum
     end_datum = self.datum
@@ -63,7 +73,7 @@ class Transport < ActiveRecord::Base
       if abschnitt.start_datum && abschnitt.start_datum < start_datum
         start_datum = abschnitt.start_datum
       end
-      if abschnitt.end_datum && abschnitt.end_datum < end_datum
+      if abschnitt.end_datum && abschnitt.end_datum > end_datum
         end_datum = abschnitt.end_datum
       end
     end 
@@ -93,6 +103,10 @@ class Transport < ActiveRecord::Base
       end 
     end
     abschnitt_umschlag_list 
+  end
+  
+  def to_short_s
+    "#{self.start_anlage.to_s[0..2]}->#{self.ziel_anlage.to_s[0..2]}"
   end
   
 

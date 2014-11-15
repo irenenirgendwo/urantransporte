@@ -5,6 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 hamburg: 
+  id: 1
   ort: Hamburg
   terminal: Südwest
   firma_id: 1

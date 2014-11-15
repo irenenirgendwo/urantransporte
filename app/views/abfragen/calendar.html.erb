@@ -1,6 +1,4 @@
 <h1>Ausgewählte Transporte in Kalenderdarstellung</h1>
-<% params %>
-<%= @transporte_per_day %>
 
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -39,14 +37,30 @@
           </div>
       </div>
       
+      <!-- Transporte sollen sich ueber mehrere Tage erstrecken mit durchgehender Linie -->
       <div class="panel-body">
         <div class="row">
           <div class="col-md-12">
             <%= calendar @date do |date| %>
               <% if @transporte_per_day[date] %>
-                <% @transporte_per_day[date].keys.each do |key| %>
+                <% 1.upto @max_key do |key| %>
                   <% transport = @transporte_per_day[date][key] %>
-                  <p class="small info"> <%= transport.start_anlage %> --> <%= transport.ziel_anlage %></p>
+                  <% if transport %>
+                    <% if transport["umschlag"] %>
+                      <div class="calendar_umschlag">
+                      </div>
+                      Umschlag
+                    <% else %>
+                      <div class="calendar_transportabschnitt">
+                      </div>
+                    <% end %>
+                    <p class="small info"> 
+                      <%= link_to transport["transport"].to_short_s, transport["transport"] %>
+                    </p>
+                  <% else %>
+                    <p> . <br /> .
+                    </p>  
+                  <% end %>
                 <% end %>
               <% end %>  
             <% end %>

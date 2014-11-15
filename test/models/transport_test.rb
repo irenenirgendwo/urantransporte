@@ -44,7 +44,18 @@ class TransportTest < ActiveSupport::TestCase
     abschnitt_umschlag_list = @transport_russ_lingen_1.sort_abschnitte_and_umschlaege
     start_datum, end_datum = @transport_russ_lingen_1.get_start_and_end_datum abschnitt_umschlag_list
     assert_equal Date.new(2012,7,1), start_datum
-    #assert_equal Date.new(2012,7,5), end_datum
+    assert_equal Date.new(2012,7,5), end_datum
+    abschnitt_umschlag_list = @transport.sort_abschnitte_and_umschlaege
+    start_datum, end_datum = @transport.get_start_and_end_datum abschnitt_umschlag_list
+    assert_equal Date.new(2013,9,1), start_datum
+    assert_equal Date.new(2013,9,1), end_datum
+  end
+  
+  test "get umschlaege" do 
+    date = Date.new(2012,7,4)
+    assert_not_nil @transport_russ_lingen_1.get_umschlag(date)
+    assert_equal "Hamburg", @transport_russ_lingen_1.get_umschlag(date).ort
+    assert_nil @transport_russ_lingen_1.get_umschlag(Date.new(2012,7,1))
   end
 
 end
