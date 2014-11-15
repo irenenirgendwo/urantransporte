@@ -2,6 +2,7 @@ require 'test_helper'
 
 class TransporteControllerTest < ActionController::TestCase
   setup do
+    login_admin_anna
     @transport = transporte(:one)
     @stoff = stoffe(:one)
   end

@@ -3,6 +3,7 @@ require 'test_helper'
 
 class AnlagenControllerTest < ActionController::TestCase
   setup do
+    login_admin_anna
     @anlage = anlagen(:urenco)
   end
 

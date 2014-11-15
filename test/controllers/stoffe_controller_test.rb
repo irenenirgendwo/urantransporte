@@ -1,8 +1,10 @@
 require 'test_helper'
 
 class StoffeControllerTest < ActionController::TestCase
+  
   setup do
     @stoff = stoffe(:one)
+    login_admin_anna
   end
 
   test "should get index" do
@@ -18,7 +20,7 @@ class StoffeControllerTest < ActionController::TestCase
 
   test "should create stoff" do
     assert_difference('Stoff.count') do
-      post :create, stoff: { beschreibung: @stoff.beschreibung, bezeichnung: "Neuer Stoff", gefahr_nummer: @stoff.gefahr_nummer, un_nummer: @stoff.un_nummer }
+      post :create, stoff: { beschreibung: @stoff.beschreibung, bezeichnung: "Neuer Stoff", gefahr_nummer: "78", un_nummer: "2978" }
     end
 
     assert_redirected_to stoff_path(assigns(:stoff))

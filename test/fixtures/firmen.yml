@@ -1,17 +1,22 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   name: MyString
-  adresse: MyString
-  plz: MyString
-  ort: MyString
-  beschreibung: MyText
+  beschreibung: MyString
+  typ: Reederei
 
 kieserling:
+  id: 2
   name: Kieserling
-  adresse: MyString
-  plz: MyString
-  ort: Bremen
+  beschreibung: Bremen
+  typ: Spedition
   beschreibung: MyText
 
 
+not_related:
+  id: 6
+  name: Blabla
+  beschreibung: Bremen
+  typ: Spedition
+  beschreibung: MyText

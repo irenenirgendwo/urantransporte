@@ -2,6 +2,7 @@ require 'test_helper'
 
 class FirmenControllerTest < ActionController::TestCase
   setup do
+    login_admin_anna
     @firma = firmen(:one)
   end
 
@@ -18,7 +19,7 @@ class FirmenControllerTest < ActionController::TestCase
 
   test "should create firma" do
     assert_difference('Firma.count') do
-      post :create, firma: { adresse: @firma.adresse, beschreibung: @firma.beschreibung, name: @firma.name, ort: @firma.ort, plz: @firma.plz }
+      post :create, firma: { beschreibung: @firma.beschreibung, name: "Neue Firma"}
     end
 
     assert_redirected_to firma_path(assigns(:firma))
@@ -35,13 +36,14 @@ class FirmenControllerTest < ActionController::TestCase
   end
 
   test "should update firma" do
-    patch :update, id: @firma, firma: { adresse: @firma.adresse, beschreibung: @firma.beschreibung, name: @firma.name, ort: @firma.ort, plz: @firma.plz }
+    patch :update, id: @firma, firma: { beschreibung: "Neue Beschreibung", name: @firma.name}
     assert_redirected_to firma_path(assigns(:firma))
   end
 
   test "should destroy firma" do
+    # nicht referenzierte Firma darf zerstoert werden
     assert_difference('Firma.count', -1) do
-      delete :destroy, id: @firma
+      delete :destroy, id: 6
     end
 
     assert_redirected_to firmen_path

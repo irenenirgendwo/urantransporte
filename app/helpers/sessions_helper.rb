@@ -20,6 +20,7 @@ module SessionsHelper
         @current_user = user
       end
     end
+    @current_user
   end
   
   def logged_in?

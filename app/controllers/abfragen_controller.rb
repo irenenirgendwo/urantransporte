@@ -15,16 +15,18 @@ class AbfragenController < ApplicationController
   end
 
   def calendar
+    @logger = File.new("log/abfrage.log","w")
     @year = params["year"] ? params["year"].to_i : 2014
     @date = Date.new(@year,1,1)
     @transporte = []
     params.each do |key, value|
       if key =~ /transport/
-        trans =  Transport.find(value.to_i)
+        trans = Transport.find(value)
         @transporte << trans if trans
       end
     end
     @transporte_per_day = calculate_transporte_per_day(@transporte)
+    @logger.close
   end
   
   
@@ -34,12 +36,41 @@ class AbfragenController < ApplicationController
     # einsortiert werden.
     def calculate_transporte_per_day transporte 
       transporte_per_day = Hash.new
+      free_keys = Hash.new
       transporte.each do |transport|
-        transporte_per_day[transport.datum] ||= []
-        transporte_per_day[transport.datum] << transport
+        @logger.puts "Transport: #{transport.datum}"
+        transporte_per_day[transport.datum] ||= Hash.new 
+        #transporte_per_day[transport.datum] << transport
+        
+        abschnitte_and_umschlaege = transport.sort_abschnitte_and_umschlaege
+        start_datum, end_datum = transport.get_start_and_end_datum(abschnitte_and_umschlaege)
+        @logger.puts "start: #{start_datum} ende: #{end_datum}"
+        
+        # in allen Feldern ersten freien Schluessel suchen und Transport da eintragen.
+        key = get_min_free_key(free_keys, start_datum, end_datum)
+        @logger.puts "free key #{key}"
+        (start_datum .. end_datum).each do |date|
+          transporte_per_day[transport.datum][key] = transport
+          free_keys[date] = free_keys[date] - [key]
+        end
+        
       end
       transporte_per_day
     end 
+    
+    def get_min_free_key(free_keys_per_date, start_datum, end_datum)
+      actual_free_keys = (1..10).to_a
+      start_datum.upto(end_datum) do |date|
+        @logger.puts date
+        free_keys_per_date[date] = (1..10).to_a if free_keys_per_date[date].nil?
+        @logger.puts "free_keys date #{free_keys_per_date[date]}"
+        @logger.puts "free_keys actual #{actual_free_keys}"
+        actual_free_keys = free_keys_per_date[date] & actual_free_keys
+        @logger.puts "free_keys #{actual_free_keys}"
+      end
+      min_free_key = actual_free_keys.min
+    end
+    
   
     # berechnet Arrays mit Ids von Stoffen, Start-Anlagen und Zielanlagen
     # aus den übergebenen Parametern.

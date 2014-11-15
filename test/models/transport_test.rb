@@ -33,5 +33,13 @@ class TransportTest < ActiveSupport::TestCase
     assert @transport_russ_lingen_1.save, "#{@transport_russ_lingen_1.errors.full_messages}"
     assert Transport.find(3).behaelter, "Behaelter sollte hinzugefuegt werden"
   end
+  
+  test "sort abschnitte and umschlaege" do 
+  
+  end
+  
+  test "calculate start and end datum" do 
+  
+  end
 
 end

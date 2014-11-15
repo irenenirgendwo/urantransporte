@@ -2,6 +2,7 @@ require 'test_helper'
 
 class TransportabschnitteControllerTest < ActionController::TestCase
   setup do
+    login_admin_anna
     @transportabschnitt = transportabschnitte(:petersburg_hamburg)
     @transport_anderer = transporte(:one)
   end
@@ -37,16 +38,17 @@ class TransportabschnitteControllerTest < ActionController::TestCase
   end
 
   test "should update transportabschnitt" do
-    patch :update, id: @transportabschnitt, transportabschnitt: { transport_id: 1, start_ort: "Hamburg", 
+    patch :update, id: transportabschnitte(:to_delete), transportabschnitt: { transport_id: 1, start_ort: "Hamburg", 
                             end_ort: "Schweiz" }
     assert_redirected_to Transport.find(1)
   end
 
   test "should destroy transportabschnitt" do
+    transport = @transportabschnitt.transport
     assert_difference('Transportabschnitt.count', -1) do
       delete :destroy, id: @transportabschnitt
     end
 
-    assert_redirected_to transportabschnitte_path
+    assert_redirected_to transport
   end
 end

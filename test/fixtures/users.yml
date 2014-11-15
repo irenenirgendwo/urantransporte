@@ -1,8 +1,10 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+# Anna is admin
 anna:
   name: Anna
   email: anna@nirgendwo.info
+  role: 2
 
 arthur:
   name: Arthur

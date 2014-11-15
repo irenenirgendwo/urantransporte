@@ -7,8 +7,6 @@
 one: 
   ort: Bremen
   terminal: Südwest
-  firma: 1
+  firma_id: 1
   transport_id: 3
-#
-two: {}
-#  column: value
+

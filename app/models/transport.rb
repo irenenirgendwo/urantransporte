@@ -56,4 +56,44 @@ class Transport < ActiveRecord::Base
     Transport
   end
 
+  def get_start_and_end_datum abschnitt_umschlag_list
+    start_datum = self.datum
+    end_datum = self.datum
+    abschnitt_umschlag_list.each do |abschnitt|
+      if abschnitt.start_datum && abschnitt.start_datum < start_datum
+        start_datum = abschnitt.start_datum
+      end
+      if abschnitt.end_datum && abschnitt.end_datum < end_datum
+        end_datum = abschnitt.end_datum
+      end
+    end 
+    return start_datum.to_date, end_datum.to_date
+  end
+  
+  # Sortiert Transportabschnitte und Umschlaege (Logik in den Controller).
+  # Funktioniert auch bei unvollstaendigen Umschlaegen oder Transportabschnitten.
+  #
+  def sort_abschnitte_and_umschlaege
+    abschnitt_umschlag_list = []
+    abschnitte = self.transportabschnitte.order(:end_datum)
+    listed_umschlaege = []
+    abschnitte.each do |abschnitt|
+      abschnitt_umschlag_list << abschnitt
+      umschlag = self.umschlaege.find_by ort: abschnitt.end_ort
+      unless umschlag.nil?
+        abschnitt_umschlag_list << umschlag
+        listed_umschlaege << umschlag
+      end
+    end 
+    if listed_umschlaege.size < self.umschlaege.size
+      self.umschlaege.each do |umschlag|
+        unless listed_umschlaege.include? umschlag
+          abschnitt_umschlag_list << umschlag
+        end
+      end 
+    end
+    abschnitt_umschlag_list 
+  end
+  
+
 end

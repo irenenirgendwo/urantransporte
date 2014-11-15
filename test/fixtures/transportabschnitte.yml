@@ -15,3 +15,9 @@ hamburg_lingen:
   firma_id: 1
   transport_id: 4
 #  column: value
+
+to_delete: 
+  start_ort: Hamburg
+  end_ort: Lingen
+  firma_id: 1
+  transport_id: 1

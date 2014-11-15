@@ -2,6 +2,7 @@ require 'test_helper'
 
 class BeobachtungenControllerTest < ActionController::TestCase
   setup do
+    login_admin_anna
     @beobachtung = beobachtungen(:zug)
     @beobachtung_lkw = beobachtungen(:lkw)
   end
@@ -46,7 +47,7 @@ class BeobachtungenControllerTest < ActionController::TestCase
 
   test "should update beobachtung" do
     patch :update, id: @beobachtung, beobachtung: { beschreibung: @beobachtung.beschreibung }
-    assert_redirected_to beobachtung_path(assigns(:beobachtung))
+    assert_redirected_to load_foto_beobachtung_path(assigns(:beobachtung))
   end
 
   test "should destroy beobachtung" do

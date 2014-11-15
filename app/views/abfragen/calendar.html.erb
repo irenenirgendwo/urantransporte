@@ -1,5 +1,6 @@
 <h1>Ausgewählte Transporte in Kalenderdarstellung</h1>
 <% params %>
+<%= @transporte_per_day %>
 
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -43,7 +44,8 @@
           <div class="col-md-12">
             <%= calendar @date do |date| %>
               <% if @transporte_per_day[date] %>
-                <% @transporte_per_day[date].each do |transport| %>
+                <% @transporte_per_day[date].keys.each do |key| %>
+                  <% transport = @transporte_per_day[date][key] %>
                   <p class="small info"> <%= transport.start_anlage %> --> <%= transport.ziel_anlage %></p>
                 <% end %>
               <% end %>  

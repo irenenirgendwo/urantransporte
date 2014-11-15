@@ -5,6 +5,16 @@ require 'rails/test_help'
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
+  
+  include SessionsHelper
 
   # Add more helper methods to be used by all tests here...
+  
+  def login_admin_anna
+    user = User.find_by(name: "Anna")
+    #user.update(:role => :admin)
+    #user.save
+    log_in(user)
+  end 
+  
 end

@@ -1,7 +1,6 @@
 class Calendar < Struct.new(:view, :date, :callback)
     HEADER = %w[Monat 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 19 30 31]
     MONATE = %w[Januar Februar März April Mai Juni Juli August September Oktober November Dezember]
-    START_DAY = :sunday
  
     delegate :content_tag, to: :view
  
@@ -68,7 +67,6 @@ class Calendar < Struct.new(:view, :date, :callback)
         months[monat] = (month_begin..month_end).to_a
         month_number += 1
       end 
-      puts months
       months
     end
 end
