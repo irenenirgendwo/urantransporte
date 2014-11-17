@@ -53,11 +53,23 @@ class BeobachtungenController < ApplicationController
         end
       @beobachtung.quelle = quelle
     end 
+
+    if @beobachtung.ankunft_zeit.year < 90
+      @beobachtung.ankunft_zeit = @beobachtung.ankunft_zeit.advance(:days => 365.2425*2000)
+    elsif @beobachtung.ankunft_zeit.year < 100
+      @beobachtung.ankunft_zeit = @beobachtung.ankunft_zeit.advance(:days => 365.2425*1900)
+    end
     
+    if @beobachtung.abfahrt_zeit.year < 90
+      @beobachtung.abfahrt_zeit = @beobachtung.abfahrt_zeit.advance(:days => 365.2425*2000)
+    elsif @beobachtung.abfahrt_zeit.year < 100
+      @beobachtung.abfahrt_zeit = @beobachtung.abfahrt_zeit.advance(:days => 365.2425*1900)
+    end
+
     respond_to do |format|
       if @beobachtung.save
-          format.html { redirect_to @beobachtung.foto ? load_foto_beobachtung_path(@beobachtung) : beobachtung_path(@beobachtung) , notice: 'Beobachtung wurde angelegt.' }
-      format.json { render :show, status: :created, location: @beobachtung }
+        format.html { redirect_to @beobachtung.foto ? load_foto_beobachtung_path(@beobachtung) : beobachtung_path(@beobachtung) , notice: 'Beobachtung wurde angelegt.'}
+        format.json { render :show, status: :created, location: @beobachtung }
       else
         format.html { render :new }
         format.json { render json: @beobachtung.errors, status: :unprocessable_entity }
