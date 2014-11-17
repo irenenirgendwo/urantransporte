@@ -93,22 +93,38 @@
           <h4>Gefahrzeichen</h4>
           <p>Wähle die Zeichen aus, die am Behälter angebracht waren.</p>
           <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-default">
-              <%= f.check_box :kennzeichen_radioaktiv %> 
-              <%= image_tag "radioaktiv.png", alt: "radioaktiv", size: "70x70", id: "radioaktiv_kennzeichen" %>
-            </label>
-            <label class="btn btn-default">
-              <%= f.check_box :kennzeichen_aetzend %>
-              <%= image_tag "aetzend.png", alt: "ätzend", size: "70x70" %>
-            </label>
-            <label class="btn btn-default">
-              <%= f.check_box :kennzeichen_spaltbar %>
-              <%= image_tag "spaltbar.png", alt: "spaltbar", size: "70x70" %>
-            </label>
-            <label class="btn btn-default">
-              <%= f.check_box :kennzeichen_umweltgefaehrdend %>
-              <%= image_tag "umweltgefaehrdend.png", alt: "umweltgefährdend", size: "70x70" %>
-            </label>
+            <% if @beobachtung.kennzeichen_radioaktiv %>
+              <label class="btn btn-default active">
+            <% else %>
+              <label class="btn btn-default">
+            <% end %>
+                <%= f.check_box :kennzeichen_radioaktiv %> 
+                <%= image_tag "radioaktiv.png", alt: "radioaktiv", size: "70x70", id: "radioaktiv_kennzeichen" %>
+              </label>
+            <% if @beobachtung.kennzeichen_aetzend %>
+              <label class="btn btn-default active">
+            <% else %>
+              <label class="btn btn-default">
+            <% end %>
+                <%= f.check_box :kennzeichen_aetzend %>
+                <%= image_tag "aetzend.png", alt: "ätzend", size: "70x70" %>
+              </label>
+            <% if @beobachtung.kennzeichen_spaltbar %>
+              <label class="btn btn-default active">
+            <% else %>
+              <label class="btn btn-default">
+            <% end %>
+                <%= f.check_box :kennzeichen_spaltbar %>
+                <%= image_tag "spaltbar.png", alt: "spaltbar", size: "70x70" %>
+              </label>
+            <% if @beobachtung.kennzeichen_umweltgefaehrdend %>
+              <label class="btn btn-default active">
+            <% else %>
+              <label class="btn btn-default">
+            <% end %>
+                <%= f.check_box :kennzeichen_umweltgefaehrdend %>
+                <%= image_tag "umweltgefaehrdend.png", alt: "umweltgefährdend", size: "70x70" %>
+              </label>
           </div>
         </div>
         
@@ -143,7 +159,11 @@
     <div class="panel-body"> 
       <p>Bitte vor dem weiteren Ausfüllen angeben!</p>
       <div class="form-group">
+        <% if @beobachtung.verkehrstraeger == nil %>
           <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, "unbekannt"), {}, class: "form-control" %>
+        <% else %>
+          <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, @beobachtung.verkehrstraeger), {}, class: "form-control" %>
+        <% end %>
       </div>
     </div>
   </div>
@@ -182,7 +202,7 @@
             <%= f.label :lok_beschreibung do %>
             Beschreibung der Lok <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title="z.B. Farbe, Aufschriften, Nummer, Eisenbahngesellschaft, Diesel oder elektrisch)"></span>
             <% end %>
-            <%= f.text_field :lok_beschreibung, placeholder:"z.B. dunkelrot mit weißen Streifen, BE-24", class: "form-control" %>
+            <%= f.text_area :lok_beschreibung, placeholder:"z.B. dunkelrot mit weißen Streifen, BE-24", class: "form-control" %>
           </div>
         </div>
         

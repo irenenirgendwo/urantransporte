@@ -70,7 +70,8 @@ class BeobachtungenController < ApplicationController
   def update
     respond_to do |format|
       if @beobachtung.update(beobachtung_params)
-        format.html { redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde aktualisiert.' }
+        format.html { redirect_to beobachtung_path, notice: 'Beobachtung wurde aktualisiert.' }
+       # format.html { redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde aktualisiert.' }
         format.json { render :show, status: :ok, location: @beobachtung }
       else
         format.html { render :edit }
@@ -150,9 +151,9 @@ class BeobachtungenController < ApplicationController
                   :fahrtrichtung, :verkehrstraeger, 
                   :kennzeichen_radioaktiv, :kennzeichen_aetzend, :kennzeichen_spaltbar, :kennzeichen_umweltgefaehrdend, 
                   :gefahr_nummer, :un_nummer, 
-                  :firma_id, :firma_beschreibung, :lok_farbe, :container_beschreibung, :anzahl_container, 
+                  :firma_id, :firma_beschreibung, :lok_beschreibung, :container_beschreibung, :anzahl_container, 
                   :zug_beschreibung, :anzahl_lkw, :kennzeichen_lkw, :lkw_beschreibung, 
-                  :schiff_name, :schiff_beschreibung, :polizei, :hubschrauber, :foto, :quelle, :email,
+                  :schiff_name, :schiff_beschreibung, :polizei, :hubschrauber, :begleitung_beschreibung, :foto, :quelle, :email,
                   :transportabschnitt_id)
     end
     

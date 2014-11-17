@@ -35,13 +35,8 @@ function beobachtung_toleranz_tage(){
 
 
 function verkehrsmittel_wahl(){
-  $(".beobachtung_lkw").hide();
-
-  $(".beobachtung_zug").hide();
-
-  $(".beobachtung_schiff").hide();
-
-  $("#beobachtung_verkehrstraeger").change(function() {
+//verkehrsmittel_toogle() setzt die gewünschten Beschreibungsfelder sichtbar/unsichtbar
+  function verkehrsmittel_toogle(){
     var verkehrsmittel;
     verkehrsmittel = $('#beobachtung_verkehrstraeger option:selected').text();
     switch (verkehrsmittel) {
@@ -62,5 +57,13 @@ function verkehrsmittel_wahl(){
         $(".beobachtung_zug").hide();
         return $(".beobachtung_schiff").hide();
     }
-  });
+  }
+
+//Bei Seitenaufruf einmal ausführen
+  verkehrsmittel_toogle()
+
+//Bei Änderung des Auswahlfeldes jedesmal ausführen
+  $("#beobachtung_verkehrstraeger").change(function() {
+      verkehrsmittel_toogle();
+    });
 }
