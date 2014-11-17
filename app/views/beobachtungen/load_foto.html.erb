@@ -2,7 +2,7 @@
   <%= link_to 'Neue Beobachtung', new_beobachtung_path, class: "btn btn-success" %>
 </div>
 
-<%= form_tag(multipart: true) do %>
+<%= form_tag({action: :update_foto}, multipart: true) do %>
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Beobachtung eingegeben</h3>
