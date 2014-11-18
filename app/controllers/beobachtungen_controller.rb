@@ -60,10 +60,12 @@ class BeobachtungenController < ApplicationController
       @beobachtung.ankunft_zeit = @beobachtung.ankunft_zeit.advance(:days => 365.2425*1900)
     end
     
-    if @beobachtung.abfahrt_zeit.year < 90
-      @beobachtung.abfahrt_zeit = @beobachtung.abfahrt_zeit.advance(:days => 365.2425*2000)
-    elsif @beobachtung.abfahrt_zeit.year < 100
-      @beobachtung.abfahrt_zeit = @beobachtung.abfahrt_zeit.advance(:days => 365.2425*1900)
+    if @beobachtung.abfahrt_zeit != nil
+      if @beobachtung.abfahrt_zeit.year < 90
+        @beobachtung.abfahrt_zeit = @beobachtung.abfahrt_zeit.advance(:days => 365.2425*2000)
+      elsif @beobachtung.abfahrt_zeit.year < 100
+        @beobachtung.abfahrt_zeit = @beobachtung.abfahrt_zeit.advance(:days => 365.2425*1900)
+      end
     end
 
     respond_to do |format|
