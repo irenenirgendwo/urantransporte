@@ -8,6 +8,8 @@
         <td><span class="glyphicon glyphicon-user"></span> <%= link_to user.name, user %></td>
         <td><%= user.email %></td>
         <td><%= user.role %></td>
+        <td><%= link_to "Bearbeiten", edit_user_path(user) %></td>
+        <td><%= link_to "Löschen", user, method: :delete, data: { confirm: 'Willst du den Benutzer wirklich löschen?' } %></td>
       </tr>
     <% end %>
   </tbody>
