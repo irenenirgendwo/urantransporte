@@ -2,21 +2,33 @@
   <%= link_to 'Neue Beobachtung', new_beobachtung_path, class: "btn btn-success" %>
 </div>
 
-<%= form_tag({action: :update_foto}, multipart: true) do %>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Beobachtung eingegeben</h3>
+<% if @beobachtung.foto == true %>
+  <%= form_tag({action: :update_foto}, multipart: true) do %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Beobachtung eingegeben</h3>
+        </div>
+        <div class="panel-body">
+          Vielen Dank für die Eingabe ihrer Beobachtung. 
+          Hier können sie noch ein Bild dazu hochladen. 
+          Wir nutzen es zur Rechereche und für Veröffentlichungen gegen Atomtransporte.
+          Wenn Sie eine Urheber*in angeben weisen wir dabei darauf hin, woher wir das Foto haben.
+          <%= file_field_tag 'upload_foto' %>
+          Urheber*in: <%= text_field_tag "foto_recht"%>
+        </div>
+        <%= submit_tag "Foto hochladen" %>
       </div>
-      <div class="panel-body">
-        Vielen Dank für die Eingabe ihrer Beobachtung. 
-        Hier können sie noch ein Bild dazu hochladen. 
-        Wir nutzen es zur Rechereche und für Veröffentlichungen gegen Atomtransporte.
-        Wenn Sie eine Urheber*in angeben weisen wir dabei darauf hin, woher wir das Foto haben.
-        <%= file_field_tag 'upload_foto' %>
-        Urheber*in: <%= text_field_tag "foto_recht"%>
-      </div>
-      <%= submit_tag "Foto hochladen" %>
     </div>
-  </div>
-
+  <% end %>
+<% else %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Beobachtung eingegeben</h3>
+        </div>
+        <div class="panel-body">
+          Vielen Dank für die Eingabe ihrer Beobachtung. 
+        </div>
+      </div>
+    </div>
 <% end %>
+
