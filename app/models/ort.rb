@@ -6,4 +6,7 @@ class Ort < ActiveRecord::Base
   has_many :ziel_transportabschnitte, :foreign_key => 'ziel_ort_id', :class_name => "Transport", :dependent => :restrict_with_error
   has_many :umschlaege
   
+  def to_s
+    name
+  end
 end

@@ -40,6 +40,7 @@ class AnlagenController < ApplicationController
   # GET /anlagen/1/edit
   def edit
     @redirect_params = @anlage
+    @redirect_params = @anlage.ort.to_s
     @bisherige_synonyme = @anlage.anlagen_synonyms.pluck(:synonym)
     @synonym = AnlagenSynonym.new(:anlage_id => @anlage.id)
   end
@@ -54,6 +55,15 @@ class AnlagenController < ApplicationController
     File.open("log/anlagen.log","a"){|f| f.puts "flash #{flash[:redirect_params]}" }
     session[:redirect_params] = nil
     
+    if params[:anlage][:ort]
+      @anlage.ort = Ort.find_by(:name => params[:anlage][:ort])
+      if @anlage.ort == nil
+        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:anlage][:ort].to_s
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a
+        @anlage.ort = Ort.create(:name => params[:anlage][:ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
+      end
+    end
+
     if params[:synonym]
       synonym = AnlagenSynonym.find_by(synonym: params[:synonym])
       if synonym 
@@ -142,8 +152,12 @@ class AnlagenController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def anlage_params
-      params.require(:anlage).permit(:name, :adresse, :plz, :ort, :lat, :lon, :beschreibung, 
+      params.require(:anlage).permit(:name, :adresse, :plz, :lat, :lon, :beschreibung, 
                                   :bild_url, :bild_urheber, :anlagen_kategorie, :anlagen_kategorie_id)
+    end
+
+    def more_params
+      params.require(:anlage).permit(:ort)
     end
 
    # Never trust parameters from the scary internet, only allow the white list through.
