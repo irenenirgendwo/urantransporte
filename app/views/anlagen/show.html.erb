@@ -11,7 +11,7 @@
   <% unless @anlage.name.include?(@anlage.anlagen_kategorie.to_s) %>
     <%= @anlage.anlagen_kategorie %>
   <% end %>
-  <% unless @anlage.name.include?(@anlage.ort) %>
+  <% unless @anlage.name.include?(@anlage.ort.to_s) %>
     in <%= @anlage.ort %>
   <% end %>
   </small>

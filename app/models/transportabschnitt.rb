@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Transportabschnitt < ActiveRecord::Base
-  belongs_to :ort, as: :start_ort_id
-  belongs_to :ort, as: :ziel_ort_id
+  belongs_to :start_ort, :class_name => 'Ort'
+  belongs_to :end_ort, :class_name => 'Ort'
   belongs_to :transport
   belongs_to :firma
   has_many :beobachtungen
