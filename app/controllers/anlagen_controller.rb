@@ -87,6 +87,15 @@ class AnlagenController < ApplicationController
   # PATCH/PUT /anlagen/1
   # PATCH/PUT /anlagen/1.json
   def update
+    if params[:anlage][:ort] != @anlage.ort.to_s
+      @anlage.ort = Ort.find_by(:name => params[:anlage][:ort])
+      if @anlage.ort == nil
+        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:anlage][:ort].to_s
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a
+        @anlage.ort = Ort.create(:name => params[:anlage][:ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
+      end
+    end
+
     respond_to do |format|
       if @anlage.update(anlage_params)
         format.html { redirect_to @anlage, notice: 'Anlage was successfully updated.' }
