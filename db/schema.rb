@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141124140912) do
+ActiveRecord::Schema.define(version: 20141125215322) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                             null: false
@@ -79,6 +79,13 @@ ActiveRecord::Schema.define(version: 20141124140912) do
     t.text     "begleitung_beschreibung"
   end
 
+  create_table "durchfahrten", force: true do |t|
+    t.integer  "ort_id"
+    t.integer  "transportabschnitt_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "firmen", force: true do |t|
     t.string   "name",         null: false
     t.text     "beschreibung"
@@ -95,6 +102,11 @@ ActiveRecord::Schema.define(version: 20141124140912) do
     t.string   "plz"
     t.float    "lat"
     t.float    "lon"
+  end
+
+  create_table "orte_transportabschnitte", force: true do |t|
+    t.integer "ort_id"
+    t.integer "transportabschnitt_id"
   end
 
   create_table "schiffe", force: true do |t|
@@ -128,13 +140,6 @@ ActiveRecord::Schema.define(version: 20141124140912) do
     t.text     "beschreibung"
     t.string   "un_nummer"
     t.string   "gefahr_nummer"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "streckes", force: true do |t|
-    t.integer  "ort_id"
-    t.integer  "transportabschnitt_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -5,7 +5,7 @@ class Transportabschnitt < ActiveRecord::Base
   belongs_to :transport
   belongs_to :firma
   has_many :beobachtungen
-  has_many :orte, through: :strecke
+  has_and_belongs_to_many :orte
   
   def self.get_abschnitte_from_time(beobachtung_datetime)
     datum = beobachtung_datetime.to_date
