@@ -55,11 +55,14 @@ class AnlagenController < ApplicationController
     File.open("log/anlagen.log","a"){|f| f.puts "flash #{flash[:redirect_params]}" }
     session[:redirect_params] = nil
     
+  # Orte finden, zuordnen oder falls nötig, neu erstellen.
+    # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
+    # Evtl. in extra Funktion auslagern, war mir für den Moment zu aufwendig.
     if params[:anlage][:ort]
       @anlage.ort = Ort.find_by(:name => params[:anlage][:ort])
       if @anlage.ort == nil
         a = Geokit::Geocoders::GoogleGeocoder.geocode params[:anlage][:ort].to_s
-        a = Geokit::Geocoders::GoogleGeocoder.geocode a
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
         @anlage.ort = Ort.create(:name => params[:anlage][:ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
       end
     end
@@ -87,11 +90,14 @@ class AnlagenController < ApplicationController
   # PATCH/PUT /anlagen/1
   # PATCH/PUT /anlagen/1.json
   def update
+  # Orte finden, zuordnen oder falls nötig, neu erstellen.
+    # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
+    # Evtl. in extra Funktion auslagern, war mir für den Moment zu aufwendig.
     if params[:anlage][:ort] != @anlage.ort.to_s
       @anlage.ort = Ort.find_by(:name => params[:anlage][:ort])
       if @anlage.ort == nil
         a = Geokit::Geocoders::GoogleGeocoder.geocode params[:anlage][:ort].to_s
-        a = Geokit::Geocoders::GoogleGeocoder.geocode a
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
         @anlage.ort = Ort.create(:name => params[:anlage][:ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
       end
     end

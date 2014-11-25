@@ -44,6 +44,27 @@ class TransportabschnitteController < ApplicationController
       @beobachtung.transportabschnitt = @transportabschnitt if @beobachtung 
       redirection_path = @beobachtung if @beobachtung
     end
+
+  # Orte finden, zuordnen oder falls nötig, neu erstellen.
+    # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
+    # Evtl. in extra Funktion auslagern, war mir für den Moment zu aufwendig.
+    if params[:transportabschnitt][:start_ort]
+      @transportabschnitt.start_ort = Ort.find_by(:name => params[:transportabschnitt][:start_ort])
+      if @transportabschnitt.start_ort == nil
+        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:transportabschnitt][:start_ort].to_s
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
+        @transportabschnitt.start_ort = Ort.create(:name => params[:transportabschnitt][:start_ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
+      end
+    end
+    if params[:transportabschnitt][:end_ort]
+      @transportabschnitt.end_ort = Ort.find_by(:name => params[:transportabschnitt][:end_ort])
+      if @transportabschnitt.end_ort == nil
+        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:transportabschnitt][:end_ort].to_s
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
+        @transportabschnitt.end_ort = Ort.create(:name => params[:transportabschnitt][:end_ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
+      end
+    end
+
     respond_to do |format|
       if @transportabschnitt.save
         @beobachtung.save if @beobachtung
@@ -59,6 +80,23 @@ class TransportabschnitteController < ApplicationController
   # PATCH/PUT /transportabschnitte/1
   # PATCH/PUT /transportabschnitte/1.json
   def update
+    if params[:transportabschnitt][:start_ort] != @transportabschnitt.start_ort
+      @transportabschnitt.start_ort = Ort.find_by(:name => params[:transportabschnitt][:start_ort])
+      if @transportabschnitt.start_ort == nil
+        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:transportabschnitt][:start_ort].to_s
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
+        @transportabschnitt.start_ort = Ort.create(:name => params[:transportabschnitt][:start_ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
+      end
+    end
+    if params[:transportabschnitt][:end_ort] != @transportabschnitt.end_ort
+      @transportabschnitt.end_ort = Ort.find_by(:name => params[:transportabschnitt][:end_ort])
+      if @transportabschnitt.end_ort == nil
+        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:transportabschnitt][:end_ort].to_s
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
+        @transportabschnitt.end_ort = Ort.create(:name => params[:transportabschnitt][:end_ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
+      end
+    end
+
     @transport = @transportabschnitt.transport 
     redirection_path = @transport.nil? ? @transportabschnitt : @transport
     respond_to do |format|
@@ -92,7 +130,10 @@ class TransportabschnitteController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transportabschnitt_params
-      params.require(:transportabschnitt).permit(:start_ort, :end_ort, :transport, :transport_id,
+      params.require(:transportabschnitt).permit(:transport, :transport_id,
                                  :start_datum, :end_datum, :firma_id, :verkehrstraeger)
+    end
+    def orte_params
+      params.require(:transportabschnitt).permit(:start_ort, :end_ort)
     end
 end

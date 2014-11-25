@@ -34,11 +34,14 @@ class UmschlaegeController < ApplicationController
     @umschlag.transport = transport
     @redirection = params[:transport_id] ? transport : @umschlag
 
+  # Orte finden, zuordnen oder falls nötig, neu erstellen.
+    # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
+    # Evtl. in extra Funktion auslagern, war mir für den Moment zu aufwendig.
     if params[:umschlag][:ort]
       @umschlag.ort = Ort.find_by(:name => params[:umschlag][:ort])
       if @umschlag.ort == nil
         a = Geokit::Geocoders::GoogleGeocoder.geocode params[:umschlag][:ort].to_s
-        a = Geokit::Geocoders::GoogleGeocoder.geocode a
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
         @umschlag.ort = Ort.create(:name => params[:umschlag][:ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
       end
     end
@@ -61,7 +64,7 @@ class UmschlaegeController < ApplicationController
       @umschlag.ort = Ort.find_by(:name => params[:umschlag][:ort])
       if @umschlag.ort == nil
         a = Geokit::Geocoders::GoogleGeocoder.geocode params[:umschlag][:ort].to_s
-        a = Geokit::Geocoders::GoogleGeocoder.geocode a
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
         @umschlag.ort = Ort.create(:name => params[:umschlag][:ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
       end
     end
