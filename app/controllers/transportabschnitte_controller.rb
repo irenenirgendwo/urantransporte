@@ -13,6 +13,15 @@ class TransportabschnitteController < ApplicationController
   # GET /transportabschnitte/1
   # GET /transportabschnitte/1.json
   def show
+    if params[:durch_ort]
+      neuort = Ort.find_by(:name => params[:durch_ort])
+      if neuort == nil
+        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:durch_ort].to_s
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
+        neuort = Ort.create(:name => params[:durch_ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
+      end
+      @transportabschnitt.orte << neuort
+    end
   end
 
   # GET /transportabschnitte/new
@@ -134,6 +143,6 @@ class TransportabschnitteController < ApplicationController
                                  :start_datum, :end_datum, :firma_id, :verkehrstraeger)
     end
     def orte_params
-      params.require(:transportabschnitt).permit(:start_ort, :end_ort)
+      params.require(:transportabschnitt).permit(:start_ort, :end_ort, :durch_ort)
     end
 end

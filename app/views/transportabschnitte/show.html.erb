@@ -25,6 +25,16 @@
 <% if @transportabschnitt.beobachtungen %>
 
   
+    <% @transportabschnitt.orte.each do |dort| %>
+        <%= link_to dort, class: "btn btn-primary" %>  
+    <% end %>
+  
+    <%= form_tag transportabschnitt_path, method: 'get' do %>
+      <div class="form-group">
+        <%= text_field_tag :durch_ort, nil, class: "form-control", placeholder: "Durchfahrtsort hinzufügen" %>
+      </div>
+    <% end %>
+
     <% @transportabschnitt.beobachtungen.each do |beob| %>
       <div class="btn-group header-buttons">
         <%= link_to 'Beobachtung anzeigen', beob , class: "btn btn-primary" %>  
