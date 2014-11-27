@@ -144,7 +144,8 @@ class AbfragenController < ApplicationController
       @transporte = @transporte.where(:start_anlage_id => start_anlagen) unless start_anlagen.empty?
       @transporte = @transporte.where(:ziel_anlage_id => ziel_anlagen) unless ziel_anlagen.empty?
       # TODO: Verkehrsmittel, aber das ist komplizierter wegen Transportabschnitten
-      
+      # TODO: Orte, dito
+
       @zeitraum = "Vom #{start_datum} bis zum #{end_datum}"
       @stoffe = stoffe.map { |stoff_id| Stoff.find(stoff_id).bezeichnung }.join(",") unless stoffe.empty?
       @start_anlagen = start_anlagen.map { |id| Anlage.find(id).name }.join(",") unless start_anlagen.empty?
