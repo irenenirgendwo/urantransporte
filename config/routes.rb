@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :orte
+
   resources :firmen
   resources :stoffe
   resources :transportabschnitte
