@@ -40,7 +40,6 @@ class AnlagenController < ApplicationController
   # GET /anlagen/1/edit
   def edit
     @redirect_params = @anlage
-    @redirect_params = @anlage.ort.to_s
     @bisherige_synonyme = @anlage.anlagen_synonyms.pluck(:synonym)
     @synonym = AnlagenSynonym.new(:anlage_id => @anlage.id)
   end
@@ -110,6 +109,58 @@ class AnlagenController < ApplicationController
         format.html { render :edit }
         format.json { render json: @anlage.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+# Grundgerüst der Ortsauswahl bei Mehrfachtreffern - vermutlich noch nicht funktionsfähig
+  # definitiv noch nicht eingebunden in den Programmablauf 
+  # Idee: nach dem Anlagen-speichern (Nach Erstellen oder Bearbeiten) wird der Ortsparameter erst abgefragt.
+  # Als erstes wird in den vorhandenen Datensätzen gesucht.
+  # Falls nichts gefunden wurde, wird mit Geokit nach Daten gesucht
+  # Hier werden oft mehrere Treffer gefunden. Wenn das der Fall ist (oder mehrere vorhandene Datensätze gefunden wurden)
+  # wird eine Auswahlseite aufgerufen. Um die zu vereinfachen, wird für jeden Geokit-Treffer ein Datensatz angelegt, 
+  # damit aus den Ortsdatensätzen gewählt werden kann.
+  # Anschließend wird die Auswahl nach @anlage.ort gespeichert.
+  # Muss mensch die gewünschte @anlage extra übergeben?
+  # Wie übergibt mensch den Ortsparameter (Name aus Formular) am dümmsten?
+  def ort_waehlen(ort)
+    File.open("log/anlagen.log","w"){|f| f.puts @redirect_params }
+    File.open("log/anlagen.log","a"){|f| f.puts "flash #{flash[:redirect_params]}" }
+    @orte = Ort.where(:name => ort)
+    if @orte.all.size > 1
+      render ort_waehlen
+    elsif @orte.all.size == 1
+      @anlage.ort = @orte.first
+    end
+    @orte =  Geokit::Geocoders::GoogleGeocoder.geocode ort
+    @orte.all.each do |o|
+      o =  Geokit::Geocoders::GoogleGeocoder.geocode o.ll
+      o = Ort.create(:name => o.city, :plz => o.zip, :lat => o.lat, :lon => o.lng)
+    end
+    if @orte.all.size > 1
+      render ort_waehlen
+    elsif @orte.all.size == 1
+      @anlage.ort = @orte.first
+    elsif @orte.empty?
+      flash[:notice] = 'Kein Ort gefunden'
+      redirect_to @anlage
+    end
+  end
+
+  def save_ortwahl
+    File.open("log/anlagen.log","w"){|f| f.puts @redirect_params }
+    File.open("log/anlagen.log","a"){|f| f.puts "flash #{flash[:redirect_params]}" }
+    if params[:ort]
+      @anlage.ort = params[:ort]
+    else
+      flash[:notice] = 'Kein Ort übermittelt'
+    end
+    if @anlage.save
+      format.html { redirect_to @anlage, notice: 'Anlage was successfully updated.' }
+      format.json { render :show, status: :ok, location: @anlage }
+    else
+      format.html { render :edit }
+      format.json { render json: @anlage.errors, status: :unprocessable_entity }
     end
   end
 
