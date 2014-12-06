@@ -79,13 +79,6 @@ ActiveRecord::Schema.define(version: 20141125215322) do
     t.text     "begleitung_beschreibung"
   end
 
-  create_table "durchfahrten", force: true do |t|
-    t.integer  "ort_id"
-    t.integer  "transportabschnitt_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "firmen", force: true do |t|
     t.string   "name",         null: false
     t.text     "beschreibung"

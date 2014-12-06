@@ -2,6 +2,8 @@
 class TransportabschnitteController < ApplicationController
   before_action :set_transportabschnitt, only: [:show, :edit, :update, :destroy]
   before_action :editor_user, only: [:new, :edit, :create, :update, :destroy]
+  
+  include OrteVerwalten
 
   # GET /transportabschnitte
   # GET /transportabschnitte.json
@@ -32,6 +34,28 @@ class TransportabschnitteController < ApplicationController
       @beobachtung = Beobachtung.find(@beobachtung_id)
     end
     @transportabschnitt = Transportabschnitt.new
+    # Wenn Abschnitt oder Umschlag davor oder danach schon existiert, 
+    # dann nimm daher die entsprechenden Anfangs- und Enddaten
+    if params[:abschnitt_davor]
+      abschnitt_davor = Transportabschnitt.find(params[:abschnitt_davor].to_i)
+      @transportabschnitt.start_datum = abschnitt_davor.end_datum
+      @transportabschnitt.start_ort = abschnitt_davor.end_ort
+    end
+    if params[:abschnitt_danach]
+      abschnitt_danach = Transportabschnitt.find(params[:abschnitt_danach].to_i)
+      @transportabschnitt.end_datum = abschnitt_danach.start_datum
+      @transportabschnitt.end_ort = abschnitt_danach.start_ort
+    end
+    if params[:umschlag_davor]
+      umschlag = Umschlag.find(params[:umschlag_davor].to_i)
+      @transportabschnitt.start_datum = umschlag_davor.end_datum
+      @transportabschnitt.start_ort = umschlag.ort
+    end
+    if params[:umschlag_danach]
+      umschlag = Umschlag.find(params[:umschlag_danach].to_i)
+      @transportabschnitt.end_datum = umschlag.start_datum
+      @transportabschnitt.end_ort = umschlag.ort
+    end 
   end
 
   # GET /transportabschnitte/1/edit
@@ -56,22 +80,12 @@ class TransportabschnitteController < ApplicationController
 
   # Orte finden, zuordnen oder falls nötig, neu erstellen.
     # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
-    # Evtl. in extra Funktion auslagern, war mir für den Moment zu aufwendig.
+    # ausgelagert in Funktion conerns/OrteVerwalten/find_or_create_ort.
     if params[:transportabschnitt][:start_ort]
-      @transportabschnitt.start_ort = Ort.find_by(:name => params[:transportabschnitt][:start_ort])
-      if @transportabschnitt.start_ort == nil
-        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:transportabschnitt][:start_ort].to_s
-        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
-        @transportabschnitt.start_ort = Ort.create(:name => params[:transportabschnitt][:start_ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
-      end
+      @transportabschnitt.start_ort = find_or_create_ort(params[:transportabschnitt][:start_ort])
     end
     if params[:transportabschnitt][:end_ort]
-      @transportabschnitt.end_ort = Ort.find_by(:name => params[:transportabschnitt][:end_ort])
-      if @transportabschnitt.end_ort == nil
-        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:transportabschnitt][:end_ort].to_s
-        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
-        @transportabschnitt.end_ort = Ort.create(:name => params[:transportabschnitt][:end_ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
-      end
+      @transportabschnitt.end_ort = find_or_create_ort(params[:transportabschnitt][:end_ort])
     end
 
     respond_to do |format|
@@ -90,20 +104,10 @@ class TransportabschnitteController < ApplicationController
   # PATCH/PUT /transportabschnitte/1.json
   def update
     if params[:transportabschnitt][:start_ort] != @transportabschnitt.start_ort
-      @transportabschnitt.start_ort = Ort.find_by(:name => params[:transportabschnitt][:start_ort])
-      if @transportabschnitt.start_ort == nil
-        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:transportabschnitt][:start_ort].to_s
-        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
-        @transportabschnitt.start_ort = Ort.create(:name => params[:transportabschnitt][:start_ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
-      end
+      @transportabschnitt.start_ort = find_or_create_ort(params[:transportabschnitt][:start_ort])
     end
     if params[:transportabschnitt][:end_ort] != @transportabschnitt.end_ort
-      @transportabschnitt.end_ort = Ort.find_by(:name => params[:transportabschnitt][:end_ort])
-      if @transportabschnitt.end_ort == nil
-        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:transportabschnitt][:end_ort].to_s
-        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
-        @transportabschnitt.end_ort = Ort.create(:name => params[:transportabschnitt][:end_ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
-      end
+       @transportabschnitt.end_ort = find_or_create_ort(params[:transportabschnitt][:end_ort])
     end
 
     @transport = @transportabschnitt.transport 

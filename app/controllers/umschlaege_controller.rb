@@ -20,6 +20,16 @@ class UmschlaegeController < ApplicationController
     if params[:transport_id]
       @transport = Transport.find(params[:transport_id].to_i)
     end
+    if params[:abschnitt_davor]
+      abschnitt_davor = Transportabschnitt.find(params[:abschnitt_davor].to_i)
+      @umschlag.start_datum = abschnitt_davor.end_datum
+      @umschlag.ort = abschnitt_davor.end_ort
+    end
+    if params[:abschnitt_danach]
+      abschnitt_danach = Transportabschnitt.find(params[:abschnitt_danach].to_i)
+      @umschlag.end_datum = abschnitt_danach.start_datum
+      @umschlag.ort = abschnitt_danach.start_ort
+    end
   end
 
   # GET /umschlaege/1/edit
@@ -68,10 +78,10 @@ class UmschlaegeController < ApplicationController
         @umschlag.ort = Ort.create(:name => params[:umschlag][:ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
       end
     end
-
+    @redirection = @umschlag.transport ? @umschlag.transport : @umschlag
     respond_to do |format|
       if @umschlag.update(umschlag_params)
-        format.html { redirect_to @umschlag, notice: 'Umschlag was successfully updated.' }
+        format.html { redirect_to @redirection, notice: 'Umschlag was successfully updated.' }
         format.json { render :show, status: :ok, location: @umschlag }
       else
         format.html { render :edit }

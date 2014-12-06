@@ -14,6 +14,16 @@
   <% if abschnitt.start_datum && abschnitt.end_datum %>
     (<%= abschnitt.start_datum.strftime("%d.%m.%Y") %> – <%= abschnitt.end_datum.strftime("%d.%m.%Y") %>)
   <% end %>
-  <%= link_to "Details", abschnitt %>
 
+  <%= link_to "Details", abschnitt %>
+  | <%= link_to "Bearbeiten", edit_transportabschnitt_path(abschnitt) %>
+  
+  <% if abschnitt.start_datum && abschnitt.end_datum %>
+    <br />
+    <%= link_to "Abschnitt davor anlegen", new_transportabschnitt_path(transport_id: abschnitt.transport.id, abschnitt_danach: abschnitt.id) %>
+    | <%= link_to "Abschnitt danach anlegen", new_transportabschnitt_path(transport_id: abschnitt.transport.id, abschnitt_davor: abschnitt.id) %>
+    | <%= link_to "Umschlag davor anlegen", new_umschlag_path(transport_id: abschnitt.transport.id, abschnitt_danach: abschnitt.id) %>
+    | <%= link_to "Umschlag danach anlegen", new_umschlag_path(transport_id: abschnitt.transport.id, abschnitt_davor: abschnitt.id) %>
+  <% end %>
+  <br />
 </div>
