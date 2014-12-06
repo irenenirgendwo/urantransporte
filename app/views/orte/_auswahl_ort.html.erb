@@ -1,0 +1,6 @@
+<h3><%= ort.name %> </h3>
+PLZ: <%= ort.plz %>
+<!-- funktioniert nicht mit mehreren Karten, deswegen gerade gestrichen
+<div id="map" style="height:200px;"></div>
+ map(:center => { :latlng => [ort.lat, ort.lon], :zoom => 15 }) -->
+<%= link_to "Auswählen", auswahl_link %>

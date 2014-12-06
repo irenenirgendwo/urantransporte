@@ -3,8 +3,6 @@ class TransportabschnitteController < ApplicationController
   before_action :set_transportabschnitt, only: [:show, :edit, :update, :destroy]
   before_action :editor_user, only: [:new, :edit, :create, :update, :destroy]
   
-  include OrteVerwalten
-
   # GET /transportabschnitte
   # GET /transportabschnitte.json
   def index
@@ -16,12 +14,7 @@ class TransportabschnitteController < ApplicationController
   # GET /transportabschnitte/1.json
   def show
     if params[:durch_ort]
-      neuort = Ort.find_by(:name => params[:durch_ort])
-      if neuort == nil
-        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:durch_ort].to_s
-        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
-        neuort = Ort.create(:name => params[:durch_ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
-      end
+      neuort = Ort.find_or_create_ort(params[:durch_ort])
       @transportabschnitt.orte << neuort
     end
   end
@@ -82,10 +75,10 @@ class TransportabschnitteController < ApplicationController
     # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
     # ausgelagert in Funktion conerns/OrteVerwalten/find_or_create_ort.
     if params[:transportabschnitt][:start_ort]
-      @transportabschnitt.start_ort = find_or_create_ort(params[:transportabschnitt][:start_ort])
+      @transportabschnitt.start_ort = Ort.find_or_create_ort(params[:transportabschnitt][:start_ort])
     end
     if params[:transportabschnitt][:end_ort]
-      @transportabschnitt.end_ort = find_or_create_ort(params[:transportabschnitt][:end_ort])
+      @transportabschnitt.end_ort = Ort.find_or_create_ort(params[:transportabschnitt][:end_ort])
     end
 
     respond_to do |format|
@@ -104,10 +97,10 @@ class TransportabschnitteController < ApplicationController
   # PATCH/PUT /transportabschnitte/1.json
   def update
     if params[:transportabschnitt][:start_ort] != @transportabschnitt.start_ort
-      @transportabschnitt.start_ort = find_or_create_ort(params[:transportabschnitt][:start_ort])
+      @transportabschnitt.start_ort = Ort.find_or_create_ort(params[:transportabschnitt][:start_ort])
     end
     if params[:transportabschnitt][:end_ort] != @transportabschnitt.end_ort
-       @transportabschnitt.end_ort = find_or_create_ort(params[:transportabschnitt][:end_ort])
+       @transportabschnitt.end_ort = Ort.find_or_create_ort(params[:transportabschnitt][:end_ort])
     end
 
     @transport = @transportabschnitt.transport 
