@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141125215322) do
+ActiveRecord::Schema.define(version: 20141206191604) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                             null: false
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20141125215322) do
     t.string   "foto_path"
     t.string   "foto_recht"
     t.text     "begleitung_beschreibung"
+    t.integer  "schiff_id"
   end
 
   create_table "firmen", force: true do |t|
