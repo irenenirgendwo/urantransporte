@@ -5,7 +5,7 @@ urenco:
   name: Urenco
   adresse: MyString
   plz: MyString
-  ort: Gronau
+  ort_id: 1
   beschreibung: MyText
 
 anf:
@@ -13,7 +13,7 @@ anf:
   name: ANF 
   adresse: MyString
   plz: MyString
-  ort: Lingen
+  ort_id: 2
   beschreibung: MyText
 
 russland:
@@ -21,7 +21,7 @@ russland:
   name: Ruslland 
   adresse: MyString
   plz: MyString
-  ort: Russland
+  ort_id: 4
   beschreibung: MyText
 
 ohne_transporte:
@@ -29,5 +29,5 @@ ohne_transporte:
   name: beliebig 
   adresse: MyString
   plz: MyString
-  ort: Russland
+  ort_id: 2
   beschreibung: MyText

@@ -137,7 +137,7 @@ class AbfragenController < ApplicationController
     def calculate_transporte 
       start_datum = params["start_datum"].to_date
       end_datum = params["end_datum"].to_date
-      dort = Geokit::Geocoders::GoogleGeocoder.geocode params["dort"].to_s if params["dort"]
+      dort = params["dort"] ?  Geokit::Geocoders::GoogleGeocoder.geocode(params["dort"].to_s) : nil
       radius = params["radius"].to_i
       # TODO: Wiederum Mehrfachtreffer manuell auswählen lassen
       stoffe, verkehrstraeger, start_anlagen, ziel_anlagen = extract_params
@@ -148,7 +148,7 @@ class AbfragenController < ApplicationController
       @transporte = @transporte.where(:ziel_anlage_id => ziel_anlagen) unless ziel_anlagen.empty?
       trabschnitte = Transportabschnitt.all  #damit das unless in der nächsten Zeile möglich ist
       trabschnitte = trabschnitte.where(:verkehrstraeger => verkehrstraeger) unless verkehrstraeger.empty?
-      trabschnitte = trabschnitte.collect{|t| t unless t.orte.within(radius, :origin => dort).empty? } 
+      trabschnitte = trabschnitte.collect{|t| t unless dort.nil? || t.orte.within(radius, :origin => dort).empty? } 
       trabschnitte.compact!
       transport_mit_abschnitten = trabschnitte.collect{|t| t.transport}
       @transporte = @transporte & transport_mit_abschnitten

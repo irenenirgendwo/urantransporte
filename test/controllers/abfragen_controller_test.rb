@@ -4,7 +4,7 @@ class AbfragenControllerTest < ActionController::TestCase
   test "should get index" do
     get :index
     assert_response :success
-    assert_select ".panel", count:5
+    assert_select ".panel", count: 6
   end
 
   test "should get show" do

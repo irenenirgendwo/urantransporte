@@ -58,7 +58,7 @@ class Ort < ActiveRecord::Base
       orte =  Ort.lege_passende_orte_an(ort)
       if orte.size > 1
         File.open("log/ort.log","a"){|f| f.puts "Mehrere Orte gefunden" }
-        return false, @orte
+        return false, orte
       elsif orte.size == 1
         File.open("log/ort.log","a"){|f| f.puts "Einen Ort gefunden" }
         return true, orte.first
@@ -77,6 +77,7 @@ class Ort < ActiveRecord::Base
       o =  Geokit::Geocoders::GoogleGeocoder.geocode o.ll
       o = Ort.create(:name => o.city, :plz => o.zip, :lat => o.lat, :lon => o.lng)
       angelegte_orte << o
+      File.open("log/ort.log","a"){|f| f.puts "Ort angelegt: #{o.attributes}" }
     end
     angelegte_orte
   end
@@ -84,6 +85,18 @@ class Ort < ActiveRecord::Base
   # gibt passende Orte als Array zurück.
   def self.orte_mit_namen ort
     Ort.where(:name => ort).to_a
+  end
+  
+  def self.create_by_koordinates(lat,lon)
+    File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates" }
+    ort = Ort.find_by(lat: lat, lon: lon)
+    if ort.nil?
+      File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates" }
+      o = Geokit::Geocoders::GoogleGeocoder.geocode "#{lat},#{lon}"
+      ort = create(:name => o.city, :lat => lat, :lon => lon, :plz => o.zip)
+      File.open("log/ort.log","a"){|f| f.puts "Erzeugter Ort: #{ort.attributes}" }
+    end 
+    ort
   end
   
 end

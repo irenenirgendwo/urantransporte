@@ -34,7 +34,7 @@ class AnlagenController < ApplicationController
   def new
     @anlage = Anlage.new
     @synonym = params[:synonym]
-    session[:redirect_params] = params[:redirect_params]
+    @redirect_params = params[:redirect_params]
   end
 
   # GET /anlagen/1/edit
@@ -49,12 +49,8 @@ class AnlagenController < ApplicationController
   # POST /anlagen.json
   def create
     @anlage = Anlage.new(anlage_params)
-    @redirect_params = params[:redirect_params].nil? ? (session[:redirect_params].nil? ? new_anlage_path : session[:redirect_params]) : params[:redirect_params] 
-
     
-    File.open("log/anlagen.log","w"){|f| f.puts @redirect_params.to_s }
-    File.open("log/anlagen.log","a"){|f| f.puts "params #{params[:redirect_params]}" }
-    File.open("log/anlagen.log","a"){|f| f.puts "session #{session[:redirect_params]}" }
+    File.open("log/anlagen.log","w"){|f| f.puts @anlage.attributes}
     session[:redirect_params] = nil
     
     if params[:synonym]
@@ -65,7 +61,9 @@ class AnlagenController < ApplicationController
       end
     end
     
-    evtl_ortswahl_weiterleitung_und_anzeige(params[:anlage][:ort].to_s, "create", @redirect_params)
+    @redirect_params =  params[:redirect_params].nil? ? @anlage : params[:redirect_params] 
+    
+    evtl_ortswahl_weiterleitung_und_anzeige(params[:anlage][:ort].to_s, params[:anlage][:lat], params[:anlage][:lon], "create", @redirect_params)
     
   end
 
@@ -75,7 +73,7 @@ class AnlagenController < ApplicationController
   # Orte finden, zuordnen oder falls nötig, neu erstellen.
     # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
     # Evtl. in extra Funktion auslagern, war mir für den Moment zu aufwendig.
-    evtl_ortswahl_weiterleitung_und_anzeige(params[:anlage][:ort].to_s, "update", @anlage)
+    evtl_ortswahl_weiterleitung_und_anzeige(params[:anlage][:ort].to_s, params[:anlage][:lat], params[:anlage][:lon], "update", @anlage)
 
   end
 
@@ -85,18 +83,19 @@ class AnlagenController < ApplicationController
   # Testweise eingebunden nur beim Erstellen neuer Anlagen und Update.
   #
   # Idee: Alle passenden Orte werden in einem Auswahlfenster angezeigt.
-  # Die passenden Orte werden mittels orte_mit_namen bzw. lege_passende_orte_an im Ort-Modell gesucht bzw. angelegt.
+  # Die passenden Orte werden mittels ort_waehlen (orte_mit_namen bzw. lege_passende_orte_an)
+  # im Ort-Modell gesucht bzw. angelegt.
   # Dann werden die angelegten Orte zum Aufruf einer ortsauswahl-Funktion aus dem OrteController verwendnet.
   #
   # TODO: Wenn kein Ort gefunden wurde, anderes Ortswahlfenster anlegen mit Ort neu suchen koennen,
   # über Orte-Controller, vermutlich ähnlich.
   #
-  def evtl_ortswahl_weiterleitung_und_anzeige(ortsname, aktion, redirection = @anlage)
+  def evtl_ortswahl_weiterleitung_und_anzeige(ortsname, lat, lon, aktion, redirection = @anlage)
     # Log-File für Feller finden
-    File.open("log/ort.log","w"){|f| f.puts "ortsname im anlagenKontroller #{ortsname}" }
+    File.open("log/ort.log","w"){|f| f.puts "ortsname im anlagenKontroller #{ortsname} #{ortsname.nil?} #{ortsname==""}" }
     File.open("log/ort.log","a"){|f| f.puts "anlage.ort #{@anlage.ort.to_s}" }
     eindeutig = true
-    if ortsname && !(aktion=="update" && ortsname == @anlage.ort.to_s)
+    unless ortsname=="" || ortsname.nil? || (aktion=="update" && ortsname == @anlage.ort.to_s)
       eindeutig, ort_e = Ort.ort_waehlen(ortsname)
       File.open("log/anlagen.log","a"){|f| f.puts "ort_e #{ort_e}" }
       if eindeutig
@@ -104,6 +103,21 @@ class AnlagenController < ApplicationController
       else 
         # wird nach dem Anlagen speichern gesetzt.
         @anlage.ort = nil 
+      end
+    end
+    # Wenn Koordinaten eingegeben sind, diese beim Ort ersetzen bzw. 
+    # Ort danach finden falls Ortsname uneindeutig.
+    if lat && lon
+      File.open("log/ort.log","a"){|f| f.puts "lat und lon #{lat}, #{lon}" }
+      File.open("log/ort.log","a"){|f| f.puts "@anlage.ort #{@anlage.ort}" }
+      if @anlage.ort.nil?
+        @anlage.ort = Ort.create_by_koordinates(lat,lon) 
+        eindeutig = true
+      else
+        File.open("log/ort.log","a"){|f| f.puts "Ort gefunden #{@anlage.ort.attributes}" }
+        @anlage.ort.lat = lat
+        @anlage.ort.lon = lon
+        @anlage.ort.save
       end
     end
     
@@ -211,11 +225,7 @@ class AnlagenController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def anlage_params
       params.require(:anlage).permit(:name, :adresse, :plz, :lat, :lon, :beschreibung, 
-                                  :bild_url, :bild_urheber, :anlagen_kategorie, :anlagen_kategorie_id)
-    end
-
-    def more_params
-      params.require(:anlage).permit(:ort)
+                                  :bild_url, :bild_urheber, :anlagen_kategorie, :anlagen_kategorie_id, :ort_id)
     end
 
    # Never trust parameters from the scary internet, only allow the white list through.

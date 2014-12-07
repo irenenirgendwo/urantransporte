@@ -39,7 +39,7 @@ class UmschlaegeControllerTest < ActionController::TestCase
 
   test "should update umschlag" do
     patch :update, id: @umschlag, umschlag: {ort: "Hamburg", terminal: "Burchardkai", transport_id: @transport.id }
-    assert_redirected_to umschlag_path(assigns(:umschlag))
+    assert_redirected_to transport_path(@transport)
   end
 
   test "should destroy umschlag" do

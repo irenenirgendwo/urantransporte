@@ -1,6 +1,6 @@
 <%= form_for(@anlage) do |f| %>
 
-  <%= hidden_field_tag :redirect_params, @redirect_params %>
+   hidden_field_tag :redirect_params, @redirect_params
   <% if @anlage.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@anlage.errors.count, "error") %> prohibited this anlage from being saved:</h2>
