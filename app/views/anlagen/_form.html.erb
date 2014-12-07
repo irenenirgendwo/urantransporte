@@ -72,8 +72,8 @@
           <input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control">
             <!-- f.hidden_field :lat, class: "form-control" -->
             <!-- f.hidden_field :lon, class: "form-control" -->
-            <%= hidden_field_tag :lat, @anlage.ort.lat %>
-            <%= hidden_field_tag :lon, @anlage.ort.lon %>
+            <%= hidden_field_tag :lat, (@anlage.ort ? @anlage.ort.lat : nil) %>
+            <%= hidden_field_tag :lon, (@anlage.ort ? @anlage.ort.lon : nil) %>
         </div>
         
         <div id="map" style="height: 300px;"></div>

@@ -60,7 +60,7 @@ class AnlagenControllerTest < ActionController::TestCase
   #
   test "should create anlage with lat and lon parameters" do
     assert_difference('Anlage.count') do
-      post :create, anlage: { name: "AKW Brokdorf", beschreibung: "AKW", lat: 53.86312, lon: 9.32437 },
+      post :create, anlage: { name: "AKW Brokdorf", beschreibung: "AKW"} , lat: 53.86312, lon: 9.32437 ,
                     redirect_params: anlagen_path
     end
     anlage = Anlage.find_by(name: "AKW Brokdorf")
