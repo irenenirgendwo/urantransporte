@@ -12,6 +12,7 @@
       </ul>
     </div>
   <% end %>
+  <%= @anlage.ort.attributes if @anlage.ort %>
 
   <div class="row">
   
@@ -69,14 +70,16 @@
         <div class="panel-body">
           <p>Klicke auf die Karte, um den Standort genau festzulegen.</p>
           <input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control">
-            <%= f.hidden_field :lat, class: "form-control" %>
-            <%= f.hidden_field :lon, class: "form-control" %>
+            <!-- f.hidden_field :lat, class: "form-control" -->
+            <!-- f.hidden_field :lon, class: "form-control" -->
+            <%= hidden_field_tag :lat, @anlage.ort.lat %>
+            <%= hidden_field_tag :lon, @anlage.ort.lon %>
         </div>
         
         <div id="map" style="height: 300px;"></div>
         <!-- Javascript im Ordner app/assets/javascripts ablegen -->
         <script>
-          geomap('anlage');
+          geomap("ort");
         </script>
         
       </div>

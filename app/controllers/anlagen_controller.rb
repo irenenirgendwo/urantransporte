@@ -63,7 +63,7 @@ class AnlagenController < ApplicationController
     
     @redirect_params =  params[:redirect_params].nil? ? @anlage : params[:redirect_params] 
     
-    evtl_ortswahl_weiterleitung_und_anzeige(params[:anlage][:ort].to_s, params[:anlage][:lat], params[:anlage][:lon], "create", @redirect_params)
+    evtl_ortswahl_weiterleitung_und_anzeige(params[:anlage][:ort].to_s, params[:lat], params[:lon], "create", @redirect_params)
     
   end
 
@@ -73,7 +73,7 @@ class AnlagenController < ApplicationController
   # Orte finden, zuordnen oder falls nötig, neu erstellen.
     # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
     # Evtl. in extra Funktion auslagern, war mir für den Moment zu aufwendig.
-    evtl_ortswahl_weiterleitung_und_anzeige(params[:anlage][:ort].to_s, params[:anlage][:lat], params[:anlage][:lon], "update", @anlage)
+    evtl_ortswahl_weiterleitung_und_anzeige(params[:anlage][:ort].to_s, params[:lat], params[:lon], "update", @anlage)
 
   end
 
