@@ -107,7 +107,7 @@ class AnlagenController < ApplicationController
     end
     # Wenn Koordinaten eingegeben sind, diese beim Ort ersetzen bzw. 
     # Ort danach finden falls Ortsname uneindeutig.
-    if lat && lon
+    if lat && lon && lat!="" && lon!=""
       File.open("log/ort.log","a"){|f| f.puts "lat und lon #{lat}, #{lon}" }
       File.open("log/ort.log","a"){|f| f.puts "@anlage.ort #{@anlage.ort}" }
       if @anlage.ort.nil?
@@ -115,7 +115,8 @@ class AnlagenController < ApplicationController
         eindeutig = true
       else
         File.open("log/ort.log","a"){|f| f.puts "Ort gefunden #{@anlage.ort.attributes}" }
-        @anlage.ort.lat = lat
+        # Ortskoordinaten umsetzen oder besser neuen Ort erzeugen?
+        @anlage.ort.lat = lat 
         @anlage.ort.lon = lon
         @anlage.ort.save
       end

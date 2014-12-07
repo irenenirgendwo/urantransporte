@@ -38,11 +38,11 @@
     <% if @anlage.bild_url? %>
       <img src="<%= @anlage.bild_url %>" class="img-responsive" alt="<%= @anlage.name %>">
     <% end %>
-
-    <% if @anlage.lat? && @anlage.lon? %>
-      <div id="map" style="height:200px;"></div>
-      <%= map(:center => { :latlng => [@anlage.lat, @anlage.lon], :zoom => 15 }) %>
+    
+    <% if @anlage.ort %>
+      <%= render "orte/anzeige", ort: @anlage.ort %>
     <% end %>
+    
   </div>
 </div>
 
