@@ -60,6 +60,9 @@ gem 'whenever', '~> 0.9.4'
 #PDF
 gem 'pdf-reader', '~> 1.3.3'
 
+#Geokit für Ortssuche
+gem 'geokit-rails'
+
 group :development do
   gem "rails-erd"
 end

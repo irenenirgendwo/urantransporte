@@ -48,12 +48,16 @@
             </p>
           <% when "Schiff" then %>
             <p>
-              <strong>Schiff name:</strong>
-              <%= beobachtung.schiff_name %>
+              <strong>Name des Schiffes:</strong>
+              <% if beobachtung.schiff %>
+                <%= link_to beobachtung.schiff.name, beobachtung.schiff %>
+              <% elsif beobachtung.schiff_name %>
+                <%= beobachtung.schiff_name %>
+              <% end %>
             </p>
             
             <p>
-              <strong>Schiff beschreibung:</strong>
+              <strong>Beschreibung des Schiffes:</strong>
               <%= beobachtung.schiff_beschreibung %>
             </p>
           <% end %>

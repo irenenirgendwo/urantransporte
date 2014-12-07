@@ -36,31 +36,23 @@
           <div class="form-group">
             <%= f.label :ankunft_zeit, "Ankunftszeit" %>
             <div class='input-group date' id='datetimepicker-ankunft'>
-              <%= f.text_field :ankunft_zeit, start_year:1990, class: "form-control" %>
+              <%= f.text_field :ankunft_zeit, start_year:1999, class: "form-control" %>
               <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
           </div>
           <div class="form-group">
             <%= f.label :abfahrt_zeit, "Abfahrtszeit" %>
             <div class='input-group date' id='datetimepicker-abfahrt'>
-              <%= f.text_field :abfahrt_zeit, start_year:1990, class: "form-control" %>
+              <%= f.text_field :abfahrt_zeit, start_year:1999, class: "form-control" %>
               <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
           </div>
           <script type="text/javascript">
+            //javascript dafeur mehrfach benutzbar, also ausgelagert in setup_datetimepicker.js
+            setup_datetimepicker('#datetimepicker-ankunft')
+            setup_datetimepicker('#datetimepicker-abfahrt')
+            // keine Ahnung wozu das da ist?
             $(function () {
-                $('#datetimepicker-ankunft').datetimepicker({
-                    language: 'de'
-                });
-                $('#datetimepicker-abfahrt').datetimepicker({
-                    language: 'de'
-                });
-                $("#datetimepicker-ankunft").on("dp.change",function (e) {
-                  $('#datetimepicker-abfahrt').data("DateTimePicker").setMinDate(e.date);
-                });
-                $("#datetimepicker-abfahrt").on("dp.change",function (e) {
-                  $('#datetimepicker-ankunft').data("DateTimePicker").setMaxDate(e.date);
-                });
                 $('.glyphicon-question-sign').tooltip();
             });
           </script>
@@ -234,8 +226,15 @@
         </div>
         <div class="beobachtung_schiff">
           <div class="form-group">
-            <%= f.label :schiff_name, "Schiffsname" %>
-            <%= f.text_field :schiff_name, class: "form-control" %>
+            <div class="col-sm-12">
+              <%= f.label :schiff_name, "Schiffsname auswählen oder eingeben" %>
+            </div>
+            <div class="col-sm-6">
+              <%= f.select :schiff_id, options_for_select(@schiffe, @schiff_unbekannt), {}, class: "form-control" %>
+            </div>
+            <div class="col-sm-6">
+              <%= f.text_field :schiff_name, class: "form-control" %>
+            </div>
           </div>
           <div class="form-group">
             <%= f.label :schiff_beschreibung, "Beschreibung des Schiffs (Größe, Aussehen, ...)" %>

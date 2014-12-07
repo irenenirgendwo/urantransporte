@@ -2,6 +2,7 @@
 class BeobachtungenController < ApplicationController
   before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :load_foto, :update_foto, :abschnitt_zuordnen, :set_toleranz_tage]
   before_action :editor_user, only: [:edit, :update, :destroy, :index]
+  before_action :set_schiffe, only: [:edit, :new]
   
   # Zeigt alle noch nicht zu Transportabschnitten zugeordneten Beobachtungen an. (zugeordnet="n"
   # Es ist auch möglich, alle Beobachtungen anzeigen zu lassen (zugeordnet="a").
@@ -54,6 +55,8 @@ class BeobachtungenController < ApplicationController
       @beobachtung.quelle = quelle
     end 
 
+    # Gilt das nicht generell für Zeitfelder, vielleicht auslagern in ein Modul
+    # und eine Methode korrigiere_datum(datum)?
     if @beobachtung.ankunft_zeit.year < 90
       @beobachtung.ankunft_zeit = @beobachtung.ankunft_zeit.advance(:days => 365.2425*2000)
     elsif @beobachtung.ankunft_zeit.year < 100
@@ -168,9 +171,17 @@ class BeobachtungenController < ApplicationController
                   :firma_id, :firma_beschreibung, :lok_beschreibung, :container_beschreibung, :anzahl_container, 
                   :zug_beschreibung, :anzahl_lkw, :kennzeichen_lkw, :lkw_beschreibung, 
                   :schiff_name, :schiff_beschreibung, :polizei, :hubschrauber, :begleitung_beschreibung, :foto, :quelle, :email,
-                  :transportabschnitt_id)
+                  :transportabschnitt_id, :schiff_id)
     end
     
+    
+    def set_schiffe 
+      @schiffe = []
+      Schiff.all.each do |schiff|
+        @schiffe << [schiff.name, schiff.id]
+      end
+      @schiff_unbekannt = Schiff.find_by_name("Unbekannt").id
+    end
     
 
 end

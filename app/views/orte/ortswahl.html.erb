@@ -1,0 +1,4 @@
+<h1>Richtigen Ort auswählen</h1>
+<% @orte.each do |ort_hash| %>
+  <%= render "auswahl_ort", ort: ort_hash["ort"], auswahl_link: ort_hash["link"] %> 
+<% end %>

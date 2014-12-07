@@ -4,8 +4,30 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
+gronau:
+  id: 1
+  name: Gronau
+  lat: 52.21254
+  lon: 7.041589999999999
+  plz: 48599
 # column: value
 #
-two: {}
+lingen: 
+  id: 2
+  name: Lingen
+  lat: 52.52289
+  lon: 7.323099999999999
+  plz: 49808
+hamburg:
+  id: 3
+  name: Hamburg
+  lat: 53.5510813
+  lon: 9.993701
+  plz: 20095
+petersburg:
+  id: 4
+  name: St. Petersburg
+  lat: 27.772975
+  lon: -82.6399922
+  plz: 33701
 #  column: value

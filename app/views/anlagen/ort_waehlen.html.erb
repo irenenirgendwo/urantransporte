@@ -1,0 +1,20 @@
+<h1>Ortsauswahl</h1>
+<p id="notice"><%= notice %></p>
+<div class="panel panel-default">
+  
+  <div class="panel-heading">
+    <h3 class="panel-title">Wähle aus der Liste</h3>
+  </div>
+  
+    <div class="panel-body">
+      <ul class="list-group">
+        <% @orte.all.each do |ort| %>
+            <%= link_to ort, anlagen_save_ortwahl_path(:ort => ort), class: "list-group-item" %>
+        <% end %>
+      </ul>
+   
+     <div class="panel-footer">
+       <%= submit_tag "Weiter zum Auswerten", class: "btn btn-primary" %>
+     </div>
+
+</div>

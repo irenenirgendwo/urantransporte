@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  get 'orte/ortswahl'
+  resources :orte
+  
   resources :firmen
   resources :stoffe
   resources :transportabschnitte
@@ -40,11 +43,13 @@ Rails.application.routes.draw do
     post "update_foto", on: :member
   end 
   get "beobachtungen/set_toleranz_tage/:id/:tage" => 'beobachtungen#set_toleranz_tage', as: :set_toleranz_tage_beobachtung
-
-  resources :anlagen
+  
+  resources :anlagen do 
+    get 'save_ort', on: :member
+  end
   post "anlagen/add_synonym"
   post "anlagen/destroy_synonym"
-
+  
   get "upload/index"
   post "upload/upload_file"
   post "upload/read_anlagen"

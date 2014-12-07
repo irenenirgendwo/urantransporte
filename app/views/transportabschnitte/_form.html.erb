@@ -1,4 +1,12 @@
 <%= form_for(@transportabschnitt) do |f| %>
+  <div class="btn-group header-buttons", class: "btn btn-primary">
+     <%= f.submit %>
+  </div>
+  
+  <h3> Transportabschnitt </h3>
+ 
+
+
   <% if @transportabschnitt.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@transportabschnitt.errors.count, "error") %> prohibited this transportabschnitt from being saved:</h2>
@@ -25,7 +33,10 @@
     <div class="panel-body">
       <p>
         <strong>Startdatum des Transportabschnittes:</strong><br>
-        <%= f.datetime_select(:start_datum, start_year:1990) %>
+        <div class='input-group date' id='datetimepicker-start'>
+              <%= f.text_field :start_datum, start_year:1999, class: "form-control" %>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        </div>
       </p>
        <p>
         <strong>Anfangsort:</strong>
@@ -41,14 +52,22 @@
     <div class="panel-body">
       <div class="form-group">
         <strong>Ende des Transportabschnittes:</strong><br>
-        <%= f.datetime_select(:end_datum, start_year:1990) %>
+        <div class='input-group date' id='datetimepicker-ende'>
+              <%= f.text_field :end_datum, start_year:1999, class: "form-control" %>
+              <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        </div>
       </div>
       <div class="form-group">
         <strong>Endort:</strong>
-        <%= f.text_field  :end_ort, class: "form-control" %>
+        <%= f.text_field :end_ort, class: "form-control" %>
       </div>
     </div>
   </div>
+  
+  <script type="text/javascript">
+      setup_datetimepicker("#datetimepicker-start")
+      setup_datetimepicker("#datetimepicker-ende")
+  </script>
   
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -68,7 +87,5 @@
   </div>
  
 
-  <div class="button">
-    <%= f.submit %>
-  </div>
+  
 <% end %>

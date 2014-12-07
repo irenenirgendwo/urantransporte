@@ -1,0 +1,33 @@
+Transportdatum;Genehmigungsinhaber;Beförderer;Absender;Land;Empfänger;Land;Inhalt;Anzahl;radioaktiver Stoff 1;Masse in g;radioaktiver Stoff 2;Masse in g;radioaktiver Stoff 3;Masse in g;Versandstück
+01.10.2012;Transrad;Transrad;ANF Lingen;D;KKW Flamanville;F;BE;8;U-235;243200;Pu-fiss;0;;0;F/348/IF-96
+01.10.2012;Transrad;Transrad;ANF Lingen;D;KKW Flamanville;F;BE;4;U-235;243200;Pu-fiss;0;;0;F/348/IF-96
+01.10.2012;Transrad;Transrad;ANF Lingen;D;KKW Flamanville;F;BE;8;U-235;243200;Pu-fiss;0;;0;F/348/IF-96 Dh
+02.10.2012;RSB Logistic;Kieserling;ANF Lingen;D;Urenco/D;D;"UF6 ""heels""";0;U-235;464;Pu-fiss;0;;0;USA/9196/B(U)F-96
+03.10.2012;Transrad;Transrad;Cerca;F;IAE;PL;U-Targets;0;U-235;958;Pu-fiss;0;;0;F/373/IF-96 Cm
+03.10.2012;NCS;NCS;Westinghouse;S;KKW Chinon;F;BE;10;U-235;275000;Pu-fiss;0;;0;USA/9297/AF-96
+07.10.2012;RSB Logistic;Kieserling/Unikai/ACL;Urenco/D;D;Westinghouse & GNF-A;USA;UF6 ang.;0;U-235;924000;Pu-fiss;0;;0;USA/9196/B(U)F-96
+07.10.2012;NCS;ABC/; OJSC/Mashinostroitelny;RUS;KKW Beznau;CH;BE;40;U-235;710000;Pu-fiss;0;;0;D/4343/IF-96
+07.10.2012;Transrad;Transrad;ANF Lingen;D;KKW Flamanville;F;BE;8;U-235;243200;Pu-fiss;0;;0;F/348/IF-96 Dh
+09.10.2012;Transrad;Transrad;ANF Lingen;D;KKW Flamanville;F;BE;8;U-235;243200;Pu-fiss;0;;0;F/348/IF-96
+10.10.2012;NCS;Transkem;ANF Lingen;D;FBFC;F;BSt.;480;U-235;62880;Pu-fiss;0;;0;F/348/IF-96
+11.10.2012;Wagenborg;Lemarechal;Urenco/D;D;FBFC;F;UF6 ang.;0;U-235;385000;Pu-fiss;0;;0;USA/9196/B(U)F-96
+11.10.2012;Wagenborg;Lemarechal;ANF Lingen;D;Comurhex;F;"UF6 ""heels""";0;U-235;2298;Pu-fiss;0;;0;USA/9196/B(U)F-96
+11.10.2012;NCS;Transkem;Urenco/D;D;Springfields Fuels Ltd.;GB;UF6 ang.;0;U-235;231000;Pu-fiss;0;;0;USA/9196/B(U)F-96
+14.10.2012;Transrad;Transrad;ANF Lingen;D;KKW Flamanville;F;BE;8;U-235;243200;Pu-fiss;0;;0;F/348/IF-96
+16.10.2012;Transrad;Transrad;ANF Lingen;D;KKW Flamanville;F;BE;8;U-235;243200;Pu-fiss;0;;0;F/348/IF-96
+17.10.2012;NCS;Transkem;Westinghouse;S;KKW Chinon;F;BE;8;U-235;220000;Pu-fiss;0;;0;USA/9297/AF-96
+18.10.2012;AREVA;Lemarechal;ANF Lingen;D;Comurhex,Eurodif,AREVA NC;E;"UF6 ""heels""";0;U-235;2298;Pu-fiss;0;;0;USA/9196/B(U)F-96
+18.10.2012;AREVA;Lemarechal;Urenco;D;FBFC;F;UF6 ang.;0;U-235;462000;Pu-fiss;0;;0;USA/9196/B(U)F-96
+20.10.2012;NCS;ACL;Urenco;GB;Westinghouse;S;UF6 ang.;0;U-235;898218;Pu-fiss;0;;0;USA/9196/B(U)F-96
+22.10.2012;RSB Logistic;Kieserling/Unikai/ACL;Urenco/D;D;GNF America;USA;UF6 ang.;0;U-235;308000;Pu-fiss;0;;0;USA/9196/B(U)F-96
+22.10.2012;RSB Logistic;Kieserling/Unikai/ACL;Urenco/D;D;GNF America;USA;UF6 ang.;0;U-235;308000;Pu-fiss;0;;0;USA/9196/B(U)F-96
+22.10.2012;RSB Logistic;ACL/Unikai/Kieserling;AREVA NP;USA;ANF Lingen;D;UO2 Pellets;0;U-235;137275;Pu-fiss;0;;0;USA/9217/AF
+23.10.2012;NCS;Transkem;Westinghouse;S;KKW Chinon;F;BE;10;U-235;275000;Pu-fiss;0;;0;USA/9297/AF-96
+23.10.2012;Transrad;Transrad;ANF Lingen;D;KKW Flamanville;F;BE;8;U-235;243200;Pu-fiss;0;;0;F/348/IF-96 Dh
+23.10.2012;Transrad;Transrad;ANF Lingen;D;KKW Flamanville;F;BE;8;U-235;243200;Pu-fiss;0;;0;F/348/IF-96
+24.10.2012;NCS;Transkem;ANF Lingen;D;FBFC;B;BSt.;500;U-235;65500;Pu-fiss;0;;0;F/347/IF-96
+25.10.2012;RSB Logistic;Kieserling;Urenco;GB;ANF Lingen;D;UF6 ang.;0;U-235;399190;Pu-fiss;0;;0;USA/9196/B(U)F-96
+27.10.2012;RSB Logistic;Kieserling/Unikai/ACL;Urenco/D;D;Global Nuclear Fuels;USA;UF6 ang.;0;U-235;308000;Pu-fiss;0;;0;USA/9196/B(U)F-96
+29.10.2012;NCS;NCS;Westinghouse;S;KKW Chinon;F;BE;9;U-235;247500;Pu-fiss;0;;0;USA/9297/AF-96
+29.10.2012;NCS;NCS / Transkem;European Commission, JRC Ispra;I;JRC Karlsruhe, (ITU);D;UO2 Pellets/Pulver, Bst., u. a;0;U-235;7387;Pu-fiss;0;;0;GB/2816H/B(U)F-96, & …
+29.10.2012;NCS;NCS/ Transkem;European Commission, JRC Ispra;I;JRC Karlsruhe (ITU);D;PuO2-Pellets;0;U-235;0;Pu-fiss;72;;0;GB/2816H/B(U)F-96

@@ -2,6 +2,9 @@
 class Schiff < ActiveRecord::Base
   serialize :next_ports
   belongs_to :firma
+  has_many :beobachtungen
+  
+  validates :name, presence: true, uniqueness: true
   
   def storePosition
     require 'nokogiri'

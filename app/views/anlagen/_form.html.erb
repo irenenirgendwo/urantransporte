@@ -1,6 +1,6 @@
 <%= form_for(@anlage) do |f| %>
 
-  <%= hidden_field_tag :redirect_params, @redirect_params %>
+   hidden_field_tag :redirect_params, @redirect_params
   <% if @anlage.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@anlage.errors.count, "error") %> prohibited this anlage from being saved:</h2>
@@ -12,6 +12,7 @@
       </ul>
     </div>
   <% end %>
+  <%= @anlage.ort.attributes if @anlage.ort %>
 
   <div class="row">
   
@@ -61,6 +62,7 @@
         </div>
       </div>
     
+      <!-- TODO: noch auf ort.lat/ort.lon umstellen -->
       <div class="panel panel-default" id="mapedit" >
         <div class="panel-heading">
           <h2 class="panel-title">Standort</h2>
@@ -68,14 +70,16 @@
         <div class="panel-body">
           <p>Klicke auf die Karte, um den Standort genau festzulegen.</p>
           <input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control">
-            <%= f.hidden_field :lat, class: "form-control" %>
-            <%= f.hidden_field :lon, class: "form-control" %>
+            <!-- f.hidden_field :lat, class: "form-control" -->
+            <!-- f.hidden_field :lon, class: "form-control" -->
+            <%= hidden_field_tag :lat, (@anlage.ort ? @anlage.ort.lat : nil) %>
+            <%= hidden_field_tag :lon, (@anlage.ort ? @anlage.ort.lon : nil) %>
         </div>
         
         <div id="map" style="height: 300px;"></div>
         <!-- Javascript im Ordner app/assets/javascripts ablegen -->
         <script>
-          geomap('anlage');
+          geomap("ort");
         </script>
         
       </div>

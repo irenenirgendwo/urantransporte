@@ -137,14 +137,22 @@ class AbfragenController < ApplicationController
     def calculate_transporte 
       start_datum = params["start_datum"].to_date
       end_datum = params["end_datum"].to_date
+      dort = params["dort"] ?  Geokit::Geocoders::GoogleGeocoder.geocode(params["dort"].to_s) : nil
+      radius = params["radius"].to_i
+      # TODO: Wiederum Mehrfachtreffer manuell auswählen lassen
       stoffe, verkehrstraeger, start_anlagen, ziel_anlagen = extract_params
       
       @transporte = Transport.where(:datum => start_datum..end_datum)
       @transporte = @transporte.where(:stoff_id => stoffe) unless stoffe.empty?
       @transporte = @transporte.where(:start_anlage_id => start_anlagen) unless start_anlagen.empty?
       @transporte = @transporte.where(:ziel_anlage_id => ziel_anlagen) unless ziel_anlagen.empty?
-      # TODO: Verkehrsmittel, aber das ist komplizierter wegen Transportabschnitten
-      
+      trabschnitte = Transportabschnitt.all  #damit das unless in der nächsten Zeile möglich ist
+      trabschnitte = trabschnitte.where(:verkehrstraeger => verkehrstraeger) unless verkehrstraeger.empty?
+      trabschnitte = trabschnitte.collect{|t| t unless dort.nil? || t.orte.within(radius, :origin => dort).empty? } 
+      trabschnitte.compact!
+      transport_mit_abschnitten = trabschnitte.collect{|t| t.transport}
+      @transporte = @transporte & transport_mit_abschnitten
+
       @zeitraum = "Vom #{start_datum} bis zum #{end_datum}"
       @stoffe = stoffe.map { |stoff_id| Stoff.find(stoff_id).bezeichnung }.join(",") unless stoffe.empty?
       @start_anlagen = start_anlagen.map { |id| Anlage.find(id).name }.join(",") unless start_anlagen.empty?

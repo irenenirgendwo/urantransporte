@@ -11,8 +11,9 @@
   <% unless @anlage.name.include?(@anlage.anlagen_kategorie.to_s) %>
     <%= @anlage.anlagen_kategorie %>
   <% end %>
-  <% unless @anlage.name.include?(@anlage.ort) %>
-    in <%= @anlage.ort %>
+  <!-- unless @anlage.name.include?(@anlage.ort.to_s) -->
+  <% if @anlage.ort %>
+    in <%= @anlage.ort.to_s %>
   <% end %>
   </small>
 </h1>
@@ -37,11 +38,11 @@
     <% if @anlage.bild_url? %>
       <img src="<%= @anlage.bild_url %>" class="img-responsive" alt="<%= @anlage.name %>">
     <% end %>
-
-    <% if @anlage.lat? && @anlage.lon? %>
-      <div id="map" style="height:200px;"></div>
-      <%= map(:center => { :latlng => [@anlage.lat, @anlage.lon], :zoom => 15 }) %>
+    
+    <% if @anlage.ort %>
+      <%= render "orte/anzeige", ort: @anlage.ort %>
     <% end %>
+    
   </div>
 </div>
 

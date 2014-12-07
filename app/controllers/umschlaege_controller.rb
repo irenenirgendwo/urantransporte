@@ -20,6 +20,16 @@ class UmschlaegeController < ApplicationController
     if params[:transport_id]
       @transport = Transport.find(params[:transport_id].to_i)
     end
+    if params[:abschnitt_davor]
+      abschnitt_davor = Transportabschnitt.find(params[:abschnitt_davor].to_i)
+      @umschlag.start_datum = abschnitt_davor.end_datum
+      @umschlag.ort = abschnitt_davor.end_ort
+    end
+    if params[:abschnitt_danach]
+      abschnitt_danach = Transportabschnitt.find(params[:abschnitt_danach].to_i)
+      @umschlag.end_datum = abschnitt_danach.start_datum
+      @umschlag.ort = abschnitt_danach.start_ort
+    end
   end
 
   # GET /umschlaege/1/edit
@@ -33,6 +43,19 @@ class UmschlaegeController < ApplicationController
     transport = params[:transport_id] ? Transport.find(params[:transport_id].to_i) : nil
     @umschlag.transport = transport
     @redirection = params[:transport_id] ? transport : @umschlag
+
+  # Orte finden, zuordnen oder falls nötig, neu erstellen.
+    # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
+    # Evtl. in extra Funktion auslagern, war mir für den Moment zu aufwendig.
+    if params[:umschlag][:ort]
+      @umschlag.ort = Ort.find_by(:name => params[:umschlag][:ort])
+      if @umschlag.ort == nil
+        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:umschlag][:ort].to_s
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
+        @umschlag.ort = Ort.create(:name => params[:umschlag][:ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
+      end
+    end
+
     respond_to do |format|
       if @umschlag.save
         format.html { redirect_to @redirection, notice: "Umschlag was successfully created #{umschlag_params}." }
@@ -47,9 +70,18 @@ class UmschlaegeController < ApplicationController
   # PATCH/PUT /umschlaege/1
   # PATCH/PUT /umschlaege/1.json
   def update
+    if params[:umschlag][:ort] != @umschlag.ort.to_s
+      @umschlag.ort = Ort.find_by(:name => params[:umschlag][:ort])
+      if @umschlag.ort == nil
+        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:umschlag][:ort].to_s
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
+        @umschlag.ort = Ort.create(:name => params[:umschlag][:ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
+      end
+    end
+    @redirection = @umschlag.transport ? @umschlag.transport : @umschlag
     respond_to do |format|
       if @umschlag.update(umschlag_params)
-        format.html { redirect_to @umschlag, notice: 'Umschlag was successfully updated.' }
+        format.html { redirect_to @redirection, notice: 'Umschlag was successfully updated.' }
         format.json { render :show, status: :ok, location: @umschlag }
       else
         format.html { render :edit }
@@ -76,8 +108,12 @@ class UmschlaegeController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def umschlag_params
-      params.require(:umschlag).permit(:terminal, :ort, :transport, :transport_id,
+      params.require(:umschlag).permit(:terminal, :transport, :transport_id,
                                  :start_datum, :end_datum, :firma_id)
     
+    end
+
+    def ort_params
+      params.require(:umschlag).permit(:ort)
     end
 end

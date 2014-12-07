@@ -1,10 +1,11 @@
 # encoding: utf-8
 class Transportabschnitt < ActiveRecord::Base
-  #belongs_to :ort, as: :start
-  #belongs_to :ort, as: :ziel
+  belongs_to :start_ort, :class_name => 'Ort'
+  belongs_to :end_ort, :class_name => 'Ort'
   belongs_to :transport
   belongs_to :firma
   has_many :beobachtungen
+  has_and_belongs_to_many :orte
   
   def self.get_abschnitte_from_time(beobachtung_datetime)
     datum = beobachtung_datetime.to_date

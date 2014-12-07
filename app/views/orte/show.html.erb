@@ -1,0 +1,44 @@
+<h1>
+  <%= @ort.name %>
+  <% if is_editor? %>
+    <div class="btn-group header-buttons">
+      <%= link_to 'Bearbeiten', edit_ort_path(@ort), class: "btn btn-primary" %>
+      <%= link_to 'Löschen', @ort, method: :delete, data: { confirm: 'Willst du das Schiff wirklich löschen?' }, class: "btn btn-danger" %></td>
+    </div>
+  <% end %>
+  <br>
+</h1>
+
+<div class="row">
+
+  <div class="col-sm-6">
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Aktuelle Daten</h3>
+      </div>
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Ortsname</dt>
+            <dd><%= @ort.name %></dd>
+            <dt>PLZ</dt>
+            <dd><%= @ort.plz %></dd>
+        </dl>      
+      </div>
+    </div>
+  </div>
+ 
+  <div class="col-sm-6">
+    <% if @ort.lat && @ort.lon %>
+      <div id="map" class="panel" style="height:400px;"></div>
+        <script type="text/javascript">
+            schiffMap(<%= @ort.lat %>, <%= @ort.lon %>, 0)
+          </script>
+      </div>
+    <% else %>
+      <%= @ort.lat %>
+      <%= @ort.lon %>
+    <% end %>
+  
+
+</div>

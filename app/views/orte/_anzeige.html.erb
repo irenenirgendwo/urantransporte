@@ -1,0 +1,5 @@
+
+    <% if ort.lat? && ort.lon? %>
+      <div id="map" style="height:200px;"></div>
+      <%= map(:center => { :latlng => [ort.lat, ort.lon], :zoom => 15 }) %>
+    <% end %>

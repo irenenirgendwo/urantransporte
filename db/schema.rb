@@ -11,18 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141105182938) do
+ActiveRecord::Schema.define(version: 20141207145230) do
 
   create_table "anlagen", force: true do |t|
-    t.string   "name",                 null: false
+    t.string   "name",                             null: false
     t.string   "adresse"
     t.string   "plz"
-    t.string   "ort"
+    t.integer  "ort_id",               limit: 255
     t.text     "beschreibung"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "lat"
-    t.float    "lon"
     t.string   "bild_url"
     t.string   "bild_urheber"
     t.integer  "anlagen_kategorie_id"
@@ -77,6 +75,7 @@ ActiveRecord::Schema.define(version: 20141105182938) do
     t.string   "foto_path"
     t.string   "foto_recht"
     t.text     "begleitung_beschreibung"
+    t.integer  "schiff_id"
   end
 
   create_table "firmen", force: true do |t|
@@ -91,6 +90,15 @@ ActiveRecord::Schema.define(version: 20141105182938) do
   create_table "orte", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
+    t.string   "plz"
+    t.float    "lat"
+    t.float    "lon"
+  end
+
+  create_table "orte_transportabschnitte", force: true do |t|
+    t.integer "ort_id"
+    t.integer "transportabschnitt_id"
   end
 
   create_table "schiffe", force: true do |t|
@@ -134,8 +142,8 @@ ActiveRecord::Schema.define(version: 20141105182938) do
     t.string   "verkehrstraeger"
     t.datetime "start_datum"
     t.datetime "end_datum"
-    t.string   "start_ort"
-    t.string   "end_ort"
+    t.integer  "start_ort_id",    limit: 255
+    t.integer  "end_ort_id",      limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -173,7 +181,7 @@ ActiveRecord::Schema.define(version: 20141105182938) do
   end
 
   create_table "umschlaege", force: true do |t|
-    t.string   "ort"
+    t.integer  "ort_id",       limit: 255
     t.string   "terminal"
     t.datetime "start_datum"
     t.datetime "end_datum"

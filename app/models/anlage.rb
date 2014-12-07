@@ -6,6 +6,7 @@ class Anlage < ActiveRecord::Base
   has_many :ziel_transporte, :foreign_key => 'ziel_anlage_id', :class_name => "Transport", :dependent => :restrict_with_error
   has_many :anlagen_synonyms, :dependent => :destroy
   belongs_to :anlagen_kategorie
+  belongs_to :ort
 
   validates :name, presence: true, uniqueness: true
 

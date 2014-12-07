@@ -18,3 +18,7 @@ AnlagenKategorie.create(name: "Dummy")
 AnlagenKategorie.create(name: "Forschung")
 AnlagenKategorie.create(name: "Sonstige")
 AnlagenKategorie.create(name: "Unbekannt")
+
+
+Schiff.create(name: "Unbekannt")
+Anlage.create(name: "Unbekannt")
