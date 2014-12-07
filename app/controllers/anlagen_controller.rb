@@ -63,18 +63,62 @@ class AnlagenController < ApplicationController
     
     @redirect_params =  params[:redirect_params].nil? ? @anlage : params[:redirect_params] 
     
-    evtl_ortswahl_weiterleitung_und_anzeige(params[:anlage][:ort].to_s, params[:lat], params[:lon], "create", @redirect_params)
+    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(params[:anlage][:ort].to_s, params[:lat], params[:lon], "create")
+    
+    # Wenn der Ort nicht eindeutig war, weiter leiten.
+    if eindeutig
+      respond_to do |format|
+        if @anlage.save
+            flash[:notice] = "Anlage neu erstellt."
+            format.html { redirect_to @redirect_params, notice: "Anlage neu angelegt."}
+            format.json { render :show, status: :created, location: @anlage }
+        else
+          format.html { render :new }
+          format.json { render json: @anlage.errors, status: :unprocessable_entity }
+        end
+      end
+    else 
+      @anlage.save
+      if ort_e.nil?
+        flash[:notice] = 'Kein passender Ort gefunden'
+        # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
+        redirect_to new_anlage_path
+      else
+        redirect_to orte_ortswahl_path(anlage: @anlage.id, orte: ort_e)
+      end
+    end
     
   end
 
   # PATCH/PUT /anlagen/1
   # PATCH/PUT /anlagen/1.json
   def update
-  # Orte finden, zuordnen oder falls nötig, neu erstellen.
+    # Orte finden, zuordnen oder falls nötig, neu erstellen.
     # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
     # Evtl. in extra Funktion auslagern, war mir für den Moment zu aufwendig.
-    evtl_ortswahl_weiterleitung_und_anzeige(params[:anlage][:ort].to_s, params[:lat], params[:lon], "update", @anlage)
-
+    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(params[:anlage][:ort].to_s, params[:lat], params[:lon], "update")
+    
+    if eindeutig
+      respond_to do |format|
+        if @anlage.update(anlage_params)
+            flash[:notice] = "Anlage aktualisiert."
+            format.html { redirect_to @anlage, notice: "Anlage aktualisiert."}
+            format.json { render :show, status: :created, location: @anlage }
+        else
+          format.html { render :new }
+          format.json { render json: @anlage.errors, status: :unprocessable_entity }
+        end
+      end
+    else 
+      @anlage.update(anlage_params)
+      if ort_e.nil?
+        flash[:notice] = 'Kein passender Ort gefunden'
+        # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
+        redirect_to edit_anlage_path(@anlage)
+      else
+        redirect_to orte_ortswahl_path(anlage: @anlage.id, orte: ort_e)
+      end
+    end
   end
 
 # 
@@ -90,7 +134,7 @@ class AnlagenController < ApplicationController
   # TODO: Wenn kein Ort gefunden wurde, anderes Ortswahlfenster anlegen mit Ort neu suchen koennen,
   # über Orte-Controller, vermutlich ähnlich.
   #
-  def evtl_ortswahl_weiterleitung_und_anzeige(ortsname, lat, lon, aktion, redirection = @anlage)
+  def evtl_ortswahl_weiterleitung_und_anzeige(ortsname, lat, lon, aktion)
     # Log-File für Feller finden
     File.open("log/ort.log","w"){|f| f.puts "ortsname im anlagenKontroller #{ortsname} #{ortsname.nil?} #{ortsname==""}" }
     File.open("log/ort.log","a"){|f| f.puts "anlage.ort #{@anlage.ort.to_s}" }
@@ -122,35 +166,7 @@ class AnlagenController < ApplicationController
       end
     end
     
-    text = (aktion == "create") ? 'Anlage neu angelegt.' : "Anlage aktualisiert."
-    # Wenn der Ort nicht eindeutig war, weiter leiten.
-    if eindeutig
-      respond_to do |format|
-        if @anlage.save
-            flash[:notice] = text
-            format.html { redirect_to redirection, notice: text}
-            format.json { render :show, status: :created, location: @anlage }
-        else
-          format.html do
-            if aktion == "create"
-              render :new 
-            else 
-              render :edit 
-            end
-          end
-          format.json { render json: @anlage.errors, status: :unprocessable_entity }
-        end
-      end
-    else 
-      @anlage.save
-      if ort_e.nil?
-        flash[:notice] = 'Kein passender Ort gefunden'
-        # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
-        redirect_to new_anlage_path
-      else
-        redirect_to orte_ortswahl_path(anlage: @anlage.id, orte: ort_e)
-      end
-    end
+    return eindeutig, ort_e
   end
 
 

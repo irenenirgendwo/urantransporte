@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141206191604) do
+ActiveRecord::Schema.define(version: 20141207145230) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                             null: false
@@ -21,8 +21,6 @@ ActiveRecord::Schema.define(version: 20141206191604) do
     t.text     "beschreibung"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "lat"
-    t.float    "lon"
     t.string   "bild_url"
     t.string   "bild_urheber"
     t.integer  "anlagen_kategorie_id"
