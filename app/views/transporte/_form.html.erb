@@ -1,68 +1,95 @@
+<%= render 'stoffe/form_modal' %>
+<%= render 'anlagen/form_modal' %>
+
 <%= form_for(@transport) do |f| %>
-  <div class="panel panel-default" id="show_aehnliche_panel">
+
+  <% if @transport.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@transport.errors.count, "error") %> prohibited this transport from being saved:</h2>
+
+              <ul>
+              <% @transport.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+  <% end %>
+
+  <div class="panel panel-default" id="transport_eingabe">
   
       <div class="panel-heading">
         <h2 class="panel-title">Neuen Transport eingeben</h2>
       </div>
       
       <div class="panel-body">
-
-
-        <% if @transport.errors.any? %>
-          <div id="error_explanation">
-            <h2><%= pluralize(@transport.errors.count, "error") %> prohibited this transport from being saved:</h2>
-
-            <ul>
-            <% @transport.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-            </ul>
+ 
+          <div class="form-group">
+              <%= f.label :datum %> (Format: TT.MM.JJJJ) <br>
+              <%= f.text_field :datum, class:"form-control" %>
           </div>
-        <% end %>
-
-        <div class="field">
-          <%= f.label :datum %><br>
-          <%= f.text_field :datum %>
-        </div>
-
-        <div class="field">
-          Start-Anlage auswählen<br \>
-          <%= collection_select(:transport, :start_anlage_id, Anlage.all, :id, :name) %>
-          <%= link_to "Neue Anlage eingeben", new_anlage_path %>
-        </div>
-        <div class="field">
-          Ziel-Anlage auswählen<br \>
-          <%= collection_select(:transport, :ziel_anlage_id, Anlage.all, :id, :name) %>
-        </div>
-
-       <div class="field">
-          <%= f.label :stoff %><br>
-          <%= collection_select(:transport, :stoff_id, Stoff.all, :id, :bezeichnung) %>
-          <%= link_to "Neuen Stoff eingeben", new_stoff_path(redirect_params: new_transport_path)  %>
-        </div>
-        <div class="field">
-          <%= f.label :menge %><br>
-          <%= f.text_field :menge %>
-        </div>
-       
-        <div class="field">
-          <%= f.label :behaelter %><br>
-          <%= f.text_field :behaelter %>
+        
+        
+        <div class="row">
+          <div class="col-sm-8">
+            <div class="form-group">
+              <strong>Start-Anlage auswählen</strong><br \>
+              <%= collection_select(:transport, :start_anlage_id, Anlage.all, :id, :name, class:"form-control") %><br \>
+              <%= link_to "Neue Anlage eingeben", new_anlage_path %>
+            </div>
+            <div class="field">
+              <strong>Ziel-Anlage auswählen</strong><br \>
+              <%= collection_select(:transport, :ziel_anlage_id, Anlage.all, :id, :name, class:"form-control") %>
+            </div>
+          </div>
+          <div class="col-xs-2">
+            <button class="btn btn-success" data-toggle="modal" data-target="#anlageModal">Neue Anlage</button>
+          </div>
         </div>
         
-        <div class="anzahl">
-          <%= f.label :anzahl %><br>
-          <%= f.text_field :anzahl %>
-        </div>
-        
-        <% if @beobachtung_id %>
-          <%= hidden_field_tag :beobachtung_id, @beobachtung_id %>
-        <% end %>
+        <div class="row">
 
+          <div class="form-group">
+            <div class="col-sm-8">
+              <%= f.label :stoff %><br>
+              <%= collection_select(:transport, :stoff_id, Stoff.all, :id, :bezeichnung) %><br \>
+              <%= link_to "Neuen Stoff eingeben", new_stoff_path %>
+            </div>
+            <div class="col-sm-4">
+              <button class="btn btn-success" data-toggle="modal" data-target="#stoffModal">Neuer Stoff</button>
+            </div>
+          </div>
+          
+         
+          
+          
+        </div>
+          <div class="form-group">
+            <%= f.label :menge %><br>
+            <%= f.text_field :menge, class:"form-control" %>
+          </div>
+         
+          <div class="form-group">
+            <%= f.label :behaelter %><br>
+            <%= f.text_field :behaelter, class:"form-control" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :anzahl %><br>
+            <%= f.text_field :anzahl, class:"form-control" %>
+          </div>
+          
+          <% if @beobachtung_id %>
+            <%= hidden_field_tag :beobachtung_id, @beobachtung_id %>
+          <% end %>
+ 
 
         <div class="actions">
-          <%= f.submit %>
+          <%= link_to 'Abbruch', transporte_path, class: "btn btn-primary" %>
+          <%= f.submit "Transport erstellen", class: "btn btn-success" %> 
         </div>
       </div>
   </div>
+  
+
+  
 <% end %>

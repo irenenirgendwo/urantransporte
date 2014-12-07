@@ -1,6 +1,6 @@
 <%= form_for(@anlage) do |f| %>
 
-   hidden_field_tag :redirect_params, @redirect_params
+  <%= hidden_field_tag :redirect_params, @redirect_params %>
   <% if @anlage.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@anlage.errors.count, "error") %> prohibited this anlage from being saved:</h2>
@@ -38,7 +38,7 @@
         <%= f.text_field :ort, class: "form-control" %>
       </div>
       <div class="form-group">
-        <%= f.label :anlagen_kategorie %><br>
+        <%= f.label :anlagen_kategorie, "Anlagenkategorie" %><br>
         <%= collection_select(:anlage, :anlagen_kategorie_id, AnlagenKategorie.all, :id, :name, class: "form-control") %>
       </div>
     </div>

@@ -2,6 +2,7 @@
 class TransporteController < ApplicationController
   before_action :set_transport, only: [:show, :edit, :update, :destroy, :union, :set_aehnliche_transporte_options, :aehnliche_transporte]
   before_action :editor_user, only: [:new, :edit, :create, :update, :destroy, :union, :set_aehnliche_transporte_options, :aehnliche_transporte]
+  before_action :set_new_stoff_and_anlage, only: [:new, :edit]
 
   # GET /transporte
   # GET /transporte.json
@@ -13,7 +14,7 @@ class TransporteController < ApplicationController
     end
     @stoffe = Stoff.get_stoffe_for_selection_field
   end
-
+  
   # GET /transporte/1
   # GET /transporte/1.json
   #
@@ -24,6 +25,7 @@ class TransporteController < ApplicationController
   # GET /transporte/new
   def new
     @transport = Transport.new
+    @stoff = Stoff.new
     @beobachtung_id = params[:beobachtung_id].to_i if params[:beobachtung_id]
     @beobachtung = Beobachtung.find(@beobachtung_id) if params[:beobachtung_id]
   end
@@ -121,5 +123,10 @@ class TransporteController < ApplicationController
     def transport_params
       params.require(:transport).permit(:menge, :stoff, :stoff_id, :behaelter, :anzahl,
                                  :start_anlage_id, :ziel_anlage_id, :datum, :quelle)
+    end
+    
+    def set_new_stoff_and_anlage
+      @stoff = Stoff.new
+      @anlage = Anlage.new
     end
 end
