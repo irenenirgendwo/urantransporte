@@ -1,6 +1,6 @@
 # encoding: utf-8
 class UmschlaegeController < ApplicationController
-  before_action :set_umschlag, only: [:show, :edit, :update, :destroy]
+  before_action :set_umschlag, only: [:show, :edit, :update, :destroy, :save_ort]
   before_action :editor_user, only: [:new, :edit, :create, :update, :destroy]
 
   # GET /umschlaege
@@ -44,48 +44,58 @@ class UmschlaegeController < ApplicationController
     @umschlag.transport = transport
     @redirection = params[:transport_id] ? transport : @umschlag
 
-  # Orte finden, zuordnen oder falls nötig, neu erstellen.
-    # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
-    # Evtl. in extra Funktion auslagern, war mir für den Moment zu aufwendig.
-    if params[:umschlag][:ort]
-      @umschlag.ort = Ort.find_by(:name => params[:umschlag][:ort])
-      if @umschlag.ort == nil
-        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:umschlag][:ort].to_s
-        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
-        @umschlag.ort = Ort.create(:name => params[:umschlag][:ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
-      end
-    end
+    # Orte finden, zuordnen oder falls nötig, neu erstellen.
+    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(params[:umschlag][:ort], "create")
 
-    respond_to do |format|
+    if eindeutig
       if @umschlag.save
-        format.html { redirect_to @redirection, notice: "Umschlag was successfully created #{umschlag_params}." }
-        format.json { render :show, status: :created, location: @umschlag }
+        redirect_to @redirection, notice: "Umschlag erfolgreich angelegt. #{umschlag_params}." 
+      else  
+        render :new 
+      end
+    else 
+      if @umschlag.save
+        if ort_e.nil?
+          flash[:notice] = 'Kein passender Ort gefunden'
+          # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
+          redirect_to new_umschlag_path
+        else
+          redirect_to orte_ortswahl_path(umschlag: @umschlag.id, orte: ort_e)
+        end
       else
-        format.html { render :new }
-        format.json { render json: @umschlag.errors, status: :unprocessable_entity }
+        render :new 
       end
     end
+    
   end
 
   # PATCH/PUT /umschlaege/1
   # PATCH/PUT /umschlaege/1.json
   def update
-    if params[:umschlag][:ort] != @umschlag.ort.to_s
-      @umschlag.ort = Ort.find_by(:name => params[:umschlag][:ort])
-      if @umschlag.ort == nil
-        a = Geokit::Geocoders::GoogleGeocoder.geocode params[:umschlag][:ort].to_s
-        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
-        @umschlag.ort = Ort.create(:name => params[:umschlag][:ort], :lat => a.lat, :lon => a.lng, :plz => a.zip)
-      end
-    end
+    # Orte finden, zuordnen oder falls nötig, neu erstellen.
+    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(params[:umschlag][:ort], "create")
+    
     @redirection = @umschlag.transport ? @umschlag.transport : @umschlag
-    respond_to do |format|
+    if eindeutig
       if @umschlag.update(umschlag_params)
-        format.html { redirect_to @redirection, notice: 'Umschlag was successfully updated.' }
-        format.json { render :show, status: :ok, location: @umschlag }
+          redirect_to @redirection, notice: 'Umschlag was successfully updated.' 
       else
-        format.html { render :edit }
-        format.json { render json: @umschlag.errors, status: :unprocessable_entity }
+        render :edit 
+      end
+    else 
+      respond_to do |format|
+        if @umschlag.update(umschlag_params)
+            if ort_e.nil?
+              flash[:notice] = 'Kein passender Ort gefunden'
+              # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
+              redirect_to edit_umschlag_path(@umschlag)
+            else
+              redirect_to orte_ortswahl_path(umschlag: @umschlag.id, orte: ort_e)
+            end
+        else
+          format.html { render :edit }
+          format.json { render json: @umschlag.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -93,10 +103,52 @@ class UmschlaegeController < ApplicationController
   # DELETE /umschlaege/1
   # DELETE /umschlaege/1.json
   def destroy
+    transport = @umschlag.transport
     @umschlag.destroy
     respond_to do |format|
-      format.html { redirect_to umschlaege_url, notice: 'Umschlag was successfully destroyed.' }
+      format.html { redirect_to transport, notice: 'Umschlag geloescht.' }
       format.json { head :no_content }
+    end
+  end
+
+# Grundgerüst der Ortsauswahl bei Mehrfachtreffern - vielleicht funktionsfähig
+  # Testweise eingebunden nur beim Erstellen neuer Anlagen und Update.
+  #
+  # Idee: Alle passenden Orte werden in einem Auswahlfenster angezeigt.
+  # Die passenden Orte werden mittels ort_waehlen (orte_mit_namen bzw. lege_passende_orte_an)
+  # im Ort-Modell gesucht bzw. angelegt.
+  # Dann werden die angelegten Orte zum Aufruf einer ortsauswahl-Funktion aus dem OrteController verwendnet.
+  #
+  # TODO: Wenn kein Ort gefunden wurde, anderes Ortswahlfenster anlegen mit Ort neu suchen koennen,
+  # über Orte-Controller, vermutlich ähnlich.
+  #
+  def evtl_ortswahl_weiterleitung_und_anzeige(ortsname, aktion)
+    eindeutig = true
+    unless ortsname=="" || ortsname.nil? || (aktion=="update" && ortsname == @umschlag.ort.to_s)
+      eindeutig, ort_e = Ort.ort_waehlen(ortsname)
+      if eindeutig
+        @umschlag.ort = ort_e
+      else 
+        # wird nach dem speichern durch Auswahlfenster gesetzt.
+        @umschlag.ort = nil 
+      end
+    end
+    return eindeutig, ort_e
+  end
+  
+  # Ort zum Umschlag speichern und Umschlag anzeigen.
+  # Nötig nach Umschlag anlegen/updaten mit Ortsauswahl.
+  #
+  def save_ort 
+    if params[:ort]
+      @umschlag.ort = Ort.find(params[:ort].to_i)
+      if @umschlag.save
+        redirect_to @umschlag.transport, notice: 'Umschlag aktualisiert.' 
+      else
+        redirect_to edit_umschlag_path(@umschlag), "Umschlagsort nicht korrekt gespeichert."
+      end
+    else 
+      redirect_to @umschlag, notice: "Kein Ort übermittelt." 
     end
   end
 
@@ -110,7 +162,6 @@ class UmschlaegeController < ApplicationController
     def umschlag_params
       params.require(:umschlag).permit(:terminal, :transport, :transport_id,
                                  :start_datum, :end_datum, :firma_id)
-    
     end
 
     def ort_params

@@ -1,50 +1,76 @@
-Tranport: <%= @transport %>
+<!--Tranport: <%= @transport %>-->
 
 <%= form_for(@umschlag) do |f| %>
   <% if @umschlag.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@umschlag.errors.count, "error") %> prohibited this umschlag from being saved:</h2>
+      <div id="error_explanation">
+        <h2><%= pluralize(@umschlag.errors.count, "error") %> prohibited this umschlag from being saved:</h2>
 
-      <ul>
-      <% @umschlag.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+        <ul>
+        <% @umschlag.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
   <% end %>
+    
+  <div class="panel panel-default">
+      <div class="panel-heading">
+        <h2 class="panel-title">Umschlagsdaten eingeben</h2>
+      </div>
+      <div class="panel-body">
   
-  <%= hidden_field_tag :transport_id, (@transport ? @transport.id : nil) %>
   
-  <div class="row">
-    <div class="col-sm-6">
-      <p>
-        <strong>Umschlagsort:</strong>
-        <%= f.text_field :ort %>
-      </p>
-       <p>
-        <strong>Terminal:</strong>
-        <%= f.text_field  :terminal %>
-      </p>
-      <div class="field">
-        Firma (Umschlag): 
-        <%= collection_select(:umschlag, :firma_id, Firma.all, :id, :name) %>
-        <%= link_to "Neue Firma anlegen", new_firma_path %>
+        <%= hidden_field_tag :transport_id, (@transport ? @transport.id : nil) %>
+        
+        <div class="row">
+          
+          <div class="col-sm-6">
+            <div class="form-group">
+              <strong>Umschlagsort:</strong>
+              <%= f.text_field :ort, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <strong>Terminal:</strong>
+              <%= f.text_field  :terminal, class: "form-control" %>
+            </div>
+          </div>
+          
+          <div class="col-sm-6">
+            <div class="form-group">
+              <strong>Ankunft des Schiffes:</strong>
+              <%= f.text_field  :start_datum, class: "form-control" %>
+            </div>
+            <div class="form-group">
+              <strong>Abfahrt der Ladung:</strong>
+              <%= f.text_field  :end_datum, class: "form-control" %>
+            </div>
+          </div>
+          
+        </div>
+        
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+                Firma (Umschlag): 
+                <%= collection_select(:umschlag, :firma_id, Firma.all, :id, :name, class: "form-control") %>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+                <%= link_to "Neue Firma anlegen", new_firma_path, class: "btn btn-success" %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <p>
-        <strong>Ankunft des Schiffes:</strong>
-        <%= f.text_field  :start_datum %>
-      </p>
-       <p>
-        <strong>Abfahrt der Ladung:</strong>
-        <%= f.text_field  :end_datum %>
-      </p>
-    </div>
-  </div>
   
 
   <div class="actions">
-    <%= f.submit %>
+    <%= link_to "Abbruch", @transport, class: "btn btn-primary" %>
+    <%= f.submit "Umschlag speichern", class: "btn btn-success" %>
+    <% if @umschlag.id %>
+      <%= link_to 'Löschen', @umschlag, method: :delete, data: { confirm: 'Willst du den Umschlag wirklich löschen?' }, class: "btn btn-danger" %></td>
+    <% end %>
   </div>
 <% end %>

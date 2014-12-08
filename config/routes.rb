@@ -5,8 +5,13 @@ Rails.application.routes.draw do
   
   resources :firmen
   resources :stoffe
-  resources :transportabschnitte
-  resources :umschlaege
+  
+  resources :transportabschnitte do
+    get 'save_ort', on: :member
+  end
+  resources :umschlaege do
+    get 'save_ort', on: :member
+  end
   
   resources :schiffe
   get 'read_schedules' => 'schiffe#read_schedules'

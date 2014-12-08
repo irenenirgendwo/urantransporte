@@ -1,1 +1,15 @@
-<div class="umschlag"><%= link_to umschlag.ort, umschlag %></div>
+<div class="umschlag">
+  Umschlag 
+  <% if umschlag.ort %>
+     in <%= umschlag.ort %>
+  <% end %>
+  
+  <%= link_to "Details", umschlag %>
+  | <%= link_to "Bearbeiten", edit_umschlag_path(umschlag) %> 
+  <% if umschlag.start_datum %>
+    | <%= link_to "Abschnitt davor anlegen", new_transportabschnitt_path(transport_id: umschlag.transport.id, umschlag_danach: umschlag.id) %>
+  <% end %>
+  <% if umschlag.end_datum %>
+    | <%= link_to "Abschnitt danach anlegen", new_transportabschnitt_path(transport_id: umschlag.transport.id, umschlag_davor: umschlag.id) %>
+  <% end %>
+</div>

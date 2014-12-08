@@ -19,9 +19,11 @@
   <% end %>
 <% end %>
 
-  <%= link_to 'Neuer Transportabschnitt', new_transport_transportabschnitt_path(@transport) %> |
-  <%= link_to 'Neuer Umschlag', new_transport_umschlag_path(@transport) %> |
+<p>
+</p>
+  <%= link_to 'Neuer Transportabschnitt', new_transport_transportabschnitt_path(@transport), class: "btn btn-success" %> 
+  <%= link_to 'Neuer Umschlag', new_transport_umschlag_path(@transport), class: "btn btn-success" %> 
  
-  <%= link_to "Ähnliche Transporte zeigen", aehnliche_transporte_transport_path(@transport) %> |
+  <%= link_to "Ähnliche Transporte zeigen", aehnliche_transporte_transport_path(@transport), class: "btn btn-primary" %> 
  
-  <%= link_to 'Alle Transporte anzeigen', transporte_path %> 
+  <%= link_to 'Alle Transporte anzeigen', transporte_path, class: "btn btn-primary" %> 

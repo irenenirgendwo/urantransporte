@@ -1,4 +1,33 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_umschlag_path(@umschlag) %> |
-<%= link_to 'Back', umschlaege_path %>
+<div class="btn-group header-buttons">
+  <%= link_to 'Zum Transport', @umschlag.transport , class: "btn btn-primary" %>
+  <%= link_to 'Bearbeiten', edit_umschlag_path(@umschlag) , class: "btn btn-primary" %>
+  <%= link_to 'Löschen', @umschlag, method: :delete, data: { confirm: 'Willst du den Umschlag wirklich löschen?' }, class: "btn btn-danger" %></td>
+</div>
+
+<h1>
+  Umschlag in <%= @umschlag.ort.to_s %>
+</h1>
+
+<div class="row">
+  <div class="col-sm-8">
+    
+    <p>
+      Am Terminal: <%= @umschlag.terminal %>
+    </p>
+
+    <p>
+      Ankunft des Schiffes: <%= @umschlag.start_datum %>
+    </p>
+    <p>
+      Abfahrt der Ladung: <%= @umschlag.end_datum %>
+    </p>
+    <p>
+      Umschlagsfirma: <%= link_to @umschlag.firma.to_s, @umschlag.firma %>
+    </p>
+  </div>
+  <div class="col-sm-4">
+    <%= render "orte/anzeige", ort: @umschlag.ort %>
+  </div>
+</div>

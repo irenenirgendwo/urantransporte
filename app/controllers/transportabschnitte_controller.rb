@@ -126,6 +126,57 @@ class TransportabschnitteController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  # Grundgerüst der Ortsauswahl bei Mehrfachtreffern - vielleicht funktionsfähig
+  # Testweise eingebunden nur beim Erstellen neuer Anlagen und Update.
+  #
+  # Idee: Alle passenden Orte werden in einem Auswahlfenster angezeigt.
+  # Die passenden Orte werden mittels ort_waehlen (orte_mit_namen bzw. lege_passende_orte_an)
+  # im Ort-Modell gesucht bzw. angelegt.
+  # Dann werden die angelegten Orte zum Aufruf einer ortsauswahl-Funktion aus dem OrteController verwendnet.
+  #
+  # TODO: Wenn kein Ort gefunden wurde, anderes Ortswahlfenster anlegen mit Ort neu suchen koennen,
+  # über Orte-Controller, vermutlich ähnlich.
+  #
+  def evtl_ortswahl_weiterleitung_und_anzeige(ortsname, aktion, ortstyp)
+    eindeutig = true
+    unless ortsname=="" || ortsname.nil? || (aktion=="update" && ortsname == @transportabschnitt.ort.to_s)
+      eindeutig, ort_e = Ort.ort_waehlen(ortsname)
+      case ortstyp
+        when "start" then
+          @transportabschnitt.start_ort = eindeutig ? ort_e : nil
+        when "ende" then
+          @transportabschnitt.end_ort = eindeutig ? ort_e : nil
+        when "durchfahrt" then
+          @transportabschnitte.orte << ort_e if eindeutig
+      end
+    end
+    return eindeutig, ort_e
+  end
+  
+  # Ort zum Umschlag speichern und Umschlag anzeigen.
+  # Nötig nach Umschlag anlegen/updaten mit Ortsauswahl.
+  #
+  def save_ort 
+    if params[:ort] && params[:ortstyp]
+      case ortstyp
+        when "start" then
+          @transportabschnitt.start_ort = Ort.find(params[:ort].to_i)
+        when "ende" then
+          @transportabschnitt.end_ort = Ort.find(params[:ort].to_i)
+        when "durchfahrt" then
+          @transportabschnitte.orte << Ort.find(params[:ort].to_i)
+      end
+      if @transportabschnitt.save
+        redirect_to @transportabschnitt, notice: 'Umschlag aktualisiert.' 
+      else
+        redirect_to edit_transportabschnitt_path(@transportabschnitt), "Umschlagsort nicht korrekt gespeichert."
+      end
+    else 
+      redirect_to @transportabschnitt, notice: "Kein Ort übermittelt." 
+    end
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
