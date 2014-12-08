@@ -22,4 +22,34 @@ class OrteController < ApplicationController
     end
   end
   
+  def new
+    @name = params[:name]
+  end
+  
+  def create_from_name
+    @ort = Ort.new(:name => params[:name])
+    respond_to do |format|
+      if @ort.save
+        format.html { redirect_to @ort, notice: 'Ort was successfully created.' }
+        format.json { render :show, status: :created, location: @ort }
+      else
+        format.html { render :ortseingabe }
+        format.json { render json: @ort.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  def create_from_coordinates
+    @ort = Ort.create_by_koordinates(params[:lat],params[:lon])
+    respond_to do |format|
+      if @ort.save
+        format.html { redirect_to @ort, notice: 'Ort was successfully created.' }
+        format.json { render :show, status: :created, location: @ort }
+      else
+        format.html { render :ortseingabe }
+        format.json { render json: @ort.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
 end

@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
 
   get 'orte/ortswahl'
-  resources :orte
+  resources :orte 
+  post "orte/create_from_coordinates" => 'orte#create_from_coordinates'
+  post "orte/create_from_name" => 'orte#create_from_name'
+  
   
   resources :firmen
   resources :stoffe

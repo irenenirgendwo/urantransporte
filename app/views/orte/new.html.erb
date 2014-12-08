@@ -1,0 +1,24 @@
+<h1>Richtigen Ort auswählen</h1>
+Ein Ort zum angegeben Namen wurde nicht gefunden. Bitte wähle.
+
+<%= form_tag({action: :create_from_name}, multipart: true) do %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Ort ohne Koordinaten eingeben</h2>
+    </div>
+    <div class="panel-body">
+      <%= text_field_tag :name, @name, class: "form-control" %>
+    </div>
+    <div class="panel-footer">
+      <%= submit_tag "Ort ohne Koordinaten speichern", class: "btn btn-success" %>
+    </div>
+  </div>
+  <%= hidden_field_tag :redirection, @redirection %>
+  
+<% end %>
+
+<%= form_tag({action: :create_from_coordinates}, multipart: true) do %>
+  <%= render "ort_eingabe", ort: nil, titel: "Ort von Karte wählen" %>
+  <%= hidden_field_tag :redirection, @redirection %>
+  <%= submit_tag "Auf der Karte gewählten Ort speichern", class: "btn btn-success" %>
+<% end %>
