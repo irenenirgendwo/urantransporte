@@ -39,8 +39,14 @@
         </div>
       </p>
        <p>
-        <strong>Anfangsort:</strong>
-        <%= f.text_field  :start_ort, class: "form-control" %>
+        <% anlagen_ort = @transport.start_anlage.ort %>
+        <strong><%= f.label :start_ort, "Anfangsort:" %></strong>
+        <div class='input-group ort' id='ort-start'>
+          <%= f.text_field  :start_ort, class: "form-control" %>
+          <% if anlagen_ort %>
+            <span class="input-group-addon" onclick="setup_start_anlagen_wahl(<%= anlagen_ort %>)">Start-Anlage</span>
+          <% end %>
+        </div>
       </p>
     </div>
   </div>
@@ -58,8 +64,14 @@
         </div>
       </div>
       <div class="form-group">
-        <strong>Endort:</strong>
-        <%= f.text_field :end_ort, class: "form-control" %>
+        <strong><%= f.label :end_ort, "Endort:" %></strong>
+        <% anlagen_ort = @transport.ziel_anlage.ort %>
+        <div class='input-group ort' id='ort-ende'>
+          <%= f.text_field :end_ort, class: "form-control" %>
+          <% if anlagen_ort %>
+            <span class="input-group-addon" onclick="setup_ziel_anlagen_wahl(<%= anlagen_ort.id %>)">Ziel-Anlage</span>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
@@ -67,6 +79,7 @@
   <script type="text/javascript">
       setup_datetimepicker("#datetimepicker-start")
       setup_datetimepicker("#datetimepicker-ende")
+      //setup_start_und_ziel_anlagen_wahl(<%= @transport.start_anlage.ort %>, <%= @transport.ziel_anlage.ort %>)
   </script>
   
   <div class="panel panel-default">
