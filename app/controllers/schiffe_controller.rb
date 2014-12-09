@@ -6,7 +6,8 @@ class SchiffeController < ApplicationController
   
   def index
     @schiffe = Schiff.order(:name)
-    @ohne_reederei = Schiff.where(firma_id: nil)
+    @firma_unbekannt = Firma.find_by(name: "Unbekannt")
+    @ohne_reederei = Schiff.where(firma_id: [nil, (@firma_unbekannt.nil? ? nil: @firma_unbekannt.id)])
   end
   
   def show

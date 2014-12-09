@@ -20,6 +20,7 @@ class TransporteController < ApplicationController
   #
   def show
     @abschnitt_umschlag_list = @transport.sort_abschnitte_and_umschlaege
+    @orte = @transport.get_known_orte
   end
 
   # GET /transporte/new

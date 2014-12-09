@@ -41,7 +41,7 @@ class TransportabschnitteController < ApplicationController
     end
     if params[:umschlag_davor]
       umschlag = Umschlag.find(params[:umschlag_davor].to_i)
-      @transportabschnitt.start_datum = umschlag_davor.end_datum
+      @transportabschnitt.start_datum = umschlag.end_datum
       @transportabschnitt.start_ort = umschlag.ort
     end
     if params[:umschlag_danach]

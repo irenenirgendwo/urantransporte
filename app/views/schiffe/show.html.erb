@@ -2,6 +2,7 @@
   <%= @schiff.name %>
   <% if is_editor? %>
     <div class="btn-group header-buttons">
+      <%= link_to 'Alle Schiffe', schiffe_path, class: "btn btn-primary" %>
       <%= link_to 'Bearbeiten', edit_schiff_path(@schiff), class: "btn btn-primary" %>
       <%= link_to 'Löschen', @schiff, method: :delete, data: { confirm: 'Willst du das Schiff wirklich löschen?' }, class: "btn btn-danger" %></td>
     </div>

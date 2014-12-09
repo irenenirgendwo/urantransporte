@@ -6,6 +6,7 @@
 
 <%= render "show_transport_grunddaten", transport: @transport %>
 
+<h3>Transportverlauf </h3>
 <% if @transport.transportabschnitte.nil? || @transport.transportabschnitte.empty? %>
   Noch keine Transportabschnitte eingegeben.
   <%= link_to 'Neuer Transportabschnitt', new_transport_transportabschnitt_path(@transport) %> |
@@ -18,6 +19,13 @@
     <% end %>
   <% end %>
 <% end %>
+
+<h3>Karte </h3>
+<div id="map" class="panel" style="height:400px;"></div>
+<script type="text/javascript">
+  allOrteMap("transporte/<%= @transport.id %>")
+</script>
+
 
 <p>
 </p>

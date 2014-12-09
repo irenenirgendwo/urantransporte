@@ -105,6 +105,31 @@ class Transport < ActiveRecord::Base
     abschnitt_umschlag_list 
   end
   
+  # TODO: Beobachtungsorte ergänzen
+  def get_known_orte
+    orte = []
+    check_ort_ll(orte, start_anlage.ort)
+    check_ort_ll(orte, ziel_anlage.ort)
+    transportabschnitte.each do |abschnitt|
+      check_ort_ll(orte, abschnitt.start_ort)
+      check_ort_ll(orte, abschnitt.end_ort)
+      #abschnitt.beobachtungen each do |beob|
+      #  check_ort_ll(orte, beob.ort)
+      #end
+    end
+    umschlaege.each do |umschlag|
+      check_ort_ll(orte, umschlag.ort)
+    end
+    orte
+  end
+  
+  def check_ort_ll(ort_array, ort)
+    unless ort_array.include? ort
+      ort_array << ort if ort and ort.lon and ort.lat
+    end
+  end
+  
+  
   def to_short_s
     "#{self.start_anlage.to_s[0..2]}->#{self.ziel_anlage.to_s[0..2]}"
   end

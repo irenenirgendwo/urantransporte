@@ -38,8 +38,8 @@ function schiffMap(lat, lon, rot){
 
 };
 
-function allSchiffMap() {
-  $.getJSON("/schiffe.json", function(data) {
+function allOrteMap(typ) {
+  $.getJSON("/"+typ+".json", function(data) {
     var geojson = L.geoJson(data, {
       onEachFeature: function (feature, layer) {
         layer.bindPopup(feature.properties.name);

@@ -9,14 +9,14 @@
 
 <div id="map" class="panel" style="height:400px;"></div>
 <script type="text/javascript">
-  allSchiffMap()
+  allOrteMap("schiffe")
 </script>
 
 <% unless @reedereien %>
   <p>Keine Schiffe gefunden.</p>
 <% else %>
   <% @reedereien.each do |r| %>
-    <% unless r.schiffe.empty? %>
+    <% unless r.name == "Unbekannt" or r.schiffe.empty? %>
       <h3><%= r.name %></h3>
       <div class="row">
         <% r.schiffe.each do |schiff| %>
