@@ -2,12 +2,13 @@
       <div class="panel-heading">
         <h3 class="panel-title"> Durchfahrtsort-Auswahl </h3>
       </div>
-      <ul class="list-group">
-		<div class: "list-group-item">
-		  Ort: <%= text_field_tag "dort"  %>
-		</div>
-                <div class: "list-group-item">
-		  Radius: <%= text_field_tag "radius" , "500" %> km
-                </div>
-      </ul>
+      <div class="panel-body">
+      
+          <div class="form-group">
+            Ort: <%= text_field_tag "dort", "", class: "form-control" %>
+          </div>
+          <div class="form-group">
+            Radius: <%= text_field_tag "radius" , "500" %> km
+          </div>
+      </div>
     </div>

@@ -12,5 +12,8 @@ class Transportabschnitt < ActiveRecord::Base
     Transportabschnitt.where("start_datum <= ? and end_datum >= ? ",datum, datum)
   end
 
+  def faehrt_durch(ort, radius)
+    
+  end
   
 end

@@ -57,5 +57,10 @@ class TransportTest < ActiveSupport::TestCase
     #assert_equal "Hamburg", @transport_russ_lingen_1.get_umschlag(date).ort.to_s
     assert_nil @transport_russ_lingen_1.get_umschlag(Date.new(2012,7,1))
   end
+  
+  test "get all known orte" do 
+    assert_equal 3, @transport_russ_lingen_1.get_known_orte.size
+    assert @transport_russ_lingen_1.orte_ids.include?(2)
+  end
 
 end

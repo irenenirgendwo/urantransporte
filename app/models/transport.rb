@@ -16,6 +16,7 @@ class Transport < ActiveRecord::Base
   validates :ziel_anlage, presence: true
   validates :datum, :uniqueness => {:scope => [:start_anlage, :ziel_anlage]}
   
+  
   def self.get_transporte_around(datum,plus_minus_tage)
     Transport.where("datum >= ? and datum <= ?", datum.to_date - plus_minus_tage.days, datum.to_date + plus_minus_tage.days)
   end
@@ -60,9 +61,6 @@ class Transport < ActiveRecord::Base
     return true
   end
   
-  def self.get_orte
-    Transport
-  end
 
   # Sucht das Gesamtstart- und Enddatum aus den Transportabschnitten raus.
   #
@@ -105,7 +103,9 @@ class Transport < ActiveRecord::Base
     abschnitt_umschlag_list 
   end
   
-  # TODO: Beobachtungsorte ergänzen
+  # Sammelt alle Durchfahrtsorte zusammen, aus Anlagenorten, Umschlagsorten, Abschnitten
+  # und zugeordneten Beobachtungen
+  #
   def get_known_orte
     orte = []
     check_ort_ll(orte, start_anlage.ort)
@@ -113,9 +113,12 @@ class Transport < ActiveRecord::Base
     transportabschnitte.each do |abschnitt|
       check_ort_ll(orte, abschnitt.start_ort)
       check_ort_ll(orte, abschnitt.end_ort)
-      #abschnitt.beobachtungen each do |beob|
-      #  check_ort_ll(orte, beob.ort)
-      #end
+      abschnitt.beobachtungen.each do |beob|
+        check_ort_ll(orte, beob.ort)
+      end
+      abschnitt.orte.each do |durchfahrt|
+        check_ort_ll(orte, durchfahrt)
+      end
     end
     umschlaege.each do |umschlag|
       check_ort_ll(orte, umschlag.ort)
@@ -123,15 +126,32 @@ class Transport < ActiveRecord::Base
     orte
   end
   
+  # Hilfsmethode für get_known_orte
   def check_ort_ll(ort_array, ort)
     unless ort_array.include? ort
       ort_array << ort if ort and ort.lon and ort.lat
     end
   end
   
+  # Gibt die Ids aller Orte zurück
+  #
+  def orte_ids
+    orte = get_known_orte
+    orte_ids = []
+    orte.each do |ort|
+      orte_ids << ort.id
+    end
+    orte_ids
+  end
   
   def to_short_s
     "#{self.start_anlage.to_s[0..2]}->#{self.ziel_anlage.to_s[0..2]}"
+  end
+  
+  def union_scope(*scopes)
+      id_column = "#{table_name}.id"
+      sub_query = scopes.map { |s| s.select(id_column).to_sql }.join(" UNION ")
+      where "#{id_column} IN (#{sub_query})"
   end
   
 

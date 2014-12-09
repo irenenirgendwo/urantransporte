@@ -15,7 +15,7 @@ class AbfragenControllerTest < ActionController::TestCase
     post :show, {:start_datum => "2000-01-01", :end_datum =>"2012-12-01" }
     assert_response :success
     assert_select "table", count: 1
-    assert_select "table tr", count: 4 # "Sollten 3 Transporte gefunden werden plus Kopfzeile"
+    assert_select "table tr", count: 3 # "Sollten 3 Transporte gefunden werden plus Kopfzeile"
     
     post :show, {:start_datum => "2000-01-01", :end_datum =>"2011-12-01" }
     assert_response :success

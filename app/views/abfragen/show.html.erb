@@ -1,9 +1,10 @@
 <h1>Ausgewählte Transporte</h1>
-<!--Params: <%= params %>-->
+<p><%= @dort %></p>
 <p> Zeitraum: <%= @zeitraum %></p>
 <p> Stoffe : <%= @stoffe ? @stoffe : "Alle" %> </p>
 <p> Start-Anlagen : <%= @start_anlagen ? @start_anlagen : "Alle"  %> </p>
 <p> Ziel-Anlagen : <%= @ziel_anlagen ? @ziel_anlagen : "Alle" %> </p>
+<p> Verkehrsträger: <%= @verkehrstraeger %></p>
 <div class="col-sm-9">
     <%= render 'transporte/tabelle' %>
 </div>
@@ -19,8 +20,7 @@
   <%= hidden_field_tag "year", @year %> 
 
   <div class="col-sm-4">
-    <%= submit_tag "In Kalenderdarstellung anzeigen" %>
+    <%= submit_tag "In Kalenderdarstellung anzeigen", class: "btn btn-primary" %>
   </div>
-
   
 <% end %>

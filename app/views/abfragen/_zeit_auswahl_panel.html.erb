@@ -2,12 +2,15 @@
       <div class="panel-heading">
         <h3 class="panel-title"> Zeitfenster-Auswahl </h3>
       </div>
-      <ul class="list-group">
-		<div class: "list-group-item">
-		  Von: <%= text_field_tag "start_datum", "01.01.1999" %>
-		</div>
-          <div class: "list-group-item"> 
-		    Bis: <%= text_field_tag "end_datum", "31.12.1999" %>
-          </div>
-      </ul>
+      <div class="panel-body">
+        <p>
+          Von: <%= text_field_tag "start_datum", "01.01.2012", class: "form-control" %> 
+        </p>
+        <p>
+           Bis: <%= text_field_tag "end_datum", "31.12.2012", class: "form-control" %>
+        </p>
+      </div>
+         
+        
+      
     </div>
