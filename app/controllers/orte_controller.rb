@@ -1,6 +1,9 @@
 class OrteController < ApplicationController
+
+  before_action :set_ort, only: [:show, :edit, :update, :destroy]
+  
+
   def show
-    @ort = Ort.find(params[:id])
   end
   
   def ortswahl
@@ -24,7 +27,29 @@ class OrteController < ApplicationController
   
   def new
     @name = params[:name]
+    @redirection = params[:redirection] unless params[:redirection].nil? or params[:redirection]==""
   end
+  
+  def edit
+    @redirection = params[:redirection] unless params[:redirection].nil? or params[:redirection]==""
+  end
+  
+  def update
+    @redirection = params[:redirection].nil? ? @ort : params[:redirection]
+    respond_to do |format|
+        if @ort.update(:name => params[:ort][:name], :lat => params[:lat], :lon => params[:lon])
+            flash[:notice] = "Anlage aktualisiert."
+            format.html { redirect_to @redirection, notice: "Ort aktualisiert."}
+            format.json { render :show, status: :created, location: @ort }
+        else
+          format.html { render :new }
+          format.json { render json: @ort.errors, status: :unprocessable_entity }
+        end
+    end
+  end
+  
+  def destroy 
+  end 
   
   def create_from_name
     @ort = Ort.new(:name => params[:name])
@@ -51,5 +76,16 @@ class OrteController < ApplicationController
       end
     end
   end
+  
+  private 
+    def set_ort
+      @ort = Ort.find(params[:id])
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def ort_params
+      params.require(:ort).permit(:name, :lat, :lon, :beschreibung)
+    end
+
   
 end
