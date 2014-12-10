@@ -39,9 +39,8 @@
         </div>
         
         <div class="col-sm-5">
-          <% if beobachtung.lat? && beobachtung.lon? %>
-            <div id="map" style="height:200px;"></div>
-            <%= map(:center => { :latlng => [beobachtung.lat, beobachtung.lon], :zoom => 10 }) %>
+          <% if beobachtung.ort %>
+            <%= render "orte/anzeige", ort: beobachtung.ort %>
           <% end %>
         </div>
             

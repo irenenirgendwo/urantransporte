@@ -99,4 +99,14 @@ class Ort < ActiveRecord::Base
     ort
   end
   
+  def self.create_by_koordinates_and_name(name, lat, lon)
+    if lat && lon
+      ort = Ort.create_by_koordinates(lat,lon)
+      ort.update(:name => name) unless name.nil? or name == ""
+    else 
+      ort = Ort.find_or_create_ort(name)
+    end
+    ort
+  end
+  
 end

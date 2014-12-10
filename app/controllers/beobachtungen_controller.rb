@@ -2,7 +2,7 @@
 class BeobachtungenController < ApplicationController
   before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :load_foto, :update_foto, :abschnitt_zuordnen, :set_toleranz_tage]
   before_action :editor_user, only: [:edit, :update, :destroy, :index]
-  before_action :set_schiffe, only: [:edit, :new]
+  before_action :set_schiffe, only: [:edit, :new, :update, :create]
   
   # Zeigt alle noch nicht zu Transportabschnitten zugeordneten Beobachtungen an. (zugeordnet="n"
   # Es ist auch möglich, alle Beobachtungen anzeigen zu lassen (zugeordnet="a").
@@ -39,12 +39,17 @@ class BeobachtungenController < ApplicationController
 
   # GET /beobachtungen/1/edit
   def edit
+    @ort = @beobachtung.ort
   end
 
   # POST /beobachtungen
   # POST /beobachtungen.json
   def create
+    File.open("log/beobachtung.log","w"){|f| f.puts "create beobachtung"}
+    @ort = Ort.create_by_koordinates_and_name(params[:ort], params[:lat], params[:lon])
+    File.open("log/beobachtung.log","a"){|f| f.puts "Ort: #{@ort.attributes}"}
     @beobachtung = Beobachtung.new(beobachtung_params)
+    @beobachtung.ort = @ort
     unless params[:beobachtung][:quelle]
       quelle = 
         if logged_in? 
@@ -85,8 +90,9 @@ class BeobachtungenController < ApplicationController
   # PATCH/PUT /beobachtungen/1
   # PATCH/PUT /beobachtungen/1.json
   def update
+    @beobachtung.ort = Ort.create_by_koordinates_and_name(params[:ort], params[:lat], params[:lon])
     respond_to do |format|
-      if @beobachtung.update(beobachtung_params)
+      if @beobachtung.save && @beobachtung.update(beobachtung_params)
         format.html { redirect_to beobachtung_path, notice: 'Beobachtung wurde aktualisiert.' }
        # format.html { redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde aktualisiert.' }
         format.json { render :show, status: :ok, location: @beobachtung }
@@ -164,7 +170,7 @@ class BeobachtungenController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def beobachtung_params
-      params.require(:beobachtung).permit(:ankunft_zeit, :abfahrt_zeit, :start_datum, :end_datum, :ort, :lat, :lon, 
+      params.require(:beobachtung).permit(:ankunft_zeit, :abfahrt_zeit, :start_datum, :end_datum, :ort_id,
                   :fahrtrichtung, :verkehrstraeger, 
                   :kennzeichen_radioaktiv, :kennzeichen_aetzend, :kennzeichen_spaltbar, :kennzeichen_umweltgefaehrdend, 
                   :gefahr_nummer, :un_nummer, 

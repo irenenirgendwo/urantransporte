@@ -21,10 +21,10 @@
         
         <div class="col-sm-6">          
           <div class="form-group">
-            <%= f.label :ort do %>
+            <%= label_tag "Ort", :ort do %>
               Ort der Beobachtung <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title="z.B. Stadt oder Koordinaten"></span>
             <% end %>
-            <%= f.text_field :ort, class: "form-control"  %>
+            <%= text_field_tag :ort, @ort.to_s,  class: "form-control"  %>
           </div>
           <div class="form-group">
             <%= f.label :fahrtrichtung do %>
@@ -59,14 +59,7 @@
         </div>
         
         <div class="col-sm-6">
-          <p>Klicke auf die Karte, um den Standort genau einzutragen.</p>
-          <!--<input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control"> -->
-          <%= f.hidden_field :lat, class: "form-control" %>
-          <%= f.hidden_field :lon, class: "form-control" %>
-          <div id="map" class="panel" style="height: 250px;"></div>
-          <script>
-            geomap('beobachtung');
-          </script> 
+          <%= render "orte/ort_eingabe", ort: @ort, titel: "Standort eintragen" %>
         </div>
         
       </div>

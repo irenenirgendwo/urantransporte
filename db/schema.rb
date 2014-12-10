@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141207145230) do
+ActiveRecord::Schema.define(version: 20141210151342) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                             null: false
@@ -40,15 +40,12 @@ ActiveRecord::Schema.define(version: 20141207145230) do
   end
 
   create_table "beobachtungen", force: true do |t|
-    t.string   "ort"
     t.text     "beschreibung"
     t.integer  "transportabschnitt_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "ankunft_zeit"
     t.datetime "abfahrt_zeit"
-    t.float    "lat"
-    t.float    "lon"
     t.string   "verkehrstraeger"
     t.boolean  "kennzeichen_radioaktiv"
     t.boolean  "kennzeichen_aetzend"
@@ -76,6 +73,7 @@ ActiveRecord::Schema.define(version: 20141207145230) do
     t.string   "foto_recht"
     t.text     "begleitung_beschreibung"
     t.integer  "schiff_id"
+    t.integer  "ort_id"
   end
 
   create_table "firmen", force: true do |t|
