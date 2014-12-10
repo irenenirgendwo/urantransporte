@@ -39,7 +39,8 @@
         </div>
       </p>
        <p>
-        <% anlagen_ort = @transport.start_anlage.ort %>
+         
+        <% anlagen_ort = @transport.start_anlage.ort if @transport %>
         <strong><%= f.label :start_ort, "Anfangsort:" %></strong>
         <div class='input-group ort' id='ort-start'>
           <%= f.text_field  :start_ort, class: "form-control" %>
@@ -65,7 +66,7 @@
       </div>
       <div class="form-group">
         <strong><%= f.label :end_ort, "Endort:" %></strong>
-        <% anlagen_ort = @transport.ziel_anlage.ort %>
+        <% anlagen_ort = @transport.ziel_anlage.ort if @transport%>
         <div class='input-group ort' id='ort-ende'>
           <%= f.text_field :end_ort, class: "form-control" %>
           <% if anlagen_ort %>
@@ -79,9 +80,14 @@
   <script type="text/javascript">
       setup_datetimepicker("#datetimepicker-start")
       setup_datetimepicker("#datetimepicker-ende")
-      //setup_start_und_ziel_anlagen_wahl(<%= @transport.start_anlage.ort %>, <%= @transport.ziel_anlage.ort %>)
   </script>
   
+  <% if @transport %>
+    <script type="text/javascript">
+      //setup_start_und_ziel_anlagen_wahl(<%= @transport.start_anlage.ort %>, <%= @transport.ziel_anlage.ort %>)
+    </script>
+  <% end %>
+    
   <div class="panel panel-default">
     <div class="panel-heading">
       <h2 class="panel-title">Verkehrsmittel</h2>

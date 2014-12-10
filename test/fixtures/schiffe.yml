@@ -1,13 +1,10 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
+sheksna:
+  name: Sheksna
   imo: 1
   mmsi: 1
-  vesselfinder_url: MyString
+  vesselfinder_url: 
 
-two:
-  name: MyString
-  imo: 1
-  mmsi: 1
-  vesselfinder_url: MyString
+unbekannt:
+  name: Unbekannt

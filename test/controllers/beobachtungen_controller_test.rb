@@ -29,7 +29,7 @@ class BeobachtungenControllerTest < ActionController::TestCase
     end
     # So muss es gehen
     assert_difference('Beobachtung.count') do
-      post :create, beobachtung: { ort: @beobachtung.ort, ankunft_zeit: @beobachtung.ankunft_zeit }
+      post :create, beobachtung: { ort_id: @beobachtung.ort.id, ankunft_zeit: @beobachtung.ankunft_zeit }, ort: "Lingen"
     end
 
     assert_redirected_to beobachtung_path(assigns(:beobachtung))
@@ -46,8 +46,11 @@ class BeobachtungenControllerTest < ActionController::TestCase
   end
 
   test "should update beobachtung" do
+    patch :update, id: @beobachtung, beobachtung: { beschreibung: @beobachtung.beschreibung, foto: true }
+    assert_response :redirect
+    
     patch :update, id: @beobachtung, beobachtung: { beschreibung: @beobachtung.beschreibung }
-    assert_redirected_to load_foto_beobachtung_path(assigns(:beobachtung))
+    assert_response :redirect
   end
 
   test "should destroy beobachtung" do

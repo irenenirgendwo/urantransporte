@@ -6,7 +6,7 @@
 #
 hamburg: 
   id: 1
-  ort: Hamburg
+  ort_id: 3
   terminal: Südwest
   firma_id: 1
   transport_id: 3

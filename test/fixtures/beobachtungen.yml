@@ -3,17 +3,15 @@
 zug:
   ankunft_zeit: 2014-10-11 19:46:58
   abfahrt_zeit: 2014-10-11 19:46:58
-  ort: MyString
-  lat: 1.5
-  lon: 1.5
+  ort_id: 3
   fahrtrichtung: MyString
   verkehrstraeger: MyString
   kennzeichen_radioaktiv: false
   kennzeichen_aetzend: false
   kennzeichen_spaltbar: false
   kennzeichen_umweltgefaehrdend: false
-  gefahr_nummer: MyString
-  un_nummer: 
+  gefahr_nummer: 78
+  un_nummer: 2978
   firma_beschreibung: MyString
   lok_beschreibung: MyString
   container_beschreibung: MyText
@@ -28,9 +26,7 @@ zug:
 lkw:
   ankunft_zeit: 2014-10-11 19:46:58
   abfahrt_zeit: 2014-10-11 19:46:58
-  ort: MyString
-  lat: 1.5
-  lon: 1.5
+  ort_id: 3
   fahrtrichtung: MyString
   verkehrstraeger: MyString
   kennzeichen_radioaktiv: false

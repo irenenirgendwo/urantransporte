@@ -47,6 +47,6 @@ class UmschlaegeControllerTest < ActionController::TestCase
       delete :destroy, id: @umschlag
     end
 
-    assert_redirected_to umschlaege_path
+    assert_response :redirect
   end
 end
