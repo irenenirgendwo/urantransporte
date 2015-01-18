@@ -15,7 +15,7 @@
   
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Aktuelle Daten</h3>
+        <h3 class="panel-title">Ortsdaten</h3>
       </div>
       <div class="panel-body">
         <dl class="dl-horizontal">
@@ -26,6 +26,23 @@
         </dl>      
       </div>
     </div>
+    
+    <% unless @ort.anlagen.empty? %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Anlagen</h3>
+        </div>
+        <div class="panel-body">
+          <ul>
+            <% @ort.anlagen.each do |anlage| %>
+              <li>
+                <%= link_to anlage.name, anlage %>
+              </li>
+            <% end %>
+          </ul> 
+        </div>
+      </div>
+    <% end %>
   </div>
  
   <div class="col-sm-6">

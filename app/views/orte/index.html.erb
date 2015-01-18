@@ -1,0 +1,57 @@
+<div class="btn-group header-buttons">
+  <%= link_to 'Neuer Ort', new_ort_path, class: "btn btn-success" %>
+</div>
+
+<h1>Orte</h1>
+
+<div class="row">
+
+  <div class="col-sm-3">
+  
+    <%= form_tag({action: :search}, multipart: true) do %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Ort suchen</h3>
+        </div>
+        <div class=panel-body>
+          <div class="form-group">
+            <%= label_tag :name, "Name" %>
+            <%= text_field_tag :name, "", class: "form-control" %>
+            <%= label_tag :plz, "PLZ" %>
+            <%= text_field_tag :plz, "", class: "form-control" %>
+          </div>
+          <%= submit_tag "Passende Orte anzeigen", class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+    
+  </div>
+  
+  <div class="col-sm-9">
+    
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>PLZ</th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @orte.each do |ort| %>
+          <tr>
+            <td><%= link_to ort.name, ort %></td>
+            <td><%= ort.plz %></td>
+            <td><%= link_to 'Bearbeiten', edit_ort_path(ort) %></td>
+            <td><%= link_to 'Löschen', ort, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    
+  </div>
+  
+  
+  
+</div>

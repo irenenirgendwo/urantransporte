@@ -191,10 +191,10 @@ class AnlagenController < ApplicationController
   # DELETE /anlagen/1.json
   def destroy
     begin
-	  success = @anlage.destroy
-	rescue
-	  success = false
-	end  
+      success = @anlage.destroy
+    rescue
+      success = false
+    end  
     respond_to do |format|
       if success 
         format.html { redirect_to anlagen_url, notice: 'Anlage was successfully destroyed.' }

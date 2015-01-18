@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :orte 
   post "orte/create_from_coordinates" => 'orte#create_from_coordinates'
   post "orte/create_from_name" => 'orte#create_from_name'
+  post "orte/search" => "orte#search"
   
   
   resources :firmen

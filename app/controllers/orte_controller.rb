@@ -2,6 +2,10 @@ class OrteController < ApplicationController
 
   before_action :set_ort, only: [:show, :edit, :update, :destroy]
   
+  
+  def index
+    @orte = Ort.order(:name)
+  end
 
   def show
   end
@@ -49,6 +53,20 @@ class OrteController < ApplicationController
   end
   
   def destroy 
+    begin
+      success = @ort.destroy
+    rescue
+      success = false
+    end  
+    respond_to do |format|
+      if success 
+        format.html { redirect_to orte_path, notice: 'Ort was successfully destroyed.' }
+        format.json { head :no_content }
+      else 
+        format.html { redirect_to @ort, notice: 'Der Ort ist noch Start- oder Zielanlage eines Transports. Deshalb ist das Löschen der Anlage nicht möglich.' }
+        format.json { head :no_content }
+      end
+    end
   end 
   
   def create_from_name
@@ -75,6 +93,15 @@ class OrteController < ApplicationController
         format.json { render json: @ort.errors, status: :unprocessable_entity }
       end
     end
+  end
+  
+  def search
+    name = params[:name]
+    plz = params[:plz]
+    @orte = Ort.order(:name)
+    @orte = @orte.where(name: name) unless name.nil? or name==""
+    @orte = @orte.where(plz: plz) unless plz.nil? or plz==""
+    render "index"
   end
   
   private 
