@@ -10,6 +10,12 @@ class OrteController < ApplicationController
   def show
   end
   
+  # Zeigt ein Formular an zur Auswahl von einem aus mehreren Orten 
+  # zu einer Anlage, einem Umschlag oder einem Transportabschnitt.
+  # Bei Eingabe eines Ortsnamens und mehreren gefunden Orten kommt mensch hierhin.
+  # Nach der Wahl wird der Ort entsprechend abgespeichert mit dem Link zu der 
+  # jeweiligen Controller-Methode.
+  #
   def ortswahl
     File.open("log/anlagen.log","a"){|f| f.puts "flash #{flash[:redirect_params]}" }
     @orte = []
@@ -52,6 +58,9 @@ class OrteController < ApplicationController
     end
   end
   
+  # Ort kann nur zerstört werden, wenn nicht benutzt.
+  # Die Frage ist, ob das so sinnvoll ist?
+  #
   def destroy 
     begin
       success = @ort.destroy
