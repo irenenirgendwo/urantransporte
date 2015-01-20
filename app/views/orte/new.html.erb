@@ -14,7 +14,9 @@ Ein Ort zum angegeben Namen wurde nicht gefunden. Bitte wähle.
     </div>
   </div>
   <%= hidden_field_tag :redirection, @redirection %>
-  
+  <% if @anlage %>
+    <%= hidden_field_tag :anlage, @anlage %>
+  <% end %>
 <% end %>
 
 <%= form_tag({action: :create_from_coordinates}, multipart: true) do %>

@@ -82,7 +82,7 @@ class AnlagenController < ApplicationController
       if ort_e.nil?
         flash[:notice] = 'Kein passender Ort gefunden'
         # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
-        redirect_to new_ort_path
+        redirect_to new_ort_path(anlage: @anlage.id)
       else
         redirect_to orte_ortswahl_path(anlage: @anlage.id, orte: ort_e)
       end
@@ -115,7 +115,7 @@ class AnlagenController < ApplicationController
       if ort_e.nil?
         flash[:notice] = 'Kein passender Ort gefunden'
         # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
-        redirect_to new_ort_path
+        redirect_to new_ort_path(anlage: @anlage.id)
       else
         redirect_to orte_ortswahl_path(anlage: @anlage.id, orte: ort_e)
       end

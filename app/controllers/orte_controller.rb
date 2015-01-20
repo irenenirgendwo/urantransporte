@@ -38,6 +38,7 @@ class OrteController < ApplicationController
   def new
     @name = params[:name]
     @redirection = params[:redirection] unless params[:redirection].nil? or params[:redirection]==""
+    @anlage = params[:anlage].to_i ? params[:anlage].to_i : nil
   end
   
   def edit
@@ -82,8 +83,13 @@ class OrteController < ApplicationController
   #
   def create_from_name
     @ort = Ort.new(:name => params[:name])
+    @anlage = params[:anlage] ? Anlage.find(params[:anlage].to_i) : nil
     respond_to do |format|
       if @ort.save
+        if @anlage 
+          @anlage.ort = @ort
+          @anlage.save
+        end
         format.html { redirect_to @ort, notice: 'Ort was successfully created.' }
         format.json { render :show, status: :created, location: @ort }
       else
@@ -99,8 +105,13 @@ class OrteController < ApplicationController
     @ort = Ort.create_by_koordinates(params[:lat],params[:lon])
     @ort.name = params[:ortname] unless params[:ortname] == "" or params[:ortname].nil?
     @ort.name = params[:plz] unless params[:plz] == "" or params[:plz].nil?
+    @anlage = params[:anlage] ? Anlage.find(params[:anlage].to_i) : nil
     respond_to do |format|
       if @ort.save
+        if @anlage 
+          @anlage.ort = @ort
+          @anlage.save
+        end
         format.html { redirect_to @ort, notice: 'Ort was successfully created.' }
         format.json { render :show, status: :created, location: @ort }
       else
