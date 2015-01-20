@@ -32,6 +32,15 @@ class Ort < ActiveRecord::Base
     transporte
   end
   
+  def orte_im_umkreis(radius)
+    dort = Geokit::Geocoders::GoogleGeocoder.geocode "#{lat},#{lon}"
+    if self.id
+      Ort.where("id <> ?", self.id).within(radius, :origin => dort)
+    else
+      Ort.within(radius, :origin => dort)
+    end
+  end
+  
   # findet einen passenden Ort oder erstellt einen neuen, wenn es den noch nicht gibt.
   #
   def self.find_or_create_ort(ortsname)
@@ -82,6 +91,8 @@ class Ort < ActiveRecord::Base
     end
   end
   
+  
+  
   # legt alle zu einem Ortsnamen passende Orte an.
   #
   def self.lege_passende_orte_an ort
@@ -89,9 +100,11 @@ class Ort < ActiveRecord::Base
     orte =  Geokit::Geocoders::GoogleGeocoder.geocode ort
     orte.all.each do |o|
       o =  Geokit::Geocoders::GoogleGeocoder.geocode o.ll
-      o = Ort.create(:name => o.city, :plz => o.zip, :lat => o.lat, :lon => o.lng)
-      angelegte_orte << o
-      File.open("log/ort.log","a"){|f| f.puts "Ort angelegt: #{o.attributes}" }
+      unless o.city.nil? && o.zip.nil? && o.lat.nil? && o.lng.nil?
+        o = Ort.create(:name => o.city, :plz => o.zip, :lat => o.lat, :lon => o.lng)
+        angelegte_orte << o
+        File.open("log/ort.log","a"){|f| f.puts "Ort angelegt: #{o.attributes}" }
+      end
     end
     angelegte_orte
   end

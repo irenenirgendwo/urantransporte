@@ -31,18 +31,7 @@
             <%= f.label :beschreibung %><br>
             <%= f.text_area :beschreibung, class: "form-control" %>
           </div>
-          <!--<div class="form-group">
-            <%= f.label :adresse %><br>
-            <%= f.text_field :adresse, class: "form-control" %>
-          </div>
-          <div class="form-group">
-            <%= f.label :plz %><br>
-            <%= f.text_field :plz, class: "form-control" %>
-          </div>
-          <div class="form-group">
-            <%= f.label :ort %><br>
-            <%= f.text_field :ort, class: "form-control" %>
-          </div>-->
+          
           <div class="form-group">
             <%= f.label :anlagen_kategorie, "Anlagenkategorie" %><br>
             <%= collection_select(:anlage, :anlagen_kategorie_id, AnlagenKategorie.all, :id, :name, class: "form-control") %>

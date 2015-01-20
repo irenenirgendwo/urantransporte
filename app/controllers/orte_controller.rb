@@ -97,7 +97,7 @@ class OrteController < ApplicationController
   #
   def create_from_coordinates
     @ort = Ort.create_by_koordinates(params[:lat],params[:lon])
-    @ort.name = params[:name] unless params[:name] == "" or params[:name].nil?
+    @ort.name = params[:ortname] unless params[:ortname] == "" or params[:ortname].nil?
     @ort.name = params[:plz] unless params[:plz] == "" or params[:plz].nil?
     respond_to do |format|
       if @ort.save
