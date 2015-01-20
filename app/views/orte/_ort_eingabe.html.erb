@@ -4,9 +4,19 @@
         </div>
         <div class="panel-body">
           <p>Klicke auf die Karte, um den Standort genau festzulegen.</p>
-          <input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control">
-            <%= hidden_field_tag :lat, (ort ? ort.lat : nil) %>
-            <%= hidden_field_tag :lon, (ort ? ort.lon : nil) %>
+          <!--Muss noch in Javascript implementiert werden die Suche auf der Karte -->
+          <!-- Formularschachetlung geht in Rails nämlich leider nicht -->
+          <div class="form-group">
+            <%= label_tag :name, "Ortsname" %>
+            <%= text_field_tag :name, (ort && ort.name ? ort.name : ""), class: "form-control" %>
+            <%= label_tag :plz, "PLZ" %>
+            <%= text_field_tag :plz, (ort && ort.plz ? ort.plz : ""), class: "form-control" %>
+          </div>
+          <input type="button" name="btnSuche" value="Suche auf Karte" class="btn btn-primary"
+                onclick="alert('Klick - noch zu implementieren')">
+          <!--<input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control">-->
+          <%= hidden_field_tag :lat, (ort ? ort.lat : nil) %>
+          <%= hidden_field_tag :lon, (ort ? ort.lon : nil) %>
         </div>
         
         <div id="map" style="height: 300px;"></div>

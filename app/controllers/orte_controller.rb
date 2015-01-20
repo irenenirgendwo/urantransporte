@@ -45,10 +45,10 @@ class OrteController < ApplicationController
   end
   
   def update
-    @redirection = params[:redirection].nil? ? @ort : params[:redirection]
+    @redirection = (params[:redirection].nil? || params[:redirection]=="" ) ? @ort : params[:redirection]
     respond_to do |format|
-        if @ort.update(:name => params[:ort][:name], :lat => params[:lat], :lon => params[:lon])
-            flash[:notice] = "Anlage aktualisiert."
+        if @ort.update(:name => params[:name], :lat => params[:lat], :lon => params[:lon])
+            flash[:notice] = "Ort aktualisiert."
             format.html { redirect_to @redirection, notice: "Ort aktualisiert."}
             format.json { render :show, status: :created, location: @ort }
         else
@@ -78,6 +78,8 @@ class OrteController < ApplicationController
     end
   end 
   
+  # Speichert einen Ort ohne Koordinaten, nur mit Name.
+  #
   def create_from_name
     @ort = Ort.new(:name => params[:name])
     respond_to do |format|
@@ -91,8 +93,12 @@ class OrteController < ApplicationController
     end
   end
   
+  # Erstellt einen Ort mit Koordinaten, sucht den Namen aus der Karte, falls er nicht angegeben wurde.
+  #
   def create_from_coordinates
     @ort = Ort.create_by_koordinates(params[:lat],params[:lon])
+    @ort.name = params[:name] unless params[:name] == "" or params[:name].nil?
+    @ort.name = params[:plz] unless params[:plz] == "" or params[:plz].nil?
     respond_to do |format|
       if @ort.save
         format.html { redirect_to @ort, notice: 'Ort was successfully created.' }
@@ -108,7 +114,7 @@ class OrteController < ApplicationController
     name = params[:name]
     plz = params[:plz]
     @orte = Ort.order(:name)
-    @orte = @orte.where(name: name) unless name.nil? or name==""
+    @orte = @orte.where("name LIKE ?", "%#{name}%") unless name.nil? or name==""
     @orte = @orte.where(plz: plz) unless plz.nil? or plz==""
     render "index"
   end

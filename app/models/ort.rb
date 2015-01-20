@@ -3,7 +3,7 @@ class Ort < ActiveRecord::Base
   has_and_belongs_to_many :transportabschnitte
   has_many :anlagen, :dependent => :restrict_with_error
   has_many :start_transportabschnitte, :foreign_key => 'start_ort_id', :class_name => "Transportabschnitt", :dependent => :restrict_with_error
-  has_many :ziel_transportabschnitte, :foreign_key => 'ziel_ort_id', :class_name => "Transportabschnitt", :dependent => :restrict_with_error
+  has_many :ziel_transportabschnitte, :foreign_key => 'end_ort_id', :class_name => "Transportabschnitt", :dependent => :restrict_with_error
   has_many :umschlaege
   acts_as_mappable :default_units => :kms,
                    :default_formula => :sphere,
@@ -16,6 +16,20 @@ class Ort < ActiveRecord::Base
   
   def ll
     lat.to_s + ',' + lon.to_s
+  end
+  
+  def transporte
+    transporte = []
+    self.start_transportabschnitte.each do |abschnitt|
+      transporte << abschnitt.transport 
+    end
+    self.ziel_transportabschnitte.each do |abschnitt|
+      transporte << abschnitt.transport 
+    end
+    self.umschlaege.each do |umschlag|
+      transporte << umschlag.transport
+    end
+    transporte
   end
   
   # findet einen passenden Ort oder erstellt einen neuen, wenn es den noch nicht gibt.
@@ -84,7 +98,7 @@ class Ort < ActiveRecord::Base
   
   # gibt passende Orte als Array zurück.
   def self.orte_mit_namen ort
-    Ort.where(:name => ort).to_a
+    Ort.where("name LIKE ?","%#{ort}%").to_a
   end
   
   def self.create_by_koordinates(lat,lon)

@@ -1,10 +1,6 @@
 <h1>Ort bearbeiten</h1>
 
 <%= form_for(@ort) do |f| %>
-  <div class="form-group">
-    <%= f.label "Ortsname:" %>
-    <%= f.text_field :name, class: "form-control" %>
-  </div>
   <%= render "ort_eingabe", ort: @ort, titel: "Koordinaten" %>
   <%= hidden_field_tag :redirection, @redirection %>
   <%= link_to "Abbruch", @redirection, class: "btn btn-primary" %>

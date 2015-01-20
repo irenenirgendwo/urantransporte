@@ -16,52 +16,61 @@
 
   <div class="row">
   
+  
     <div class="col-sm-7">
-      <div class="form-group">
-        <%= f.label :name %><br>
-        <%= f.text_field :name, class: "form-control" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :beschreibung %><br>
-        <%= f.text_area :beschreibung, class: "form-control" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :adresse %><br>
-        <%= f.text_field :adresse, class: "form-control" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :plz %><br>
-        <%= f.text_field :plz, class: "form-control" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :ort %><br>
-        <%= f.text_field :ort, class: "form-control" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :anlagen_kategorie, "Anlagenkategorie" %><br>
-        <%= collection_select(:anlage, :anlagen_kategorie_id, AnlagenKategorie.all, :id, :name, class: "form-control") %>
-      </div>
-    </div>
-    
-    <div class="col-sm-5">
-    
       <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">Anlagendaten</h2>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <%= f.label :name %><br>
+            <%= f.text_field :name, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :beschreibung %><br>
+            <%= f.text_area :beschreibung, class: "form-control" %>
+          </div>
+          <!--<div class="form-group">
+            <%= f.label :adresse %><br>
+            <%= f.text_field :adresse, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :plz %><br>
+            <%= f.text_field :plz, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= f.label :ort %><br>
+            <%= f.text_field :ort, class: "form-control" %>
+          </div>-->
+          <div class="form-group">
+            <%= f.label :anlagen_kategorie, "Anlagenkategorie" %><br>
+            <%= collection_select(:anlage, :anlagen_kategorie_id, AnlagenKategorie.all, :id, :name, class: "form-control") %>
+          </div>
+        </div>
+      </div>
+      
+       <div class="panel panel-default">
         <div class="panel-heading">
           <h2 class="panel-title">Bild</h2>
         </div>
         <div class="panel-body">
           <p>Hier kann ein Link zu einem Bild der Anlage angegeben werden.
           <div class="form-group">
-            <%= f.label :bild_url %><br>
+            <%= f.label :bild_url, "URL zur Bild-Datei" %><br>
             <%= f.text_field :bild_url, class: "form-control" %>
           </div>
           <div class="form-group">
-            <%= f.label :bild_urheber %><br>
+            <%= f.label :bild_urheber, "Urheber*innen-Angabe" %><br>
             <%= f.text_field :bild_urheber, class: "form-control" %>
           </div>
         </div>
       </div>
       
+    </div>
+    
+    <div class="col-sm-5">
+
       <!-- TODO: noch auf ort.lat/ort.lon umstellen ?-->
       <%= render "orte/ort_eingabe", titel: "Standort", ort: @anlage.ort %>
       
