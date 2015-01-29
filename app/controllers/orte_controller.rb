@@ -48,7 +48,7 @@ class OrteController < ApplicationController
   def update
     @redirection = (params[:redirection].nil? || params[:redirection]=="" ) ? @ort : params[:redirection]
     respond_to do |format|
-        if @ort.update(:name => params[:name], :lat => params[:lat], :lon => params[:lon])
+        if @ort.update(:name => params[:ortname], :lat => params[:lat], :lon => params[:lon])
             flash[:notice] = "Ort aktualisiert."
             format.html { redirect_to @redirection, notice: "Ort aktualisiert."}
             format.json { render :show, status: :created, location: @ort }

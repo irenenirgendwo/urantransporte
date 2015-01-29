@@ -43,6 +43,7 @@ class Ort < ActiveRecord::Base
   end
   
   # findet einen passenden Ort oder erstellt einen neuen, wenn es den noch nicht gibt.
+  # Problem: wählt bereits einen Ort aus und ignoriert evtl. Mehrfachtreffer
   #
   def self.find_or_create_ort(ortsname)
     newort = Ort.find_by(:name => ortsname)
