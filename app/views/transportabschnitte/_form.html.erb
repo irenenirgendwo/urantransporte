@@ -45,7 +45,7 @@
         <div class='input-group ort' id='ort-start'>
           <%= f.text_field  :start_ort, class: "form-control" %>
           <% if anlagen_ort %>
-            <span class="input-group-addon" onclick="setup_start_anlagen_wahl(<%= anlagen_ort %>)">Start-Anlage</span>
+            <span class="input-group-addon" onclick="setup_start_anlagen_wahl('<%= anlagen_ort %>')">Start-Anlage</span>
           <% end %>
         </div>
       </p>
@@ -70,7 +70,7 @@
         <div class='input-group ort' id='ort-ende'>
           <%= f.text_field :end_ort, class: "form-control" %>
           <% if anlagen_ort %>
-            <span class="input-group-addon" onclick="setup_ziel_anlagen_wahl(<%= anlagen_ort.id %>)">Ziel-Anlage</span>
+            <span class="input-group-addon" onclick="setup_ziel_anlagen_wahl('<%= anlagen_ort %>')">Ziel-Anlage</span>
           <% end %>
         </div>
       </div>

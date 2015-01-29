@@ -15,6 +15,7 @@ class Ort < ActiveRecord::Base
   end
   
   def ll
+    # heißt ll, weil die entsprechende Geocode-Methode ll heißt
     lat.to_s + ',' + lon.to_s
   end
   
