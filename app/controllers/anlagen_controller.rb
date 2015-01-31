@@ -155,6 +155,7 @@ class AnlagenController < ApplicationController
         else
           File.open("log/ort.log","a"){|f| f.puts "Ort gefunden #{@anlage.ort.attributes}" }
           # Ortskoordinaten umsetzen oder besser neuen Ort erzeugen?
+          # ich wär für neuen Ort - führt sonst zu Chaos bei Korrekturen über weite Strecken
           @anlage.ort.lat = lat 
           @anlage.ort.lon = lon
           @anlage.ort.save

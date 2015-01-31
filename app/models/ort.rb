@@ -113,7 +113,17 @@ class Ort < ActiveRecord::Base
   
   # gibt passende Orte als Array zurück.
   def self.orte_mit_namen ort
-    Ort.where("name LIKE ?","%#{ort}%").to_a
+    # ort in einzelne Worte zerlegen und (verfeinernd einzeln) suchen.
+    # damit z.B. "Königstein Taunus" auch "Königstein im Taunus" findet
+    # Teiltreffer werden nicht berücksichtigt.
+    # "Gronau Westf" findet so auch "Gronau (Westf)" aber nicht "Gronau"
+    worte = ort.split(" ")
+    m_orte = Ort.all
+    worte.each do |w|
+      m_orte = m_orte.where("name LIKE ?","%#{w}%")
+    end
+    m_orte.to_a
+   # Ort.where("name LIKE ?","%#{ort}%").to_a
   end
   
   def self.create_by_koordinates(lat,lon)
