@@ -117,6 +117,8 @@ class Ort < ActiveRecord::Base
     # damit z.B. "Königstein Taunus" auch "Königstein im Taunus" findet
     # Teiltreffer werden nicht berücksichtigt.
     # "Gronau Westf" findet so auch "Gronau (Westf)" aber nicht "Gronau"
+    ort.gsub!(/\W/, " ");
+    # Sonderzeichen wegschmeißen für bessere Suchergebnisse: "Gronau (Westf)" == "Gronau/Westf" == "Gronau Westf"
     worte = ort.split(" ")
     m_orte = Ort.all
     worte.each do |w|
