@@ -2,6 +2,8 @@
 class UmschlaegeController < ApplicationController
   before_action :set_umschlag, only: [:show, :edit, :update, :destroy, :save_ort]
   before_action :editor_user, only: [:new, :edit, :create, :update, :destroy]
+  
+  include OrteAuswahl
 
   # GET /umschlaege
   # GET /umschlaege.json
@@ -45,11 +47,11 @@ class UmschlaegeController < ApplicationController
     @redirection = params[:transport_id] ? transport : @umschlag
 
     # Orte finden, zuordnen oder falls nötig, neu erstellen.
-    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(params[:umschlag][:ort], "create")
-
+    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@umschlag, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
+    
     if eindeutig
       if @umschlag.save
-        redirect_to @redirection, notice: "Umschlag erfolgreich angelegt. #{umschlag_params}." 
+        redirect_to @redirection, notice: "Umschlag erfolgreich angelegt." 
       else  
         render :new 
       end
@@ -73,7 +75,7 @@ class UmschlaegeController < ApplicationController
   # PATCH/PUT /umschlaege/1.json
   def update
     # Orte finden, zuordnen oder falls nötig, neu erstellen.
-    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(params[:umschlag][:ort], "create")
+    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@umschlag, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
     
     @redirection = @umschlag.transport ? @umschlag.transport : @umschlag
     if eindeutig
@@ -111,30 +113,6 @@ class UmschlaegeController < ApplicationController
     end
   end
 
-# Grundgerüst der Ortsauswahl bei Mehrfachtreffern - vielleicht funktionsfähig
-  # Testweise eingebunden nur beim Erstellen neuer Anlagen und Update.
-  #
-  # Idee: Alle passenden Orte werden in einem Auswahlfenster angezeigt.
-  # Die passenden Orte werden mittels ort_waehlen (orte_mit_namen bzw. lege_passende_orte_an)
-  # im Ort-Modell gesucht bzw. angelegt.
-  # Dann werden die angelegten Orte zum Aufruf einer ortsauswahl-Funktion aus dem OrteController verwendnet.
-  #
-  # TODO: Wenn kein Ort gefunden wurde, anderes Ortswahlfenster anlegen mit Ort neu suchen koennen,
-  # über Orte-Controller, vermutlich ähnlich.
-  #
-  def evtl_ortswahl_weiterleitung_und_anzeige(ortsname, aktion)
-    eindeutig = true
-    unless ortsname=="" || ortsname.nil? || (aktion=="update" && ortsname == @umschlag.ort.to_s)
-      eindeutig, ort_e = Ort.ort_waehlen(ortsname)
-      if eindeutig
-        @umschlag.ort = ort_e
-      else 
-        # wird nach dem speichern durch Auswahlfenster gesetzt.
-        @umschlag.ort = nil 
-      end
-    end
-    return eindeutig, ort_e
-  end
   
   # Ort zum Umschlag speichern und Umschlag anzeigen.
   # Nötig nach Umschlag anlegen/updaten mit Ortsauswahl.

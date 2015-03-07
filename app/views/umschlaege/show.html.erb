@@ -27,7 +27,9 @@
       Umschlagsfirma: <%= link_to @umschlag.firma.to_s, @umschlag.firma %>
     </p>
   </div>
-  <div class="col-sm-4">
-    <%= render "orte/anzeige", ort: @umschlag.ort %>
-  </div>
+  <% if @umschlag.ort %>
+    <div class="col-sm-4">
+      <%= render "orte/anzeige", ort: @umschlag.ort %>
+    </div>
+  <% end %>
 </div>

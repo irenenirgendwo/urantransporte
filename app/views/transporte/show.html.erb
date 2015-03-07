@@ -19,14 +19,6 @@
     <% end %>
   <% end %>
 <% end %>
-
-<h3>Karte </h3>
-<div id="map" class="panel" style="height:400px;"></div>
-<script type="text/javascript">
-  allOrteMap("transporte/<%= @transport.id %>")
-</script>
-
-
 <p>
 </p>
   <%= link_to 'Neuer Transportabschnitt', new_transport_transportabschnitt_path(@transport), class: "btn btn-success" %> 
@@ -35,3 +27,10 @@
   <%= link_to "Ähnliche Transporte zeigen", aehnliche_transporte_transport_path(@transport), class: "btn btn-primary" %> 
  
   <%= link_to 'Alle Transporte anzeigen', transporte_path, class: "btn btn-primary" %> 
+  
+<h3>Karte </h3>
+<div id="map" class="panel" style="height:400px;"></div>
+<script type="text/javascript">
+  allOrteMap("transporte/<%= @transport.id %>")
+</script>
+

@@ -20,7 +20,10 @@
 <!--Zeigt Beschreibung des Transports und die Gefahrgut-Kennzeichnung -->
 <%= render "show_beschreibung", beobachtung: @beobachtung %>
 
-<!-- Zeigt den zugeordneten Transportabschnitt oder ermoeglicht eine Zuordnung -->
-<%= render "show_transportabschnitt", beobachtung: @beobachtung %>
 
+<% if logged_in? %>
 
+  <!-- Zeigt den zugeordneten Transportabschnitt oder ermoeglicht eine Zuordnung -->
+  <%= render "show_transportabschnitt", beobachtung: @beobachtung %>
+
+<% end %>

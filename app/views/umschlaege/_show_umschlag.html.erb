@@ -5,11 +5,13 @@
   <% end %>
   
   <%= link_to "Details", umschlag %>
-  | <%= link_to "Bearbeiten", edit_umschlag_path(umschlag) %> 
-  <% if umschlag.start_datum %>
-    | <%= link_to "Abschnitt davor anlegen", new_transportabschnitt_path(transport_id: umschlag.transport.id, umschlag_danach: umschlag.id) %>
-  <% end %>
-  <% if umschlag.end_datum %>
-    | <%= link_to "Abschnitt danach anlegen", new_transportabschnitt_path(transport_id: umschlag.transport.id, umschlag_davor: umschlag.id) %>
+  <% if logged_in? %>
+    | <%= link_to "Bearbeiten", edit_umschlag_path(umschlag) %> 
+    <% if umschlag.start_datum %>
+      | <%= link_to "Abschnitt davor anlegen", new_transportabschnitt_path(transport_id: umschlag.transport.id, umschlag_danach: umschlag.id) %>
+    <% end %>
+    <% if umschlag.end_datum %>
+      | <%= link_to "Abschnitt danach anlegen", new_transportabschnitt_path(transport_id: umschlag.transport.id, umschlag_davor: umschlag.id) %>
+    <% end %>
   <% end %>
 </div>
