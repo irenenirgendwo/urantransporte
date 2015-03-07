@@ -1,6 +1,6 @@
 <%= form_for(@stoff) do |f| %>
 
-  <div class="modal fade" id="stoffModal-<%=objekt.id%>" tabindex="-1" role="dialog" aria-labelledby="stoffModalLabel" aria-hidden="true">
+  <div class="modal fade" id="stoffModal-<%= objekt.id if defined?(objekt) %>" tabindex="-1" role="dialog" aria-labelledby="stoffModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         
@@ -24,7 +24,13 @@
            
           <div class="form-group">
             <%= f.label :bezeichnung, "Bezeichung" %>
-            <%= f.text_field :bezeichnung, class: "form-control", value: objekt.synonym %>
+            <%=
+              if defined?(objekt)
+                f.text_field :bezeichnung, class: "form-control", value: objekt.synonym
+              else
+                f.text_field :bezeichnung, class: "form-control"
+              end
+            %>
           </div>
           <div class="row">
             <div class="form-group col-xs-6">
