@@ -1,6 +1,6 @@
 <%= form_for(@anlage) do |f| %>
 
-  <div class="modal fade" id="anlagenModal" tabindex="-1" role="dialog" aria-labelledby="anlagenModalLabel" aria-hidden="true">
+  <div class="modal fade" id="anlagenModal-<%= objekt.id %>" tabindex="-1" role="dialog" aria-labelledby="anlagenModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         
@@ -23,7 +23,7 @@
           <% end %>
           <div class="form-group">
             <%= f.label :name, "Name" %>
-            <%= f.text_field :name, class: "form-control" %>
+            <%= f.text_field :name, class: "form-control", value: objekt.synonym %>
           </div>
           <div class="form-group">
             <%= f.label :anlagen_kategorie, "Typ" %>

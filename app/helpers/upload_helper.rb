@@ -6,11 +6,11 @@ module UploadHelper
   def render_zuordnen_partial(typ, synonym, all_werte)
     case typ
     when "anlage"
-      modal = "#anlagenModal"
+      modal = "#anlagenModal-#{synonym.id}"
       neu = "Neue Anlage"
       action = :save_zuordnung
     when "stoff"
-      modal = "#stoffModal"
+      modal = "#stoffModal-#{synonym.id}"
       neu = "Neuer Stoff"
       action = :save_stoffe_zuordnung
     end

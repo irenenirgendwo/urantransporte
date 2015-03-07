@@ -117,7 +117,7 @@ class UploadController < ApplicationController
     synonym = AnlagenSynonym.find(params[:synonym].to_i)
     synonym.anlage = Anlage.find(params[:anlage].to_i)
     if synonym.save
-      flash[:notice] = "Zuordnung erfolgreich"
+      flash[:success] = "Zuordnung erfolgreich"
       redirect_to upload_anlagen_zuordnung_path
     else
       # TODO: Fehlerbehandlung
@@ -157,7 +157,7 @@ class UploadController < ApplicationController
     #@logger.puts synonym.anlage.nil?
     if synonym.save
       #@logger.close
-      flash[:notice] = "Zuordnung erfolgreich"
+      flash[:success] = "Zuordnung erfolgreich"
       redirect_to upload_stoffe_zuordnung_path
     else
       # TODO: Fehlerbehandlung
@@ -358,7 +358,7 @@ class UploadController < ApplicationController
     # Zum Anzeigen unterschiedlicher Fehlermeldungen.
     #
     def upload_fehler(notice_string)
-      flash[:notice] = notice_string
+      flash[:danger] = notice_string
       redirect_to upload_index_path
     end
     

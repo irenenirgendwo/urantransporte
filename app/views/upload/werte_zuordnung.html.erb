@@ -1,10 +1,4 @@
-<%= render @wert_modal %>
-
 <h1>Datei einlesen</h1>
-
-<% if flash[:notice] %>
-  <%= flash[:notice] %>
-<% end %>
 
 <div class="panel panel-default">
   
@@ -26,7 +20,8 @@
       einfach neu erstellen.
     </p>
     <% @synonym_liste.each do |synonym| %>
-       <%= render_zuordnen_partial(@typ, synonym, @all_werte) %>
+      <%= render @wert_modal, objekt: synonym %>
+      <%= render_zuordnen_partial(@typ, synonym, @all_werte) %>
     <% end %>    
     
   </div>

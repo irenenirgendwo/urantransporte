@@ -1,13 +1,11 @@
 <h1>Datei einlesen</h1>
 
-<% if flash[:notice] %>
-  <%= flash[:notice] %>
-<% end %>
-
 <div class="panel panel-default">
   <div class="panel-heading">
     <h2 class="panel-title"> Scnritt 4: Transporte einlesen</h2>
   </div>
+  
+  <div class="panel-body">
 
   <p>
     Im Folgenden muss zugeordnet werden, welche Angaben sich in welcher Spalte befinden.
@@ -63,7 +61,7 @@
   <div class="panel-body">
 
     <div class="form-group">
-      Die Angabe zum transportierten <strong>Masse)</strong> befindet sich in der Spalte mit dem Namen
+      Die Angabe zum transportierten <strong>Masse</strong> befindet sich in der Spalte mit dem Namen
       <%= select_tag :menge, options_for_select(@headers_with_nil), class: "form-control"  %> . 
       Umrechnungsfaktor um zu Tonnen zu kommen: <%= text_field_tag :menge_umrechnungsfaktor, "1" %>
     </div>
@@ -173,6 +171,8 @@
 
       Hier muss noch weiter gemacht werden.
     </p>
+  </div>
+  
   </div>
 
   <div class="panel-footer">
