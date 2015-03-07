@@ -11,12 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141210151342) do
+ActiveRecord::Schema.define(version: 20150307181836) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                             null: false
-    t.string   "adresse"
-    t.string   "plz"
     t.integer  "ort_id",               limit: 255
     t.text     "beschreibung"
     t.datetime "created_at"

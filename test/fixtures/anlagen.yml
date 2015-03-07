@@ -3,31 +3,23 @@
 urenco:
   id: 1
   name: Urenco
-  adresse: MyString
-  plz: MyString
   ort_id: 1
   beschreibung: MyText
 
 anf:
   id: 2
   name: ANF 
-  adresse: MyString
-  plz: MyString
   ort_id: 2
   beschreibung: MyText
 
 russland:
   id: 3
   name: Ruslland 
-  adresse: MyString
-  plz: MyString
   ort_id: 4
   beschreibung: MyText
 
 ohne_transporte:
   id: 4
   name: beliebig 
-  adresse: MyString
-  plz: MyString
   ort_id: 2
   beschreibung: MyText
