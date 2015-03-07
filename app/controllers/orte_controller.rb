@@ -29,6 +29,8 @@ class OrteController < ApplicationController
             save_ort_umschlag_path(Umschlag.find(params[:umschlag].to_i), ort: ort_id.to_i)
           elsif params[:transportabschnitt]
             save_ort_transportabschnitt_path(Transportabschnitt.find(params[:transportabschnitt].to_i), ort: ort_id.to_i, ortstyp: params[:ortstyp])
+          elsif params[:beobachtung]
+            save_ort_beobachtung_path(Beobachtung.find(params[:beobachtung].to_i), ort: ort_id.to_i)
           end
         @orte << { "ort" => Ort.find(ort_id.to_i), "link" => auswahl_link }
       end

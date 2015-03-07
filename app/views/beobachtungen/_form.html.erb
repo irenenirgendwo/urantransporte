@@ -11,21 +11,13 @@
     </div>
   <% end %>
   
-  <div class="panel panel-default" id="mapedit" >
-    <div class="panel-heading">
-      <h3 class="panel-title">Ort und Zeit</h3>
-    </div>
-    <div class="panel-body">
-      
-      <div class="row">
-        
-        <div class="col-sm-6">          
-          <div class="form-group">
-            <%= label_tag "Ort", :ort do %>
-              Ort der Beobachtung <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title="z.B. Stadt oder Koordinaten"></span>
-            <% end %>
-            <%= text_field_tag :ort, @ort.to_s,  class: "form-control"  %>
-          </div>
+  <div class="row">
+    <div class="col-sm-6">      
+      <div class="panel panel-default" id="mapedit" >
+        <div class="panel-heading">
+          <h3 class="panel-title">Richtung und Zeit</h3>
+        </div>
+        <div class="panel-body">
           <div class="form-group">
             <%= f.label :fahrtrichtung do %>
               Fahrtrichtung des Transports <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title="z.B. Himmelsrichtung oder nächster Ort"></span>
@@ -57,14 +49,30 @@
             });
           </script>
         </div>
-        
-        <div class="col-sm-6">
-          <%= render "orte/ort_eingabe", ort: @ort, titel: "Standort eintragen" %>
-        </div>
-        
       </div>
+      
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Verkehrsmittel</h3>
+        </div>    
+        <div class="panel-body"> 
+          <p>Bitte vor dem weiteren Ausfüllen angeben!</p>
+          <div class="form-group">
+            <% if @beobachtung.verkehrstraeger == nil %>
+              <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, "unbekannt"), {}, class: "form-control" %>
+            <% else %>
+              <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, @beobachtung.verkehrstraeger), {}, class: "form-control" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
     
-    </div>   
+    
+    <div class="col-sm-6">
+      <%= render "orte/ort_eingabe", ort: @ort, titel: "Standort eintragen" %>
+    </div>
+
   </div>
        
   <div class="panel panel-default" id="mapedit" >
@@ -137,21 +145,7 @@
     </div>   
   </div>
   
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">Verkehrsmittel</h3>
-    </div>    
-    <div class="panel-body"> 
-      <p>Bitte vor dem weiteren Ausfüllen angeben!</p>
-      <div class="form-group">
-        <% if @beobachtung.verkehrstraeger == nil %>
-          <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, "unbekannt"), {}, class: "form-control" %>
-        <% else %>
-          <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, @beobachtung.verkehrstraeger), {}, class: "form-control" %>
-        <% end %>
-      </div>
-    </div>
-  </div>
+ 
   
   
   <div class="panel panel-default" >

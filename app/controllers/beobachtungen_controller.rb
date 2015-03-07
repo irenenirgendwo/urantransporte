@@ -1,8 +1,10 @@
 # encoding: utf-8
 class BeobachtungenController < ApplicationController
-  before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :load_foto, :update_foto, :abschnitt_zuordnen, :set_toleranz_tage]
-  before_action :editor_user, only: [:edit, :update, :destroy, :index]
-  before_action :set_schiffe, only: [:edit, :new, :update, :create]
+  before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :load_foto, :update_foto, :abschnitt_zuordnen, :set_toleranz_tage, :save_ort]
+  before_action :editor_user, only: [:edit, :update, :destroy, :index, :save_ort]
+  before_action :set_schiffe, only: [:edit, :new, :update, :create, :save_ort]
+  
+  include OrteAuswahl
   
   # Zeigt alle noch nicht zu Transportabschnitten zugeordneten Beobachtungen an. (zugeordnet="n"
   # Es ist auch möglich, alle Beobachtungen anzeigen zu lassen (zugeordnet="a").
@@ -46,10 +48,8 @@ class BeobachtungenController < ApplicationController
   # POST /beobachtungen.json
   def create
     File.open("log/beobachtung.log","w"){|f| f.puts "create beobachtung"}
-    @ort = Ort.create_by_koordinates_and_name(params[:ort], params[:lat], params[:lon])
-    File.open("log/beobachtung.log","a"){|f| f.puts "Ort: #{@ort.attributes}"}
     @beobachtung = Beobachtung.new(beobachtung_params)
-    @beobachtung.ort = @ort
+
     unless params[:beobachtung][:quelle]
       quelle = 
         if logged_in? 
@@ -77,16 +77,69 @@ class BeobachtungenController < ApplicationController
         @beobachtung.abfahrt_zeit = @beobachtung.abfahrt_zeit.advance(:days => 365.2425*1900)
       end
     end
-
-    respond_to do |format|
-      if @beobachtung.save
-        format.html { redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.'}
-        format.json { render :show, status: :created, location: @beobachtung }
+    
+    if logged_in?
+      eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@beobachtung, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
+    else
+      @ort = Ort.create_by_koordinates_and_name(params[:ort], params[:lat], params[:lon])
+      File.open("log/beobachtung.log","a"){|f| f.puts "Ort: #{@ort.attributes}"}
+      @beobachtung.ort = @ort
+    end
+    
+    # Beobachtung korrekt eingegeben, also speicherbar 
+    
+    # Wenn eingeloggt, evtl. Ortsauswahl treffen
+    if logged_in? 
+      if eindeutig
+        if @beobachtung.save
+          respond_to do |format|
+              format.html do
+                if @beobachtung.foto 
+                  redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.'
+                else logged_in?
+                  redirect_to @beobachtung, notice: 'Beobachtung wurde angelegt.'
+                end 
+              end
+              format.json { render :show, status: :created, location: @anlage }
+          end
+        else 
+          respond_to do |format|
+            format.html { render :new }
+            format.json { render json: @anlage.errors, status: :unprocessable_entity }
+          end
+        end
       else
-        format.html { render :new }
-        format.json { render json: @beobachtung.errors, status: :unprocessable_entity }
+        @beobachtung.ort = Ort.first
+        @beobachtung.save
+        if ort_e.nil?
+          flash[:notice] = 'Kein passender Ort gefunden'
+          # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
+          redirect_to new_ort_path(beobachtung: @beobachtung.id)
+        else
+          redirect_to orte_ortswahl_path(beobachtung: @beobachtung.id, orte: ort_e)
+        end
+      end
+    # Wenn nicht eingeloggt, Foto oder Danke.
+    else 
+      if @beobachtung.save 
+        format.html do
+            if @beobachtung.foto 
+              redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.'
+            else
+              redirect_to danke_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.'
+            end 
+        end
+        format.json { render :show, status: :created, location: @beobachtung }
+      else 
+        respond_to do |format|
+          format.html { render :new }
+          format.json { render json: @anlage.errors, status: :unprocessable_entity }
+        end
       end
     end
+      
+    
+    
   end
 
   # PATCH/PUT /beobachtungen/1
@@ -163,6 +216,22 @@ class BeobachtungenController < ApplicationController
       end
     end
   end 
+  
+  # Ort zu der Anlage speichern und Anlage anzeigen.
+  # Nötig nach Anlage anlegen/updaten mit Ortsauswahl.
+  #
+  def save_ort 
+    if params[:ort]
+      @beobachtung.ort = Ort.find(params[:ort].to_i)
+      if @beobachtung.save
+        redirect_to @beobachtung, notice: 'Beobachtung bearbeitet.' 
+      else
+        redirect_to edit_anlage_path(@beobachtung), "Ort nicht korrekt gespeichert."
+      end
+    else 
+      redirect_to @beobachtung, notice: "Kein Ort übermittelt." 
+    end
+  end
 
   private
   # Use callbacks to share common setup or constraints between actions.

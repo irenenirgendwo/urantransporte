@@ -21,8 +21,8 @@ class AnlagenControllerTest < ActionController::TestCase
   test "should create anlage mit Ortsnamen" do
     # Zweite Anlage an existierendem Ort
     assert_difference('Anlage.count') do
-      post :create, anlage: { ort: "Lingen", beschreibung: "AKW", 
-                            name: "AKW Lingen", plz: "59051" },
+      post :create, anlage: { beschreibung: "AKW", 
+                            name: "AKW Lingen", plz: "59051" }, ortname: "Lingen",
                     redirect_params: anlagen_path
     end
     anlage = Anlage.find_by(name: "AKW Lingen")
@@ -34,7 +34,7 @@ class AnlagenControllerTest < ActionController::TestCase
     
     # Anlage an einem neuen Ort mit eindeutigem Namen
     assert_difference('Anlage.count') do
-      post :create, anlage: { ort: "Brokdorf", beschreibung: "AKW", name: "AKW Brokdorf" }
+      post :create, anlage: { beschreibung: "AKW", name: "AKW Brokdorf" }, ortname: "Brokdorf"
     end
     # TODO: was tun, wenn Brokdorf nicht gefunden wird?
     anlage = Anlage.find_by(name: "AKW Brokdorf")
