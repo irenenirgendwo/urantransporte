@@ -42,7 +42,7 @@ gem 'leaflet-rails', '~> 0.7.4'
 # ???
 
 #Bootstrap fürs Layout
-gem 'bootstrap-sass',                   '~> 3.2.0.0'
+gem 'bootstrap-sass',                   '~> 3.3.1'
 gem 'momentjs-rails',                   '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails',  '~> 3.1.3'
 gem 'will_paginate',                    '~> 3.0.7'
