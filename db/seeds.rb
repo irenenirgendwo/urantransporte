@@ -7,18 +7,12 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-AnlagenKategorie.create(name: "Uranabbau")
-AnlagenKategorie.create(name: "Konversion")
-AnlagenKategorie.create(name: "Urananreicherung")
-AnlagenKategorie.create(name: "Brennelementefertigung")
-AnlagenKategorie.create(name: "AKW")
-AnlagenKategorie.create(name: "Wiederaufarbeitung")
-AnlagenKategorie.create(name: "Atommmülllager")
-AnlagenKategorie.create(name: "Dummy")
-AnlagenKategorie.create(name: "Forschung")
-AnlagenKategorie.create(name: "Sonstige")
-AnlagenKategorie.create(name: "Unbekannt")
+anlagenListe = ["Uranabbau", "Konversion", "Urananreicherung",  "Brennelementefertigung", "AKW", "Wiederaufarbeitung",  "Atommmülllager", "Dummy", "Forschung", "Sonstige", "Unbekannt"]
 
+anlagenListe.each do |text|
+  AnlagenKategorie.find_or_initialize_by(name: text)
+end
 
-Schiff.create(name: "Unbekannt")
-Anlage.create(name: "Unbekannt")
+Firma.find_or_initialize_by(name: "Unbekannt").update_attributes(reederei: true)
+Schiff.find_or_initialize_by(name: "Unbekannt")
+Anlage.find_or_initialize_by(name: "Unbekannt")

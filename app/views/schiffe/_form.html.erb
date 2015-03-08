@@ -8,7 +8,9 @@
         <%= f.text_field :name, class: "form-control" %>
       </div>
       <div class="form-group">
-        <%= f.label :firma, "Reederei"%>
+        <%= f.label :firma do %>
+          Reederei <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title="Reedereien als Transportfirmen anlegen und entsprechende Tätigkeit zuweisen."></span>
+        <% end %>
         <%= collection_select(:schiff, :firma_id, @reedereien, :id, :name, {}, class: "form-control") %>
       </div>
       <div class="form-group">
@@ -19,6 +21,12 @@
         <%= f.label :vesselfinder_url, "Vesselfinder-URL" %><br>
         <%= f.text_field :vesselfinder_url, class: "form-control" %>
       </div>
+      <script type="text/javascript">
+        // javascript, um Erklärungen unter Fragezeichen anzuzeigen
+        $(function () {
+          $('.glyphicon-question-sign').tooltip();
+        });
+      </script>
     </div>
     
     <div class="col-sm-5">
