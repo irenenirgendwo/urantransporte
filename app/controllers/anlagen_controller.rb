@@ -3,12 +3,14 @@ class AnlagenController < ApplicationController
   before_action :set_anlage, only: [:show, :edit, :update, :destroy, :save_ort]
   before_action :editor_user, only: [:new, :edit, :create, :update, :destroy]
   
+  include OrteAuswahl
+  
   # GET /anlagen
   # GET /anlagen.json
   def index
     @anlagen = Anlage.all
     if params[:search]
-      @anlagen = @anlagen.where("name LIKE ? OR beschreibung LIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
+      @anlagen = @anlagen.where("name LIKE ?", "%#{params[:search]}%")
     end
     if params[:kategorie]
       @anlagen = @anlagen.where(:anlagen_kategorie_id => params[:kategorie])
@@ -63,7 +65,7 @@ class AnlagenController < ApplicationController
     
     @redirect_params =  (params[:redirect_params].nil? || params[:redirect_params]=="") ? @anlage : params[:redirect_params] 
     
-    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
+    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@anlage, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
     
     # Wenn der Ort nicht eindeutig war, weiter leiten.
     if eindeutig
@@ -97,7 +99,7 @@ class AnlagenController < ApplicationController
     # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
     # Evtl. in extra Funktion auslagern, war mir für den Moment zu aufwendig.
     File.open("log/ort.log","w"){|f| f.puts "params #{params}" }
-    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "update")
+    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@anlage, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "update")
     
     if eindeutig
       respond_to do |format|
@@ -120,89 +122,6 @@ class AnlagenController < ApplicationController
         redirect_to orte_ortswahl_path(anlage: @anlage.id, orte: ort_e)
       end
     end
-  end
-
-# 
-
-# Grundgerüst der Ortsauswahl bei Mehrfachtreffern - vielleicht funktionsfähig
-  # Testweise eingebunden nur beim Erstellen neuer Anlagen und Update.
-  #
-  # Idee: Alle passenden Orte werden in einem Auswahlfenster angezeigt.
-  # Die passenden Orte werden mittels ort_waehlen (orte_mit_namen bzw. lege_passende_orte_an)
-  # im Ort-Modell gesucht bzw. angelegt.
-  # Dann werden die angelegten Orte zum Aufruf einer ortsauswahl-Funktion aus dem OrteController verwendnet.
-  #
-  # TODO: Wenn kein Ort gefunden wurde, anderes Ortswahlfenster anlegen mit Ort neu suchen koennen,
-  # über Orte-Controller, vermutlich ähnlich.
-  #
-  def evtl_ortswahl_weiterleitung_und_anzeige(ortsname, plz, lat, lon, aktion)
-    # Log-File für Feller finden
-    File.open("log/ort.log","a"){|f| f.puts "ortsname im anlagenKontroller #{ortsname} #{ortsname.nil?} #{ortsname==""}" }
-    File.open("log/ort.log","a"){|f| f.puts "anlage.ort #{@anlage.ort.to_s}" }
-    eindeutig = true
-    
-    # Wenn Koordinaten eingegeben sind, diese beim Ort in der Nähe abspeichern 
-    # (wenn es einen gibt) oder einen neuen Ort mit diesen Koordinaten anlegen.
-    if lat && lon && lat!="" && lon!=""
-      File.open("log/ort.log","a"){|f| f.puts "lat und lon #{lat}, #{lon}" }
-      File.open("log/ort.log","a"){|f| f.puts "@anlage.ort #{@anlage.ort}" }
-      if ortsname == "" || ortsname.nil?
-        # Wenn kein Ortsname angegeben war, den alten verwenden (so vorhanden) und Koordinaten umsetzen
-        # oder wenn kein alter Name da war, einen neuen Ort nach den Koordinaten anlegen.
-        if @anlage.ort.nil?
-          @anlage.ort = Ort.create_by_koordinates(lat,lon) 
-          eindeutig = true
-        else
-          File.open("log/ort.log","a"){|f| f.puts "Ort gefunden #{@anlage.ort.attributes}" }
-          # Ortskoordinaten umsetzen oder besser neuen Ort erzeugen?
-          # ich wär für neuen Ort - führt sonst zu Chaos bei Korrekturen über weite Strecken
-          @anlage.ort.lat = lat 
-          @anlage.ort.lon = lon
-          @anlage.ort.save
-        end
-      else
-        File.open("log/ort.log","a"){|f| f.puts "Es gibt Ortsnamen und Koordinaten" }
-
-        # Wenn Ortsname und Koordinaten gegeben sind, wird nach einem passenden Ort
-        # in der Naehe gesucht und falls dieser existiert, dort die Koordinaten upgedated.
-        # Sonst wird der Ort neu angelegt mit Koordinaten und Namen.
-        temp_ort = Ort.create_by_koordinates_and_name(ortsname, lat, lon)
-        ort_m = nil
-        temp_ort.orte_im_umkreis(10).each do |moegl_ort|
-          if moegl_ort.name == ortsname
-            ort_m = moegl_ort
-          end
-        end
-        if ort_m 
-          ort_m.lat = lat
-          ort_m.lon = lon
-          ort_m.plz = plz unless plz.nil? || plz==""
-          ort_m.save
-          @anlage.ort = ort_m
-          eindeutig = true
-        else
-          temp_ort.save
-          @anlage.ort = temp_ort
-          eindeutig = true
-        end
-      end
-    else
-      File.open("log/ort.log","a"){|f| f.puts "Es keine Koordinaten" }
-      # Sind keine Koordinaten angegeben, nach dem Ortsnamen entsprechende Orte suchen / anlegen
-      # und in ort_e bereit stellen.
-      unless ortsname=="" || ortsname.nil? || (aktion=="update" && ortsname == @anlage.ort.to_s)
-        eindeutig, ort_e = Ort.ort_waehlen(ortsname)
-        File.open("log/anlagen.log","a"){|f| f.puts "ort_e #{ort_e}" }
-        if eindeutig
-          @anlage.ort = ort_e
-        else 
-          # wird nach dem Anlagen speichern gesetzt.
-          @anlage.ort = nil 
-        end
-      end
-    end
-
-    return eindeutig, ort_e
   end
 
 
@@ -249,7 +168,7 @@ class AnlagenController < ApplicationController
     @anlage = Anlage.find(params[:anlage_id])
     respond_to do |format|
       if @synonym.save
-        flash[:success] = "Anlage neu angelegt"
+        flash[:notice] = "Anlage neu angelegt"
         format.html { redirect_to edit_anlage_path(@anlage), notice: 'Synonym was successfully created.' }
         format.json { render :show, status: :created, location: @anlage }
       else
