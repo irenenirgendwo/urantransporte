@@ -21,5 +21,10 @@ test:
   database: db/test.sqlite3
 
 production:
-  <<: *default
-  database: db/production.sqlite3
+  database: db_atomtransporte_prod
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: testdatabase
+  password: <%= ENV['TESTDATABASE_DATABASE_PASSWORD'] %>
+  host: localhost
