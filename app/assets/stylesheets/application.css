@@ -21,3 +21,7 @@
   background-color: grey;
   font-size: 80%;
 }
+
+.modal-backdrop {
+  z-index: -1;
+}
