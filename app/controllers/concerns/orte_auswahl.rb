@@ -85,5 +85,21 @@ module OrteAuswahl
     return eindeutig, ort_e
   end
   
+  # Sorgt dafuer, dass beim Ort updaten nach dem Ort mit neuem Namen gesucht wird,
+  # wenn die Koorinaten nicht geaendert wurden.
+  # Reine Namensaenderungen von orten muessen also ueber die Orte-Aenderungsfunktion passieren.
+  #
+  def update_ort(objekt, alter_ort, new_name, plz, lat, lon, aktion)
+    #File.open("log/ort.log","w"){|f| f.puts "lat old #{alter_ort.lat} lat new #{lat} #{alter_ort.lat.to_s == lat.to_s}" }
+    if alter_ort && alter_ort.lat.to_s == lat.to_s && alter_ort.lon.to_s == lon.to_s
+      #File.open("log/ort.log","a"){|f| f.puts "new: #{new_name} old: #{alter_ort.name}"}
+      unless new_name == alter_ort.name
+        lat = nil 
+        lon = nil 
+        plz = nil
+      end
+    end
+    return evtl_ortswahl_weiterleitung_und_anzeige(objekt, new_name, plz, lat, lon, aktion)
+  end
 
 end

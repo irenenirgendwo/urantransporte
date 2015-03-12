@@ -99,7 +99,8 @@ class AnlagenController < ApplicationController
     # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
     # Evtl. in extra Funktion auslagern, war mir für den Moment zu aufwendig.
     File.open("log/ort.log","w"){|f| f.puts "params #{params}" }
-    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@anlage, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "update")
+    # Wenn Koordinaten zum Ort gleich geblieben und nur Ortsname sich geändert hat
+    eindeutig, ort_e = update_ort(@anlage, @anlage.ort, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "update")
     
     if eindeutig
       respond_to do |format|

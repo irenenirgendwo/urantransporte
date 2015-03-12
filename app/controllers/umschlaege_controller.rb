@@ -75,7 +75,7 @@ class UmschlaegeController < ApplicationController
   # PATCH/PUT /umschlaege/1.json
   def update
     # Orte finden, zuordnen oder falls nötig, neu erstellen.
-    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@umschlag, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
+    eindeutig, ort_e = update_ort(@umschlag, @umschlag.ort, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "update")
     
     @redirection = @umschlag.transport ? @umschlag.transport : @umschlag
     if eindeutig
