@@ -1,3 +1,17 @@
 // Place all the styles related to the Abfragen controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.calendar-title {
+  font-size: 200% !important;
+}
+
+.calendar-form {
+  display: inline-block;
+}
+
+.calendar-button {
+  @extend .h2;
+  background: none;
+  border: none;
+}

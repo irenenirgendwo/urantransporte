@@ -2,39 +2,31 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-          <div class="well controls">
-            <div class="col-sm-4">
-              <%= form_tag({action: :calendar}, multipart: true) do %>
+        <h1 class="panel-title calendar-title text-center">
+          
+          <%= form_tag({action: :calendar}, multipart: true, class: "calendar-form") do %>
+            <% @transporte.each do |trans| %>
+              <%= hidden_field_tag "transport_#{trans.id}", trans.id %>
+            <% end %>
+            <%= hidden_field_tag "year", @year - 1 %> 
+            <%= button_tag(type: 'submit', class: "calendar-button") do %>
+              <small><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <%="#{@year - 1}"%></small>
+            <% end %>
+          <% end %>
 
-                <% @transporte.each do |trans| %>
-                  <%= hidden_field_tag "transport_#{trans.id}", trans.id %>
-                <% end %>
-                
-                <%= hidden_field_tag "year", @year - 1 %> 
-
-                <div class="col-sm-4">
-                  <%= submit_tag "<<" %>
-                </div>
-              <% end %>
-            </div>
-            <div class="col-sm-4">
-              <%= "#{@year}" %>
-            </div>
-            <div class="col-sm-4">
-              <%= form_tag({action: :calendar}, multipart: true) do %>
-
-                <% @transporte.each do |trans| %>
-                  <%= hidden_field_tag "transport_#{trans.id}", trans.id %>
-                <% end %>
-                
-                <%= hidden_field_tag "year", @year + 1 %> 
-
-                <div class="col-sm-4">
-                  <%= submit_tag ">>" %>
-                </div>
-              <% end %>
-            </div>
-          </div>
+          <%= "#{@year}" %>
+      
+          <%= form_tag({action: :calendar}, multipart: true, class: "calendar-form") do %>
+            <% @transporte.each do |trans| %>
+              <%= hidden_field_tag "transport_#{trans.id}", trans.id %>
+            <% end %>
+            <%= hidden_field_tag "year", @year + 1 %> 
+            <%= button_tag(type: 'submit', class: "calendar-button") do %>
+              <small><%="#{@year + 1}"%> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></small>
+            <% end %>
+          <% end %>
+        
+        </h1>
       </div>
       
       <!-- Transporte sollen sich ueber mehrere Tage erstrecken mit durchgehender Linie -->
