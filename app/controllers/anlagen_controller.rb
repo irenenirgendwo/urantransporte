@@ -104,7 +104,7 @@ class AnlagenController < ApplicationController
     if eindeutig
       respond_to do |format|
         if @anlage.update(anlage_params)
-            flash[:notice] = "Anlage aktualisiert."
+            flash[:success] = "Anlage aktualisiert."
             format.html { redirect_to @anlage, notice: "Anlage aktualisiert."}
             format.json { render :show, status: :created, location: @anlage }
         else
