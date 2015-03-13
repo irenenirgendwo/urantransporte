@@ -30,33 +30,30 @@
       </div>
       
       <!-- Transporte sollen sich ueber mehrere Tage erstrecken mit durchgehender Linie -->
-      <div class="panel-body">
-        <div class="row">
-          <div class="col-md-12">
-            <%= calendar @date do |date| %>
-              <% if @transporte_per_day[date] %>
-                <% 1.upto @max_key do |key| %>
-                  <% transport = @transporte_per_day[date][key] %>
-                  <% if transport %>
-                    <% if transport["umschlag"] %>
-                      <div class="calendar_umschlag">
-                      </div>
-                      Umschlag
-                    <% else %>
-                      <div class="calendar_transportabschnitt">
-                      </div>
-                    <% end %>
-                    <p class="small info"> 
-                      <%= link_to transport["transport"].to_short_s, transport["transport"] %>
-                    </p>
-                  <% else %>
-                    <p> . <br /> .
-                    </p>  
-                  <% end %>
+      <div class="panel-body calendar-body">
+        <%= calendar @date do |date| %>
+          <% if @transporte_per_day[date] %>
+            <% 1.upto @max_key do |key| %>
+              <% transport = @transporte_per_day[date][key] %>
+              <% if transport %>
+                <% if transport["umschlag"] %>
+                  <div class="calendar_umschlag">
+                  </div>
+                  Umschlag
+                <% else %>
+                  <div class="calendar_transportabschnitt">
+                  </div>
                 <% end %>
-              <% end %>  
+                <p class="small info"> 
+                  <%= link_to transport["transport"].to_short_s, transport["transport"] %>
+                </p>
+              <% else %>
+                <p> . <br /> .
+                </p>  
+              <% end %>
             <% end %>
-          </div>
-        </div>
+          <% end %>  
+        <% end %>
       </div>
+    
     </div>
