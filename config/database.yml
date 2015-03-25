@@ -21,10 +21,11 @@ test:
   database: db/test.sqlite3
 
 production:
-  database: db_atomtransporte_prod
+  database: uran
   adapter: mysql2
   encoding: utf8
   pool: 5
-  username: testdatabase
-  password: <%= ENV['TESTDATABASE_DATABASE_PASSWORD'] %>
+  username: transport
+  password: pw01
+  #<%= ENV['TESTDATABASE_DATABASE_PASSWORD'] %>
   host: localhost

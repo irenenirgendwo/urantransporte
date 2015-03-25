@@ -14,8 +14,8 @@
 ActiveRecord::Schema.define(version: 20150307181836) do
 
   create_table "anlagen", force: true do |t|
-    t.string   "name",                             null: false
-    t.integer  "ort_id",               limit: 255
+    t.string   "name",                 null: false
+    t.integer  "ort_id"
     t.text     "beschreibung"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -88,8 +88,8 @@ ActiveRecord::Schema.define(version: 20150307181836) do
     t.datetime "updated_at"
     t.string   "name"
     t.string   "plz"
-    t.float    "lat"
-    t.float    "lon"
+    t.float    "lat",        limit: 24
+    t.float    "lon",        limit: 24
   end
 
   create_table "orte_transportabschnitte", force: true do |t|
@@ -104,8 +104,8 @@ ActiveRecord::Schema.define(version: 20150307181836) do
     t.string   "vesselfinder_url"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "current_lat"
-    t.float    "current_lon"
+    t.float    "current_lat",         limit: 24
+    t.float    "current_lon",         limit: 24
     t.string   "bild_url"
     t.string   "bild_urheber"
     t.text     "next_ports"
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 20150307181836) do
     t.datetime "current_eta"
   end
 
-  add_index "schiffe", ["firma_id"], name: "index_schiffe_on_firma_id"
+  add_index "schiffe", ["firma_id"], name: "index_schiffe_on_firma_id", using: :btree
 
   create_table "stoff_synonyms", force: true do |t|
     t.string   "synonym"
@@ -138,18 +138,18 @@ ActiveRecord::Schema.define(version: 20150307181836) do
     t.string   "verkehrstraeger"
     t.datetime "start_datum"
     t.datetime "end_datum"
-    t.integer  "start_ort_id",    limit: 255
-    t.integer  "end_ort_id",      limit: 255
+    t.integer  "start_ort_id"
+    t.integer  "end_ort_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "transporte", force: true do |t|
-    t.date     "datum",                   null: false
-    t.integer  "start_anlage_id",         null: false
-    t.integer  "ziel_anlage_id",          null: false
+    t.date     "datum",                                            null: false
+    t.integer  "start_anlage_id",                                  null: false
+    t.integer  "ziel_anlage_id",                                   null: false
     t.integer  "transportgenehmigung_id"
-    t.decimal  "menge"
+    t.decimal  "menge",                   precision: 10, scale: 0
     t.integer  "anzahl"
     t.string   "un_nummer"
     t.string   "behaelter"
@@ -177,7 +177,7 @@ ActiveRecord::Schema.define(version: 20150307181836) do
   end
 
   create_table "umschlaege", force: true do |t|
-    t.integer  "ort_id",       limit: 255
+    t.integer  "ort_id"
     t.string   "terminal"
     t.datetime "start_datum"
     t.datetime "end_datum"
@@ -197,7 +197,7 @@ ActiveRecord::Schema.define(version: 20150307181836) do
     t.integer  "role",            default: 0
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
   create_table "versandstuecke", force: true do |t|
     t.string   "container_nummer"
