@@ -22,5 +22,8 @@ Ein Ort zum angegeben Namen wurde nicht gefunden. Bitte wähle.
 <%= form_tag({action: :create_from_coordinates}, multipart: true) do %>
   <%= render "ort_eingabe", ort: nil, titel: "Ort von Karte wählen" %>
   <%= hidden_field_tag :redirection, @redirection %>
+  <% if @anlage && @anlage != 0 %>
+    <%= hidden_field_tag :anlage, @anlage %>
+  <% end %>
   <%= submit_tag "Auf der Karte gewählten Ort speichern", class: "btn btn-success" %>
 <% end %>

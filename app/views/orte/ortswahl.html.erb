@@ -2,5 +2,5 @@
 <% @orte.each do |ort_hash| %>
   <%= render "auswahl_ort", ort: ort_hash["ort"], auswahl_link: ort_hash["link"] %> 
 <% end %>
-<!-- Todo-Parameter vom ort-hash uebernehmen -->
-<%= link_to "Neuer Ort", new_ort_path, class:"btn btn-primary" %>
+
+<%= link_to "Neuer Ort", new_ort_path(@neuer_ort_objekt), class:"btn btn-primary" %>

@@ -35,12 +35,16 @@ class OrteController < ApplicationController
         @orte << { "ort" => Ort.find(ort_id.to_i), "link" => auswahl_link }
       end
     end
+    @neuer_ort_objekt = params.permit(:anlage,:umschlag,:transportabschnitt,:beobachtung)
   end
   
   def new
     @name = params[:name]
     @redirection = params[:redirection] unless params[:redirection].nil? or params[:redirection]==""
-    @anlage = params[:anlage].to_i ? params[:anlage].to_i : nil
+    @anlage = params[:anlage] ? params[:anlage].to_i : nil
+    @umschlag = params[:umschlag] ? params[:umschlag].to_i : nil
+    @transportabschnitt = params[:transportabschnitt] ? params[:transportabschnitt].to_i : nil
+    @beobachtung = params[:beobachtung] ? params[:beobachtung].to_i : nil
   end
   
   def edit
@@ -85,14 +89,11 @@ class OrteController < ApplicationController
   #
   def create_from_name
     @ort = Ort.new(:name => params[:name])
-    @anlage = params[:anlage] ? Anlage.find(params[:anlage].to_i) : nil
+    set_anlage_umschlag_beobachtung
     respond_to do |format|
       if @ort.save
-        if @anlage 
-          @anlage.ort = @ort
-          @anlage.save
-        end
-        format.html { redirect_to @ort, notice: 'Ort was successfully created.' }
+        @objekt = save_anlage_umschlag_beobachtung
+        format.html { redirect_to @objekt, notice: 'Ort was successfully created.' }
         format.json { render :show, status: :created, location: @ort }
       else
         format.html { render :ortseingabe }
@@ -107,14 +108,11 @@ class OrteController < ApplicationController
     @ort = Ort.create_by_koordinates(params[:lat],params[:lon])
     @ort.name = params[:ortname] unless params[:ortname] == "" or params[:ortname].nil?
     @ort.name = params[:plz] unless params[:plz] == "" or params[:plz].nil?
-    @anlage = params[:anlage] ? Anlage.find(params[:anlage].to_i) : nil
+    set_anlage_umschlag_beobachtung
     respond_to do |format|
       if @ort.save
-        if @anlage 
-          @anlage.ort = @ort
-          @anlage.save
-        end
-        format.html { redirect_to @ort, notice: 'Ort was successfully created.' }
+        @objekt = save_anlage_umschlag_beobachtung
+        format.html { redirect_to @objekt, notice: 'Ort was successfully created.' }
         format.json { render :show, status: :created, location: @ort }
       else
         format.html { render :ortseingabe }
@@ -140,6 +138,33 @@ class OrteController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def ort_params
       params.require(:ort).permit(:name, :lat, :lon, :beschreibung)
+    end
+    
+    
+    def set_anlage_umschlag_beobachtung
+      @anlage = params[:anlage] ?  Anlage.find(params[:anlage].to_i) : nil
+      @umschlag = params[:umschlag] ? Umschlag.find(params[:umschlag].to_i) : nil
+      @transportabschnitt = params[:transportabschnitt] ? Umschlag.find(params[:transportabschnitt].to_i) : nil
+      @beobachtung = params[:beobachtung] ? Umschlag.find(params[:beobachtung].to_i) : nil
+    
+    end
+    
+    def save_anlage_umschlag_beobachtung
+      if @anlage 
+        @anlage.ort = @ort
+        @anlage.save
+        @anlage
+      elsif @umschlag 
+        @umschlag.ort = @ort
+        @umschlag.save 
+        @umschlag
+      elsif @beobachtung 
+        @beobachtung.ort = @ort
+        @beobachtung.save
+        @beobachtung 
+      else 
+        @ort
+      end
     end
 
   
