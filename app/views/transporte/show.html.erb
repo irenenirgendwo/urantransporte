@@ -1,8 +1,12 @@
-<div class="btn-group header-buttons">
-  <%= link_to 'Bearbeiten', edit_transport_path(@transport) , class: "btn btn-primary" %>
-  <%= link_to 'Löschen', @transport, method: :delete, data: { confirm: 'Willst du den Transport wirklich löschen?' }, class: "btn btn-danger" %></td>
-</div>
-<h1>Atomtransport</h1>
+<h1>
+  Transportdaten
+  <% if is_editor? %>
+    <div class="btn-group header-buttons">
+      <%= link_to 'Bearbeiten', edit_transport_path(@transport) , class: "btn btn-primary" %>
+      <%= link_to 'Löschen', @transport, method: :delete, data: { confirm: 'Willst du den Transport wirklich löschen?' }, class: "btn btn-danger" %></td>
+    </div>
+  <% end %>
+</h1>
 
 <%= render "show_transport_grunddaten", transport: @transport %>
 
@@ -19,18 +23,16 @@
     <% end %>
   <% end %>
 <% end %>
-<p>
-</p>
+<p></p>
+<% if is_editor? %>
   <%= link_to 'Neuer Transportabschnitt', new_transport_transportabschnitt_path(@transport), class: "btn btn-success" %> 
   <%= link_to 'Neuer Umschlag', new_transport_umschlag_path(@transport), class: "btn btn-success" %> 
- 
-  <%= link_to "Ähnliche Transporte zeigen", aehnliche_transporte_transport_path(@transport), class: "btn btn-primary" %> 
- 
-  <%= link_to 'Alle Transporte anzeigen', transporte_path, class: "btn btn-primary" %> 
+  <%= link_to "Ähnliche Transporte zeigen", aehnliche_transporte_transport_path(@transport), class: "btn btn-primary" %>  
+  <%= link_to 'Alle Transporte anzeigen', transporte_path, class: "btn btn-primary" %>
+<% end %>
   
-<h3>Karte </h3>
+<h3>Karte</h3>
 <div id="map" class="panel" style="height:400px;"></div>
 <script type="text/javascript">
   allOrteMap("transporte/<%= @transport.id %>")
 </script>
-
