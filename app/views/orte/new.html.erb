@@ -14,7 +14,7 @@ Ein Ort zum angegeben Namen wurde nicht gefunden. Bitte wähle.
     </div>
   </div>
   <%= hidden_field_tag :redirection, @redirection %>
-  <% if @anlage %>
+  <% if @anlage && @anlage != 0 %>
     <%= hidden_field_tag :anlage, @anlage %>
   <% end %>
 <% end %>
