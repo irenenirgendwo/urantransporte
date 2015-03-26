@@ -10,9 +10,9 @@
 anlagenListe = ["Uranabbau", "Konversion", "Urananreicherung",  "Brennelementefertigung", "AKW", "Wiederaufarbeitung",  "Atommmülllager", "Dummy", "Forschung", "Sonstige", "Unbekannt"]
 
 anlagenListe.each do |text|
-  AnlagenKategorie.find_or_initialize_by(name: text)
+  AnlagenKategorie.find_or_create_by(name: text)
 end
 
-Firma.find_or_initialize_by(name: "Unbekannt").update_attributes(reederei: true)
-Schiff.find_or_initialize_by(name: "Unbekannt")
-Anlage.find_or_initialize_by(name: "Unbekannt")
+Firma.find_or_create_by(name: "Unbekannt").update_attributes(reederei: true)
+Schiff.find_or_create_by(name: "Unbekannt")
+Anlage.find_or_create_by(name: "Unbekannt")
