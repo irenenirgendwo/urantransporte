@@ -27,7 +27,7 @@
               <tbody>
                 <% @transporte.each do |trans| %>
                   <tr>
-                    <td><%= trans.datum %></td>
+                    <td><%= l trans.datum %></td>
                     <td><%= link_to trans.start_anlage, trans.start_anlage %></td>
                     <td><%= link_to trans.ziel_anlage, trans.ziel_anlage %></td>
                     <td><%= link_to trans.stoff, trans.stoff %></td>

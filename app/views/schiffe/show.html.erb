@@ -27,7 +27,7 @@
           <% end %>
           <% if @schiff.current_eta %>
             <dt>Erwartete Ankunfszeit</dt>
-            <dd><%= @schiff.current_eta.strftime("%d.%m.%Y, %H:%M Uhr") %></dd>
+            <dd><%= l @schiff.current_eta %></dd>
           <% end %>
         </dl>      
       </div>
@@ -45,7 +45,7 @@
                 <% if date.past? %>
                   class="active"
                 <% end %>>
-                <td><%= date.strftime("%d.%m.%Y") %></td>
+                <td><%= l date %></td>
                 <td><%= port %></td>
               </tr>
             <% end %>
