@@ -5,7 +5,10 @@ class UsersController < ApplicationController
   before_action :admin_user,     only: [:index]
 
   def index
-    @users = User.paginate(page: params[:page], per_page: 20)
+    # keine schönere Abfrage gefunden...
+    @admins = User.where("role = ?", User.roles[:admin])
+    @editors = User.where("role = ?", User.roles[:editor])
+    @users = User.where("role = ?", User.roles[:subscriber]).paginate(page: params[:page], per_page: 20)
   end
     
   def show

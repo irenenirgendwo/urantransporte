@@ -1,19 +1,12 @@
-<h1>Benutzerverwaltung</h1>
+<h1>BenutzerInnen-Verwaltung</h1>
 
-<table class="table table-striped">
-  
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><span class="glyphicon glyphicon-user"></span> <%= link_to user.name, user %></td>
-        <td><%= user.email %></td>
-        <td><%= user.role %></td>
-        <td><%= link_to "Bearbeiten", edit_user_path(user) %></td>
-        <td><%= link_to "Löschen", user, method: :delete, data: { confirm: 'Willst du den Benutzer wirklich löschen?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-  
-</table>
+<h3>AdministratorInnen</h3>
+<%= render 'tabelle', users: @admins %>
+
+<h3>RedakteurInnen</h3>
+<%= render 'tabelle', users: @editors %>
+
+<h3>BenutzerInnen</h3>
+<%= render 'tabelle', users: @users %>
 
 <%= will_paginate %>
