@@ -48,7 +48,8 @@ class StoffeController < ApplicationController
   def update
     respond_to do |format|
       if @stoff.update(stoff_params)
-        format.html { redirect_to @stoff, notice: 'Stoff was successfully updated.' }
+        flash[:success] = 'Stoff wurde erfolgreich aktualisiert.'
+        format.html { redirect_to @stoff }
         format.json { render :show, status: :ok, location: @stoff }
       else
         format.html { render :edit }
