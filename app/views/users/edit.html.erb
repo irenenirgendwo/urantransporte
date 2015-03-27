@@ -36,3 +36,6 @@
   
   <%= f.submit "Änderungen speichern", class: "btn btn-primary" %>
 <% end %>
+
+<h3>Benutzerkonto löschen</h3>
+<%= link_to 'Löschen', @user, method: :delete, data: { confirm: 'Willst du das Benutzerkonto wirklich löschen?' }, class: "btn btn-danger" %></td>

@@ -1,8 +1,8 @@
 # encoding: utf-8
 class UsersController < ApplicationController
   before_action :logged_in_user, only: [:edit, :update]
-  before_action :correct_user,   only: [:edit, :update]
-  before_action :admin_user,     only: [:index, :destroy]
+  before_action :correct_user,   only: [:edit, :update, :destroy]
+  before_action :admin_user,     only: [:index]
 
   def index
     @users = User.paginate(page: params[:page], per_page: 20)
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   def destroy
     user = User.find(params[:id])
     user.destroy
-    flash[:notice] = "Benutzer gelöscht"
+    flash[:success] = "Benutzer gelöscht"
     redirect_to users_url
   end
   
