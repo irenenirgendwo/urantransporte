@@ -38,19 +38,31 @@ class UsersController < ApplicationController
   end
   
   def update
-    if @user.update_attributes(user_params)
-      flash[:success] = "Einstellungen gespeichert."
-      redirect_to @user
+    if is_admin?
+      if @user.update_attributes(user_params_admin)
+        flash[:success] = "Einstellungen gespeichert."
+        redirect_to @user
+      else
+        render 'edit'
+      end
     else
-      render 'edit'
+      if @user.update_attributes(user_params)
+        flash[:success] = "Einstellungen gespeichert."
+        redirect_to @user
+      else
+        render 'edit'
+      end
     end
   end
   
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+    
+    def user_params_admin
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :role)
     end
 
 end

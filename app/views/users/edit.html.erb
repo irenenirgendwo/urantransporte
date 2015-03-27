@@ -27,5 +27,12 @@
     <%= f.password_field :password_confirmation, class: 'form-control' %>
   </div>
   
+  <% if is_admin? %>
+    <div class="form-group">
+      <%= f.label :role, "Rolle" %>
+      <%= f.select :role, User.roles.keys.map {|role| [role.titleize,role]}, {}, class: 'form-control' %>
+    </div>
+  <% end %>
+  
   <%= f.submit "Änderungen speichern", class: "btn btn-primary" %>
 <% end %>
