@@ -1,8 +1,9 @@
-<div class="btn-group header-buttons">
-  <%= link_to 'Neuer Ort', new_ort_path, class: "btn btn-success" %>
-</div>
-
-<h1>Orte</h1>
+<h1>
+  Orte
+  <div class="btn-group header-buttons">
+    <%= link_to 'Neuer Ort', new_ort_path, class: "btn btn-success" %>
+  </div>
+</h1>
 
 <div class="row">
 
@@ -17,6 +18,8 @@
           <div class="form-group">
             <%= label_tag :name, "Name" %>
             <%= text_field_tag :name, "", class: "form-control" %>
+          </div>
+          <div class="form-group">
             <%= label_tag :plz, "PLZ" %>
             <%= text_field_tag :plz, "", class: "form-control" %>
           </div>

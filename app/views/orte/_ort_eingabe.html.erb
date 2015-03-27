@@ -9,6 +9,8 @@
           <div class="form-group">
             <%= label_tag :name, "Ortsname" %>
             <%= text_field_tag :ortname, (ort && ort.name ? ort.name : ""), class: "form-control" %>
+          </div>
+          <div class="form-group">
             <%= label_tag :plz, "PLZ" %>
             <%= text_field_tag :plz, (ort && ort.plz ? ort.plz : ""), class: "form-control" %>
           </div>

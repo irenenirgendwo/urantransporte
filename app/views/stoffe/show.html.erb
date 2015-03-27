@@ -1,10 +1,12 @@
-<div class="btn-group header-buttons">
+<h1>
+  <%= @stoff.bezeichnung %>
+  <% if is_editor? %>
+    <div class="btn-group header-buttons">
       <%= link_to 'Bearbeiten', edit_stoff_path(@stoff), class: "btn btn-primary" %>
       <%= link_to 'Löschen', @stoff, method: :delete, data: { confirm: 'Willst du den Stoff wirklich löschen?' }, class: "btn btn-danger" %></td>
-</div>
-<h1><%= @stoff.bezeichnung %></h1>
-
-<p id="notice"><%= notice %></p>
+    </div>
+  <% end %>
+</h1>
 
 <%= render "gefahr_tafel", gefahr_nummer: @stoff.gefahr_nummer, un_nummer: @stoff.un_nummer %>
 
