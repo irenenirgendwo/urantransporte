@@ -21,8 +21,10 @@
           <td><%= link_to transport.ziel_anlage, transport.ziel_anlage %></td>
           <td><%= link_to transport.stoff, transport.stoff %></td>
           <td><%= link_to 'Show', transport %></td>
-          <td><%= link_to 'Bearbeiten', edit_transport_path(transport) %></td>
-          <td><%= link_to 'Löschen', transport, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% if is_editor? %>
+            <td><%= link_to 'Bearbeiten', edit_transport_path(transport) %></td>
+            <td><%= link_to 'Löschen', transport, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>

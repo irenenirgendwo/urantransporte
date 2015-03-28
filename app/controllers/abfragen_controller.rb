@@ -179,7 +179,7 @@ class AbfragenController < ApplicationController
         @transporte = umkreis_transporte
       end
 
-      @zeitraum = "Vom #{start_datum} bis zum #{end_datum}"
+      @zeitraum = "Vom #{l start_datum} bis zum #{l end_datum}"
       @stoffe = stoffe.map { |stoff_id| Stoff.find(stoff_id).bezeichnung }.join(",") unless stoffe.empty?
       @start_anlagen = start_anlagen.map { |id| Anlage.find(id).name }.join(",") unless start_anlagen.empty?
       @ziel_anlagen = start_anlagen.map { |id| Anlage.find(id).name }.join(",") unless ziel_anlagen.empty?
