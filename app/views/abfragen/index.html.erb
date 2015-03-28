@@ -1,31 +1,39 @@
 <h1>Transport-Abfragen</h1>
-
 <%= form_tag({action: :show}, multipart: true) do %>
-
   <div class="row">
+  
     <div class="col-sm-4">
       <%= render "zeit_auswahl_panel" %>
-      <%= render "auswahl_panel", typ: "Verkehrsträger", auswahl: VERKEHRSTRAEGER_COMBOBOX %>
     </div>
+    
     <div class="col-sm-4">
       <%= render "ort_auswahl_panel" %>
-      <%= render "auswahl_panel", typ: "Stoff", auswahl: @stoff_auswahl %>
     </div>
+    
     <div class="col-sm-4">
-       <%= submit_tag "Passende Transporte anzeigen", class: "btn btn-primary" %>
+      <%= render "auswahl_panel", typ: "Verkehrsträger", auswahl: VERKEHRSTRAEGER_COMBOBOX %>
     </div>
-  </div>
-  
-  <%= render "anlagen_auswahl_panel", typ_kategorie: "start_kategorie",
+     
+    <div class="col-sm-4">
+      <%= render "anlagen_auswahl_panel", typ_kategorie: "start_kategorie",
                                       typ: "Start", 
                                       anlagen_auswahl: @start_anlagen,
                                       anlagen_kategorien: @anlagen_kategorien %>
-  
-  <%= render "anlagen_auswahl_panel", typ_kategorie: "ziel_kategorie", 
+    </div>
+    
+    <div class="col-sm-4">
+      <%= render "anlagen_auswahl_panel", typ_kategorie: "ziel_kategorie", 
                                       typ: "Ziel", 
                                       anlagen_auswahl: @ziel_anlagen,
                                       anlagen_kategorien: @anlagen_kategorien %>
-                                      
+    </div>
+    
+    <div class="col-sm-4">
+      <%= render "auswahl_panel", typ: "Stoff", auswahl: @stoff_auswahl %>
+    </div>
+    
+  </div>
 
+  <%= submit_tag "Passende Transporte anzeigen", class: "btn btn-primary" %>
   
 <% end %>
