@@ -215,6 +215,9 @@ de:
       last_word_connector: " und "
       two_words_connector: " und "
       words_connector: ", "
+  will_paginate:
+    previous_label: "Zurück"
+    next_label: "Vor"
   time:
     am: vormittags
     formats:
