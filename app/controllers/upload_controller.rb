@@ -99,7 +99,7 @@ class UploadController < ApplicationController
       @synonym_liste << synonym if synonym.anlage.nil?
     end
     @all_werte = Anlage.get_anlagen_for_selection_field
-    @anlage = Anlage.new
+    @anlage = Anlage.new( anlagen_kategorie: AnlagenKategorie.find_by( name: "Unbekannt" ) )
     @redirect_params = upload_anlagen_zuordnung_path
     if @synonym_liste.empty?
       redirect_to upload_stoffe_zuordnung_path #upload_read_transporte_path

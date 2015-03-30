@@ -4,181 +4,170 @@
   <div class="panel-heading">
     <h2 class="panel-title"> Scnritt 4: Transporte einlesen</h2>
   </div>
+  <div class="panel-body">
+    <%= form_tag({action: :save_transporte}, multipart: true, class: "form-horizontal") do %>
+      <h3>Spaltenzuordnung</h3>
+      <p>Im Folgenden muss zugeordnet werden, welche Angaben sich in welcher Spalte befinden.</p>
+      
+      <h4>Unbedingt erforderliche Grundeingaben</h4>
+      <fieldset disabled>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Start-Anlage</label>
+        <div class="col-sm-10">
+          <select id="disabledSelect" class="form-control">
+            <option><%= session[:spalte_start] %></option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Ziel-Anlage</label>
+        <div class="col-sm-10">
+          <select id="disabledSelect" class="form-control">
+            <option><%= session[:spalte_ziel] %></option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Stoff</label>
+        <div class="col-sm-10">
+          <select id="disabledSelect" class="form-control">
+            <option><%= session[:spalte_stoff] %></option>
+          </select>
+        </div>
+      </div>
+      </fieldset>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Datum des Transports</label>
+        <div class="col-sm-10">
+          <%= select_tag :datum, options_for_select(@headers), class: "form-control"  %>
+        </div>
+      </div>
+
+      <h4>Angaben zur transportierten Menge </h4>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Masse</label>
+        <div class="col-sm-10">
+          <%= select_tag :menge, options_for_select(@headers_with_nil), class: "form-control"  %>
+          <p>Umrechnungsfaktor um zu Tonnen zu kommen: <%= text_field_tag :menge_umrechnungsfaktor, "1" %></p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Anzahl</label>
+        <div class="col-sm-10">
+          <%= select_tag :anzahl, options_for_select(@headers_with_nil), class: "form-control"  %> 
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Behältertyp</label>
+        <div class="col-sm-10">
+          <%= select_tag :behaelter, options_for_select(@headers_with_nil), class: "form-control"  %> 
+        </div>
+      </div>
+      
+      <h4>Transportgenehmigung</h4>
+      <!-- TODO: Einklappbar, falls keine Genehmigungen vorhanden -->
+      <p> 
+      Zur Kenntnis: Die Sachen hier werden noch nicht eingelesen, da fehlt mir noch die richtige Idee für die Verknüpfung
+        mit der Genehmigungstabelle.
+      </p>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Genehmigungsnummer</label>
+        <div class="col-sm-10">
+          <%= select_tag :lfd_nr, options_for_select(@headers_with_nil), class: "form-control"  %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Genehmigungsinhaber*in / Antragssteller*in</label>
+        <div class="col-sm-10">
+          <%= select_tag :antragssteller, options_for_select(@headers_with_nil), class: "form-control"  %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Antragsdatum</label>
+        <div class="col-sm-10">
+          <%= select_tag :antragsdatum, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Maximale Anzahl</label>
+        <div class="col-sm-10">
+          <%= select_tag :max_anzahl, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Genehmigung für Schienentransporte?</label>
+        <div class="col-sm-10">
+          <%= select_tag :schiene, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Genehmigung für Straßentransporte?</label>
+        <div class="col-sm-10">
+          <%= select_tag :strasse, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Genehmigung für Seetransporte?</label>
+        <div class="col-sm-10">
+          <%= select_tag :see, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Genehmigung für Lufttransporte?</label>
+        <div class="col-sm-10">
+          <%= select_tag :luft, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Genehmigung für den Umschlag?</label>
+        <div class="col-sm-10">
+          <%= select_tag :umschlag, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Erstellungsdatum</label>
+        <div class="col-sm-10">
+          <%= select_tag :erstellungsdatum, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Gültigkeit</label>
+        <div class="col-sm-10">
+          <%= select_tag :gueltigkeit, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      
+      <h4>Weitere Daten zu Transportabschnitten </h4>
+      <p>Zu jedem der hier angegeben Daten wird ein entsprechender Transportabschnitt angelegt, da davon ausgegangen wird, das ein Transportabschnitt nur von einer Firma durchgeführt wird.</p>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Transportunternehmen</label>
+        <div class="col-sm-10">
+          <%= select_tag :firmen, options_for_select(@headers_with_nil), class: "form-control" %>
+          <p>Mehrere Transportunternehmen werden mit dem Trennzeichen <%= text_field_tag :firma_trennzeichen, "," %> getrennt.</p>
+        </div>
+      </div>
+        
+      <h4>Daten zu Umschlagorten</h4>
+      <p>Zu jedem der hier angegeben Daten wird ein entsprechender Umschlag angelegt. Hier muss noch weiter gemacht werden.</p>
+      </p>
   
-  <div class="panel-body">
-
-  <p>
-    Im Folgenden muss zugeordnet werden, welche Angaben sich in welcher Spalte befinden.
-  </p>
-
-<%= form_tag({action: :save_transporte}, multipart: true) do %>
-
-  <div class="panel-heading">
-    <h3 class="panel-title">Unbedingt erforderliche Grundeingaben</h3>
-  </div>
-  <div class="panel-body">
-    <div class="form-group">
-      Die Angabe zur <strong>Start-Anlage</strong> befindet sich in der Spalte mit dem Namen 
-      <%= session[:spalte_start] %> (Angabe bereits gemacht).
+      <h3>Einstellungen</h3>
+      <div class="form-group">
+        <div class="col-sm-12">
+          <p>Wie soll mit Transporten verfahren werden, die schon in der Datenbank sind?</p>
+          <%= select_tag :einstellung_vorhandene_transporte, options_for_select(@einstellungen_vorhandene_transporte), class: "form-control"  %>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-12">
+          <p>Die <strong>Quelle</strong> der einzulesenden Tabelle ist (z.B. BfS-Genehmigungen, Hamburger Senat etc.)</p>
+          <%= text_field_tag :quelle, "", class: "form-control" %>
+        </div>
+      </div>
+      
     </div>
-
-    <div class="form-group">
-      Die Angabe zur <strong>Ziel-Anlage</strong> befindet sich in der Spalte mit dem Namen 
-      <%= session[:spalte_ziel] %> (Angabe bereits gemacht).
+    <div class="panel-footer">
+      <%= submit_tag "Transporte einlesen!" %>
     </div>
-    
-    <div class="form-group">
-      Die Angabe zum transportierten <strong>Stoff</strong> befindet sich in der Spalte mit dem Namen 
-      <%= session[:spalte_stoff] %> (Angabe bereits gemacht).
-    </div>
- 
-    <div class="form-group">
-      Die Angabe zum <strong>Datum des Transports</strong> befindet sich in der Spalte mit dem Namen
-      <%= select_tag :datum, options_for_select(@headers), class: "form-control"  %>
-    </div>
-  </div>
-  
-  <div class="panel-heading">
-    <h3 class="panel-title">Einstellungen</h3>
-  </div>
-  <div class="panel-body">
-    <div class="form-group">
-      Wie soll mit Transporten verfahren werden, die schon in der Datenbank sind?
-      <%= select_tag :einstellung_vorhandene_transporte, options_for_select(@einstellungen_vorhandene_transporte), class: "form-control"  %>
-    </div>
-
-    <div class="form-group">
-      Die <strong>Quelle</strong> der einzulesenden Tabelle ist (z.B. BfS-Genehmigungen, Hamburger Senat etc.):
-      <%= text_field_tag :quelle %>
-    </div>
-  </div>
-
-
-
-  <div class="panel-heading">
-    <h3 class="panel-title">Angaben zur transportierten Menge </h3>
-  </div>
-  <div class="panel-body">
-
-    <div class="form-group">
-      Die Angabe zum transportierten <strong>Masse</strong> befindet sich in der Spalte mit dem Namen
-      <%= select_tag :menge, options_for_select(@headers_with_nil), class: "form-control"  %> . 
-      Umrechnungsfaktor um zu Tonnen zu kommen: <%= text_field_tag :menge_umrechnungsfaktor, "1" %>
-    </div>
- 
-    <div class="form-group">
-      Die Angabe zur <strong>Anzahl</strong> der transportierten Behälter befindet sich in der Spalte mit dem Namen
-       <%= select_tag :anzahl, options_for_select(@headers_with_nil), class: "form-control"  %> 
-    </div>
-
-    <div class="form-group">
-      Die Angabe zum <strong>Behältertyp</strong> befindet sich in der Spalte mit dem Namen
-      <%= select_tag :behaelter, options_for_select(@headers_with_nil), class: "form-control"  %> 
-    </div>
-  </div>
-
-
-  <div class="panel-heading">
-    <h3 class="panel-title">Zur Genehmigung: </h3>
-  </div>
-
-<!-- TODO: Einklappbar, falls keine Genehmigungen vorhanden -->
-  <div class="panel-body">
-    <p> 
-	  Zur Kenntnis: Die Sachen hier werden noch nicht eingelesen, da fehlt mir noch die richtige Idee für die Verknüpfung
-      mit der Genehmigungstabelle.
-    </p>
-   
-
-    <div class="form-group">
-      Die Angabe zur <strong>Genehmigungsnummer</strong> befindet sich in der Spalte mit dem Namen
-      <%= select_tag :lfd_nr, options_for_select(@headers_with_nil), class: "form-control"  %> 
-    </div>
-
-    <div class="form-group">
-       Die Angabe zum/zur <strong>Genehmigungsinhaber*in / Antragssteller*in</strong>
-       befindet sich in der Spalte mit dem Namen
-       <%= select_tag :antragssteller, options_for_select(@headers_with_nil), class: "form-control"  %> 
-    </div>
-
-    <div class="form-group">
-      <label for="">Antragsdatum</label>
-      <%= select_tag :antragsdatum, options_for_select(@headers_with_nil), class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <label for="">Maximale Anzahl</label>
-      <%= select_tag :max_anzahl, options_for_select(@headers_with_nil), class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <label for="">Genehmigung für Schienentransporte?</label>
-      <%= select_tag :schiene, options_for_select(@headers_with_nil), class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <label for="">Genehmigung für Straßentransporte?</label>
-      <%= select_tag :strasse, options_for_select(@headers_with_nil), class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <label for="">Genehmigung für Seetransporte?</label>
-      <%= select_tag :see, options_for_select(@headers_with_nil), class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <label for="">Genehmigung für Lufttransporte?</label>
-      <%= select_tag :luft, options_for_select(@headers_with_nil), class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <label for="">Genehmigung für den Umschlag?</label>
-      <%= select_tag :umschlag, options_for_select(@headers_with_nil), class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <label for="">Erstellungsdatum</label>
-      <%= select_tag :erstellungsdatum, options_for_select(@headers_with_nil), class: "form-control" %>
-    </div>
-
-    <div class="form-group">
-      <label for="">Gültigkeit</label>
-      <%= select_tag :gueltigkeit, options_for_select(@headers_with_nil), class: "form-control" %>
-    </div>
-
-  </div>
-  
-  <div class="panel-heading">
-    <h3 class="panel-title">Weitere Daten zu Transportabschnitten </h3>
-  </div>
-  <div class="panel-body">
-    <p> 
-      Zu jedem der hier angegeben Daten wird ein entsprechender Transportabschnitt angelegt, da davon ausgegangen wird, das ein Transportabschnitt nur von einer Firma durchgeführt wird,.
-    </p>
-    <div class="form-group">
-      <label for="">Transportunternehmen</label>
-      <%= select_tag :firmen, options_for_select(@headers_with_nil), class: "form-control" %>
-      Mehrere Transportunternehmen werden mit dem Trennzeichen
-      <%= text_field_tag :firma_trennzeichen, "," %> getrennt.
-    </div>
-  </div>
-  <div class="panel-heading">
-    <h3 class="panel-title">Daten zu Umschlagorten</h3>
-  </div>
-  <div class="panel-body">
-    <p> 
-      Zu jedem der hier angegeben Daten wird ein entsprechender Umschlag angelegt.
-
-      Hier muss noch weiter gemacht werden.
-    </p>
-  </div>
-  
-  </div>
-
-  <div class="panel-footer">
-    <%= submit_tag "Transporte einlesen!" %>
-  </div>
-  
-<% end %>
-
+  <% end %>
 </div>
