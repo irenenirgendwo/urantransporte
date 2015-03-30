@@ -72,7 +72,7 @@ class AnlagenController < ApplicationController
       respond_to do |format|
         if @anlage.save
             flash[:success] = "Anlage neu erstellt."
-            format.html { redirect_to @redirect_params, notice: "Anlage neu angelegt."}
+            format.html { redirect_to @redirect_params }
             format.json { render :show, status: :created, location: @anlage }
         else
           format.html { render :new }

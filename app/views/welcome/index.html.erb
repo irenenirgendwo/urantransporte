@@ -1,40 +1,20 @@
-<% if logged_in? %>
-  <div class="center jumbotron jumbotron-image">
-    <div class="container">
-      <h1>Herzlich willkommen bei der Atomtransport-Datenbank</h1>
-    </div>
-  </div>
+<div class="jumbotron jumbotron-image">
   <div class="container">
-    <div class="col-sm-5">
-      <h2>Was möchtest du tun?</h2>
-      <%= render "layouts/side_navigation" %>
-    </div>
-    <div class="col-sm-4">
-      <img  width="600" height="374" alt="14072014_Uranzug4" src="http://umweltfairaendern.de/wp-content/uploads/2014/07/14072014_Uranzug4-300x187.jpg"></img>
-    </div>
+    <h1>Atomtransport gesehen?</h1>
+    <p>Hilf mit, die geheimen Transporte aufzudecken und öffentlich zu machen.</p>
+    <%= link_to "Beobachtung melden!", new_beobachtung_path, class: "btn btn-primary btn-lg" %>
   </div>
+</div>
 
-<% else %>
-
-  <div class="jumbotron jumbotron-image">
-    <div class="container">
-      <h1>Atomtransport gesehen?</h1>
-      <p>Hilf mit, die geheimen Transporte aufzudecken und öffentlich zu machen.</p>
-      <%= link_to "Beobachtung melden!", new_beobachtung_path, class: "btn btn-primary btn-lg" %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <h2>Aktuelle Transporte</h2>
+      <%= render "aktuelle_transporte" %>
+    </div>
+    <div class="col-sm-6">
+      <h2>Transporte vor deiner Haustür?</h2>
+      <input type="text" class="form-control">
     </div>
   </div>
-  
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-6">
-        <h2>Aktuelle Transporte</h2>
-        <%= render "aktuelle_transporte" %>
-      </div>
-      <div class="col-sm-6">
-        <h2>Transporte vor deiner Haustür?</h2>
-        <input type="text" class="form-control">
-      </div>
-    </div>
-  </div>
-  
-<% end %>
+</div>

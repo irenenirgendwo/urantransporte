@@ -2,61 +2,48 @@
   <% if @stoff.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@stoff.errors.count, "error") %> prohibited this stoff from being saved:</h2>
-
       <ul>
-      <% @stoff.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% @stoff.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
-  
-  <div class="panel panel-default">
-      
-        
-        <div class="panel-heading">
-          <h4>Stoff erstellen</h4>
-        </div>
-        
-        <div class="panel-body">
-          <%= hidden_field_tag :redirect_params, @redirect_params %>
-          <% if @stoff.errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(@anlage.errors.count, "error") %> prohibited this anlage from being saved:</h2>
-              <ul>
-              <% @stoff.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-              </ul>
-            </div>
-          <% end %>
-           
-          <div class="form-group">
-            <%= f.label :bezeichnung, "Bezeichung" %>
-            <%= f.text_field :bezeichnung, class: "form-control" %>
-          </div>
-          <div class="row">
-            <div class="form-group col-xs-6">
-              <%= f.label :gefahr_nummer, "Gefahr-Nummer (optional)" %>
-              <%= f.text_field :gefahr_nummer, class: "form-control" %>
-            </div>
-            <div class="form-group col-xs-6">
-              <%= f.label :un_nummer, "UN-Nummer (optional)" %>
-              <%= f.text_field :un_nummer, class: "form-control" %>
-            </div>
-          </div>
-          <div class="form-group">
-            <%= f.label :beschreibung, "Beschreibung (optional)" %>
-            <%= f.text_area :beschreibung, class: "form-control" %>
-          </div>
-        </div>
-    
-        <div class="actions">
-          <%= link_to "Abbrechen", stoffe_path, class: "btn btn-primary" %>
-          <%= f.submit "Stoff erstellen", class: "btn btn-success" %>
-        </div>
-
-  
+ 
+  <%= hidden_field_tag :redirect_params, @redirect_params %>
+  <% if @stoff.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@anlage.errors.count, "error") %> prohibited this anlage from being saved:</h2>
+      <ul>
+        <% @stoff.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
     </div>
+  <% end %>
+     
+  <div class="form-group">
+    <%= f.label :bezeichnung, "Bezeichung" %>
+    <%= f.text_field :bezeichnung, class: "form-control" %>
+  </div>
+  <div class="row">
+    <div class="form-group col-xs-6">
+      <%= f.label :gefahr_nummer, "Gefahr-Nummer (optional)" %>
+      <%= f.text_field :gefahr_nummer, class: "form-control" %>
+    </div>
+    <div class="form-group col-xs-6">
+      <%= f.label :un_nummer, "UN-Nummer (optional)" %>
+      <%= f.text_field :un_nummer, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :beschreibung, "Beschreibung (optional)" %>
+    <%= f.text_area :beschreibung, class: "form-control" %>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit "Stoff erstellen/bearbeiten", class: "btn btn-success" %>
+    <%= link_to "Abbrechen", stoffe_path, class: "btn btn-danger" %>
+  </div>
     
 <% end %>

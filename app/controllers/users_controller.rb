@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     if @user.save
       log_in @user
       flash[:success] = "Willkommen bei der Atomtransporte-Datenbank!"
-      redirect_to @user
+      redirect_to root_url
     else
       render 'new'
     end
