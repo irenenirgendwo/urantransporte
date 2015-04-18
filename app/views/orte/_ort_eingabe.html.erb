@@ -14,11 +14,13 @@
             <%= label_tag :plz, "PLZ" %>
             <%= text_field_tag :plz, (ort && ort.plz ? ort.plz : ""), class: "form-control" %>
           </div>
+    
           <input type="button" name="btnSuche" value="Suche auf Karte" class="btn btn-primary"
                 onclick="find_ort_in_map()">
           <!--<input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control">-->
           <%= hidden_field_tag :lat, (ort ? ort.lat : nil) %>
           <%= hidden_field_tag :lon, (ort ? ort.lon : nil) %>
+          <%= hidden_field_tag :titel, titel %>
         </div>
         
         <div id="map" style="height: 300px;"></div>

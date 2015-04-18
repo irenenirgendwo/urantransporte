@@ -16,9 +16,7 @@
             <h4>Transportdaten</h4>
             <%= render "transporte/show_transport_grunddaten", transport: @beobachtung.transportabschnitt.transport %>
           <% end %>
-          <div class="btn-group header-buttons">
-              <%= link_to 'Transportabschnitt anzeigen', @beobachtung.transportabschnitt, class: "btn btn-primary" %>
-          </div>
+          
           <h4>Transportabschnitt</h4>
           <%= render "transportabschnitte/show_abschnitt", :abschnitt => @beobachtung.transportabschnitt  %>
 

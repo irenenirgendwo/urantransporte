@@ -1,10 +1,12 @@
 # encoding: utf-8
 class Ort < ActiveRecord::Base
+
   has_and_belongs_to_many :transportabschnitte
   has_many :anlagen, :dependent => :restrict_with_error
   has_many :start_transportabschnitte, :foreign_key => 'start_ort_id', :class_name => "Transportabschnitt", :dependent => :restrict_with_error
   has_many :ziel_transportabschnitte, :foreign_key => 'end_ort_id', :class_name => "Transportabschnitt", :dependent => :restrict_with_error
-  has_many :umschlaege
+  has_many :umschlaege, :dependent => :restrict_with_error
+  has_many :beobachtungen, :dependent => :restrict_with_error
   acts_as_mappable :default_units => :kms,
                    :default_formula => :sphere,
                    :lat_column_name => :lat,

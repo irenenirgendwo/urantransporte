@@ -136,6 +136,8 @@ class OrteController < ApplicationController
     File.open("log/ort.log","w"){|f| f.puts "search in map aufgerufne"}
     File.open("log/ort.log","a"){|f| f.puts params}
     @ort = Ort.find_or_create_ort(params["ortname"])
+    @titel = params["titel"]
+    File.open("log/ort.log","a"){|f| f.puts @ort.attributes}
     respond_to do |format|
       format.js 
     end 
