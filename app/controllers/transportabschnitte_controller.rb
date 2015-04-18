@@ -1,23 +1,8 @@
 # encoding: utf-8
 class TransportabschnitteController < ApplicationController
-  before_action :set_transportabschnitt, only: [:show, :edit, :update, :destroy]
+  before_action :set_transportabschnitt, only: [:edit, :update, :destroy]
   before_action :editor_user, only: [:new, :edit, :create, :update, :destroy]
   
-  # GET /transportabschnitte
-  # GET /transportabschnitte.json
-  def index
-    @transport = Transport.find(params["transport_id"].to_i) if params["transport_id"]
-    @transportabschnitte = @transport.nil? ? Transportabschnitt.all : @transport.transportabschnitte
-  end
-
-  # GET /transportabschnitte/1
-  # GET /transportabschnitte/1.json
-  def show
-    if params[:durch_ort]
-      neuort = Ort.find_or_create_ort(params[:durch_ort])
-      @transportabschnitt.orte << neuort
-    end
-  end
 
   # GET /transportabschnitte/new
   def new
