@@ -35,6 +35,8 @@ class AnlagenController < ApplicationController
   # GET /anlagen/new
   def new
     @anlage = Anlage.new
+    kategorie = AnlagenKategorie.find_by(name: "Unbekannt")
+    @kategorie_options = kategorie.nil? ? {} : {:selected => kategorie.id}
     @synonym = params[:synonym]
     @redirect_params = params[:redirect_params]
   end
@@ -193,6 +195,7 @@ class AnlagenController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_anlage
       @anlage = Anlage.find(params[:id])
+      @kategorie_options = {}
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

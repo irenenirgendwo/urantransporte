@@ -32,7 +32,7 @@
           
           <div class="form-group">
             <%= f.label :anlagen_kategorie, "Anlagenkategorie" %><br>
-            <%= collection_select(:anlage, :anlagen_kategorie_id, AnlagenKategorie.all, :id, :name, {}, class: "form-control") %>
+            <%= collection_select(:anlage, :anlagen_kategorie_id, AnlagenKategorie.all, :id, :name, @kategorie_options, class: "form-control") %>
           </div>
         </div>
       </div>

@@ -48,9 +48,19 @@ class Ort < ActiveRecord::Base
   def self.find_or_create_ort(ortsname)
     newort = Ort.find_by(:name => ortsname)
     if newort == nil
-      a = Geokit::Geocoders::GoogleGeocoder.geocode ortsname
-      a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
-      newort = Ort.create(:name => ortsname, :lat => a.lat, :lon => a.lng, :plz => a.zip)
+      begin
+        a = Geokit::Geocoders::GoogleGeocoder.geocode ortsname
+        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
+        lat = a.lat 
+        lon = a.lng
+        zip = a.zip
+      # Fehlerbehandlung falls Ort nicht gefunden
+      rescue
+        lat = nil
+        lon = nil
+        zip = nil
+      end
+      newort = Ort.create(:name => ortsname, :lat => lat, :lon => lon, :plz => zip)
     end
     newort
   end 
@@ -99,14 +109,18 @@ class Ort < ActiveRecord::Base
   #
   def self.lege_passende_orte_an ort
     angelegte_orte = []
-    orte =  Geokit::Geocoders::GoogleGeocoder.geocode ort
-    orte.all.each do |o|
-      o =  Geokit::Geocoders::GoogleGeocoder.geocode o.ll
-      unless o.city.nil? && o.zip.nil? && o.lat.nil? && o.lng.nil?
-        o = Ort.create(:name => o.city, :plz => o.zip, :lat => o.lat, :lon => o.lng)
-        angelegte_orte << o
-        File.open("log/ort.log","a"){|f| f.puts "Ort angelegt: #{o.attributes}" }
+    begin
+      orte =  Geokit::Geocoders::GoogleGeocoder.geocode ort
+      orte.all.each do |o|
+        o =  Geokit::Geocoders::GoogleGeocoder.geocode o.ll
+        unless o.city.nil? && o.zip.nil? && o.lat.nil? && o.lng.nil?
+          o = Ort.create(:name => o.city, :plz => o.zip, :lat => o.lat, :lon => o.lng)
+          angelegte_orte << o
+          File.open("log/ort.log","a"){|f| f.puts "Ort angelegt: #{o.attributes}" }
+        end
       end
+    rescue
+      # Wenn ein Fehler auftritt (beim Geocoder durchaus moeglich) einfach nur die bis dahin erzeugte Liste zurueck geben
     end
     angelegte_orte
   end
@@ -132,9 +146,14 @@ class Ort < ActiveRecord::Base
     #File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates" }
     ort = Ort.find_by(lat: lat, lon: lon)
     if ort.nil?
-      File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates" }
-      o = Geokit::Geocoders::GoogleGeocoder.geocode "#{lat},#{lon}"
-      ort = create(:name => o.city, :lat => lat, :lon => lon, :plz => o.zip)
+      begin
+        File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates" }
+        o = Geokit::Geocoders::GoogleGeocoder.geocode "#{lat},#{lon}"
+        ort = create(:name => o.city, :lat => lat, :lon => lon, :plz => o.zip)
+      rescue 
+        o = Geokit::Geocoders::GoogleGeocoder.geocode "#{lat},#{lon}"
+        ort = create(:name => o.city, :lat => lat, :lon => lon, :plz => o.zip)
+      end
       #File.open("log/ort.log","a"){|f| f.puts "Erzeugter Ort: #{ort.attributes}" }
     end 
     ort
