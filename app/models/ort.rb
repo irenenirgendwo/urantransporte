@@ -129,24 +129,26 @@ class Ort < ActiveRecord::Base
   end
   
   def self.create_by_koordinates(lat,lon)
-    File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates" }
+    #File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates" }
     ort = Ort.find_by(lat: lat, lon: lon)
     if ort.nil?
       File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates" }
       o = Geokit::Geocoders::GoogleGeocoder.geocode "#{lat},#{lon}"
       ort = create(:name => o.city, :lat => lat, :lon => lon, :plz => o.zip)
-      File.open("log/ort.log","a"){|f| f.puts "Erzeugter Ort: #{ort.attributes}" }
+      #File.open("log/ort.log","a"){|f| f.puts "Erzeugter Ort: #{ort.attributes}" }
     end 
     ort
   end
   
   def self.create_by_koordinates_and_name(name, lat, lon)
+    #File.open("log/ort.log","a"){|f| f.puts "create ort by name #{name} koordinates #{lat},#{lon}" }
     if lat && lon
       ort = Ort.create_by_koordinates(lat,lon)
       ort.update(:name => name) unless name.nil? or name == ""
     else 
       ort = Ort.find_or_create_ort(name)
     end
+    #File.open("log/ort.log","a"){|f| f.puts "Ort #{ort}" }
     ort
   end
   

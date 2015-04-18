@@ -81,7 +81,7 @@ class BeobachtungenController < ApplicationController
     if logged_in?
       eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@beobachtung, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
     else
-      @ort = Ort.create_by_koordinates_and_name(params[:ort], params[:lat], params[:lon])
+      @ort = Ort.create_by_koordinates_and_name(params[:ortname], params[:lat], params[:lon])
       File.open("log/beobachtung.log","a"){|f| f.puts "Ort: #{@ort.attributes}"}
       @beobachtung.ort = @ort
     end
@@ -122,14 +122,16 @@ class BeobachtungenController < ApplicationController
     # Wenn nicht eingeloggt, Foto oder Danke.
     else 
       if @beobachtung.save 
-        format.html do
-            if @beobachtung.foto 
-              redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.'
-            else
-              redirect_to danke_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.'
-            end 
+        respond_to do |format|
+          format.html do
+              if @beobachtung.foto 
+                redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.'
+              else
+                redirect_to danke_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.'
+              end 
+          end       
+          format.json { render :show, status: :created, location: @beobachtung }
         end
-        format.json { render :show, status: :created, location: @beobachtung }
       else 
         respond_to do |format|
           format.html { render :new }
