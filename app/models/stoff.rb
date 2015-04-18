@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Stoff < ActiveRecord::Base
   
-  has_many :stoff_synonyms
+  has_many :stoff_synonyms, :dependent => :destroy
   has_many :transporte
   
   validates :bezeichnung, presence: true, uniqueness: true

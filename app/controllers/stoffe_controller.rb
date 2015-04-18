@@ -34,6 +34,22 @@ class StoffeController < ApplicationController
 
     respond_to do |format|
       if @stoff.save
+       # Name als Synonm speichern
+        synonym = StoffSynonym.find_by(synonym: @stoff.bezeichnung)
+        if synonym.nil?
+          synonym = StoffSynonym.new(synonym: @stoff.bezeichnung) 
+        end
+        synonym.stoff = @stoff if synonym.stoff.nil?
+        synonym.save 
+        File.open("log/anlagen.log","a"){|f| f.puts "syn #{synonym}"}
+        if params[:synonym] && params[:synonym] != @stoff.bezeichnung
+          synonym = StoffSynonym.find_by(synonym: params[:synonym])
+          if synonym 
+            synonym.stoff = @stoff
+            synonym.save 
+          end
+        end
+      
         format.html { redirect_to  @redirect_params, notice: 'Stoff was successfully created.' }
         format.json { render :show, status: :created, location: @stoff }
       else

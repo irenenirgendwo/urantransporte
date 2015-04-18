@@ -57,40 +57,55 @@ class AnlagenController < ApplicationController
     File.open("log/anlagen.log","w"){|f| f.puts @anlage.attributes}
     session[:redirect_params] = nil
     
-    if params[:synonym]
-      synonym = AnlagenSynonym.find_by(synonym: params[:synonym])
-      if synonym 
-        synonym.anlage = @anlage
-        synonym.save 
-      end
-    end
-    
     @redirect_params =  (params[:redirect_params].nil? || params[:redirect_params]=="") ? @anlage : params[:redirect_params] 
     
     eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@anlage, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
     
-    # Wenn der Ort nicht eindeutig war, weiter leiten.
-    if eindeutig
-      respond_to do |format|
-        if @anlage.save
-            flash[:success] = "Anlage neu erstellt."
-            format.html { redirect_to @redirect_params }
-            format.json { render :show, status: :created, location: @anlage }
-        else
-          format.html { render :new }
-          format.json { render json: @anlage.errors, status: :unprocessable_entity }
+    if @anlage.save
+      # Name als Synonm speichern
+      synonym = AnlagenSynonym.find_by(synonym: @anlage.name)
+      if synonym.nil?
+        File.open("log/anlagen.log","a"){|f| f.puts @anlage.name}
+        synonym = AnlagenSynonym.new(synonym: @anlage.name) 
+      end
+      synonym.anlage = @anlage if synonym.anlage.nil?
+      synonym.save 
+      File.open("log/anlagen.log","a"){|f| f.puts "syn #{synonym}"}
+      if params[:synonym] && params[:synonym] != @anlage.name
+        synonym = AnlagenSynonym.find_by(synonym: params[:synonym])
+        if synonym 
+          synonym.anlage = @anlage
+          synonym.save 
         end
       end
+    
+      # Wenn der Ort nicht eindeutig war, weiter leiten.
+      if eindeutig
+        respond_to do |format|
+          flash[:success] = "Anlage neu erstellt."
+          format.html { redirect_to @redirect_params }
+          format.json { render :show, status: :created, location: @anlage }
+        end
+      else 
+        @anlage.save
+        if ort_e.nil?
+          flash[:notice] = 'Kein passender Ort gefunden'
+          # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
+          redirect_to new_ort_path(anlage: @anlage.id)
+        else
+          redirect_to orte_ortswahl_path(anlage: @anlage.id, orte: ort_e)
+        end
+      end
+      
+      
     else 
-      @anlage.save
-      if ort_e.nil?
-        flash[:notice] = 'Kein passender Ort gefunden'
-        # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
-        redirect_to new_ort_path(anlage: @anlage.id)
-      else
-        redirect_to orte_ortswahl_path(anlage: @anlage.id, orte: ort_e)
+      respond_to do |format|
+        format.html { render :new }
+        format.json { render json: @anlage.errors, status: :unprocessable_entity }
       end
     end
+    
+   
     
   end
 
