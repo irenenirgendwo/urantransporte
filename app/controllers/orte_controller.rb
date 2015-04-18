@@ -121,6 +121,8 @@ class OrteController < ApplicationController
     end
   end
   
+  
+  
   def search
     name = params[:name]
     plz = params[:plz]
@@ -129,6 +131,15 @@ class OrteController < ApplicationController
     @orte = @orte.where(plz: plz) unless plz.nil? or plz==""
     render "index"
   end
+  
+  def search_in_map
+    File.open("log/ort.log","w"){|f| f.puts "search in map aufgerufne"}
+    File.open("log/ort.log","a"){|f| f.puts params}
+    @ort = Ort.find_or_create_ort(params["ortname"])
+    respond_to do |format|
+      format.js 
+    end 
+  end 
   
   private 
     def set_ort

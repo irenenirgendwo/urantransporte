@@ -7,7 +7,7 @@
           <!--Muss noch in Javascript implementiert werden die Suche auf der Karte -->
           <!-- Formularschachetlung geht in Rails nämlich leider nicht -->
           <div class="form-group">
-            <%= label_tag :name, "Ortsname" %>
+            <%= label_tag :ortname, "Ortsname" %>
             <%= text_field_tag :ortname, (ort && ort.name ? ort.name : ""), class: "form-control" %>
           </div>
           <div class="form-group">
@@ -15,7 +15,7 @@
             <%= text_field_tag :plz, (ort && ort.plz ? ort.plz : ""), class: "form-control" %>
           </div>
           <input type="button" name="btnSuche" value="Suche auf Karte" class="btn btn-primary"
-                onclick="alert('Klick - noch zu implementieren')">
+                onclick="find_ort_in_map()">
           <!--<input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control">-->
           <%= hidden_field_tag :lat, (ort ? ort.lat : nil) %>
           <%= hidden_field_tag :lon, (ort ? ort.lon : nil) %>
