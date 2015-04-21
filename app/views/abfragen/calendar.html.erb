@@ -37,23 +37,28 @@
               <% transport = @transporte_per_day[date][key] %>
               <% if transport %>
                 <% if transport["umschlag"] %>
-                  <div class="calendar_umschlag">
-                  </div>
-                  Umschlag
+                  <%= link_to transport["transport"] do %>
+                    <div style='background-color: <%= stringToColor transport["transport"].stoff.bezeichnung %>;' class="calendar_umschlag" data-toggle="tooltip" data-placement="top" title="<%= transport["transport"].to_short_s %>">
+                      Umschlag
+                    </div>
+                  <% end %>
                 <% else %>
-                  <div class="calendar_transportabschnitt">
-                  </div>
+                  <%= link_to transport["transport"] do %>
+                    <div style='background-color: <%= stringToColor transport["transport"].stoff.bezeichnung %>;' class="calendar_transportabschnitt" data-toggle="tooltip" data-placement="top" title="<%= transport["transport"].to_short_s %>">
+                    </div>
+                  <% end %>
                 <% end %>
-                <p class="small info"> 
-                  <%= link_to transport["transport"].to_short_s, transport["transport"] %>
-                </p>
-              <% else %>
-                <p> . <br /> .
-                </p>  
               <% end %>
             <% end %>
           <% end %>  
         <% end %>
       </div>
+      
+      <script>
+       // javascript, um Erklärungen unter Fragezeichen anzuzeigen
+            $(function () {
+                $('.calendar_transportabschnitt').tooltip();
+            });
+          </script>
     
     </div>

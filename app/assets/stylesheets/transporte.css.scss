@@ -23,12 +23,10 @@
 }
 
 .calendar_transportabschnitt {
-  background-image: url('transportabschnitt2.png');
-  background-position: left center;
-  background-repeat: repeat-y;
-  background-size: 50px auto;
-  min-height: 25px;
-  padding-left: 25px;
+  height: 19px;
+  width: 19px;
+  background-color: red;
+  margin: 5px;
 }
 
 .calendar_umschlag {
@@ -39,4 +37,8 @@
   height: 25px;
   padding-left: 50px;
   line-height: 50px;
+}
+
+table.calendar td {
+  padding: 0 !important;
 }
