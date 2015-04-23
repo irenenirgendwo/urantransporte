@@ -1,5 +1,5 @@
 <%= render 'firmen/form_modal' %>
-
+<%= render 'orte/form_modal' %>
 
 <%= form_for(@transportabschnitt) do |f| %>
   <div class="btn-group header-buttons", class: "btn btn-primary">
@@ -50,7 +50,9 @@
           <% if anlagen_ort %>
             <span class="input-group-addon" onclick="setup_start_anlagen_wahl('<%= anlagen_ort %>')">Start-Anlage</span>
           <% end %>
+          
         </div>
+        <button class="btn btn-success" data-toggle="modal" data-target="#ortModal-" type="button">Ort eingeben</button>
       </p>
     </div>
   </div>
@@ -76,6 +78,7 @@
             <span class="input-group-addon" onclick="setup_ziel_anlagen_wahl('<%= anlagen_ort %>')">Ziel-Anlage</span>
           <% end %>
         </div>
+        <%= render "orte/ort_eingabe", titel: "Endort", ort: @transportabschnitt.end_ort %>
       </div>
     </div>
   </div>

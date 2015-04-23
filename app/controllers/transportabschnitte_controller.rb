@@ -1,13 +1,13 @@
 # encoding: utf-8
 class TransportabschnitteController < ApplicationController
   before_action :set_transportabschnitt, only: [:edit, :update, :destroy]
+  before_action :init_ort_and_firma, only: [:new, :edit]
   before_action :editor_user, only: [:new, :edit, :create, :update, :destroy]
   
 
   # GET /transportabschnitte/new
   def new
     @transport = Transport.find(params[:transport_id].to_i) if params[:transport_id]
-    @firma = Firma.new
     if params[:beobachtung_id]
       @beobachtung_id = params[:beobachtung_id].to_i if params[:beobachtung_id]
       @beobachtung = Beobachtung.find(@beobachtung_id)
@@ -40,7 +40,6 @@ class TransportabschnitteController < ApplicationController
 
   # GET /transportabschnitte/1/edit
   def edit
-    @firma = Firma.new 
     @redirect_params = edit_transportabschnitt_path(transport_id: @transport.id)
   end
 
@@ -181,5 +180,12 @@ class TransportabschnitteController < ApplicationController
     end
     def orte_params
       params.require(:transportabschnitt).permit(:start_ort, :end_ort, :durch_ort)
+    end
+    
+    def init_ort_and_firma
+      @firma = Firma.new
+      @ort = Ort.new
+      @ort.lat = "52.2152"
+      @ort.lon = "7.0793"
     end
 end

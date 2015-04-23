@@ -5,9 +5,14 @@ function geomap(typ){
       lat_name = 'lat'
       lon_name = 'lon'
     }
-    else {
-      lat_name = typ + '_lat'
-      lon_name = typ + '_lon'
+    else  {
+      if (typ == "ort_direkt"){
+        lat_name = 'ort_lat';
+        lon_name = 'ort_lon';
+      } else {
+        lat_name = typ + '_lat'
+        lon_name = typ + '_lon'
+      }
     }
     
     if(document.getElementById(lat_name).value) {
