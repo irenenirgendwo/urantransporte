@@ -7,6 +7,7 @@ class TransportabschnitteController < ApplicationController
   # GET /transportabschnitte/new
   def new
     @transport = Transport.find(params[:transport_id].to_i) if params[:transport_id]
+    @firma = Firma.new
     if params[:beobachtung_id]
       @beobachtung_id = params[:beobachtung_id].to_i if params[:beobachtung_id]
       @beobachtung = Beobachtung.find(@beobachtung_id)
@@ -34,10 +35,13 @@ class TransportabschnitteController < ApplicationController
       @transportabschnitt.end_datum = umschlag.start_datum
       @transportabschnitt.end_ort = umschlag.ort
     end 
+     @redirect_params = new_transportabschnitt_path(transport_id: @transport.id)
   end
 
   # GET /transportabschnitte/1/edit
   def edit
+    @firma = Firma.new 
+    @redirect_params = edit_transportabschnitt_path(transport_id: @transport.id)
   end
 
   # POST /transportabschnitte

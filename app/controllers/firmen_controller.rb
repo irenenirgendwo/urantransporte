@@ -27,10 +27,11 @@ class FirmenController < ApplicationController
   # POST /firmen.json
   def create
     @firma = Firma.new(firma_params)
+    @redirect_params = params[:redirect_params] ? params[:redirect_params] : (flash[:redirect_params]  ? flash[:redirect_params] : @firma)
 
     respond_to do |format|
       if @firma.save
-        format.html { redirect_to @firma, notice: 'Firma was successfully created.' }
+        format.html { redirect_to @redirect_params, notice: 'Firma erfolgreich angelegt.' }
         format.json { render :show, status: :created, location: @firma }
       else
         format.html { render :new }
@@ -44,7 +45,7 @@ class FirmenController < ApplicationController
   def update
     respond_to do |format|
       if @firma.update(firma_params)
-        format.html { redirect_to @firma, notice: 'Firma was successfully updated.' }
+        format.html { redirect_to @firma, notice: 'Firma gespeichert.' }
         format.json { render :show, status: :ok, location: @firma }
       else
         format.html { render :edit }

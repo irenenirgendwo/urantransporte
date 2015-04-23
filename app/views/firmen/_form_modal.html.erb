@@ -1,0 +1,56 @@
+<%= form_for(@firma) do |f| %>
+
+  <div class="modal fade" id="firmaModal-<%= objekt.id if defined?(objekt) %>" tabindex="-1" role="dialog" aria-labelledby="stoffModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
+          <h4 class="modal-title">Firma erstellen</h4>
+        </div>
+        
+        <div class="modal-body">
+          <%= hidden_field_tag :redirect_params, @redirect_params %>
+          <% if @firma.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@firma.errors.count, "error") %> verhindern, dass diese Firma gespeichert wird:</h2>
+              <ul>
+              <% @stoff.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
+           
+          <div class="form-group">
+            <%= f.label :name, "Name" %>
+            <%=
+              if defined?(objekt)
+                f.text_field :name, class: "form-control", value: objekt.synonym
+              else
+                f.text_field :name, class: "form-control"
+              end
+            %>
+          </div>
+          <div class="form-group">
+            <%= f.label :beschreibung, "Beschreibung" %>
+            <%= f.text_area :beschreibung, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <label>Tätigkeiten</label>
+            <div class="checkbox">
+              <label><%= f.check_box :reederei %> Reederei</label>
+            </div>
+          </div>
+        </div>
+    
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+          <%= f.submit class: "btn btn-success" %>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+  
+<% end %>

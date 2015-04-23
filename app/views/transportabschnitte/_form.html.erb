@@ -1,3 +1,6 @@
+<%= render 'firmen/form_modal' %>
+
+
 <%= form_for(@transportabschnitt) do |f| %>
   <div class="btn-group header-buttons", class: "btn btn-primary">
      <%= f.submit "Abschnitt speichern", class:"btn btn-success" %>
@@ -100,7 +103,7 @@
       <div class="field">
         Transportfirma:
         <%= collection_select(:transportabschnitt, :firma_id, Firma.all, :id, :name) %>
-        <%= link_to "Neue Firma anlegen", new_firma_path %>
+        <button class="btn btn-success" data-toggle="modal" data-target="#firmaModal-" type="button">Neue Firma</button>
       </div>
     </div>
   </div>
