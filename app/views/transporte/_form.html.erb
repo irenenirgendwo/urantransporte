@@ -28,41 +28,46 @@
               <%= f.text_field :datum, class:"form-control" %>
           </div>
         
-        
-        <div class="row">
-          <div class="col-sm-8">
             <div class="form-group">
-              <strong>Start-Anlage auswählen</strong><br \>
-              <%= collection_select(:transport, :start_anlage_id, Anlage.all, :id, :name, class:"form-control") %><br \>
-              <%= link_to "Neue Anlage eingeben", new_anlage_path %>
+              <label>Start-Anlage</label>
+              <div class="row">
+                <div class="col-sm-10">
+                  <%= collection_select(:transport, :start_anlage_id, Anlage.all, :id, :name, {}, class:"form-control") %>
+                </div>
+                <div class="col-sm-2">
+                  <button class="btn btn-success" data-toggle="modal" data-target="#anlagenModal-" type="button">Neue Anlage</button>
+                </div>
+              </div>
             </div>
-            <div class="field">
-              <strong>Ziel-Anlage auswählen</strong><br \>
-              <%= collection_select(:transport, :ziel_anlage_id, Anlage.all, :id, :name, class:"form-control") %>
+            
+            <div class="form-group">
+              <label>Ziel-Anlage</label>
+              <div class="row">
+                <div class="col-sm-10">
+                  <%= collection_select(:transport, :ziel_anlage_id, Anlage.all, :id, :name, {}, class:"form-control") %>
+                </div>
+                <div class="col-sm-2">
+                  <a class="btn btn-success" data-toggle="modal" data-target="#anlagenModal-" type="button">Neue Anlage</a>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="col-xs-2">
-            <button class="btn btn-success" data-toggle="modal" data-target="#anlageModal">Neue Anlage</button>
-          </div>
-        </div>
-        
-        <div class="row">
 
-          <div class="form-group">
-            <div class="col-sm-8">
-              <%= f.label :stoff %><br>
-              <%= collection_select(:transport, :stoff_id, Stoff.all, :id, :bezeichnung) %><br \>
-              <%= link_to "Neuen Stoff eingeben", new_stoff_path %>
+            <div class="form-group">
+              <%= f.label :stoff %>
+              <div class="row">
+                <div class="col-sm-10">
+                  <%= collection_select(:transport, :stoff_id, Stoff.all, :id, :bezeichnung, {}, class: "form-control") %>
+                </div>
+                <div class="col-sm-2">
+                  <button class="btn btn-success" data-toggle="modal" data-target="#stoffModal-" type="button">Neuer Stoff</button>
+                </div>
+              </div>
             </div>
-            <div class="col-sm-4">
-              <button class="btn btn-success" data-toggle="modal" data-target="#stoffModal">Neuer Stoff</button>
-            </div>
-          </div>
           
          
           
           
-        </div>
+
           <div class="form-group">
             <%= f.label :menge %><br>
             <%= f.text_field :menge, class:"form-control" %>
