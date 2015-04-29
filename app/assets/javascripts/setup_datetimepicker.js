@@ -3,6 +3,6 @@ function setup_datetimepicker(name){
     language: 'de'
   });
   $(name).on("dp.change",function (e) {
-    $(name).data("DateTimePicker").setMinDate(e.date);
+    $(name).data("DateTimePicker").setMaxDate(e.date);
   });
 }
