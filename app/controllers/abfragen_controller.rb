@@ -17,6 +17,7 @@ class AbfragenController < ApplicationController
   # zeigt Ergebnisse
   #
   def show
+    #Transporte anhand von Parametern raussuchen
     @transporte = calculate_transporte
     # aktuellstes Transportjahr berechnen
     @year = 1999
@@ -29,8 +30,8 @@ class AbfragenController < ApplicationController
     @logger = File.new("log/abfrage.log","w")
     @year = params["year"] ? params["year"].to_i : 2014
     @date = Date.new(@year,1,1)
-    # erst mal uebergebene Transporte raussuchen
-    @transporte = []
+    #Transporte anhand von Parametern raussuchen
+    @transporte = calculate_transporte
     params.each do |key, value|
       if key =~ /transport/
         trans = Transport.find(value)

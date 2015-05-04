@@ -12,13 +12,19 @@
   </div>
   
   <div class="col-sm-4">
-    <% params %>
     <%= form_tag({action: :calendar}, multipart: true) do %>
-      <% @transporte.each do |trans| %>
-        <%= hidden_field_tag "transport_#{trans.id}", trans.id %>
-      <% end %>  
-      <%= hidden_field_tag "year", @year %> 
-      <%= submit_tag "In Kalenderdarstellung anzeigen", class: "btn btn-primary pull-right" %>
+      <%= hidden_field_tag "year", @year %>
+      <%= hidden_field_tag "start_datum", params["start_datum"] %>
+      <%= hidden_field_tag "end_datum", params["end_datum"] %>
+      <%= hidden_field_tag "stoffe", params["stoffe"] %>
+      <%= hidden_field_tag "verkehrstraeger", params["verkehrstraeger"] %>
+      <%= hidden_field_tag "start_anlagen", params["start_anlagen"] %>
+      <%= hidden_field_tag "ziel_anlagen", params["ziel_anlagen"] %>
+      <%= hidden_field_tag "dort", params["dort"] %>
+      <div class="btn-group pull-right" role="group" aria-label="...">
+        <button type="button" class="btn btn-primary active">Tabelle</button> 
+        <%= submit_tag "Kalender", class: "btn btn-primary" %>
+      </div>
     <% end %>
   </div>
   
