@@ -32,7 +32,7 @@ class OrtTest < ActiveSupport::TestCase
     # Orte nicht vorhanden
     eindeutig, ort_e = Ort.ort_waehlen("Neustadt")
     assert_not eindeutig
-    assert_equal 6, ort_e.size
+    assert 3 < ort_e.size
     eindeutig, ort_e = Ort.ort_waehlen("Kiel")
     assert eindeutig
     assert ort_e.kind_of? Ort

@@ -102,6 +102,20 @@ class OrteController < ApplicationController
     end
   end
   
+  # kommt nur beim Modal-Ding in Transportabschnitten vor
+  #
+  def create 
+    @ort = Ort.create_by_koordinates(params[:lat],params[:lon])
+    @ort.name = params[:ortname] unless params[:ortname] == "" or params[:ortname].nil?
+    @ort.name = params[:plz] unless params[:plz] == "" or params[:plz].nil?
+    @abschnitt_ort_typ = params[:abschnitt_ort_typ]
+    respond_to do |format|
+      if @ort.save 
+        format.js {render "create_abschnitt_ort"}
+      end 
+    end
+  end
+  
   # Erstellt einen Ort mit Koordinaten, sucht den Namen aus der Karte, falls er nicht angegeben wurde.
   #
   def create_from_coordinates
@@ -157,9 +171,9 @@ class OrteController < ApplicationController
     def set_anlage_umschlag_beobachtung
       @anlage = params[:anlage] ?  Anlage.find(params[:anlage].to_i) : nil
       @umschlag = params[:umschlag] ? Umschlag.find(params[:umschlag].to_i) : nil
-      @transportabschnitt = params[:transportabschnitt] ? Umschlag.find(params[:transportabschnitt].to_i) : nil
+      @transportabschnitt = params[:transportabschnitt] ? params[:transportabschnitt] : nil
       @beobachtung = params[:beobachtung] ? Umschlag.find(params[:beobachtung].to_i) : nil
-    
+      @abschnitt_ort_typ = params[:abschnitt_ort_typ] 
     end
     
     def save_anlage_umschlag_beobachtung
@@ -175,6 +189,14 @@ class OrteController < ApplicationController
         @beobachtung.ort = @ort
         @beobachtung.save
         @beobachtung 
+      elsif @transportabschnitt
+        if @abschnitt_ort_typ = "Start"
+          @transportabschnitt.start_ort = @ort
+        else 
+          @transportabschnitt.endt_ort = @ort
+        end
+        @transportabschnitt.save
+        @transportabschnitt 
       else 
         @ort
       end

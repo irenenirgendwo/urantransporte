@@ -1,5 +1,6 @@
 <%= render 'firmen/form_modal' %>
-<%= render 'orte/form_modal' %>
+<%= render 'orte/form_modal', ort_typ: "Start" %>
+<%= render 'orte/form_modal', ort_typ: "Ziel" %>
 
 <%= form_for(@transportabschnitt) do |f| %>
   <div class="btn-group header-buttons", class: "btn btn-primary">
@@ -41,18 +42,19 @@
               <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
         </div>
       </p>
-       <p>
-         
-        <% anlagen_ort = @transport.start_anlage.ort if @transport %>
-        <strong><%= f.label :start_ort, "Anfangsort:" %></strong>
+       <p>   
+        <strong><%= f.label :start_ort, "Anfangsort: " %></strong><%= f.text_field :start_ort, disabled: true %>
         <div class='input-group ort' id='ort-start'>
-          <%= f.text_field  :start_ort, class: "form-control" %>
+          <% anlagen_ort = @transport.start_anlage.ort if @transport %>
           <% if anlagen_ort %>
-            <span class="input-group-addon" onclick="setup_start_anlagen_wahl('<%= anlagen_ort %>')">Start-Anlage</span>
+            <%= hidden_field_tag :start_ort_ident, anlagen_ort.id %>
+            <span class="btn btn-primary" onclick="setup_start_anlagen_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Start-Anlage als Ort wählen</span>
+          <% else %>
+            <%= hidden_field_tag :start_ort_ident %>
           <% end %>
-          
+          <button class="btn btn-primary" data-toggle="modal" data-target="#ortModal-Start" type="button">Ort eingeben</button>
+
         </div>
-        <button class="btn btn-success" data-toggle="modal" data-target="#ortModal-" type="button">Ort eingeben</button>
       </p>
     </div>
   </div>
@@ -70,15 +72,17 @@
         </div>
       </div>
       <div class="form-group">
-        <strong><%= f.label :end_ort, "Endort:" %></strong>
-        <% anlagen_ort = @transport.ziel_anlage.ort if @transport%>
+        <strong><%= f.label :end_ort, "Endort:" %></strong><%= f.text_field :end_ort, disabled: true %>
         <div class='input-group ort' id='ort-ende'>
-          <%= f.text_field :end_ort, class: "form-control" %>
+          <% anlagen_ort = @transport.ziel_anlage.ort if @transport%>
           <% if anlagen_ort %>
-            <span class="input-group-addon" onclick="setup_ziel_anlagen_wahl('<%= anlagen_ort %>')">Ziel-Anlage</span>
+            <span class="btn btn-primary" onclick="setup_ziel_anlagen_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Ziel-Anlage als Ort wählen</span>
+            <%= hidden_field_tag :ziel_ort_ident, anlagen_ort.id %>
+          <% else %>
+            <%= hidden_field_tag :ziel_ort_ident %>
           <% end %>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#ortModal-Ziel" type="button">Ort eingeben</button>
         </div>
-        <%= render "orte/ort_eingabe", titel: "Endort", ort: @transportabschnitt.end_ort %>
       </div>
     </div>
   </div>

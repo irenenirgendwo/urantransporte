@@ -1,0 +1,8 @@
+alert('Hi <%=@abschnitt_ort_typ %>');
+$("#ortModal-Start").hide();
+if (<%=@abschnitt_ort_typ %> == 'Start'){
+  setup_start_anlagen_wahl(<%=@ort.ort_id %>,<%= @ort.name %>);
+  alert('Hi <%=@abschnitt_ort_typ %>');
+} else {
+
+}

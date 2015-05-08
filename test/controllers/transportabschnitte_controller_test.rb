@@ -7,14 +7,8 @@ class TransportabschnitteControllerTest < ActionController::TestCase
     @transport_anderer = transporte(:one)
   end
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:transportabschnitte)
-  end
-
   test "should get new" do
-    get :new
+    get :new, transport_id: 2
     assert_response :success
   end
 
@@ -25,11 +19,6 @@ class TransportabschnitteControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to transportabschnitt_path(assigns(:transportabschnitt))
-  end
-
-  test "should show transportabschnitt" do
-    get :show, id: @transportabschnitt.id
-    assert_response :success
   end
 
   test "should get edit" do
