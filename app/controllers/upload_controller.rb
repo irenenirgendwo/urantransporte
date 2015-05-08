@@ -192,8 +192,10 @@ class UploadController < ApplicationController
     datum_spalten_name = params[:datum]  
     # Weitere optionale Spaltennamen
     anzahl_spalten_name = params[:anzahl] == "Nicht vorhanden" ? nil : params[:anzahl] 
-    menge_spalten_name = params[:menge] == "Nicht vorhanden" ? nil : params[:menge] 
-    menge_umrechnungsfaktor_spalten_name = params[:menge_umrechnungsfaktor]
+    menge_brutto_spalten_name = params[:menge_brutto] == "Nicht vorhanden" ? nil : params[:menge_brutto] 
+    menge_brutto_umrechnungsfaktor_spalten_name = params[:menge_brutto_umrechnungsfaktor]
+    menge_netto_spalten_name = params[:menge_netto] == "Nicht vorhanden" ? nil : params[:menge_netto] 
+    menge_netto_umrechnungsfaktor_spalten_name = params[:menge_netto_umrechnungsfaktor]
     behaelter_spalten_name = params[:behaelter] == "Nicht vorhanden" ? nil : params[:behaelter] 
     firmen_spalten_name = params[:firmen] == "Nicht vorhanden" ? nil : params[:firmen] 
     firma_trennzeichen = params[:firma_trennzeichen] 
@@ -224,8 +226,10 @@ class UploadController < ApplicationController
         
         # Optionale Parameter
         transport_params[:anzahl] = row_as_hash[anzahl_spalten_name] if anzahl_spalten_name
-        transport_params[:menge] = menge_spalten_name.nil? ? nil : row_as_hash[menge_spalten_name].to_f *
-                                   row_as_hash[menge_umrechnungsfaktor_spalten_name].to_f
+        transport_params[:menge_netto] = menge_netto_spalten_name.nil? ? nil : row_as_hash[menge_netto_spalten_name].to_f *
+                                   row_as_hash[menge_netto_umrechnungsfaktor_spalten_name].to_f
+        transport_params[:menge_brutto] = menge_brutto_spalten_name.nil? ? nil : row_as_hash[menge_brutto_spalten_name].to_f *
+                                   row_as_hash[menge_brutto_umrechnungsfaktor_spalten_name].to_f
         transport_params[:behaelter] = row_as_hash[behaelter_spalten_name] if behaelter_spalten_name
         transport_params[:quelle] = quelle
         # Genehmigung erstellen!
