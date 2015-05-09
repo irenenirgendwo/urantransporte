@@ -27,8 +27,7 @@ class TransportabschnitteControllerTest < ActionController::TestCase
   end
 
   test "should update transportabschnitt" do
-    patch :update, id: transportabschnitte(:to_delete), transportabschnitt: { transport_id: 1, start_ort: "Hamburg", 
-                            end_ort: "Schweiz" }
+    patch :update, id: transportabschnitte(:to_delete), transportabschnitt: { transport_id: 1}, start_ort_ident: 1, ziel_ort_ident: 2
     assert_redirected_to Transport.find(1)
   end
 

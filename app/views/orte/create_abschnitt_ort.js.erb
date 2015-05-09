@@ -1,8 +1,10 @@
-alert('Hi <%=@abschnitt_ort_typ %>');
-$("#ortModal-Start").hide();
-if (<%=@abschnitt_ort_typ %> == 'Start'){
-  setup_start_anlagen_wahl(<%=@ort.ort_id %>,<%= @ort.name %>);
-  alert('Hi <%=@abschnitt_ort_typ %>');
+if ('<%=@abschnitt_ort_typ %>' == 'Start'){
+  setup_start_ort_wahl('<%=@ort.id %>','<%= @ort.name %>');
+  alert('Hi <%=@ort.id %>');
+  $("#ortModal-Start").hide();
 } else {
-
+  setup_ziel_ort_wahl('<%=@ort.id %>','<%= @ort.name %>');
+  alert('Hi <%=@ort.id %>');
+  $("#ortModal-Ziel").hide();
 }
+

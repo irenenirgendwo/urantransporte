@@ -48,7 +48,7 @@
           <% anlagen_ort = @transport.start_anlage.ort if @transport %>
           <% if anlagen_ort %>
             <%= hidden_field_tag :start_ort_ident, anlagen_ort.id %>
-            <span class="btn btn-primary" onclick="setup_start_anlagen_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Start-Anlage als Ort wählen</span>
+            <span class="btn btn-primary" onclick="setup_start_ort_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Start-Anlage als Ort wählen</span>
           <% else %>
             <%= hidden_field_tag :start_ort_ident %>
           <% end %>
@@ -76,7 +76,7 @@
         <div class='input-group ort' id='ort-ende'>
           <% anlagen_ort = @transport.ziel_anlage.ort if @transport%>
           <% if anlagen_ort %>
-            <span class="btn btn-primary" onclick="setup_ziel_anlagen_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Ziel-Anlage als Ort wählen</span>
+            <span class="btn btn-primary" onclick="setup_ziel_ort_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Ziel-Anlage als Ort wählen</span>
             <%= hidden_field_tag :ziel_ort_ident, anlagen_ort.id %>
           <% else %>
             <%= hidden_field_tag :ziel_ort_ident %>

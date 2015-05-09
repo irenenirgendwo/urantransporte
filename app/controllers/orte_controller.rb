@@ -85,6 +85,27 @@ class OrteController < ApplicationController
     end
   end 
   
+  # kommt nur beim Modal-Ding in Transportabschnitten vor, erstellt einen Ort aus Parametern
+  # ohne zu suchen, ob er bereits vorhanden ist.
+  #
+  def create 
+    ort_created = true
+    if (ort_params[:name])
+      @ort = Ort.new(ort_params)
+    elsif ort_params[:lat] && ort_params[:lon]
+      @ort = Ort.create_by_koordinates(params[:ort][:lat],params[:ort][:lon])
+    else 
+      ort_created = false
+    end
+    @abschnitt_ort_typ = params[:abschnitt_ort_typ]
+    File.open("log/abschnitt.log","a"){|f| f.puts "params #{params}"}
+    respond_to do |format|
+      if ort_created && @ort.save 
+        format.js {render "create_abschnitt_ort"}
+      end 
+    end
+  end
+  
   # Speichert einen Ort ohne Koordinaten, nur mit Name.
   #
   def create_from_name
@@ -102,19 +123,6 @@ class OrteController < ApplicationController
     end
   end
   
-  # kommt nur beim Modal-Ding in Transportabschnitten vor
-  #
-  def create 
-    @ort = Ort.create_by_koordinates(params[:lat],params[:lon])
-    @ort.name = params[:ortname] unless params[:ortname] == "" or params[:ortname].nil?
-    @ort.name = params[:plz] unless params[:plz] == "" or params[:plz].nil?
-    @abschnitt_ort_typ = params[:abschnitt_ort_typ]
-    respond_to do |format|
-      if @ort.save 
-        format.js {render "create_abschnitt_ort"}
-      end 
-    end
-  end
   
   # Erstellt einen Ort mit Koordinaten, sucht den Namen aus der Karte, falls er nicht angegeben wurde.
   #
