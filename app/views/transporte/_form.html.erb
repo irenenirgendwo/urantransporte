@@ -25,7 +25,18 @@
  
           <div class="form-group">
               <%= f.label :datum %> (Format: TT.MM.JJJJ) <br>
-              <%= f.text_field :datum, class:"form-control" %>
+              <div class='input-group date' id='datetimepicker'>
+                <%= f.text_field :datum, start_year:2010, class: "form-control" %>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+              </div>
+              <script type="text/javascript">
+              //javascript dafeur mehrfach benutzbar, also ausgelagert in setup_datetimepicker.js
+              setup_datetimepicker('#datetimepicker')
+              // javascript, um Erklärungen unter Fragezeichen anzuzeigen
+              $(function () {
+                  $('.glyphicon-question-sign').tooltip();
+              });
+            </script>
           </div>
         
             <div class="form-group">
