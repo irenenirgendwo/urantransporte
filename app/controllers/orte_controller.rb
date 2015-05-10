@@ -8,6 +8,9 @@ class OrteController < ApplicationController
   end
 
   def show
+    @umkreis_orte = @ort.orte_im_umkreis(50)
+    @namens_orte = Ort.orte_mit_namen @ort.name
+    
   end
   
   # Zeigt ein Formular an zur Auswahl von einem aus mehreren Orten 
@@ -206,7 +209,7 @@ class OrteController < ApplicationController
         @beobachtung.save
         @beobachtung 
       elsif @transportabschnitt
-        if @abschnitt_ort_typ = "Start"
+        if @abschnitt_ort_typ == "Start"
           @transportabschnitt.start_ort = @ort
         else 
           @transportabschnitt.endt_ort = @ort

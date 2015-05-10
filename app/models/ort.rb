@@ -43,11 +43,37 @@ class Ort < ActiveRecord::Base
   def objekte_mit_ort_id 
     objekte = []
     objekte.concat(self.umschlaege)
-    objekte.conact(self.beobachtungen)
+    objekte.concat(self.beobachtungen)
     objekte.concat(self.anlagen)
     objekte
   end
   
+  # fuegt einen anderen Ort mit dessen Verknuepfungen diesem hinzu
+  # und loescht den anderen Ort.
+  # TODO: Funktioniert so noch nicht, irgendwie bleiben die alten Referenzen erhalten :(
+  #
+  def add_ort(ort)
+    File.open("log/ort.log","a"){|f| f.puts "Ort #{self.id}" }
+    objektliste = ort.objekte_mit_ort_id
+    objektliste.each do |objekt|
+      objekt.ort = self 
+      objekt.save 
+      File.open("log/ort.log","a"){|f| f.puts "#{objekt} Ort #{objekt.ort.id}" }
+    end
+    File.open("log/ort.log","a"){|f| f.puts "ortsobjekte #{ort.objekte_mit_ort_id}" }
+    #ort.start_transportabschnitte.each do |abschnitt|
+    #  abschnitt.start_ort = self
+    #  abschnitt.save
+    #end 
+    #ort.start_transportabschnitte.each do |abschnitt|
+    #  abschnitt.end_ort = self
+    #  abschnitt.save
+    #end 
+    return ort.destroy
+  end
+  
+  # Gibt alle Orte, die nicht identisch sind (falls der Ort gespeichert ist) im Umrkeis von radius aus.
+  #
   def orte_im_umkreis(radius)
     dort = Geokit::Geocoders::GoogleGeocoder.geocode "#{lat},#{lon}"
     if self.id
