@@ -85,6 +85,14 @@ class OrteController < ApplicationController
     end
   end 
   
+  # loescht ungenutzte Orte aus der Datenbank
+  #
+  def bereinige
+    File.open("log/abschnitt.log","w"){|f| f.puts "params #{params}"}
+    anzahl = Ort.loesche_ungenutzte
+    redirect_to orte_path, notice: "#{anzahl} Orte gelöscht."
+  end
+  
   # kommt nur beim Modal-Ding in Transportabschnitten vor, erstellt einen Ort aus Parametern
   # ohne zu suchen, ob er bereits vorhanden ist.
   #
