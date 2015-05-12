@@ -43,6 +43,11 @@ class AbfragenController < ApplicationController
     @logger.close
   end
   
+  # json für Kalenderdarstellung
+  def fullcalendar
+    @transporte = Transport.all
+  end
+  
   
   private
   

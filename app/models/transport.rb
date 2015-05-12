@@ -21,6 +21,24 @@ class Transport < ActiveRecord::Base
     Transport.where("datum >= ? and datum <= ?", datum.to_date - plus_minus_tage.days, datum.to_date + plus_minus_tage.days)
   end
   
+  def start_datum
+    umschlag = self.umschlaege.order(:start_datum).first
+    if umschlag
+      umschlag.start_datum
+    else
+      self.datum
+    end
+  end
+  
+  def end_datum
+    umschlag = self.umschlaege.order(end_datum: :desc).last.end_datum
+    if umschlag
+      umschlag.end_datum
+    else
+      self.datum
+    end
+  end
+  
   def self.get_transporte_around_options(datum,plus_minus_tage, start, ziel)
     transporte = get_transporte_around(datum,plus_minus_tage)
     transporte = transporte.where(start_anlage: start) if start 

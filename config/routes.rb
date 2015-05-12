@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   post 'abfragen/show'
 
   post 'abfragen/calendar'
+  get 'abfragen/fullcalendar.json' => 'abfragen#fullcalendar'
 
   get 'welcome/index'
 
