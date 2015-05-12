@@ -1,6 +1,7 @@
 <h1>
   Orte
   <div class="btn-group header-buttons">
+    <%= link_to 'Lösche ungenutzte Orte', orte_bereinige_path, method: :bereinige, data: { confirm: 'Willst du die Orte wirklich löschen?' }, class: "btn btn-danger" %>
     <%= link_to 'Neuer Ort', new_ort_path, class: "btn btn-success" %>
   </div>
 </h1>

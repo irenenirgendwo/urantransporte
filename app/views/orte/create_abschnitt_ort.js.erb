@@ -1,0 +1,10 @@
+if ('<%=@abschnitt_ort_typ %>' == 'Start'){
+  setup_start_ort_wahl('<%=@ort.id %>','<%= @ort.name %>');
+  alert('Hi <%=@ort.id %>');
+  $("#ortModal-Start").hide();
+} else {
+  setup_ziel_ort_wahl('<%=@ort.id %>','<%= @ort.name %>');
+  alert('Hi <%=@ort.id %>');
+  $("#ortModal-Ziel").hide();
+}
+

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150307181836) do
+ActiveRecord::Schema.define(version: 20150508144330) do
 
   create_table "anlagen", force: true do |t|
     t.string   "name",                 null: false
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 20150307181836) do
     t.integer  "start_anlage_id",                                  null: false
     t.integer  "ziel_anlage_id",                                   null: false
     t.integer  "transportgenehmigung_id"
-    t.decimal  "menge",                   precision: 10, scale: 0
+    t.decimal  "menge_netto",             precision: 10, scale: 0
     t.integer  "anzahl"
     t.string   "un_nummer"
     t.string   "behaelter"
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(version: 20150307181836) do
     t.datetime "updated_at"
     t.integer  "stoff_id"
     t.string   "quelle"
+    t.decimal  "menge_brutto",            precision: 10, scale: 0
   end
 
   create_table "transportgenehmigungen", force: true do |t|

@@ -11,10 +11,12 @@
     Transport mit unbekanntem Verkehrsträger
   <% end %>
   
+  <% if abschnitt.start_ort && abschnitt.end_ort%>
+    von <%= abschnitt.start_ort %> nach <%= abschnitt.end_ort %>
+  <% end %>
   <% if abschnitt.start_datum && abschnitt.end_datum %>
     (<%= abschnitt.start_datum.strftime("%d.%m.%Y") %> – <%= abschnitt.end_datum.strftime("%d.%m.%Y") %>)
   <% end %>
-  
 
   <% if logged_in? %>
     <%= link_to "Bearbeiten", edit_transportabschnitt_path(abschnitt) %>

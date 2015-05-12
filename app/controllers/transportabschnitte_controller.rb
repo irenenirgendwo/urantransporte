@@ -6,8 +6,11 @@ class TransportabschnitteController < ApplicationController
   
 
   # GET /transportabschnitte/new
+  # Es ist sicher zu stellen (vor Aufruf), dass ein Transport mit in Parametern uebergebenen transport_id existiert.
+  #
   def new
     @transport = Transport.find(params[:transport_id].to_i) if params[:transport_id]
+    throw ArgumentError.new("Must give an transport id which exists}") unless @transport
     if params[:beobachtung_id]
       @beobachtung_id = params[:beobachtung_id].to_i if params[:beobachtung_id]
       @beobachtung = Beobachtung.find(@beobachtung_id)
@@ -35,17 +38,19 @@ class TransportabschnitteController < ApplicationController
       @transportabschnitt.end_datum = umschlag.start_datum
       @transportabschnitt.end_ort = umschlag.ort
     end 
-     @redirect_params = new_transportabschnitt_path(transport_id: @transport.id)
+     @redirect_params = new_transportabschnitt_path(transport_id: @transport.id) 
   end
 
   # GET /transportabschnitte/1/edit
   def edit
-    @redirect_params = edit_transportabschnitt_path(transport_id: @transport.id)
+    @redirect_params = edit_transportabschnitt_path(transport_id: @transport.id) 
   end
 
   # POST /transportabschnitte
   # POST /transportabschnitte.json
   def create
+    File.open("log/abschnitt.log","w"){|f| f.puts "starte create transportabschnitt"}
+    File.open("log/abschnitt.log","a"){|f| f.puts "params #{params}"}
     @transportabschnitt = Transportabschnitt.new(transportabschnitt_params)
     redirection_path = @transportabschnitt
     if params[:transport_id]
@@ -62,11 +67,11 @@ class TransportabschnitteController < ApplicationController
   # Orte finden, zuordnen oder falls nötig, neu erstellen.
     # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
     # ausgelagert in Funktion conerns/OrteVerwalten/find_or_create_ort.
-    if params[:transportabschnitt][:start_ort]
-      @transportabschnitt.start_ort = Ort.find_or_create_ort(params[:transportabschnitt][:start_ort])
+    if params[:start_ort_ident]
+      @transportabschnitt.start_ort = Ort.find(params[:start_ort_ident].to_i)
     end
-    if params[:transportabschnitt][:end_ort]
-      @transportabschnitt.end_ort = Ort.find_or_create_ort(params[:transportabschnitt][:end_ort])
+    if params[:ziel_ort_ident]
+      @transportabschnitt.end_ort = Ort.find(params[:ziel_ort_ident].to_i)
     end
 
     respond_to do |format|
@@ -84,11 +89,13 @@ class TransportabschnitteController < ApplicationController
   # PATCH/PUT /transportabschnitte/1
   # PATCH/PUT /transportabschnitte/1.json
   def update
-    if params[:transportabschnitt][:start_ort] != @transportabschnitt.start_ort
-      @transportabschnitt.start_ort = Ort.find_or_create_ort(params[:transportabschnitt][:start_ort])
+    File.open("log/abschnitt.log","w"){|f| f.puts "starte create transportabschnitt"}
+    File.open("log/abschnitt.log","a"){|f| f.puts "params #{params}"}
+    if @transportabschnitt.start_ort.nil? || params[:start_ort_ident] != @transportabschnitt.start_ort.id
+      @transportabschnitt.start_ort = Ort.find(params[:start_ort_ident].to_i)
     end
-    if params[:transportabschnitt][:end_ort] != @transportabschnitt.end_ort
-       @transportabschnitt.end_ort = Ort.find_or_create_ort(params[:transportabschnitt][:end_ort])
+    if @transportabschnitt.end_ort.nil? || params[:ziel_ort_ident] != @transportabschnitt.end_ort.id
+       @transportabschnitt.end_ort = Ort.find(params[:ziel_ort_ident].to_i)
     end
 
     @transport = @transportabschnitt.transport 

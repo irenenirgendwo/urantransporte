@@ -25,7 +25,18 @@
  
           <div class="form-group">
               <%= f.label :datum %> (Format: TT.MM.JJJJ) <br>
-              <%= f.text_field :datum, class:"form-control" %>
+              <div class='input-group date' id='datetimepicker'>
+                <%= f.text_field :datum, start_year:2010, class: "form-control" %>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+              </div>
+              <script type="text/javascript">
+              //javascript dafeur mehrfach benutzbar, also ausgelagert in setup_datetimepicker.js
+              setup_datetimepicker('#datetimepicker')
+              // javascript, um Erklärungen unter Fragezeichen anzuzeigen
+              $(function () {
+                  $('.glyphicon-question-sign').tooltip();
+              });
+            </script>
           </div>
         
             <div class="form-group">
@@ -63,14 +74,16 @@
                 </div>
               </div>
             </div>
-          
-         
-          
-          
+
 
           <div class="form-group">
-            <%= f.label :menge %><br>
-            <%= f.text_field :menge, class:"form-control" %>
+            <%= f.label :menge_brutto, "Brutto-Menge (inklusive Behälter in Tonnen)" %><br>
+            <%= f.text_field :menge_brutto, class:"form-control" %>
+          </div>
+          
+          <div class="form-group">
+            <%= f.label :menge_netto, "Netto-Menge (ohne Behälter in Tonnen)" %><br>
+            <%= f.text_field :menge_netto, class:"form-control" %>
           </div>
          
           <div class="form-group">

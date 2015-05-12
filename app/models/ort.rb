@@ -1,6 +1,8 @@
 # encoding: utf-8
 class Ort < ActiveRecord::Base
 
+  validates :name, presence: true
+
   has_and_belongs_to_many :transportabschnitte
   has_many :anlagen, :dependent => :restrict_with_error
   has_many :start_transportabschnitte, :foreign_key => 'start_ort_id', :class_name => "Transportabschnitt", :dependent => :restrict_with_error
@@ -35,6 +37,43 @@ class Ort < ActiveRecord::Base
     transporte
   end
   
+  # Gibt alle Objekte in einer Liste zurück, die mit der ort_id verknüpft sind,
+  # Ausnahme sind Transportabschnitte, weil diese zwei ort_ids haben.
+  #
+  def objekte_mit_ort_id 
+    objekte = []
+    objekte.concat(self.umschlaege)
+    objekte.concat(self.beobachtungen)
+    objekte.concat(self.anlagen)
+    objekte
+  end
+  
+  # fuegt einen anderen Ort mit dessen Verknuepfungen diesem hinzu
+  # und loescht den anderen Ort.
+  # TODO: Funktioniert so noch nicht, irgendwie bleiben die alten Referenzen erhalten :(
+  #
+  def add_ort(ort)
+    File.open("log/ort.log","a"){|f| f.puts "Ort #{self.id}" }
+    objektliste = ort.objekte_mit_ort_id
+    objektliste.each do |objekt|
+      objekt.ort = self 
+      objekt.save 
+      File.open("log/ort.log","a"){|f| f.puts "#{objekt} Ort #{objekt.ort.id}" }
+    end
+    File.open("log/ort.log","a"){|f| f.puts "ortsobjekte #{ort.objekte_mit_ort_id}" }
+    #ort.start_transportabschnitte.each do |abschnitt|
+    #  abschnitt.start_ort = self
+    #  abschnitt.save
+    #end 
+    #ort.start_transportabschnitte.each do |abschnitt|
+    #  abschnitt.end_ort = self
+    #  abschnitt.save
+    #end 
+    return ort.destroy
+  end
+  
+  # Gibt alle Orte, die nicht identisch sind (falls der Ort gespeichert ist) im Umrkeis von radius aus.
+  #
   def orte_im_umkreis(radius)
     dort = Geokit::Geocoders::GoogleGeocoder.geocode "#{lat},#{lon}"
     if self.id
@@ -42,6 +81,22 @@ class Ort < ActiveRecord::Base
     else
       Ort.within(radius, :origin => dort)
     end
+  end
+  
+  # Alle Orte, die fehlerfrei gelöscht werden können
+  # (d.h. keine Referenzierungen erhalten) werden gelöscht.
+  # 
+  def self.loesche_ungenutzte
+    anzahl = 0
+    Ort.all.each do |o|
+      begin
+        success = o.destroy
+        anzahl += 1 if success
+      rescue
+
+      end
+    end
+    anzahl 
   end
   
   # findet einen passenden Ort oder erstellt einen neuen, wenn es den noch nicht gibt.
@@ -127,7 +182,8 @@ class Ort < ActiveRecord::Base
     angelegte_orte
   end
   
-  # gibt passende Orte als Array zurück.
+  # Suche nach Orten: Gibt passende Orte als Array zurück.
+  #
   def self.orte_mit_namen ort
     # ort in einzelne Worte zerlegen und (verfeinernd einzeln) suchen.
     # damit z.B. "Königstein Taunus" auch "Königstein im Taunus" findet
@@ -145,6 +201,9 @@ class Ort < ActiveRecord::Base
    # Ort.where("name LIKE ?","%#{ort}%").to_a
   end
   
+  
+  # Erzeugt einen Ort nur mit Koordinatenangaben
+  #
   def self.create_by_koordinates(lat,lon)
     #File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates" }
     ort = Ort.find_by(lat: lat, lon: lon)

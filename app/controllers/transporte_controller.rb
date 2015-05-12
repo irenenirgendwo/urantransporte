@@ -123,7 +123,7 @@ class TransporteController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transport_params
-      params.require(:transport).permit(:menge, :stoff, :stoff_id, :behaelter, :anzahl,
+      params.require(:transport).permit(:menge_netto, :menge_brutto, :stoff, :stoff_id, :behaelter, :anzahl,
                                  :start_anlage_id, :ziel_anlage_id, :datum, :quelle)
     end
     

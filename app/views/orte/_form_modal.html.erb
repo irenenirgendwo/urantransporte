@@ -1,19 +1,19 @@
-<%= form_for(@ort) do |f| %>
+<%= form_for(@ort, remote: true) do |f| %>
 
-  <div class="modal fade" id="ortModal-<%= objekt.id if defined?(objekt) %>" tabindex="-1" role="dialog" aria-labelledby="ortModalLabel" aria-hidden="true">
+  <div class="modal fade" id="ortModal-<%= objekt.id if defined?(objekt)%><%= ort_typ if defined?(ort_typ) %>" tabindex="-1" role="dialog" aria-labelledby="ortModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>
-          <h4 class="modal-title">Ort erstellen</h4>
+          <h4 class="modal-title"><%= "#{ort_typ}-" if defined?(ort_typ) %>Ort erstellen</h4>
         </div>
        
 
         
         <div class="modal-body">
           <%= hidden_field_tag :redirect_params, @redirect_params %>
-          
+          <%= hidden_field_tag :abschnitt_ort_typ, ort_typ if defined?(ort_typ) %>
           
           <p>Klicke auf die Karte, um den Standort genau festzulegen.</p>
           <!--Muss noch in Javascript implementiert werden die Suche auf der Karte -->

@@ -6,6 +6,10 @@
       <%= link_to 'Löschen', @transport, method: :delete, data: { confirm: 'Willst du den Transport wirklich löschen?' }, class: "btn btn-danger" %></td>
     </div>
   <% end %>
+  <br>
+  <small>
+  <%= l @transport.datum %> von <%= @transport.start_anlage %> nach <%= @transport.ziel_anlage %>
+  </small>
 </h1>
 
 <%= render "show_transport_grunddaten", transport: @transport %>

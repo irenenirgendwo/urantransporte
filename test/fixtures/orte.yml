@@ -30,4 +30,10 @@ petersburg:
   lat: 27.772975
   lon: -82.6399922
   plz: 33701
+ungenutzt:
+  id: 5
+  name: Bla
+  lat: 24.772975
+  lon: -80.6399922
+  plz: 33701
 #  column: value

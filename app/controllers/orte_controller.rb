@@ -8,6 +8,9 @@ class OrteController < ApplicationController
   end
 
   def show
+    @umkreis_orte = @ort.orte_im_umkreis(50)
+    @namens_orte = Ort.orte_mit_namen @ort.name
+    
   end
   
   # Zeigt ein Formular an zur Auswahl von einem aus mehreren Orten 
@@ -85,6 +88,35 @@ class OrteController < ApplicationController
     end
   end 
   
+  # loescht ungenutzte Orte aus der Datenbank
+  #
+  def bereinige
+    File.open("log/abschnitt.log","w"){|f| f.puts "params #{params}"}
+    anzahl = Ort.loesche_ungenutzte
+    redirect_to orte_path, notice: "#{anzahl} Orte gelöscht."
+  end
+  
+  # kommt nur beim Modal-Ding in Transportabschnitten vor, erstellt einen Ort aus Parametern
+  # ohne zu suchen, ob er bereits vorhanden ist.
+  #
+  def create 
+    ort_created = true
+    if (ort_params[:name])
+      @ort = Ort.new(ort_params)
+    elsif ort_params[:lat] && ort_params[:lon]
+      @ort = Ort.create_by_koordinates(params[:ort][:lat],params[:ort][:lon])
+    else 
+      ort_created = false
+    end
+    @abschnitt_ort_typ = params[:abschnitt_ort_typ]
+    File.open("log/abschnitt.log","a"){|f| f.puts "params #{params}"}
+    respond_to do |format|
+      if ort_created && @ort.save 
+        format.js {render "create_abschnitt_ort"}
+      end 
+    end
+  end
+  
   # Speichert einen Ort ohne Koordinaten, nur mit Name.
   #
   def create_from_name
@@ -101,6 +133,7 @@ class OrteController < ApplicationController
       end
     end
   end
+  
   
   # Erstellt einen Ort mit Koordinaten, sucht den Namen aus der Karte, falls er nicht angegeben wurde.
   #
@@ -157,9 +190,9 @@ class OrteController < ApplicationController
     def set_anlage_umschlag_beobachtung
       @anlage = params[:anlage] ?  Anlage.find(params[:anlage].to_i) : nil
       @umschlag = params[:umschlag] ? Umschlag.find(params[:umschlag].to_i) : nil
-      @transportabschnitt = params[:transportabschnitt] ? Umschlag.find(params[:transportabschnitt].to_i) : nil
+      @transportabschnitt = params[:transportabschnitt] ? params[:transportabschnitt] : nil
       @beobachtung = params[:beobachtung] ? Umschlag.find(params[:beobachtung].to_i) : nil
-    
+      @abschnitt_ort_typ = params[:abschnitt_ort_typ] 
     end
     
     def save_anlage_umschlag_beobachtung
@@ -175,6 +208,14 @@ class OrteController < ApplicationController
         @beobachtung.ort = @ort
         @beobachtung.save
         @beobachtung 
+      elsif @transportabschnitt
+        if @abschnitt_ort_typ == "Start"
+          @transportabschnitt.start_ort = @ort
+        else 
+          @transportabschnitt.endt_ort = @ort
+        end
+        @transportabschnitt.save
+        @transportabschnitt 
       else 
         @ort
       end

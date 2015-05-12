@@ -152,9 +152,14 @@ class AbfragenController < ApplicationController
       @transporte = @transporte.where(:start_anlage_id => start_anlagen) unless start_anlagen.empty?
       @transporte = @transporte.where(:ziel_anlage_id => ziel_anlagen) unless ziel_anlagen.empty?
       
-      trabschnitte = Transportabschnitt.all  #damit das unless in der nächsten Zeile möglich ist
-      trabschnitte = trabschnitte.where(:verkehrstraeger => verkehrstraeger) unless verkehrstraeger.empty?
-
+      
+      unless verkehrstraeger.empty?
+        trabschnitte = Transportabschnitt.all  #damit das unless in der nächsten Zeile möglich ist
+        trabschnitte = trabschnitte.where(:verkehrstraeger => verkehrstraeger) 
+        transport_mit_abschnitten = trabschnitte.collect{|t| t.transport}
+        @transporte = @transporte & transport_mit_abschnitten
+      end
+      
       # ist ja überhaupt nur sinnvoll, wenn Ortsparameter angegeben ist"
       # Mein Problem damit ist, dass t.orte als solches ja nicht wirklich existiert, sondern die Orte zusammen gesammelt
       # werden fuer einen Transport aus Start/Zielanlage, Start/Ziel/Durchfahrsorte von Abschnitten, Umschlagsorten und Beobachtungen.
@@ -167,9 +172,7 @@ class AbfragenController < ApplicationController
       #  trabschnitte = trabschnitte.collect{|t| t unless dort.nil? || t.orte.within(radius, :origin => dort).empty? } 
       #   trabschnitte.compact!
       #end
-      transport_mit_abschnitten = trabschnitte.collect{|t| t.transport}
-      @transporte = @transporte & transport_mit_abschnitten
-      
+        
       # Alternative, besser wäre das mit dem Orte zusammen sammeln 
       # mit Active Record zu lösen, aber bekomme ich gerade nicht hin.
       # So muss das Orte zusammen sammeln aber nur einmal im Transport-Modell implementiert werden.

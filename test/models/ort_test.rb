@@ -32,7 +32,7 @@ class OrtTest < ActiveSupport::TestCase
     # Orte nicht vorhanden
     eindeutig, ort_e = Ort.ort_waehlen("Neustadt")
     assert_not eindeutig
-    assert_equal 6, ort_e.size
+    assert 3 < ort_e.size unless ort_e.nil?
     eindeutig, ort_e = Ort.ort_waehlen("Kiel")
     assert eindeutig
     assert ort_e.kind_of? Ort
@@ -41,6 +41,20 @@ class OrtTest < ActiveSupport::TestCase
     assert eindeutig
     assert 52.21254, ort_e.lat
   end
+  
+  test "bereinige ungenutzte orte" do
+    assert_equal 1, Ort.loesche_ungenutzte
+  end
+  
+  test "ort zu anderem zusammen fuehren" do 
+    ort = Ort.find(1)
+    ort2 = Ort.find(2)
+    ort3 = Ort.find(3)
+    assert_equal 1, ort.objekte_mit_ort_id.size, "#{ort.objekte_mit_ort_id}"
+    assert_equal 2, ort2.objekte_mit_ort_id.size, "#{ort2.objekte_mit_ort_id}" 
+    assert_equal 3, ort3.objekte_mit_ort_id.size, "#{ort3.objekte_mit_ort_id}" 
+    assert ort.add_ort(ort2), "#{ort.add_ort(ort2)} hat noch #{ort2.objekte_mit_ort_id}"
+  end 
   
   
 end

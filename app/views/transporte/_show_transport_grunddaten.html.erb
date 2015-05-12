@@ -1,7 +1,8 @@
 
 
 <div class="row">
-  <div class="col-sm-7">
+  <div class="col-sm-6">
+    <h3>Rahmendaten</h3>
     <p>
       <strong>Datum:</strong>
       <%= l transport.datum %>
@@ -16,23 +17,38 @@
       <strong>Zielanlage:</strong>
       <%= link_to transport.ziel_anlage.name, transport.ziel_anlage %>
     </p>
+    <p>
+      <strong>Anzahl Transporte (z.B. Anzahl LKW):</strong>
+      <%= transport.anzahl ? transport.anzahl : "keine Angabe" %>
+    </p>
+    <p>
+      <strong>Quelle:</strong>
+      <%= transport.quelle %>
+    </p>
+  </div>
     
+  <div class="col-sm-6">
+    <h3>Transportierter Stoff</h3>
     <p>
       <strong>Stoff:</strong>
       <%= link_to transport.stoff, transport.stoff %>
     </p>
 
-    
     <p>
-      Transportiert wurde<%= transport.menge ? "n #{transport.menge} Tonnen" : nil %> <%= transport.stoff %>.
-      <%= transport.behaelter ? "Die Behälter waren vom Typ #{transport.behaelter}." : nil %>
-      <%= transport.anzahl ? "Es fanden #{transport.anzahl} Transporte statt." : nil %>
+      <strong>Netto-Menge:</strong>
+      <%= transport.menge_netto ? "#{transport.menge_netto} Tonnen" : "keine Angabe" %>
+    </p>
+    <p>
+      <strong>Brutto-Menge:</strong>
+      <%= transport.menge_brutto ? "#{transport.menge_brutto} Tonnen" : "keine Angabe" %>
+    </p>
+    <p>
+      <strong>Behälter-Typ:</strong>
+      <%= transport.behaelter ? transport.behaelter : "keine Angabe" %>
     </p>
     
-    <p>
-      <strong>Quelle:</strong>
-      <%= transport.quelle %>
-    </p>
+    
+   
 
   </div>
 </div>

@@ -16,7 +16,8 @@ class Transport < ActiveRecord::Base
   validates :ziel_anlage, presence: true
   validates :datum, :uniqueness => {:scope => [:start_anlage, :ziel_anlage]}
   
-  
+  # Gibt passende Transporte rund um ein gegebenes Datum aus
+  #
   def self.get_transporte_around(datum,plus_minus_tage)
     Transport.where("datum >= ? and datum <= ?", datum.to_date - plus_minus_tage.days, datum.to_date + plus_minus_tage.days)
   end
@@ -38,7 +39,7 @@ class Transport < ActiveRecord::Base
       self.datum
     end
   end
-  
+
   def self.get_transporte_around_options(datum,plus_minus_tage, start, ziel)
     transporte = get_transporte_around(datum,plus_minus_tage)
     transporte = transporte.where(start_anlage: start) if start 
@@ -102,15 +103,20 @@ class Transport < ActiveRecord::Base
   def sort_abschnitte_and_umschlaege
     abschnitt_umschlag_list = []
     abschnitte = self.transportabschnitte.order(:end_datum)
+    umschlaege = self.umschlaege
+    
+    # ortsweise sortieren so moeglich
+    
     listed_umschlaege = []
     abschnitte.each do |abschnitt|
       abschnitt_umschlag_list << abschnitt
-      umschlag = self.umschlaege.find_by ort: abschnitt.end_ort
+      umschlag = self.umschlaege.find_by ort_id: abschnitt.end_ort_id
       unless umschlag.nil?
         abschnitt_umschlag_list << umschlag
         listed_umschlaege << umschlag
       end
     end 
+    
     if listed_umschlaege.size < self.umschlaege.size
       self.umschlaege.each do |umschlag|
         unless listed_umschlaege.include? umschlag
@@ -166,6 +172,8 @@ class Transport < ActiveRecord::Base
     "#{self.start_anlage.to_s[0..2]}->#{self.ziel_anlage.to_s[0..2]}"
   end
   
+  
+  # Wozu ist das da?
   def union_scope(*scopes)
       id_column = "#{table_name}.id"
       sub_query = scopes.map { |s| s.select(id_column).to_sql }.join(" UNION ")

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post "orte/create_from_name" => 'orte#create_from_name'
   post "orte/search" => "orte#search"
   post "orte/search_in_map" => "orte#search_in_map"
+  post "orte/bereinige" => "orte#bereinige"
   
   
   resources :firmen
