@@ -22,22 +22,15 @@
   padding-left: 50px;
 }
 
-.calendar_transportabschnitt {
-  height: 19px;
-  width: 19px;
-  background-color: red;
-  margin: 5px;
-}
-
 .calendar_umschlag {
-  background-image: url('umschlag2.png');
-  background-position: left center;
-  background-repeat: no-repeat;
-  background-size: 25px auto;
-  height: 25px;
-  padding-left: 50px;
-  line-height: 50px;
-}
+    background-image: url('umschlag2.png');
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 25px auto;
+    height: 25px;
+    padding-left: 50px;
+    line-height: 50px;
+  }
 
 table.calendar td {
   padding: 0 !important;

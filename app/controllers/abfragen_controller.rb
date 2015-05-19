@@ -75,6 +75,8 @@ class AbfragenController < ApplicationController
           @logger.puts " #{date}"
           transporte_per_day[date] ||= Hash.new
           transporte_per_day[date][key] = {"transport" => transport}
+          transporte_per_day[date][key]["first"] = (date == start_datum)
+          transporte_per_day[date][key]["last"] = (date == end_datum)
           @logger.puts " Umschlag #{transport.get_umschlag(date)}"
           transporte_per_day[date][key]["umschlag"] = transport.get_umschlag(date)
           transporte_per_day[date][key]["abschnitt"] = transport.get_abschnitt(date)

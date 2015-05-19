@@ -74,10 +74,21 @@
                   <% end %>
                 <% else %>
                   <%= link_to transport["transport"] do %>
-                    <div style='background-color: <%= stringToColor transport["transport"].stoff.bezeichnung %>;' class="calendar_transportabschnitt" data-toggle="tooltip" data-placement="top" title="<%= transport["transport"].to_short_s %>">
+                    <% 
+                      style = ""
+                      unless transport["first"]
+                        style = style + "margin-left: 0;"
+                      end
+                      unless transport["last"]
+                        style = style + " margin-right: 0;"
+                      end
+                    %>
+                    <div style='background-color: <%= stringToColor transport["transport"].stoff.bezeichnung %>; <%= style %>' class="calendar_transportabschnitt" data-toggle="tooltip" data-placement="top" title="<%= transport["transport"].to_short_s %>">
                     </div>
                   <% end %>
                 <% end %>
+              <% else %>
+               <div class="platzhalter"></div>
               <% end %>
             <% end %>
           <% end %>  
