@@ -3,7 +3,6 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .panel .calendar-body {
-  overflow-x: scroll;
   padding: 0;
 }
 
@@ -20,6 +19,14 @@
     width: auto;
     background-color: red;
     margin: 15%;
+  }
+  
+  .calendar_not_first {
+    margin-left: -1px;
+  }
+  
+  .calendar_not_last {
+    margin-right: -1px;
   }
   
   .platzhalter {

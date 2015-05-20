@@ -150,8 +150,8 @@ class Transport < ActiveRecord::Base
     orte_ids
   end
   
-  def to_short_s
-    "#{self.start_anlage.to_s[0..2]}->#{self.ziel_anlage.to_s[0..2]}"
+  def to_html
+    "<strong>#{self.stoff.bezeichnung}</strong><br>von <strong>#{self.start_anlage}</strong><br>nach <strong>#{self.ziel_anlage}</strong>"
   end
   
   

@@ -66,26 +66,18 @@
             <% 1.upto @max_key do |key| %>
               <% transport = @transporte_per_day[date][key] %>
               <% if transport %>
-                <% if transport["umschlag"] %>
-                  <%= link_to transport["transport"] do %>
-                    <div style='background-color: <%= stringToColor transport["transport"].stoff.bezeichnung %>;' class="calendar_umschlag" data-toggle="tooltip" data-placement="top" title="<%= transport["transport"].to_short_s %>">
-                      Umschlag
-                    </div>
-                  <% end %>
-                <% else %>
-                  <%= link_to transport["transport"] do %>
-                    <% 
-                      style = ""
-                      unless transport["first"]
-                        style = style + "margin-left: 0;"
-                      end
-                      unless transport["last"]
-                        style = style + " margin-right: 0;"
-                      end
-                    %>
-                    <div style='background-color: <%= stringToColor transport["transport"].stoff.bezeichnung %>; <%= style %>' class="calendar_transportabschnitt" data-toggle="tooltip" data-placement="top" title="<%= transport["transport"].to_short_s %>">
-                    </div>
-                  <% end %>
+                <%= link_to transport["transport"] do %>
+                  <% 
+                    classes = ""
+                    unless transport["first"]
+                      classes += "calendar_not_first "
+                    end
+                    unless transport["last"]
+                      classes += "calendar_not_last "
+                    end
+                  %>
+                  <div style='background-color: <%= stringToColor transport["transport"].stoff.bezeichnung %>;' class="calendar_transportabschnitt <%= classes %>" data-toggle="tooltip" data-placement="top" title="<%= transport["transport"].to_html %>">
+                  </div>
                 <% end %>
               <% else %>
                <div class="platzhalter"></div>
@@ -98,7 +90,7 @@
       <script>
        // javascript, um Erklärungen unter Fragezeichen anzuzeigen
             $(function () {
-                $('.calendar_transportabschnitt').tooltip();
+                $('.calendar_transportabschnitt').tooltip({html:true});
             });
           </script>
     
