@@ -7,12 +7,6 @@ class TransporteControllerTest < ActionController::TestCase
     @stoff = stoffe(:one)
   end
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:transporte)
-  end
-
   test "should get new" do
     get :new
     assert_response :success

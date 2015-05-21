@@ -4,17 +4,6 @@ class TransporteController < ApplicationController
   before_action :editor_user, only: [:new, :edit, :create, :update, :destroy, :union, :set_aehnliche_transporte_options, :aehnliche_transporte]
   before_action :set_new_stoff_and_anlage, only: [:new, :edit]
 
-  # GET /transporte
-  # GET /transporte.json
-  def index
-    if params[:stoff]
-      @transporte = Transport.where(:stoff_id => params[:stoff]).paginate(page: params[:page], per_page: 20)
-    else
-      @transporte = Transport.paginate(page: params[:page], per_page: 20)
-    end
-    @stoffe = Stoff.get_stoffe_for_selection_field
-  end
-  
   # GET /transporte/1
   # GET /transporte/1.json
   #

@@ -6,7 +6,8 @@
 class AbfragenController < ApplicationController
   
   # Auswahlmoeglichkeiten
-  #
+  # GET /transporte
+  # GET /abfragen/index
   def index
     @stoff_auswahl = Stoff.get_stoffe_for_selection_field
     @start_anlagen = Anlage.get_anlagen_for_list_field(params[:start_kategorie])
