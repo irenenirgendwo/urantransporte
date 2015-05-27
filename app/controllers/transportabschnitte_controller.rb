@@ -70,8 +70,8 @@ class TransportabschnitteController < ApplicationController
     if params[:start_ort_ident]
       @transportabschnitt.start_ort = Ort.find(params[:start_ort_ident].to_i)
     end
-    if params[:ziel_ort_ident]
-      @transportabschnitt.end_ort = Ort.find(params[:ziel_ort_ident].to_i)
+    if params[:end_ort_ident]
+      @transportabschnitt.end_ort = Ort.find(params[:end_ort_ident].to_i)
     end
 
     respond_to do |format|
@@ -94,8 +94,8 @@ class TransportabschnitteController < ApplicationController
     if @transportabschnitt.start_ort.nil? || params[:start_ort_ident] != @transportabschnitt.start_ort.id
       @transportabschnitt.start_ort = Ort.find(params[:start_ort_ident].to_i)
     end
-    if @transportabschnitt.end_ort.nil? || params[:ziel_ort_ident] != @transportabschnitt.end_ort.id
-       @transportabschnitt.end_ort = Ort.find(params[:ziel_ort_ident].to_i)
+    if @transportabschnitt.end_ort.nil? || params[:end_ort_ident] != @transportabschnitt.end_ort.id
+       @transportabschnitt.end_ort = Ort.find(params[:end_ort_ident].to_i)
     end
 
     @transport = @transportabschnitt.transport 

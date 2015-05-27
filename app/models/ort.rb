@@ -102,15 +102,17 @@ class Ort < ActiveRecord::Base
   # findet einen passenden Ort oder erstellt einen neuen, wenn es den noch nicht gibt.
   # Problem: wählt bereits einen Ort aus und ignoriert evtl. Mehrfachtreffer
   #
-  def self.find_or_create_ort(ortsname)
+  def self.find_or_create_ort(ortsname, plz = nil, lat = nil, lon=nil)
     newort = Ort.find_by(:name => ortsname)
     if newort == nil
       begin
-        a = Geokit::Geocoders::GoogleGeocoder.geocode ortsname
-        a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
-        lat = a.lat 
-        lon = a.lng
-        zip = a.zip
+        if lat == nil || lon == nil
+          a = Geokit::Geocoders::GoogleGeocoder.geocode ortsname
+          a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
+          lat = a.lat 
+          lon = a.lng
+          zip = a.zip
+        end
       # Fehlerbehandlung falls Ort nicht gefunden
       rescue
         lat = nil

@@ -18,18 +18,28 @@
     (<%= abschnitt.start_datum.strftime("%d.%m.%Y") %> – <%= abschnitt.end_datum.strftime("%d.%m.%Y") %>)
   <% end %>
 
-  <% if logged_in? %>
+  <% if is_editor? %>
+    <%= abschnitt.start_ort.id if abschnitt.start_ort %>
     <%= link_to "Bearbeiten", edit_transportabschnitt_path(abschnitt) %>
     | <%= link_to 'Löschen', abschnitt, method: :delete, data: { confirm: 'Willst du den Transportabschnitt wirklich löschen?' } %>
 
-    
-    <% if abschnitt.start_datum && abschnitt.end_datum %>
-      <br />
+    <br />
+    <% if abschnitt.start_datum || abschnitt.start_ort %>
       <%= link_to "Abschnitt davor anlegen", new_transportabschnitt_path(transport_id: abschnitt.transport.id, abschnitt_danach: abschnitt.id) %>
-      | <%= link_to "Abschnitt danach anlegen", new_transportabschnitt_path(transport_id: abschnitt.transport.id, abschnitt_davor: abschnitt.id) %>
-      | <%= link_to "Umschlag davor anlegen", new_umschlag_path(transport_id: abschnitt.transport.id, abschnitt_danach: abschnitt.id) %>
-      | <%= link_to "Umschlag danach anlegen", new_umschlag_path(transport_id: abschnitt.transport.id, abschnitt_davor: abschnitt.id) %>
+      | 
     <% end %>
+    <% if abschnitt.end_datum || abschnitt.end_ort  %>
+      <%= link_to "Abschnitt danach anlegen", new_transportabschnitt_path(transport_id: abschnitt.transport.id, abschnitt_davor: abschnitt.id) %>
+      | 
+    <% end %>
+    <% if abschnitt.start_datum || abschnitt.start_ort %>  
+      <%= link_to "Umschlag davor anlegen", new_umschlag_path(transport_id: abschnitt.transport.id, abschnitt_danach: abschnitt.id) %>
+      | 
+    <% end %>
+    <% if abschnitt.end_datum || abschnitt.end_ort %>
+      <%= link_to "Umschlag danach anlegen", new_umschlag_path(transport_id: abschnitt.transport.id, abschnitt_davor: abschnitt.id) %>
+    <% end %>
+    <%= abschnitt.end_ort.id if abschnitt.end_ort %>
   <% end %>
   
   <% unless abschnitt.beobachtungen.empty? %>

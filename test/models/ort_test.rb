@@ -13,7 +13,7 @@ class OrtTest < ActiveSupport::TestCase
   
   test "lege passende orte zu namen an" do 
     orte = Ort.lege_passende_orte_an("Neustadt")
-    assert_equal 6, orte.size
+    assert 4 <= orte.size
     orte.each do |ort|
       assert_match /Neustadt/, ort.name
       assert_not_nil ort.lat
@@ -27,6 +27,14 @@ class OrtTest < ActiveSupport::TestCase
       assert_not_nil ort.lat
     end
   end
+  
+  test "find or create ort" do
+    ort = Ort.find_or_create_ort("Hamburg")
+    assert_equal 3, ort.id, "Ort sollte gefunden sein"
+    ort = Ort.find_or_create_ort("Aserbaidschan")
+    assert 5 < ort.id, "Ort noch nicht vorhanden, neu angelegt"
+  end 
+  
   
   test "ort waehlen" do 
     # Orte nicht vorhanden

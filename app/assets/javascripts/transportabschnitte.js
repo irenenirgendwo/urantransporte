@@ -5,6 +5,6 @@ function setup_start_ort_wahl(ort_id,ort){
 
 function setup_ziel_ort_wahl(ort_id,ort){ 
   $('#transportabschnitt_end_ort').val(ort);
-  $('#ziel_ort_ident').val(ort_id);
+  $('#end_ort_ident').val(ort_id);
 }
 

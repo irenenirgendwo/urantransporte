@@ -102,7 +102,7 @@ class OrteController < ApplicationController
   def create 
     ort_created = true
     if (ort_params[:name])
-      @ort = Ort.new(ort_params)
+      @ort = Ort.find_or_create_ort(ort_params[:name], params[:ort][:plz], params[:ort][:lat],params[:ort][:lon])
     elsif ort_params[:lat] && ort_params[:lon]
       @ort = Ort.create_by_koordinates(params[:ort][:lat],params[:ort][:lon])
     else 
@@ -183,7 +183,7 @@ class OrteController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ort_params
-      params.require(:ort).permit(:name, :lat, :lon, :beschreibung)
+      params.require(:ort).permit(:name, :lat, :lon, :plz)
     end
     
     

@@ -85,20 +85,84 @@ class Transport < ActiveRecord::Base
   def sort_abschnitte_and_umschlaege
     abschnitt_umschlag_list = []
     abschnitte = self.transportabschnitte.order(:end_datum)
-    umschlaege = self.umschlaege
-    
-    # ortsweise sortieren so moeglich
     
     listed_umschlaege = []
-    abschnitte.each do |abschnitt|
-      abschnitt_umschlag_list << abschnitt
-      umschlag = self.umschlaege.find_by ort_id: abschnitt.end_ort_id
-      unless umschlag.nil?
-        abschnitt_umschlag_list << umschlag
-        listed_umschlaege << umschlag
-      end
-    end 
+    listed_abschnitte = []
     
+    # Prioritaer: Ortssortierung, sonst Zeit, beginnend mit Start-Ort der Anlage.
+    if self.start_anlage.ort
+      ort_aktuell = self.start_anlage.ort.id
+      abschnitt_aktuell = abschnitte.where(start_ort_id: self.start_anlage.ort.id)
+      i = 0 
+      last_umschlag = nil
+      while ort_aktuell && i < 1000
+        #File.open("log/transport.log","a"){|f| f.puts "Aktueller Ort #{ort_aktuell}" }
+        i += 1
+        # erst umschlaege mit ort suchen, wenn zuletzt kein Umschlag war
+        unless last_umschlag
+          umschlaege = self.umschlaege.where(ort_id: ort_aktuell)
+          umschlaege.each do |umschlag|
+            abschnitt_umschlag_list << umschlag
+            listed_umschlaege << umschlag
+            last_umschlag = true
+            File.open("log/transport.log","a"){|f| f.puts "Umschlag  #{umschlag.attributes}" }
+          end
+        end
+        # dann abschnitte hinzufuegen
+        abschnitte = self.transportabschnitte.where(start_ort_id: ort_aktuell)
+        abschnitte.each do |abschnitt|
+          abschnitt_umschlag_list << abschnitt
+          listed_abschnitte << abschnitt
+          ort_aktuell = abschnitt.end_ort ? abschnitt.end_ort.id : nil
+          last_umschlag = false
+          # Chaos gibt es wenn mehrere Abschnitte an einem Ort beginnen, 
+          #sollte aber ja nicht der Normalfall sein.
+        end
+        
+        
+        # Abbruchbedingung
+        if abschnitte.empty? && umschlaege.empty?
+          ort_aktuell = false
+        end
+        
+      end 
+    
+    end
+    
+    
+
+    #umschlaege = self.umschlaege
+    
+    # ortsweise sortieren so moeglich
+    #if abschnitte_mit_ende
+    #  abschnitt_first = abschnitte_mit_ende.first 
+    #  if abschnitt_first
+   # 
+    #listed_umschlaege = []
+    #abschnitte_mit_ende.each do |abschnitt|
+    #  abschnitt_umschlag_list << abschnitt
+    #  umschlag = self.umschlaege.find_by ort_id: abschnitt.end_ort_id
+    #  unless umschlag.nil?
+    #    abschnitt_umschlag_list << umschlag
+    #    listed_umschlaege << umschlag
+    #  end
+    #end 
+    
+    # Restliche Abschnitte
+    if listed_abschnitte.size < self.transportabschnitte.size
+      self.transportabschnitte.where.not(end_datum: nil).order(:end_datum).each do |abschnitt|
+        unless listed_abschnitte.include? abschnitt
+          abschnitt_umschlag_list << abschnitt
+        end
+      end 
+      self.transportabschnitte.where(end_datum: nil).order(:end_datum).each do |abschnitt|
+        unless listed_abschnitte.include? abschnitt
+          abschnitt_umschlag_list << abschnitt
+        end
+      end 
+    end
+    
+    # Restliche Umchlaege
     if listed_umschlaege.size < self.umschlaege.size
       self.umschlaege.each do |umschlag|
         unless listed_umschlaege.include? umschlag
@@ -106,6 +170,9 @@ class Transport < ActiveRecord::Base
         end
       end 
     end
+    
+    
+   
     abschnitt_umschlag_list 
   end
   

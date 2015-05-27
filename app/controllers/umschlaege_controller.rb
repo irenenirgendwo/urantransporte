@@ -45,9 +45,19 @@ class UmschlaegeController < ApplicationController
     transport = params[:transport_id] ? Transport.find(params[:transport_id].to_i) : nil
     @umschlag.transport = transport
     @redirection = params[:transport_id] ? transport : @umschlag
+    File.open("log/transport.log","w"){|f| f.puts "umschlag_ort #{params[:umschlag_ort]}"}
 
-    # Orte finden, zuordnen oder falls nötig, neu erstellen.
-    eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@umschlag, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
+    # Wenn Ort mit gleichem Namen schon vorhanden, den benutzen
+    ort = Ort.find_by(name: params[:ortname].to_s)
+    if params[:umschlag_ort] && ort && params[:umschlag_ort].to_i == ort.id 
+      eindeutig = true
+      @umschlag.ort = ort
+    else
+      # TODO da ist etwas falsch
+      # Orte finden, zuordnen oder falls nötig, neu erstellen.
+      eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@umschlag, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
+    end
+    
     
     if eindeutig
       if @umschlag.save
