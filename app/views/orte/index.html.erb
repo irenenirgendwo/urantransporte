@@ -48,7 +48,9 @@
             <td><%= link_to ort.name, ort %></td>
             <td><%= ort.plz %></td>
             <td><%= link_to 'Bearbeiten', edit_ort_path(ort) %></td>
-            <td><%= link_to 'Löschen', ort, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <td><%= link_to ort, method: :delete, data: { confirm: 'Willst du den Ort wirklich löschen?' } do
+              render 'text_remove'
+            end%></td>
           </tr>
         <% end %>
       </tbody>

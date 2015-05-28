@@ -11,9 +11,9 @@
           <% end %>
         </td>
         <td>
-          <%= link_to( user, method: :delete, data: { confirm: 'Willst du den Benutzer wirklich löschen?' } ) do %>
-            <span class="glyphicon glyphicon-remove"></span> Löschen
-          <% end %>
+          <%= link_to( user, method: :delete, data: { confirm: 'Willst du den Benutzer wirklich löschen?' } ) do
+            render 'text_remove'
+          end %>
         </td>
       </tr>
     <% end %>
