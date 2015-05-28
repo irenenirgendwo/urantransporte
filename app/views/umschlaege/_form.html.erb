@@ -55,7 +55,6 @@
     </div>
     
     <div class="col-sm-6">
-      <%= @umschlag.ort.id %>
       <%= hidden_field_tag :umschlag_ort, (@umschlag.ort ? @umschlag.ort.id : nil) %>
       <%= render "orte/ort_eingabe", titel: "Umschlagsort", ort: @umschlag.ort %>
     </div>
