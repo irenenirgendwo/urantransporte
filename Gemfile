@@ -29,20 +29,11 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
 #Leaflet zur Kartendarstellung
-gem 'leaflet-rails', '~> 0.7.4'
-
-# Kalender-Darstellung
-# ???
+gem 'leaflet-rails',                    '~> 0.7.4'
 
 #Bootstrap fürs Layout
 gem 'bootstrap-sass',                   '~> 3.3.1'
@@ -55,16 +46,17 @@ gem 'bootstrap-will_paginate',          '~> 0.0.10'
 gem 'bcrypt',                           '~> 3.1.10'
 
 #Screen Scraping
-gem 'nokogiri', '~> 1.6.3.1'
+gem 'nokogiri',                         '~> 1.6.3.1'
 
 #Cron
-gem 'whenever', '~> 0.9.4'
+gem 'whenever',                         '~> 0.9.4'
 
 #PDF
-gem 'pdf-reader', '~> 1.3.3'
+gem 'pdf-reader',                       '~> 1.3.3'
 
 #Geokit für Ortssuche
-gem 'geokit-rails'
+gem 'geokit-rails',                     '~> 2.1.0'
+
 
 group :development do
   gem "rails-erd"

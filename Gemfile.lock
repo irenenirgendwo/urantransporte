@@ -55,7 +55,7 @@ GEM
     execjs (2.2.2)
     geokit (1.9.0)
       multi_json (>= 1.3.2)
-    geokit-rails (2.0.1)
+    geokit-rails (2.1.0)
       geokit (~> 1.5)
       rails (>= 3.0)
     hashery (2.1.1)
@@ -158,7 +158,7 @@ DEPENDENCIES
   bootstrap-will_paginate (~> 0.0.10)
   bootstrap3-datetimepicker-rails (~> 3.1.3)
   coffee-rails (~> 4.0.0)
-  geokit-rails
+  geokit-rails (~> 2.1.0)
   jbuilder (~> 2.0)
   jquery-rails
   leaflet-rails (~> 0.7.4)
