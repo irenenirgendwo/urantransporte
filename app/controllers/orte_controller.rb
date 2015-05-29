@@ -148,7 +148,7 @@ class OrteController < ApplicationController
         format.html { redirect_to @objekt, notice: 'Ort was successfully created.' }
         format.json { render :show, status: :created, location: @ort }
       else
-        format.html { render :ortseingabe }
+        format.html { render :new, notice: "Ort konnte nicht gespeichert werden, bitte Koordinate veraendern." }
         format.json { render json: @ort.errors, status: :unprocessable_entity }
       end
     end
