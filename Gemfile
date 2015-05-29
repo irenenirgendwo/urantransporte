@@ -52,7 +52,7 @@ gem 'will_paginate',                    '~> 3.0.7'
 gem 'bootstrap-will_paginate',          '~> 0.0.10'
 
 #Passwoerter
-gem 'bcrypt-ruby', '3.1.2'
+gem 'bcrypt',                           '~> 3.1.10'
 
 #Screen Scraping
 gem 'nokogiri', '~> 1.6.3.1'
