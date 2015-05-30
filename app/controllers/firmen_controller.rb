@@ -12,8 +12,9 @@ class FirmenController < ApplicationController
   # GET /firmen/1
   # GET /firmen/1.json
   def show
+    @transporte = Transport.joins(:transportabschnitte).where(:transportabschnitte => {firma_id: @firma}).paginate(page: params[:page], per_page: 20)
   end
-
+  
   # GET /firmen/new
   def new
     @firma = Firma.new
@@ -45,7 +46,7 @@ class FirmenController < ApplicationController
   def update
     respond_to do |format|
       if @firma.update(firma_params)
-        format.html { redirect_to @firma, notice: 'Firma gespeichert.' }
+        format.html { redirect_to @firma }
         format.json { render :show, status: :ok, location: @firma }
       else
         format.html { render :edit }
