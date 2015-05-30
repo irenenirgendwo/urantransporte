@@ -41,10 +41,16 @@
             <td><%= beobachtung.ankunft_zeit.to_formatted_s(:dmyz)   %></td>
             <td><%= beobachtung.ort %></td>
             <td><%= link_to 'Show', beobachtung %></td>
-            <td><%= link_to 'Bearbeiten', edit_beobachtung_path(beobachtung) %></td>
-            <td><%= link_to beobachtung, method: :delete, data: { confirm: 'Willst du die Beobachtung wirklich löschen?' } do
-              render 'text_remove'
-            end %></td>
+            <td>
+              <%= link_to edit_beobachtung_path(beobachtung) do
+                render 'text_edit'
+              end %>
+            </td>
+            <td>
+              <%= link_to beobachtung, method: :delete, data: { confirm: 'Willst du die Beobachtung wirklich löschen?' } do
+                render 'text_remove'
+              end %>
+            </td>
           </tr>
         <% end %>
       </tbody>

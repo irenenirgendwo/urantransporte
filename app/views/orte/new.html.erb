@@ -1,5 +1,5 @@
 <h1>Richtigen Ort auswählen</h1>
-Ein Ort zum angegeben Namen wurde nicht gefunden. Bitte wähle.
+<p>Ein Ort zum angegeben Namen wurde nicht gefunden. Bitte wähle.</p>
 
 <%= form_tag({action: :create_from_name}, multipart: true) do %>
   <div class="panel panel-default">
@@ -7,6 +7,7 @@ Ein Ort zum angegeben Namen wurde nicht gefunden. Bitte wähle.
       <h2 class="panel-title">Ort ohne Koordinaten eingeben</h2>
     </div>
     <div class="panel-body">
+      <%= label_tag :name, 'Name' %>
       <%= text_field_tag :name, @name, class: "form-control" %>
     </div>
     <div class="panel-footer">

@@ -48,9 +48,6 @@ gem 'bcrypt',                           '~> 3.1.10'
 #Screen Scraping
 gem 'nokogiri',                         '~> 1.6.3.1'
 
-#Cron
-gem 'whenever',                         '~> 0.9.4'
-
 #PDF
 gem 'pdf-reader',                       '~> 1.3.3'
 
@@ -60,4 +57,5 @@ gem 'geokit-rails',                     '~> 2.1.0'
 
 group :development do
   gem "rails-erd"
+  gem 'web-console',                    '~> 2.1.2'
 end

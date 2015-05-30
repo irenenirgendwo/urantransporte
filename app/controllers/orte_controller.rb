@@ -125,10 +125,12 @@ class OrteController < ApplicationController
     respond_to do |format|
       if @ort.save
         @objekt = save_anlage_umschlag_beobachtung
-        format.html { redirect_to @objekt, notice: 'Ort was successfully created.' }
+        flash[:success] = 'Der Ort wurde erfolgreich erstellt.'
+        format.html { redirect_to @objekt }
         format.json { render :show, status: :created, location: @ort }
       else
-        format.html { render :ortseingabe }
+        flash[:danger] = 'Ort konnte nicht gespeichert werden, bitte Namen verändern.'
+        format.html { render :new }
         format.json { render json: @ort.errors, status: :unprocessable_entity }
       end
     end
@@ -145,10 +147,12 @@ class OrteController < ApplicationController
     respond_to do |format|
       if @ort.save
         @objekt = save_anlage_umschlag_beobachtung
-        format.html { redirect_to @objekt, notice: 'Ort was successfully created.' }
+        flash[:success] = 'Der Ort wurde erfolgreich erstellt.'
+        format.html { redirect_to @objekt }
         format.json { render :show, status: :created, location: @ort }
       else
-        format.html { render :new, notice: "Ort konnte nicht gespeichert werden, bitte Koordinate veraendern." }
+        flash[:danger] = 'Ort konnte nicht gespeichert werden, bitte Kordinaten verändern.'
+        format.html { render :new }
         format.json { render json: @ort.errors, status: :unprocessable_entity }
       end
     end

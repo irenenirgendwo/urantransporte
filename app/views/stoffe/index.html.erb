@@ -21,7 +21,9 @@
         <td><%= link_to stoff.bezeichnung, stoff %></td>
         <td><%= stoff.un_nummer %></td>
         <td><%= stoff.gefahr_nummer %></td>
-        <td><%= link_to 'Bearbeiten', edit_stoff_path(stoff) %></td>
+        <td><%= link_to edit_stoff_path(stoff) do
+          render 'text_edit'
+        end %></td>
         <td><%= link_to stoff, method: :delete, data: { confirm: 'Willst du den Stoff wirklich löschen?' } do
           render 'text_remove'
         end %></td>
