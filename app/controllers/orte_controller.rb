@@ -1,6 +1,6 @@
 class OrteController < ApplicationController
 
-  before_action :set_ort, only: [:show, :edit, :update, :destroy]
+  before_action :set_ort, only: [:show, :edit, :update, :destroy, :union]
   
   
   def index
@@ -195,6 +195,23 @@ class OrteController < ApplicationController
     respond_to do |format|
       format.js 
     end 
+  end 
+  
+  # fuegt einen anderen Ort diesem hinzu.
+  def union
+    redirect_to @ort, notice: "Kein zweiter Ort ausgewählt." unless params[:add_ort_id]
+    add_ort = Ort.find(params[:add_ort_id].to_i)
+    if add_ort && @ort.add_ort(add_ort) 
+      add_ort.save 
+      @ort.save
+      if add_ort.destroy
+        redirect_to @ort, notice: "Orte erfolgreich zusammen gesetzt"
+      else
+        redirect_to @ort, notice: "Alle Daten hinzugefügt, aber anderer Ort existiert noch. Nochmal probieren oder Ort manuell löschen."
+      end
+    else 
+      redirect_to @ort, notice: "Funktionalitaet noch nicht implementiert."
+    end
   end 
   
   private 

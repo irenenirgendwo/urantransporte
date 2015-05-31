@@ -34,7 +34,7 @@ class Ort < ActiveRecord::Base
     self.umschlaege.each do |umschlag|
       transporte << umschlag.transport
     end
-    transporte
+    transporte.uniq
   end
   
   # Gibt alle Objekte in einer Liste zurück, die mit der ort_id verknüpft sind,
@@ -53,23 +53,25 @@ class Ort < ActiveRecord::Base
   # TODO: Funktioniert so noch nicht, irgendwie bleiben die alten Referenzen erhalten :(
   #
   def add_ort(ort)
-    File.open("log/ort.log","a"){|f| f.puts "Ort #{self.id}" }
+    File.open("log/ort.log","a"){|f| f.puts "Ort #{self.id} nimmt Ort auf #{ort.id}" }
     objektliste = ort.objekte_mit_ort_id
     objektliste.each do |objekt|
       objekt.ort = self 
       objekt.save 
-      File.open("log/ort.log","a"){|f| f.puts "#{objekt} Ort #{objekt.ort.id}" }
+    #  File.open("log/ort.log","a"){|f| f.puts "#{objekt} Ort #{objekt.ort.id}" }
     end
-    File.open("log/ort.log","a"){|f| f.puts "ortsobjekte #{ort.objekte_mit_ort_id}" }
-    #ort.start_transportabschnitte.each do |abschnitt|
-    #  abschnitt.start_ort = self
-    #  abschnitt.save
-    #end 
-    #ort.start_transportabschnitte.each do |abschnitt|
-    #  abschnitt.end_ort = self
-    #  abschnitt.save
-    #end 
-    return ort.destroy
+    #File.open("log/ort.log","a"){|f| f.puts "ortsobjekte #{ort.objekte_mit_ort_id}" }
+    ort.start_transportabschnitte.each do |abschnitt|
+      #File.open("log/ort.log","a"){|f| f.puts "#{abschnitt} old Ort #{abschnitt.start_ort.id}" }
+      abschnitt.start_ort = self
+      abschnitt.save
+      #File.open("log/ort.log","a"){|f| f.puts "#{abschnitt} new Ort #{abschnitt.start_ort.id}" }
+    end 
+    ort.ziel_transportabschnitte.each do |abschnitt|
+      abschnitt.end_ort = self
+      abschnitt.save
+    end 
+    return ort
   end
   
   # Gibt alle Orte, die nicht identisch sind (falls der Ort gespeichert ist) im Umrkeis von radius aus.

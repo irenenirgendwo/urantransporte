@@ -96,43 +96,47 @@
     <% end %>
 </div>
 
+<% unless @umkreis_orte.empty? && @namens_orte.empty? %>
+
   <h2> Ähnliche Orte zum Zusammenführen</h2>
-
-<div class="row">
-  <div class="col-sm-6">
   
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Orte im Umkreis von 50km</h3>
-      </div>
-      <div class="panel-body">
-        <dl class="dl-horizontal">
-          <% @umkreis_orte.each do |u_ort| %>
-            <dt><%= link_to u_ort.name, u_ort %></dt>
-            <dd>Link Zu diesem Ort hinzufügen</dd>
-          <% end %>
-        </dl>   
-      </div>
-    </div>
-  </div>
+  <div class="row">
+    <div class="col-sm-6">
     
-  <div class="col-sm-6">
-  
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Orte mit ähnlichem Namen</h3>
-      </div>
-      <div class="panel-body">
-        <dl class="dl-horizontal">
-          <% @namens_orte.each do |u_ort| %>
-            <% unless u_ort.id == @ort.id %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Orte im Umkreis von 50km</h3>
+        </div>
+        <div class="panel-body">
+          <dl class="dl-horizontal">
+            <% @umkreis_orte.each do |u_ort| %>
               <dt><%= link_to u_ort.name, u_ort %></dt>
-              <dd>Link Zu diesem Ort hinzufügen</dd>
+              <dd><%= link_to "Zu diesem Ort hinzufügen", union_ort_path(@ort, add_ort_id: u_ort.id) %></dd>
             <% end %>
-          <% end %>
-        </dl>   
+          </dl>   
+        </div>
       </div>
     </div>
+      
+    <div class="col-sm-6">
+    
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Orte mit ähnlichem Namen</h3>
+        </div>
+        <div class="panel-body">
+          <dl class="dl-horizontal">
+            <% @namens_orte.each do |u_ort| %>
+              <% unless u_ort.id == @ort.id %>
+                <dt><%= link_to u_ort.name, u_ort %></dt>
+                <dd><%= link_to "Zu diesem Ort hinzufügen", union_ort_path(@ort, add_ort_id: u_ort.id) %></dd>
+              <% end %>
+            <% end %>
+          </dl>   
+        </div>
+      </div>
+    </div>
+
   </div>
 
-</div>
+<% end %>
