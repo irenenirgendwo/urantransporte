@@ -101,18 +101,35 @@ class OrteController < ApplicationController
   #
   def create 
     ort_created = true
-    if (ort_params[:name])
-      @ort = Ort.find_or_create_ort(ort_params[:name], params[:ort][:plz], params[:ort][:lat],params[:ort][:lon])
-    elsif ort_params[:lat] && ort_params[:lon]
-      @ort = Ort.create_by_koordinates(params[:ort][:lat],params[:ort][:lon])
+    File.open("log/abschnitt.log","a"){|f| f.puts "ort_params #{ort_params}"}
+    File.open("log/abschnitt.log","a"){|f| f.puts "lat #{ort_params["lat"]}"}
+    
+    if params.include? :typ
+      if (ort_params[:name] && ort_params[:name] != "")
+        @ort = Ort.find_or_create_ort(ort_params[:name], params[:ort][:plz], params["#{params[:typ]}_lat"],params["#{params[:typ]}_lon"])
+      elsif params["#{params[:typ]}_lat"] && params["#{params[:typ]}_lon"]
+        @ort = Ort.create_by_koordinates(params["#{params[:typ]}_lat"],params["#{params[:typ]}_lon"])
+      else 
+        ort_created = false
+      end
     else 
-      ort_created = false
-    end
+      if (ort_params[:name] && ort_params[:name] != "")
+        @ort = Ort.find_or_create_ort(ort_params[:name], params[:ort][:plz], params[:ort][:lat],params[:ort][:lon])
+      elsif params[:ort][:lat] && params[:ort][:lon]
+        @ort = Ort.create_by_koordinates(params[:ort][:lat],params[:ort][:lon])
+      else 
+        ort_created = false
+      end
+    
+    end  
+      
     @abschnitt_ort_typ = params[:abschnitt_ort_typ]
     File.open("log/abschnitt.log","a"){|f| f.puts "params #{params}"}
     respond_to do |format|
       if ort_created && @ort.save 
         format.js {render "create_abschnitt_ort"}
+      else
+        format.js {render "create_abschnitt_ort_fehler"}
       end 
     end
   end

@@ -30,13 +30,15 @@
           <input type="button" name="btnSuche" value="Suche auf Karte" class="btn btn-primary"
                 onclick="find_ort_in_map()">
           <!--<input type="text" name="search" placeholder="Hier zukünftig suchen" id="search" class="form-control">-->
-          <%= f.hidden_field :lat %>
-          <%= f.hidden_field :lon %>
-        
-          <div id="map" style="height: 300px;"></div>
+          
+          <%= hidden_field_tag "#{ort_typ}_lat", @ort.lat %>
+          <%= hidden_field_tag "#{ort_typ}_lon", @ort.lon %>
+          <%= hidden_field_tag "typ", ort_typ%>
+                   
+          <div id=<%="map_#{ort_typ}"%> style="height: 300px;"></div>
           <!-- Javascript im Ordner app/assets/javascripts ablegen -->
           <script>
-            geomap("ort_direkt");
+            geomap('<%= ort_typ %>','<%="map_#{ort_typ}"%>');
           </script>
         </div>
 

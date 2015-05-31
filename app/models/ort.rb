@@ -207,7 +207,7 @@ class Ort < ActiveRecord::Base
   # Erzeugt einen Ort nur mit Koordinatenangaben
   #
   def self.create_by_koordinates(lat,lon)
-    #File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates" }
+    File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates lat: #{lat}" }
     ort = Ort.find_by(lat: lat, lon: lon)
     if ort.nil?
       begin

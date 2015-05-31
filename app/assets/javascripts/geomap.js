@@ -1,5 +1,5 @@
           
-function geomap(typ){          
+function geomap(typ, map_id='map'){
     var lat, lon, lat_name, lon_name;
     if (typ == "ort") {
       lat_name = 'lat'
@@ -23,7 +23,8 @@ function geomap(typ){
       lat = 52.2152;
       lon = 7.0793
     }
-    var map = L.map('map', {attributionControl: false}).setView([lat, lon], 7);
+
+    var map = L.map(map_id, {attributionControl: false}).setView([lat, lon], 7);
     var marker = L.marker([lat, lon]).addTo(map);
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     map.on('click', function(e) {
