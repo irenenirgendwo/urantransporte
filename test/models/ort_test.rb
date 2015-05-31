@@ -62,6 +62,8 @@ class OrtTest < ActiveSupport::TestCase
     assert_equal 2, ort2.objekte_mit_ort_id.size, "#{ort2.objekte_mit_ort_id}" 
     assert_equal 3, ort3.objekte_mit_ort_id.size, "#{ort3.objekte_mit_ort_id}" 
     assert ort.add_ort(ort2), "#{ort.add_ort(ort2)} hat noch #{ort2.objekte_mit_ort_id}"
+    puts ort.objekte_mit_ort_id
+    puts ort.objekte_mit_ort_id
     assert_equal 3, ort.objekte_mit_ort_id.size, "#{ort.objekte_mit_ort_id}"
   end 
   

@@ -115,16 +115,25 @@ class AnlagenController < ApplicationController
     # Orte finden, zuordnen oder falls nötig, neu erstellen.
     # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
     # Evtl. in extra Funktion auslagern, war mir für den Moment zu aufwendig.
-    File.open("log/ort.log","w"){|f| f.puts "params #{params}" }
+    
+    File.open("log/ort.log","a"){|f| f.puts "params #{params}" }
+    ort_id_vorher = @anlage.ort.id if @anlage.ort
+    File.open("log/ort.log","a"){|f| f.puts "ort_id vorher #{ort_id_vorher} #{ort_id_vorher.nil?}" }
     # Wenn Koordinaten zum Ort gleich geblieben und nur Ortsname sich geändert hat
     eindeutig, ort_e = update_ort(@anlage, @anlage.ort, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "update")
     
     if eindeutig
       respond_to do |format|
         if @anlage.update(anlage_params)
-            flash[:success] = "Anlage aktualisiert."
-            format.html { redirect_to @anlage }
-            format.json { render :show, status: :created, location: @anlage }
+          update_transports = 
+            if ort_id_vorher.nil? || (@anlage.ort && ort_id_vorher == @anlage.ort.id)
+              true
+            else
+              @anlage.update_verbundene_transportabschnitte(ort_id_vorher)
+            end
+          flash[:success] = "Anlage aktualisiert."
+          format.html { redirect_to @anlage, notice: "Anlage aktualisiert." }
+          format.json { render :show, status: :created, location: @anlage }
         else
           format.html { render :new }
           format.json { render json: @anlage.errors, status: :unprocessable_entity }

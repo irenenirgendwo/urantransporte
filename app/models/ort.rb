@@ -23,6 +23,8 @@ class Ort < ActiveRecord::Base
     lat.to_s + ',' + lon.to_s
   end
   
+  # gibt ein Array aller Transporte zurueck, die ueber Abschnitte, Beobachtungen oder Umschlaege mit dem Transport verknuepft sind
+  # 
   def transporte
     transporte = []
     self.start_transportabschnitte.each do |abschnitt|
@@ -33,6 +35,9 @@ class Ort < ActiveRecord::Base
     end
     self.umschlaege.each do |umschlag|
       transporte << umschlag.transport
+    end
+    self.beobachtungen.each do |beob|
+      transporte << beob.transportabschnitt.transport unless beob.transportabschnitt.nil?
     end
     transporte.uniq
   end
@@ -53,7 +58,7 @@ class Ort < ActiveRecord::Base
   # TODO: Funktioniert so noch nicht, irgendwie bleiben die alten Referenzen erhalten :(
   #
   def add_ort(ort)
-    File.open("log/ort.log","a"){|f| f.puts "Ort #{self.id} nimmt Ort auf #{ort.id}" }
+    #File.open("log/ort.log","a"){|f| f.puts "Ort #{self.id} nimmt Ort auf #{ort.id}" }
     objektliste = ort.objekte_mit_ort_id
     objektliste.each do |objekt|
       objekt.ort = self 
@@ -145,18 +150,18 @@ class Ort < ActiveRecord::Base
   def self.ort_waehlen(ort)
     orte = Ort.orte_mit_namen(ort)
     if orte.size > 1
-      File.open("log/ort.log","a"){|f| f.puts "Mehrere Orte gefunden" }
+      #File.open("log/ort.log","a"){|f| f.puts "Mehrere Orte gefunden" }
       return false, orte #redirect_to orte_ortswahl_path 
     elsif orte.size == 1
-      File.open("log/ort.log","a"){|f| f.puts "Einen Ort gefunden" }
+      #File.open("log/ort.log","a"){|f| f.puts "Einen Ort gefunden" }
       return true, orte.first
     else 
       orte =  Ort.lege_passende_orte_an(ort)
       if orte.size > 1
-        File.open("log/ort.log","a"){|f| f.puts "Mehrere Orte gefunden" }
+        #File.open("log/ort.log","a"){|f| f.puts "Mehrere Orte gefunden" }
         return false, orte
       elsif orte.size == 1
-        File.open("log/ort.log","a"){|f| f.puts "Einen Ort gefunden" }
+        #File.open("log/ort.log","a"){|f| f.puts "Einen Ort gefunden" }
         return true, orte.first
       elsif orte.empty?
         return false, nil
@@ -177,7 +182,7 @@ class Ort < ActiveRecord::Base
         unless o.city.nil? && o.zip.nil? && o.lat.nil? && o.lng.nil?
           o = Ort.create(:name => o.city, :plz => o.zip, :lat => o.lat, :lon => o.lng)
           angelegte_orte << o
-          File.open("log/ort.log","a"){|f| f.puts "Ort angelegt: #{o.attributes}" }
+          #File.open("log/ort.log","a"){|f| f.puts "Ort angelegt: #{o.attributes}" }
         end
       end
     rescue
@@ -209,11 +214,11 @@ class Ort < ActiveRecord::Base
   # Erzeugt einen Ort nur mit Koordinatenangaben
   #
   def self.create_by_koordinates(lat,lon)
-    File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates lat: #{lat}" }
+    #File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates lat: #{lat}" }
     ort = Ort.find_by(lat: lat, lon: lon)
     if ort.nil?
       begin
-        File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates" }
+        #File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates" }
         o = Geokit::Geocoders::GoogleGeocoder.geocode "#{lat},#{lon}"
         ort = create(:name => o.city, :lat => lat, :lon => lon, :plz => o.zip)
       rescue 

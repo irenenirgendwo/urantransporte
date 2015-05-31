@@ -38,6 +38,20 @@ class Anlage < ActiveRecord::Base
   def get_synonym_names
     get_synonyme.pluck(:synonym)
   end
+  
+  def update_verbundene_transportabschnitte(alt_ort_id)
+    alter_ort = Ort.find(alt_ort_id)
+    success = true
+    alter_ort.start_transportabschnitte.each do |abschnitt|
+      abschnitt.start_ort = self.ort
+      success = success && abschnitt.save
+    end
+    alter_ort.ziel_transportabschnitte.each do |abschnitt|
+      abschnitt.end_ort = self.ort
+      success = success && abschnitt.save
+    end
+    success
+  end
 
 
 end
