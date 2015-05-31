@@ -1,13 +1,14 @@
 # encoding: utf-8
 class Transport < ActiveRecord::Base
 
-  has_many :transportabschnitte
+  # Transportabschnitte und -umschlaege mit loeschen, beim Loeschen des Transports
+  has_many :transportabschnitte, :dependent => :delete_all
+  has_many :umschlaege, :dependent => :delete_all
   belongs_to :transportgenehmigung
   has_many :versandstuecke
-  has_many :umschlaege
 
   belongs_to :start_anlage, :class_name => 'Anlage'
-  belongs_to :ziel_anlage, :class_name => 'Anlage'	
+  belongs_to :ziel_anlage, :class_name => 'Anlage'
   belongs_to :stoff
 
   # Validations, eindeutige Identifizierung des Transports durch Datum, Start- und Zielanlage

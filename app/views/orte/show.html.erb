@@ -52,9 +52,13 @@
         <div class="panel-body">
           <ul>
             <% @ort.transporte.each do |transport| %>
-              <li>
-                <%= link_to transport.datum, transport %>
-              </li>
+              <% if transport.nil? %>
+                Error, sollte nicht auftreten, leerer Transport.
+              <% else %>
+                <li>
+                  <%= link_to transport.datum, transport  %>
+                </li>
+              <% end %>
             <% end %>
           </ul> 
         </div>

@@ -81,10 +81,14 @@ class TransporteController < ApplicationController
   # DELETE /transporte/1
   # DELETE /transporte/1.json
   def destroy
-    @transport.destroy
     respond_to do |format|
-      format.html { redirect_to transporte_url, notice: 'Transport was successfully destroyed.' }
-      format.json { head :no_content }
+      if @transport.destroy
+        format.html { redirect_to transporte_url, notice: 'Transport was successfully destroyed.' }
+        format.json { head :no_content }
+      else 
+        format.html { redirect_to @transport, notice: 'Der Transport hat noch Abschnitte und Umschläge. Deshalb ist das Löschen nicht möglich.' }
+        format.json { head :no_content }
+      end
     end
   end
   
