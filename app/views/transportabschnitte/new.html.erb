@@ -1,14 +1,14 @@
-<h1>Neuen Transportabschnitt anlegen</h1>
+<h1>Neuen Transportabschnitt erstellen</h1>
 
 <div class="row">
-  <div class="col-sm-6">
+  <div class="col-sm-7">
     <%= render 'form' %>
   </div>
-  <% if @beobachtung %>
-    <%= render "beobachtungen/eingabehilfe", beobachtung: @beobachtung %>
-  <% end %>
-  <% if @transport %>
-    <div class="col-sm-6">
+  <div class="col-sm-5">
+    <% if @beobachtung %>
+      <%= render "beobachtungen/eingabehilfe", beobachtung: @beobachtung %>
+    <% end %>
+    <% if @transport %>
       <div class="panel panel-default">
         <div class="panel-heading">
           <h1 class="panel-title">Eingabehilfe: Transportgrunddaten </h1>
@@ -17,8 +17,6 @@
           <%= render "transporte/show_transport_grunddaten", transport: @transport %>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
-
-<%= link_to 'Back', transportabschnitte_path %>
