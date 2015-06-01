@@ -5,12 +5,10 @@
       <tr>
         <td><span class="glyphicon glyphicon-user"></span> <%= link_to user.name, user %></td>
         <td><%= user.email %></td> 
-        <td>
+        <td class="table-action">
           <%= link_to edit_user_path(user) do
             render 'text_edit'
           end %>
-        </td>
-        <td>
           <%= link_to( user, method: :delete, data: { confirm: 'Willst du den Benutzer wirklich löschen?' } ) do
             render 'text_remove'
           end %>

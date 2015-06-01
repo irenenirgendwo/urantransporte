@@ -38,7 +38,7 @@
         <tr>
           <th>Name</th>
           <th>PLZ</th>
-          <th colspan="2"></th>
+          <th></th>
         </tr>
       </thead>
 
@@ -47,12 +47,10 @@
           <tr>
             <td><%= link_to ort.name, ort %></td>
             <td><%= ort.plz %></td>
-            <td>
+            <td class="table-actions">
               <%= link_to edit_ort_path(ort) do
                 render 'text_edit'
               end %>
-            </td>
-            <td>
               <%= link_to ort, method: :delete, data: { confirm: 'Willst du den Ort wirklich löschen?' } do
                 render 'text_remove'
               end%>

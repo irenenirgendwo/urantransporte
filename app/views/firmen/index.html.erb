@@ -13,6 +13,7 @@
       <th>Name</th>
       <th>Beschreibung</th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -25,6 +26,14 @@
           <% if firma.reederei %>
             <span class="badge">Reederei</span>
           <% end %>
+        </td>
+        <td class="table-actions">
+          <%= link_to edit_firma_path(firma) do
+            render 'text_edit'
+          end %>
+          <%= link_to firma, method: :delete, data: { confirm: 'Willst du den Firma wirklich löschen?' } do
+            render 'text_remove'
+          end%>
         </td>
       </tr>
     <% end %>

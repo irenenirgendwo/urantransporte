@@ -11,7 +11,7 @@
           <th>Ziel</th>
         <% end %>
         <% if is_editor? %>
-          <th colspan="2"></th>
+          <th></th>
         <% end %>
       </tr>
     </thead>
@@ -27,8 +27,14 @@
             <td><%= link_to transport.ziel_anlage, transport.ziel_anlage %></td>
           <% end %>
           <% if is_editor? %>
-            <td><%= link_to 'Bearbeiten', edit_transport_path(transport) %></td>
-            <td><%= link_to 'Löschen', transport, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <td class="table-actions">
+              <%= link_to edit_transport_path(transport) do
+                render 'text_edit'
+              end %>
+              <%= link_to transport, method: :delete, data: { confirm: 'Willst du den Transport wirklich löschen?' } do
+                render 'text_remove'
+              end %>
+            </td>
           <% end %>
         </tr>
       <% end %>

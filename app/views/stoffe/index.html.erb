@@ -11,7 +11,7 @@
       <th>Bezeichnung</th>
       <th>UN-Nummer</th>
       <th>Gefahrnummer</th>
-      <th colspan="2"></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -21,12 +21,13 @@
         <td><%= link_to stoff.bezeichnung, stoff %></td>
         <td><%= stoff.un_nummer %></td>
         <td><%= stoff.gefahr_nummer %></td>
-        <td><%= link_to edit_stoff_path(stoff) do
-          render 'text_edit'
-        end %></td>
-        <td><%= link_to stoff, method: :delete, data: { confirm: 'Willst du den Stoff wirklich löschen?' } do
-          render 'text_remove'
-        end %></td>
+        <td class="table-actions">
+          <%= link_to edit_stoff_path(stoff) do
+            render 'text_edit'
+          end %>
+          <%= link_to stoff, method: :delete, data: { confirm: 'Willst du den Stoff wirklich löschen?' } do
+            render 'text_remove'
+          end %></td>
       </tr>
     <% end %>
   </tbody>
