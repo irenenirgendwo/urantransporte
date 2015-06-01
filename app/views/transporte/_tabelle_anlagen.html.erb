@@ -3,6 +3,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th></th>
         <th>Datum</th>
         <th>Stoff</th>
         <% if mode == :an %>
@@ -19,7 +20,12 @@
     <tbody>
       <% transporte.each do |transport| %>
         <tr>
-          <td><%= link_to l(transport.datum), transport %></td>
+          <td>
+            <%= link_to transport do
+              render 'text_show'
+            end %>
+          </td>
+          <td><%= l(transport.datum) %></td>
           <td><%= link_to transport.stoff, transport.stoff %></td>
           <% if mode == :an %>
             <td><%= link_to transport.start_anlage, transport.start_anlage %></td>

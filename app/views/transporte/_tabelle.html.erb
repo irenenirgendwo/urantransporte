@@ -5,22 +5,27 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th></th>
         <th>Datum</th>
         <th>Start</th>
         <th>Ziel</th>
         <th>Stoff</th>
-        <th colspan="2"></th>
+        <th></th>
       </tr>
     </thead>
 
     <tbody>
       <% @transporte.each do |transport| %>
         <tr>
+          <td>
+            <%= link_to transport do
+              render 'text_show'
+            end %>
+          </td>
           <td><%= l transport.datum %></td>
           <td><%= link_to transport.start_anlage, transport.start_anlage %></td>
           <td><%= link_to transport.ziel_anlage, transport.ziel_anlage %></td>
           <td><%= link_to transport.stoff, transport.stoff %></td>
-          <td><%= link_to 'Show', transport %></td>
           <% if is_editor? %>
             <td class="table-actions">
               <%= link_to edit_transport_path(transport) do

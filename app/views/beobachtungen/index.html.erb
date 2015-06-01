@@ -29,18 +29,23 @@
     <table class="table table-striped">
       <thead>
         <tr>
+          <th></th>
           <th>Datum</th>
           <th>Ort</th>
-          <th colspan="2"></th>
+          <th></th>
         </tr>
       </thead>
 
       <tbody>
         <% @beobachtungen.each do |beobachtung| %>
           <tr>
+            <td>
+              <%= link_to beobachtung do
+                render 'text_show'
+              end %>
+            </td>
             <td><%= beobachtung.ankunft_zeit.to_formatted_s(:dmyz)   %></td>
             <td><%= beobachtung.ort %></td>
-            <td><%= link_to 'Show', beobachtung %></td>
             <td class="table-actions">
               <%= link_to edit_beobachtung_path(beobachtung) do
                 render 'text_edit'
