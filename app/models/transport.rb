@@ -200,12 +200,51 @@ class Transport < ActiveRecord::Base
     orte
   end
   
+  # Sammelt alle Durchfahrtsorte zusammen, aus Anlagenorten, Umschlagsorten, Abschnitten
+  # und zugeordneten Beobachtungen
+  #
+  def get_known_orte_with_props
+    orte = {}
+    strecken = []
+    transportabschnitte.each do |abschnitt|
+      if abschnitt.start_ort && abschnitt.end_ort && abschnitt.start_ort.lat && abschnitt.end_ort.lat
+        strecken << [abschnitt.start_ort, abschnitt.end_ort] 
+      end
+      check_ort_p(orte, abschnitt.start_ort, "Abschnitt")
+      check_ort_p(orte, abschnitt.end_ort, "Abschnitt")
+      abschnitt.beobachtungen.each do |beob|
+        check_ort_p(orte, beob.ort, "Beobachtung")
+      end
+      #abschnitt.orte.each do |durchfahrt|
+      #  check_ort_p(orte, durchfahrt)
+      #end
+    end
+    umschlaege.each do |umschlag|
+      check_ort_p(orte, umschlag.ort, "Umschlag")
+    end
+    check_ort_p(orte, start_anlage.ort, "Start-Anlage")
+    check_ort_p(orte, ziel_anlage.ort, "Ziel-Anlage")
+    if strecken.empty? && start_anlage.ort && ziel_anlage.ort && start_anlage.ort.lat && ziel_anlage.ort.lat
+      strecken << [start_anlage.ort, ziel_anlage.ort] 
+    end
+    return orte, strecken
+  end
+  
+  
   # Hilfsmethode für get_known_orte
   def check_ort_ll(ort_array, ort)
     unless ort_array.include? ort
       ort_array << ort if ort and ort.lon and ort.lat
     end
   end
+  
+  def check_ort_p(ort_hash,ort,prop)
+    if ort and ort.lon and ort.lat
+      #ort_hash[ort] ||=[]
+      #ort_hash[ort] << prop
+      ort_hash[ort] = prop
+    end
+  end 
   
   # Gibt die Ids aller Orte zurück
   #

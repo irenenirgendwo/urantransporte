@@ -10,6 +10,7 @@ class TransporteController < ApplicationController
   def show
     @abschnitt_umschlag_list = @transport.sort_abschnitte_and_umschlaege
     @orte = @transport.get_known_orte
+    @orte_props, @strecken = @transport.get_known_orte_with_props
   end
 
   # GET /transporte/new

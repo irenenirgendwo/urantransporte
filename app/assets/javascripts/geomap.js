@@ -48,9 +48,23 @@ function allOrteMap(typ) {
   $.getJSON("/"+typ+".json", function(data) {
     var geojson = L.geoJson(data, {
       onEachFeature: function (feature, layer) {
-        layer.bindPopup(feature.properties.name);
+        if (feature.geometry.type == 'Point') {
+          layer.bindPopup('<strong>' + feature.properties.typ +'</strong><br />' + feature.properties.name);
+        }
       }
+      //hat keinen Effekt 
+      /*style: function(feature) {
+        if (feature.geometry.type == 'Point') {
+        //switch (feature.properties.typ) {
+        //    case 'Start-Anlage': return {color: "#ff0000", weight: 5};
+        //    case 'Ziel-Anlage':  return {color: "#0000ff"};
+        //}
+          return {color: "#0000ff"};
+        }
+      }
+      //style: myStyle*/
     });
+    
     var map = L.map('map', {attributionControl: false}).fitBounds(geojson.getBounds());
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     geojson.addTo(map);
