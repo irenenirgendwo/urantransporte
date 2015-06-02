@@ -1,19 +1,21 @@
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"><%= typ %> </h3>
-      </div>
-      <div class="panel-body"
-        <ul class="list-group">
-          <div class: "list-group-item">
-            <%= check_box_tag "#{typ}-alle" %>
-            Alle
-          </div>
-          <% auswahl.each do |auswahl_bezeichnung, auswahl_id| %>
-            <div class: "list-group-item"> 
-              <%= check_box_tag "#{typ}-#{auswahl_id}" %>
-              <%= auswahl_bezeichnung %>
-            </div>
-          <% end %>
-        </ul>
-      </div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= typ %> </h3>
+  </div>
+  <div class="panel-body">
+    <div class="checkbox">
+      <label>
+        <%= check_box_tag "#{typ}-alle" %>
+        Alle
+      </label>
     </div>
+    <% auswahl.each do |auswahl_bezeichnung, auswahl_id| %>
+      <div class="checkbox">
+        <label>
+          <%= check_box_tag "#{typ}-#{auswahl_id}" %>
+          <%= auswahl_bezeichnung %>
+        </label>
+      </div>
+    <% end %>
+  </div>
+</div>

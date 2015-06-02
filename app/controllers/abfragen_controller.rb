@@ -194,7 +194,7 @@ class AbfragenController < ApplicationController
       @zeitraum = "Vom #{l start_datum} bis zum #{l end_datum}"
       @stoffe = stoffe.map { |stoff_id| Stoff.find(stoff_id).bezeichnung }.join(",") unless stoffe.empty?
       @start_anlagen = start_anlagen.map { |id| Anlage.find(id).name }.join(",") unless start_anlagen.empty?
-      @ziel_anlagen = start_anlagen.map { |id| Anlage.find(id).name }.join(",") unless ziel_anlagen.empty?
+      @ziel_anlagen = ziel_anlagen.map { |id| Anlage.find(id).name }.join(",") unless ziel_anlagen.empty?
       @verkehrstraeger = verkehrstraeger.join(",") unless verkehrstraeger.empty?
       
       @transporte

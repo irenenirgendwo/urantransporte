@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+  <div class="panel-body row">
+    <div class="col-sm-6">
+      <dl class="dl-horizontal">
+        <dt>Ort</dt>
+        <dd><%= @dort ? @dort : "Überall" %></dd>
+        
+        <dt>Zeitraum</dt>
+        <dd><%= @zeitraum %></dd>
+        
+        <dt>Verkehrsträger</dt>
+        <dd><%= @verkehrstraeger ? @verkehrstraeger : "Alle" %></dd>
+      </dl>
+    </div>
+    <div class="col-sm-6">
+      <dl class="dl-horizontal">
+        <dt>Stoffe</dt>
+        <dd><%= @stoffe ? @stoffe : "Alle" %></dd>
+        
+        <dt>Start-Anlagen</dt>
+        <dd><%= @start_anlagen ? @start_anlagen : "Alle" %></dd>
+        
+        <dt>Ziel-Anlagen</dt>
+        <dd><%= @ziel_anlagen ? @ziel_anlagen : "Alle" %></dd>
+      </dl>
+    </div>
+  </div>
+</div>

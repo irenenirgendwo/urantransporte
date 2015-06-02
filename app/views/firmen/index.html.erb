@@ -10,6 +10,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
+      <th></th>
       <th>Name</th>
       <th>Beschreibung</th>
       <th></th>
@@ -20,6 +21,11 @@
   <tbody>
     <% @firmen.each do |firma| %>
       <tr>
+        <td>
+          <%= link_to firma do
+            render 'text_show'
+          end%>
+        </td>
         <td><%= link_to firma.name, firma %></td>
         <td><%= firma.beschreibung %></td>
         <td>

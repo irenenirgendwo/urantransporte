@@ -131,8 +131,7 @@ class AnlagenController < ApplicationController
             else
               @anlage.update_verbundene_transportabschnitte(ort_id_vorher)
             end
-          flash[:success] = "Anlage aktualisiert."
-          format.html { redirect_to @anlage, notice: "Anlage aktualisiert." }
+          format.html { redirect_to @anlage }
           format.json { render :show, status: :created, location: @anlage }
         else
           format.html { render :new }

@@ -1,29 +1,16 @@
 <h1>Ausgewählte Transporte</h1>
 
-<div class="row">
+<%= render 'auswahl_daten' %>
 
-  <div class="col-sm-8">
-    <p><%= @dort %></p>
-    <p> Zeitraum: <%= @zeitraum %></p>
-    <p> Stoffe : <%= @stoffe ? @stoffe : "Alle" %> </p>
-    <p> Start-Anlagen : <%= @start_anlagen ? @start_anlagen : "Alle"  %> </p>
-    <p> Ziel-Anlagen : <%= @ziel_anlagen ? @ziel_anlagen : "Alle" %> </p>
-    <p> Verkehrsträger: <%= @verkehrstraeger %></p>
+<%= form_tag({action: :calendar}, multipart: true, class: "clearfix") do %>
+  <%= hidden_field_tag "year", @year %>
+  <%= render 'hidden_fields' %>
+  <div class="btn-group pull-right" role="group" aria-label="...">
+    <button type="button" class="btn btn-primary active">Tabelle</button> 
+    <%= submit_tag "Kalender", class: "btn btn-primary" %>
   </div>
+<% end %>
   
-  <div class="col-sm-4">
-    <%= form_tag({action: :calendar}, multipart: true) do %>
-      <%= hidden_field_tag "year", @year %>
-      <%= render 'hidden_fields' %>
-      <div class="btn-group pull-right" role="group" aria-label="...">
-        <button type="button" class="btn btn-primary active">Tabelle</button> 
-        <%= submit_tag "Kalender", class: "btn btn-primary" %>
-      </div>
-    <% end %>
-  </div>
-  
-</div>
-
 <%= render 'transporte/tabelle' %>
 
 

@@ -1,13 +1,9 @@
 <%= form_for(@beobachtung) do |f| %>
   <% if @beobachtung.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@beobachtung.errors.count, "error") %> prohibited this beobachtung from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger">
       <% @beobachtung.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <p><%= message %></p>
       <% end %>
-      </ul>
     </div>
   <% end %>
   
