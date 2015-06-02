@@ -35,7 +35,7 @@
           <%= hidden_field_tag "#{ort_typ}_lon", @ort.lon %>
           <%= hidden_field_tag "typ", ort_typ%>
                    
-          <div id=<%="map_#{ort_typ}"%> style="height: 300px;"></div>
+          <div id="<%="map_#{ort_typ}"%>" style="height: 300px;"></div>
           <!-- Javascript im Ordner app/assets/javascripts ablegen -->
           <script>
             geomap('<%= ort_typ %>','<%="map_#{ort_typ}"%>');
