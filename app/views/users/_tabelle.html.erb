@@ -5,7 +5,7 @@
       <tr>
         <td><span class="glyphicon glyphicon-user"></span> <%= link_to user.name, user %></td>
         <td><%= user.email %></td> 
-        <td class="table-action">
+        <td class="table-actions">
           <%= link_to edit_user_path(user) do
             render 'text_edit'
           end %>

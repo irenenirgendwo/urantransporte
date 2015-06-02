@@ -109,14 +109,20 @@
       <h2 class="panel-title">Verkehrsmittel</h2>
     </div>
     <div class="panel-body">
-      <div class="field">
+      <div class="form-group">
         <label>Verkehrsträger</label>
-        <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, "unbekannt"), class: "form-control" %>
+        <%= f.select :verkehrstraeger, options_for_select(VERKEHRSTRAEGER_COMBOBOX, "unbekannt"), {}, class: "form-control" %>
       </div>
-      <div class="field">
+      <div class="form-group">
         <label>Transportfirma</label>
-        <%= collection_select(:transportabschnitt, :firma_id, Firma.all, :id, :name) %>
-        <button class="btn btn-success" data-toggle="modal" data-target="#firmaModal-" type="button">Neue Firma</button>
+        <div class="row">
+          <div class="col-sm-9">
+            <%= collection_select(:transportabschnitt, :firma_id, Firma.all, :id, :name, {}, class: "form-control col-sm-10") %>
+          </div>
+          <div class="col-sm-3">
+            <button class="btn btn-success pull-right" data-toggle="modal" data-target="#firmaModal-" type="button">Neue Firma</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

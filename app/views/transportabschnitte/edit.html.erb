@@ -7,12 +7,18 @@
   </div>
 
   <div class="col-sm-5">
-    <h3> Transportgrunddaten
-      <div class="btn-group header-buttons">
-        <%= link_to 'Zur Transport-Anzeige', @transport , class: "btn btn-primary" %>  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h1 class="panel-title">Eingabehilfe: Transportgrunddaten
+          <div class="btn-group header-buttons">
+            <%= link_to 'Zur Transport-Anzeige', @transport , class: "btn btn-primary btn-xs" %>
+          </div>
+        </h1>
       </div>
-    </h3>
-    <%= render "transporte/show_transport_grunddaten", transport: @transport %>
+      <div class="panel-body">
+        <%= render "transporte/show_transport_grunddaten", transport: @transport %>
+      </div>
+    </div>
   </div>
   
 </div>
