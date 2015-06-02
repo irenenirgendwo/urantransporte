@@ -19,7 +19,6 @@
   <% end %>
 
   <% if is_editor? %>
-    <%= abschnitt.start_ort.id if abschnitt.start_ort %>
     <%= link_to "Bearbeiten", edit_transportabschnitt_path(abschnitt) %>
     | <%= link_to 'Löschen', abschnitt, method: :delete, data: { confirm: 'Willst du den Transportabschnitt wirklich löschen?' } %>
 
@@ -39,7 +38,6 @@
     <% if abschnitt.end_datum || abschnitt.end_ort %>
       <%= link_to "Umschlag danach anlegen", new_umschlag_path(transport_id: abschnitt.transport.id, abschnitt_davor: abschnitt.id) %>
     <% end %>
-    <%= abschnitt.end_ort.id if abschnitt.end_ort %>
   <% end %>
   
   <% unless abschnitt.beobachtungen.empty? %>

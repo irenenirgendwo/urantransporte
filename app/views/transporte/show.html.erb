@@ -17,7 +17,6 @@
 <h3>Transportverlauf </h3>
 <% if @transport.transportabschnitte.nil? || @transport.transportabschnitte.empty? %>
   Noch keine Transportabschnitte eingegeben.
-  <%= link_to 'Neuer Transportabschnitt', new_transport_transportabschnitt_path(@transport) %> |
 <% else %>
   <% @abschnitt_umschlag_list.each do |anzeigen| %>
     <% if anzeigen.is_a? Umschlag %>
