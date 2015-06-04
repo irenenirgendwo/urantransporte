@@ -34,6 +34,10 @@ function geomap(typ, map_id='map'){
       document.getElementById(lat_name).value = e.latlng.lat.toFixed(6);
       document.getElementById(lon_name).value = e.latlng.lng.toFixed(6);
     });
+    
+    $('.modal').on('shown.bs.modal', function (e) {
+      map.invalidateSize(true);
+    });
 }
 
 function schiffMap(lat, lon, rot){
