@@ -18,7 +18,7 @@ class RoutenControllerTest < ActionController::TestCase
 
   test "should create route" do
     assert_difference('Route.count') do
-      post :create, route: { name: @route.name }
+      post :create, route: { name: "Neue Route" }
     end
 
     assert_redirected_to route_path(assigns(:route))

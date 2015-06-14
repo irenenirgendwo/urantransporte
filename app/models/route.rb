@@ -41,6 +41,8 @@ class Route < ActiveRecord::Base
   end 
   
   def erhoehe_durchfahrtsort_indizes ab_index
+    return false if ab_index.nil?
+    #d_orte = Durchfahrtsort.where("durchfahrtsorte.route_id = ? AND durchfahrtsorte.index > ?", self.id, ab_index -1).order("durchfahrtsorte.index DESC")
     d_orte = self.durchfahrtsorte.where("durchfahrtsorte.index >= ?",ab_index).order("durchfahrtsorte.index DESC")
     success = true
     d_orte.each do |durchfahrt|
