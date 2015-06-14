@@ -1,6 +1,9 @@
-<h1>Editing Route</h1>
+<h1>
+  Route: Namen ändern
+  <div class="btn-group header-buttons">
+    <%= link_to 'Route ansehen', @route, class: "btn btn-primary" %> 
+    <%= link_to 'Alle Routen', routen_path, class: "btn btn-primary" %>
+  </div>
+</h1>
 
 <%= render 'form' %>
-
-<%= link_to 'Show', @route %> |
-<%= link_to 'Back', routen_path %>

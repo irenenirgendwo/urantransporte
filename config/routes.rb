@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
   resources :durchfahrtsorte do
-    post "schiebe_hoch", on: :member
-    post "schiebe_runter", on: :member
+    get "schiebe_hoch", on: :member
+    get "schiebe_runter", on: :member
   end
   resources :routen
   

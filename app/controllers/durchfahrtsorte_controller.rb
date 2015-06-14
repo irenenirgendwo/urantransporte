@@ -1,5 +1,5 @@
 class DurchfahrtsorteController < ApplicationController
-  before_action :set_durchfahrtsort, only: [:show, :edit, :update, :destroy]
+  before_action :set_durchfahrtsort, only: [:show, :edit, :update, :destroy, :schiebe_hoch, :schiebe_runter]
 
   include OrteAuswahl
 
@@ -60,7 +60,7 @@ class DurchfahrtsorteController < ApplicationController
         end
       else 
         flash[:error] = 'Kein passender Ort oder Ort mehrdeutig, nicht gespeichert. Spezifizieren durch Karten-Eingabe.'
-        redirect_to edit_durchfahrtsort_path(@durchfahrtsort)
+        redirect_to @route
       end
     else
       flash[:error] = "Keine Route zum Anlegen des Durchfahrtsortes"
@@ -95,6 +95,27 @@ class DurchfahrtsorteController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  
+  def schiebe_hoch
+    @route = @durchfahrtsort.route
+    if @route.schiebe_hoch(@durchfahrtsort)
+      flash[:info]="Erfolgreich verschoben."
+    else 
+      flash[:error]="Nicht verschoben."
+    end 
+    redirect_to @route 
+  end 
+  
+  def schiebe_runter
+    @route = @durchfahrtsort.route
+    if @route.schiebe_runter(@durchfahrtsort)
+      flash[:info]="Erfolgreich verschoben."
+    else 
+      flash[:error]="Nicht verschoben."
+    end 
+    redirect_to @route 
+  end 
 
   private
     # Use callbacks to share common setup or constraints between actions.

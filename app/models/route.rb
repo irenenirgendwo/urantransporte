@@ -45,5 +45,37 @@ class Route < ActiveRecord::Base
     success
   end 
   
+  def tausche_durchfahrtsorte(ort_unten, ort_oben)
+    index_unten = ort_unten.index 
+    index_oben = ort_oben.index 
+    ort_unten.index = 0
+    ort_unten.save 
+    ort_oben.index = index_unten 
+    ort_oben.save 
+    ort_unten.index = index_oben
+    ort_unten.save
+    return true
+  end 
+  
+  def schiebe_hoch(durchfahrtsort)
+    index_oben = durchfahrtsort.index + 1
+    durchfahrtsort_oben = self.durchfahrtsorte.find_by(index: index_oben)
+    if durchfahrtsort_oben.nil?
+      return false
+    else 
+     tausche_durchfahrtsorte(durchfahrtsort, durchfahrtsort_oben)
+    end 
+  end 
+  
+  def schiebe_runter(durchfahrtsort)
+    index_oben = durchfahrtsort.index-1
+    durchfahrtsort_oben = self.durchfahrtsorte.find_by(index: index_oben)
+    if durchfahrtsort_oben.nil?
+      return false
+    else 
+     tausche_durchfahrtsorte(durchfahrtsort, durchfahrtsort_oben)
+    end 
+  end 
+  
   
 end
