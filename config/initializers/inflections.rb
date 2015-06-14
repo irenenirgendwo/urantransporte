@@ -30,4 +30,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.irregular 'umschlag', 'umschlaege'
   inflect.irregular 'umschlagort', 'umschlagorte'
   inflect.irregular 'versandstueck', 'versandstuecke' 
+  inflect.irregular 'route', 'routen'
 end

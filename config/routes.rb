@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
 
+  resources :durchfahrtsorte
+  resources :routen do
+    get "new_durchfahrtsort", on: :member
+    post "create_durchfahrtsort", on: :member
+    delete "destroy_durchfahrtsort", on: :member
+  end
+  
   get 'orte/ortswahl'
   resources :orte do
     get "union", on: :member

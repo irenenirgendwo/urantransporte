@@ -1,0 +1,54 @@
+<h1>
+Alle angelegten Routen
+<% if is_editor? %>
+  <div class="btn-group header-buttons">
+    <%= link_to 'Neue Route', new_route_path, class: "btn btn-success" %>
+  </div>
+<% end %>
+</h1>
+
+
+<% if @routen.empty? %>
+  <p>Keine Routen gefunden.</p>
+<% else %>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Start</th>
+        <th>Ziel</th>
+        <% if is_editor? %><th></th><% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @routen.each do |route| %>
+        <tr>
+          <td>
+            <%= link_to route do
+              render 'text_show'
+            end %>
+          </td>
+          <td><%= route.name %></td>
+          <td><%= route.start_ort.name if route.start_ort%></td>
+          <td><%= route.end_ort.name if route.end_ort %></td>
+          <% if is_editor? %>
+            <td class="table-actions">
+              <%= link_to edit_route_path(route) do
+                render 'text_edit'
+              end %>
+              <%= link_to route, method: :delete, data: { confirm: 'Willst du die Route wirklich löschen?' } do
+                render 'text_remove'
+              end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% end %>
+
+

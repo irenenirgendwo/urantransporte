@@ -1,0 +1,23 @@
+<% if durchfahrtsorte.empty? %>
+  <p>Bisher keine Durchfahrtsorte erstellt.</p>
+<% else %>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Index</th>
+        <th>Ortsname</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% durchfahrtsorte.each do |durchfahrt| %>
+        <tr>
+          <td><%= durchfahrt.index %></td>
+          <td><%= link_to durchfahrt.ort.name, durchfahrt.ort %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+<% end %>

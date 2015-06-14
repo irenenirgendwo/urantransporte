@@ -1,0 +1,13 @@
+<h1>
+  Route: <%= @route.name %>
+  <div class="btn-group header-buttons">
+    <%= link_to 'Alle Routen', routen_path, class: "btn btn-primary" %>
+    <% if is_editor? %>
+      <%= link_to 'Name ändern', edit_route_path(@route), class: "btn btn-primary" %>
+      <%= link_to 'Neuer Durchfahrtsort', new_durchfahrtsort_path(route: @route.id), class: "btn btn-success" %>
+    <% end %>
+  </div>
+</h1>
+
+<h2>Durchfahrtsorte</h2>
+<%= render "durchfahrtsorte/durchfahrtsorte_auflistung", durchfahrtsorte: @route.durchfahrtsorte %>

@@ -1,0 +1,55 @@
+<%= form_for(@durchfahrtsort) do |f| %>
+
+  <% if @durchfahrtsort.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@durchfahrtsort.errors.count, "error") %> prohibited this durchfahrtsort from being saved:</h2>
+
+      <ul>
+      <% @durchfahrtsort.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <%= f.hidden_field :route_id %>
+  
+  <div class="row">
+    
+    <div class="col-sm-6">
+      <div class="panel panel-default" >
+        <div class="panel-heading">
+          <h2 class="panel-title">Reihenfolge</h2>
+        </div>
+        <div class="panel-body">
+          
+          <div class="form-group">
+            <%= f.label :index, "Index zum Einfügen" %>
+            <%= f.number_field :index, min: 0, max: @last_index, class: "form-control" %>
+          </div>
+        </div>
+        <div class="panel panel-default" >
+          <div class="panel-heading">
+            <h3 class="panel-title">Bisherige Route</h3>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <%= render "durchfahrtsorte/durchfahrtsorte_auflistung", durchfahrtsorte: @durchfahrtsort.route.durchfahrtsorte %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      
+      
+      <%= render "orte/ort_eingabe", ort: @durchfahrtsort.ort, titel: "Ort eingeben" %>
+           
+    </div>
+  </div>
+
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

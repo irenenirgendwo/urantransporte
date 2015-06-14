@@ -54,6 +54,7 @@ module OrteAuswahl
           end
         end
         if ort_m 
+          File.open("log/ort.log","a"){|f| f.puts "Passenden Ort gefunden" }
           ort_m.lat = lat
           ort_m.lon = lon
           ort_m.plz = plz unless plz.nil? || plz==""
@@ -61,10 +62,12 @@ module OrteAuswahl
           objekt.ort = ort_m
           eindeutig = true
         else
+          File.open("log/ort.log","a"){|f| f.puts "Temp-Ort behalten" }
           temp_ort.save
           objekt.ort = temp_ort
           eindeutig = true
         end
+        ort_e = objekt.ort
       end
     else
       File.open("log/ort.log","a"){|f| f.puts "Es keine Koordinaten" }
