@@ -1,5 +1,9 @@
-<h1>New Durchfahrtsort</h1>
-
+<h1>
+  Neuen Durchfahrtsort erstellen
+  <div class="btn-group header-buttons">
+    <%= link_to 'Route ansehen', @route, class: "btn btn-primary" %> 
+    <%= link_to 'Alle Routen', routen_path, class: "btn btn-primary" %>
+  </div>
+</h1>
+<h2>Route: <%= @route.name %></h2>
 <%= render 'form' %>
-
-<%= link_to 'Back', durchfahrtsorte_path %>

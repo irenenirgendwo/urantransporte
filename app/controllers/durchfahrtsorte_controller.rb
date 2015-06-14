@@ -1,12 +1,7 @@
 class DurchfahrtsorteController < ApplicationController
-  before_action :set_durchfahrtsort, only: [:show, :edit, :update, :destroy, :schiebe_hoch, :schiebe_runter]
+  before_action :set_durchfahrtsort, only: [:destroy, :schiebe_hoch, :schiebe_runter]
 
   include OrteAuswahl
-
-  # GET /durchfahrtsorte/1
-  # GET /durchfahrtsorte/1.json
-  def show
-  end
 
   # GET /durchfahrtsorte/new
   # Route wird gesucht
@@ -23,10 +18,6 @@ class DurchfahrtsorteController < ApplicationController
     else 
       redirect_to routen_path, error: "Keine Route zum Erstellen eines Durchfahrtsortes"
     end
-  end
-
-  # GET /durchfahrtsorte/1/edit
-  def edit
   end
 
   # POST /durchfahrtsorte
@@ -49,7 +40,7 @@ class DurchfahrtsorteController < ApplicationController
         
         respond_to do |format|
           if @durchfahrtsort.save
-            flash[:info] = 'Durchfahrtsort was successfully created.'
+            flash[:info] = 'Durchfahrtsort erfolgreich angelegt.'
             format.html { redirect_to @route }
             format.json { render :show, status: :created, location: @durchfahrtsort }
           
@@ -65,20 +56,6 @@ class DurchfahrtsorteController < ApplicationController
     else
       flash[:error] = "Keine Route zum Anlegen des Durchfahrtsortes"
       redirect_to routen_path
-    end
-  end
-
-  # PATCH/PUT /durchfahrtsorte/1
-  # PATCH/PUT /durchfahrtsorte/1.json
-  def update
-    respond_to do |format|
-      if @durchfahrtsort.update(durchfahrtsort_params)
-        format.html { redirect_to @durchfahrtsort, notice: 'Durchfahrtsort was successfully updated.' }
-        format.json { render :show, status: :ok, location: @durchfahrtsort }
-      else
-        format.html { render :edit }
-        format.json { render json: @durchfahrtsort.errors, status: :unprocessable_entity }
-      end
     end
   end
 

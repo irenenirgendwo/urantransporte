@@ -25,6 +25,19 @@ class Route < ActiveRecord::Base
     ordered_orte.last
   end 
   
+  def get_strecken
+    strecken = []
+    begin_ort = self.ordered_durchfahrtsorte.first 
+    next_ort = begin_ort
+    self.ordered_durchfahrtsorte.each do |durchfahrt|
+      unless durchfahrt == begin_ort
+        strecken << [next_ort.ort, durchfahrt.ort]
+      end
+      next_ort = durchfahrt
+    end 
+    strecken
+  end 
+  
   def erhoehe_durchfahrtsort_indizes ab_index
     d_orte = self.durchfahrtsorte.where("durchfahrtsorte.index >= ?",ab_index).order("durchfahrtsorte.index DESC")
     success = true

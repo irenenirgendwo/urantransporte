@@ -10,6 +10,8 @@ class RoutenController < ApplicationController
   # GET /routen/1
   # GET /routen/1.json
   def show
+    @orte = @route.ordered_orte
+    @strecken = @route.get_strecken
     
   end
 

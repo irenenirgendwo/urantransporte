@@ -39,17 +39,19 @@
           </div>
         </div>
       </div>
+      
+      <div class="actions">
+        <%= f.submit class: "btn btn-success" %>
+      </div>
+      
     </div>
     <div class="col-sm-6">
-      
-      
+
       <%= render "orte/ort_eingabe", ort: @durchfahrtsort.ort, titel: "Ort eingeben" %>
-           
+        
     </div>
   </div>
 
   
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+
 <% end %>

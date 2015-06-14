@@ -9,5 +9,22 @@
   </div>
 </h1>
 
-<h2>Durchfahrtsorte</h2>
-<%= render "durchfahrtsorte/durchfahrtsorte_auflistung", durchfahrtsorte: @route.ordered_durchfahrtsorte %>
+  
+<div class="row">
+  <div class="col-sm-6">
+    <h3>Durchfahrtsorte</h3>
+    <%= render "durchfahrtsorte/durchfahrtsorte_auflistung", durchfahrtsorte: @route.ordered_durchfahrtsorte %>
+  </div>
+  
+  
+  
+  <div class="col-sm-6">
+    <h3>Karte</h3>
+    <div id="map" class="panel" style="height:400px;"></div>
+    <script type="text/javascript">
+      allOrteMap("routen/<%= @route.id %>")
+    </script>
+  </div>
+  
+  
+</div>

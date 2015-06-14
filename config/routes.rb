@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :durchfahrtsorte do
+  resources :durchfahrtsorte, :except => [:index, :edit, :update] do
     get "schiebe_hoch", on: :member
     get "schiebe_runter", on: :member
   end
