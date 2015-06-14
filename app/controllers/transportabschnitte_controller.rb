@@ -49,8 +49,6 @@ class TransportabschnitteController < ApplicationController
   # POST /transportabschnitte
   # POST /transportabschnitte.json
   def create
-    File.open("log/abschnitt.log","w"){|f| f.puts "starte create transportabschnitt"}
-    File.open("log/abschnitt.log","a"){|f| f.puts "params #{params}"}
     @transportabschnitt = Transportabschnitt.new(transportabschnitt_params)
     redirection_path = @transportabschnitt
     if params[:transport_id]
@@ -77,7 +75,8 @@ class TransportabschnitteController < ApplicationController
     respond_to do |format|
       if @transportabschnitt.save
         @beobachtung.save if @beobachtung
-        format.html { redirect_to redirection_path, notice: 'Transportabschnitt was successfully created.' }
+        flash[:success] = "Transportabschnitt angelegt."
+        format.html { redirect_to redirection_path }
         format.json { render :show, status: :created, location: @transportabschnitt }
       else
         format.html { render :new }
@@ -108,7 +107,8 @@ class TransportabschnitteController < ApplicationController
     redirection_path = @transport.nil? ? @transportabschnitt : @transport
     respond_to do |format|
       if @transportabschnitt.update(transportabschnitt_params)
-        format.html { redirect_to redirection_path, notice: 'Transportabschnitt was successfully updated.' }
+        flash[:success] = "Transportabschnitt aktualisiert."
+        format.html { redirect_to redirection_path }
         format.json { render :show, status: :ok, location: @transport }
       else
         format.html { render :edit }
@@ -123,7 +123,8 @@ class TransportabschnitteController < ApplicationController
     transport = @transportabschnitt.transport
     @transportabschnitt.destroy
     respond_to do |format|
-      format.html { redirect_to transport, notice: 'Transportabschnitt was successfully destroyed.' }
+      flash[:success] = "Transportabschnitt gelöscht."
+      format.html { redirect_to transport }
       format.json { head :no_content }
     end
   end
@@ -169,12 +170,15 @@ class TransportabschnitteController < ApplicationController
           @transportabschnitte.orte << Ort.find(params[:ort].to_i)
       end
       if @transportabschnitt.save
-        redirect_to @transportabschnitt, notice: 'Umschlag aktualisiert.' 
+        flash[:success] = 'Umschlag aktualisiert.' 
+        redirect_to @transportabschnitt 
       else
-        redirect_to edit_transportabschnitt_path(@transportabschnitt), "Umschlagsort nicht korrekt gespeichert."
+        flash[:danger] = "Umschlagsort nicht korrekt gespeichert."
+        redirect_to edit_transportabschnitt_path(@transportabschnitt)
       end
     else 
-      redirect_to @transportabschnitt, notice: "Kein Ort übermittelt." 
+      flash[:danger] = "Kein Ort übermittelt." 
+      redirect_to @transportabschnitt
     end
   end
 

@@ -47,7 +47,6 @@ class BeobachtungenController < ApplicationController
   # POST /beobachtungen
   # POST /beobachtungen.json
   def create
-    File.open("log/beobachtung.log","w"){|f| f.puts "create beobachtung"}
     @beobachtung = Beobachtung.new(beobachtung_params)
 
     unless params[:beobachtung][:quelle]
@@ -82,7 +81,6 @@ class BeobachtungenController < ApplicationController
       eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@beobachtung, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
     else
       @ort = Ort.create_by_koordinates_and_name(params[:ortname], params[:lat], params[:lon])
-      File.open("log/beobachtung.log","a"){|f| f.puts "Ort: #{@ort.attributes}"}
       @beobachtung.ort = @ort
     end
     
@@ -94,10 +92,11 @@ class BeobachtungenController < ApplicationController
         if @beobachtung.save
           respond_to do |format|
               format.html do
+                flash[:success] = 'Beobachtung wurde angelegt.'
                 if @beobachtung.foto 
-                  redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.'
+                  redirect_to load_foto_beobachtung_path(@beobachtung)
                 else logged_in?
-                  redirect_to @beobachtung, notice: 'Beobachtung wurde angelegt.'
+                  redirect_to @beobachtung
                 end 
               end
               format.json { render :show, status: :created, location: @anlage }
@@ -112,7 +111,7 @@ class BeobachtungenController < ApplicationController
         @beobachtung.ort = Ort.first
         @beobachtung.save
         if ort_e.nil?
-          flash[:notice] = 'Kein passender Ort gefunden'
+          flash[:danger] = 'Kein passender Ort gefunden'
           # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
           redirect_to new_ort_path(beobachtung: @beobachtung.id)
         else
@@ -124,10 +123,11 @@ class BeobachtungenController < ApplicationController
       if @beobachtung.save 
         respond_to do |format|
           format.html do
+              flash[:success] =  'Beobachtung wurde angelegt.'
               if @beobachtung.foto 
-                redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.'
+                redirect_to load_foto_beobachtung_path(@beobachtung)
               else
-                redirect_to danke_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde angelegt.'
+                redirect_to danke_beobachtung_path(@beobachtung)
               end 
           end       
           format.json { render :show, status: :created, location: @beobachtung }
@@ -166,7 +166,8 @@ class BeobachtungenController < ApplicationController
   def destroy
     @beobachtung.destroy
     respond_to do |format|
-      format.html { redirect_to beobachtungen_url, notice: 'Beobachtung was successfully destroyed.' }
+      flash[:success] = "Beobachtung gelöscht."
+      format.html { redirect_to beobachtungen_url }
       format.json { head :no_content }
     end
   end
@@ -179,10 +180,12 @@ class BeobachtungenController < ApplicationController
     if params[:abschnitt].to_i
       @beobachtung.transportabschnitt = Transportabschnitt.find(params[:abschnitt].to_i)
       if @beobachtung.save
-        redirect_to @beobachtung, notice: "Transportabschnitt wurde erfolgreich zugeordnet." and return
+        flash[:success] = "Transportabschnitt wurde erfolgreich zugeordnet."
+        redirect_to @beobachtung and return
       end
-   end
-   redirect_to @beobachtung, notice: "Fehler: Transportabschnitt wurde nicht zugeordnet."
+    end
+    flash[:danger] = "Fehler: Transportabschnitt wurde nicht zugeordnet."
+    redirect_to @beobachtung
   end
   
   # laedt das Partial zu der Transporabschnittszuordnung neu, mit einer neuen Toleranzschwelle 
@@ -210,7 +213,8 @@ class BeobachtungenController < ApplicationController
     end
     respond_to do |format|
       if @beobachtung.update(:foto_path => uploaded_io.original_filename, :foto_recht => params[:foto_recht])
-        format.html { redirect_to @beobachtung, notice: 'Foto zur Beobachtung hochgeladen.' }
+        flash[:success] = 'Foto zur Beobachtung hochgeladen.'
+        format.html { redirect_to @beobachtung }
         format.json { render :show, status: :created, location: @beobachtung }
       else
         format.html { render :new }
@@ -226,12 +230,15 @@ class BeobachtungenController < ApplicationController
     if params[:ort]
       @beobachtung.ort = Ort.find(params[:ort].to_i)
       if @beobachtung.save
-        redirect_to @beobachtung, notice: 'Beobachtung bearbeitet.' 
+        flash[:success] = 'Beobachtung bearbeitet.' 
+        redirect_to @beobachtung
       else
-        redirect_to edit_anlage_path(@beobachtung), "Ort nicht korrekt gespeichert."
+        flash[:danger] = "Ort nicht korrekt gespeichert."
+        redirect_to edit_anlage_path(@beobachtung)
       end
     else 
-      redirect_to @beobachtung, notice: "Kein Ort übermittelt." 
+      flash[:info] = "Kein Ort übermittelt." 
+      redirect_to @beobachtung
     end
   end
 

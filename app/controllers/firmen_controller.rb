@@ -32,7 +32,8 @@ class FirmenController < ApplicationController
 
     respond_to do |format|
       if @firma.save
-        format.html { redirect_to @redirect_params, notice: 'Firma erfolgreich angelegt.' }
+        flash[:success] = "Firma angelegt"
+        format.html { redirect_to @redirect_params }
         format.json { render :show, status: :created, location: @firma }
       else
         format.html { render :new }
@@ -46,6 +47,7 @@ class FirmenController < ApplicationController
   def update
     respond_to do |format|
       if @firma.update(firma_params)
+        flash[:success] = "Firma aktualisiert"
         format.html { redirect_to @firma }
         format.json { render :show, status: :ok, location: @firma }
       else
@@ -60,7 +62,8 @@ class FirmenController < ApplicationController
   def destroy
     @firma.destroy
     respond_to do |format|
-      format.html { redirect_to firmen_url, notice: 'Firma was successfully destroyed.' }
+      flash[:success] = "Firma gelöscht."
+      format.html { redirect_to firmen_url }
       format.json { head :no_content }
     end
   end

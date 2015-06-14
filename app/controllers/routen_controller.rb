@@ -31,7 +31,8 @@ class RoutenController < ApplicationController
 
     respond_to do |format|
       if @route.save
-        format.html { redirect_to @route, notice: 'Route was successfully created.' }
+        flash[:success] = "Route angelegt."
+        format.html { redirect_to @route }
         format.json { render :show, status: :created, location: @route }
       else
         format.html { render :new }
@@ -45,7 +46,8 @@ class RoutenController < ApplicationController
   def update
     respond_to do |format|
       if @route.update(route_params)
-        format.html { redirect_to @route, notice: 'Route was successfully updated.' }
+        flash[:success] = "Route aktualisiert."
+        format.html { redirect_to @route }
         format.json { render :show, status: :ok, location: @route }
       else
         format.html { render :edit }
@@ -59,7 +61,8 @@ class RoutenController < ApplicationController
   def destroy
     @route.destroy
     respond_to do |format|
-      format.html { redirect_to routen_url, notice: 'Route was successfully destroyed.' }
+      flash[:success] = "Route gelöscht."
+      format.html { redirect_to routen_url }
       format.json { head :no_content }
     end
   end

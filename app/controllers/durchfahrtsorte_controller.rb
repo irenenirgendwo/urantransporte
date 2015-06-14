@@ -40,7 +40,7 @@ class DurchfahrtsorteController < ApplicationController
         
         respond_to do |format|
           if @durchfahrtsort.save
-            flash[:info] = 'Durchfahrtsort erfolgreich angelegt.'
+            flash[:success] = 'Durchfahrtsort erfolgreich angelegt.'
             format.html { redirect_to @route }
             format.json { render :show, status: :created, location: @durchfahrtsort }
           
@@ -50,11 +50,11 @@ class DurchfahrtsorteController < ApplicationController
           end
         end
       else 
-        flash[:error] = 'Kein passender Ort oder Ort mehrdeutig, nicht gespeichert. Spezifizieren durch Karten-Eingabe.'
+        flash[:dangere] = 'Kein passender Ort oder Ort mehrdeutig, nicht gespeichert. Spezifizieren durch Karten-Eingabe.'
         redirect_to @route
       end
     else
-      flash[:error] = "Keine Route zum Anlegen des Durchfahrtsortes"
+      flash[:danger] = "Keine Route zum Anlegen des Durchfahrtsortes"
       redirect_to routen_path
     end
   end
@@ -67,7 +67,7 @@ class DurchfahrtsorteController < ApplicationController
     @durchfahrtsort.destroy
     route.decrease_indizes(ab_index)
     respond_to do |format|
-      flash[:info] = 'Durchfahrtsort gelöscht.'
+      flash[:success] = 'Durchfahrtsort gelöscht.'
       format.html { redirect_to route }
       format.json { head :no_content }
     end
@@ -77,7 +77,7 @@ class DurchfahrtsorteController < ApplicationController
   def schiebe_hoch
     @route = @durchfahrtsort.route
     if @route.schiebe_hoch(@durchfahrtsort)
-      flash[:info]="Erfolgreich verschoben."
+      flash[:success]="Erfolgreich verschoben."
     else 
       flash[:error]="Nicht verschoben."
     end 
@@ -87,7 +87,7 @@ class DurchfahrtsorteController < ApplicationController
   def schiebe_runter
     @route = @durchfahrtsort.route
     if @route.schiebe_runter(@durchfahrtsort)
-      flash[:info]="Erfolgreich verschoben."
+      flash[:success]="Erfolgreich verschoben."
     else 
       flash[:error]="Nicht verschoben."
     end 

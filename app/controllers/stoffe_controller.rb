@@ -49,8 +49,8 @@ class StoffeController < ApplicationController
             synonym.save 
           end
         end
-      
-        format.html { redirect_to  @redirect_params, notice: 'Stoff was successfully created.' }
+        flash[:success] = "Stoff erstellt."
+        format.html { redirect_to  @redirect_params }
         format.json { render :show, status: :created, location: @stoff }
       else
         format.html { render :new }
@@ -78,7 +78,8 @@ class StoffeController < ApplicationController
   def destroy
     @stoff.destroy
     respond_to do |format|
-      format.html { redirect_to stoffe_url, notice: 'Stoff was successfully destroyed.' }
+      flash[:success] = "Stoff gelöscht."
+      format.html { redirect_to stoffe_url }
       format.json { head :no_content }
     end
   end

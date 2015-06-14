@@ -56,7 +56,8 @@ class TransporteController < ApplicationController
 
     respond_to do |format|
       if @transport.save
-        format.html { redirect_to redirection, notice: 'Transport was successfully created.' }
+        flash[:success] = "Transport angelegt."
+        format.html { redirect_to redirection }
         format.json { render :show, status: :created, location: @transport }
       else
         format.html { render :new }
@@ -70,9 +71,11 @@ class TransporteController < ApplicationController
   def update
     respond_to do |format|
       if @transport.update(transport_params)
-        format.html { redirect_to @transport, notice: 'Transport was successfully updated.' }
+        flash[:success] = "Transport aktualisiert."
+        format.html { redirect_to @transport  }
         format.json { render :show, status: :ok, location: @transport }
       else
+        flash[:danger] = "Fehler beim Aktualisieren."
         format.html { render :edit }
         format.json { render json: @transport.errors, status: :unprocessable_entity }
       end
@@ -84,10 +87,12 @@ class TransporteController < ApplicationController
   def destroy
     respond_to do |format|
       if @transport.destroy
-        format.html { redirect_to transporte_url, notice: 'Transport was successfully destroyed.' }
+        flash[:success] = "Transport gelöscht."
+        format.html { redirect_to transporte_url }
         format.json { head :no_content }
       else 
-        format.html { redirect_to @transport, notice: 'Der Transport hat noch Abschnitte und Umschläge. Deshalb ist das Löschen nicht möglich.' }
+        flash[:danger] = 'Der Transport hat noch Abschnitte und Umschläge. Deshalb ist das Löschen nicht möglich.'
+        format.html { redirect_to @transport }
         format.json { head :no_content }
       end
     end
@@ -100,9 +105,11 @@ class TransporteController < ApplicationController
     if adding_transport 
       @transport.add(adding_transport)
       if @transport.save
-        redirect_to @transport, notice: "Transport #{params[:add_transport]} erfolgreich hinzugefügt und aus der Datenbank gelöscht."
+        flash[:success] = "Transport #{params[:add_transport]} erfolgreich hinzugefügt und aus der Datenbank gelöscht."
+        redirect_to @transport
       else 
-        redirect_to @transport, notice: "Transport konnte nicht gespeichert werden."
+        flash[:danger] = "Transport konnte nicht gespeichert werden."
+        redirect_to @transport
       end
     else
       redirect_to aehnliche_transporte_transport_path(@transport)

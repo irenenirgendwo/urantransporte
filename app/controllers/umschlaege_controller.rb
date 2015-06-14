@@ -61,14 +61,15 @@ class UmschlaegeController < ApplicationController
     
     if eindeutig
       if @umschlag.save
-        redirect_to @redirection, notice: "Umschlag erfolgreich angelegt." 
+        flash[:success] = "Umschlag erfolgreich angelegt." 
+        redirect_to @redirection 
       else  
         render :new 
       end
     else 
       if @umschlag.save
         if ort_e.nil?
-          flash[:notice] = 'Kein passender Ort gefunden'
+          flash[:danger] = 'Kein passender Ort gefunden'
           # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
           redirect_to new_umschlag_path
         else
@@ -90,7 +91,8 @@ class UmschlaegeController < ApplicationController
     @redirection = @umschlag.transport ? @umschlag.transport : @umschlag
     if eindeutig
       if @umschlag.update(umschlag_params)
-          redirect_to @redirection, notice: 'Umschlag was successfully updated.' 
+        flash[:success] = "Umschlag aktualieiert"
+        redirect_to @redirection
       else
         render :edit 
       end
@@ -98,7 +100,7 @@ class UmschlaegeController < ApplicationController
       respond_to do |format|
         if @umschlag.update(umschlag_params)
             if ort_e.nil?
-              flash[:notice] = 'Kein passender Ort gefunden'
+              flash[:danger] = 'Kein passender Ort gefunden'
               # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
               redirect_to edit_umschlag_path(@umschlag)
             else
@@ -118,7 +120,8 @@ class UmschlaegeController < ApplicationController
     transport = @umschlag.transport
     @umschlag.destroy
     respond_to do |format|
-      format.html { redirect_to transport, notice: 'Umschlag geloescht.' }
+      flash[:success] = "Umschlag gelöscht"
+      format.html { redirect_to transport }
       format.json { head :no_content }
     end
   end
@@ -131,12 +134,15 @@ class UmschlaegeController < ApplicationController
     if params[:ort]
       @umschlag.ort = Ort.find(params[:ort].to_i)
       if @umschlag.save
-        redirect_to @umschlag.transport, notice: 'Umschlag aktualisiert.' 
+        flash[:success] = "Umschlag aktualisiert"
+        redirect_to @umschlag.transport
       else
-        redirect_to edit_umschlag_path(@umschlag), "Umschlagsort nicht korrekt gespeichert."
+        flash[:danger] = "Umschlagsort nicht korrekt gespeichert."
+        redirect_to edit_umschlag_path(@umschlag)
       end
     else 
-      redirect_to @umschlag, notice: "Kein Ort übermittelt." 
+      flash[:info] = "Kein Ort zum Umschlag übermittelt." 
+      redirect_to @umschlag
     end
   end
 

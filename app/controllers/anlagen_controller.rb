@@ -89,7 +89,7 @@ class AnlagenController < ApplicationController
       else 
         @anlage.save
         if ort_e.nil?
-          flash[:notice] = 'Kein passender Ort gefunden'
+          flash[:danger] = 'Kein passender Ort gefunden'
           # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
           redirect_to new_ort_path(anlage: @anlage.id)
         else
@@ -141,7 +141,7 @@ class AnlagenController < ApplicationController
     else 
       @anlage.update(anlage_params)
       if ort_e.nil?
-        flash[:notice] = 'Kein passender Ort gefunden'
+        flash[:danger] = 'Kein passender Ort gefunden'
         # TODO: anderes Ortswahlfenster anlegen mit Ort neu suchen koennen
         redirect_to new_ort_path(anlage: @anlage.id)
       else
@@ -158,12 +158,15 @@ class AnlagenController < ApplicationController
     if params[:ort]
       @anlage.ort = Ort.find(params[:ort].to_i)
       if @anlage.save
-        redirect_to @anlage, notice: 'Anlage was successfully updated.' 
+        flash[:success] = "Anlage aktualisiert."
+        redirect_to @anlage
       else
-        redirect_to edit_anlage_path(@anlage), "Anlagenort nicht korrekt gespeichert."
+        flash[:danger] = "Anlagenort nicht korrekt gespeichert."
+        redirect_to edit_anlage_path(@anlage)
       end
     else 
-      redirect_to @anlage, notice: "Kein Ort übermittelt." 
+      flash[:danger] = "Kein Ort übermittelt." 
+      redirect_to @anlage
     end
   end
 
@@ -178,10 +181,12 @@ class AnlagenController < ApplicationController
     end  
     respond_to do |format|
       if success 
-        format.html { redirect_to anlagen_url, notice: 'Anlage was successfully destroyed.' }
+        flash[:success] = "Anlage gelöscht."
+        format.html { redirect_to anlagen_url }
         format.json { head :no_content }
       else 
-        format.html { redirect_to @anlage, notice: 'Die Anlage ist noch Start- oder Zielanlage eines Transports. Deshalb ist das Löschen der Anlage nicht möglich.' }
+        flash[:danger] = 'Die Anlage ist noch Start- oder Zielanlage eines Transports. Deshalb ist das Löschen der Anlage nicht möglich.'
+        format.html { redirect_to @anlage }
         format.json { head :no_content }
       end
     end
@@ -194,8 +199,8 @@ class AnlagenController < ApplicationController
     @anlage = Anlage.find(params[:anlage_id])
     respond_to do |format|
       if @synonym.save
-        flash[:notice] = "Anlage neu angelegt"
-        format.html { redirect_to edit_anlage_path(@anlage), notice: 'Synonym was successfully created.' }
+        flash[:success] = "Synonym neu angelegt"
+        format.html { redirect_to edit_anlage_path(@anlage) }
         format.json { render :show, status: :created, location: @anlage }
       else
         format.html { render :new }
@@ -209,7 +214,8 @@ class AnlagenController < ApplicationController
     @anlage = Anlage.find(params[:anlage_id])
     @synonym.destroy
     respond_to do |format|
-      format.html { redirect_to edit_anlage_path(@anlage), notice: 'Synonym was successfully destroyed.' }
+      flash[:success] = "Synonym gelöscht"
+      format.html { redirect_to edit_anlage_path(@anlage) }
       format.json { head :no_content }
     end
   end

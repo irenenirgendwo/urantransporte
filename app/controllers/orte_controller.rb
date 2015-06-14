@@ -58,10 +58,11 @@ class OrteController < ApplicationController
     @redirection = (params[:redirection].nil? || params[:redirection]=="" ) ? @ort : params[:redirection]
     respond_to do |format|
         if @ort.update(:name => params[:ortname], :lat => params[:lat], :lon => params[:lon])
-            flash[:notice] = "Ort aktualisiert."
-            format.html { redirect_to @redirection, notice: "Ort aktualisiert."}
+            flash[:success] = "Ort aktualisiert."
+            format.html { redirect_to @redirection}
             format.json { render :show, status: :created, location: @ort }
         else
+          flash[:error] = "Fehler beim Speichern"
           format.html { render :new }
           format.json { render json: @ort.errors, status: :unprocessable_entity }
         end
@@ -79,10 +80,12 @@ class OrteController < ApplicationController
     end  
     respond_to do |format|
       if success 
-        format.html { redirect_to orte_path, notice: 'Ort was successfully destroyed.' }
+        flash[:success] = "Ort erfolgreich gelöscht."
+        format.html { redirect_to orte_path }
         format.json { head :no_content }
       else 
-        format.html { redirect_to @ort, notice: 'Der Ort ist noch Start- oder Zielanlage eines Transports. Deshalb ist das Löschen der Anlage nicht möglich.' }
+        flash[:danger] = 'Der Ort ist noch mit anderen Daten verknüpft. Löschen nicht möglich.' 
+        format.html { redirect_to @ort }
         format.json { head :no_content }
       end
     end
@@ -93,7 +96,8 @@ class OrteController < ApplicationController
   def bereinige
     File.open("log/abschnitt.log","w"){|f| f.puts "params #{params}"}
     anzahl = Ort.loesche_ungenutzte
-    redirect_to orte_path, notice: "#{anzahl} Orte gelöscht."
+    flash[:info] = "#{anzahl} Orte gelöscht."
+    redirect_to orte_path
   end
   
   # kommt nur beim Modal-Ding in Transportabschnitten vor, erstellt einen Ort aus Parametern
