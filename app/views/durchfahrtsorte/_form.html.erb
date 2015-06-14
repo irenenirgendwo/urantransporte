@@ -25,7 +25,7 @@
           
           <div class="form-group">
             <%= f.label :index, "Index zum Einfügen" %>
-            <%= f.number_field :index, min: 0, max: @last_index, class: "form-control" %>
+            <%= f.number_field :index, min: 1, max: @last_index, class: "form-control" %>
           </div>
         </div>
         <div class="panel panel-default" >
@@ -34,7 +34,7 @@
           </div>
           <div class="panel-body">
             <div class="form-group">
-              <%= render "durchfahrtsorte/durchfahrtsorte_auflistung", durchfahrtsorte: @durchfahrtsort.route.durchfahrtsorte %>
+              <%= render "durchfahrtsorte/durchfahrtsorte_auflistung", durchfahrtsorte: @durchfahrtsort.route.ordered_durchfahrtsorte %>
             </div>
           </div>
         </div>

@@ -9,6 +9,9 @@ class DurchfahrtsorteController < ApplicationController
   end
 
   # GET /durchfahrtsorte/new
+  # Route wird gesucht
+  # Default-Einfuege-Index ist am Ende der Route
+  #
   def new
     @durchfahrtsort = Durchfahrtsort.new
     @ort = Ort.new
@@ -28,28 +31,31 @@ class DurchfahrtsorteController < ApplicationController
 
   # POST /durchfahrtsorte
   # POST /durchfahrtsorte.json
+  #
+  # Beim Erstellen muessen die Indizes der bisherigen Orte entsprechend verschoben werden.
+  # Die Route wird eingetragen (sie muss vorhanden sein) und ein Ort gesucht bzw. erstellt.
+  #
   def create
-    File.open("log/ort.log","w"){|f| f.puts "create new durchfahrtsort"}
-    
     @durchfahrtsort = Durchfahrtsort.new(durchfahrtsort_params)
-    File.open("log/ort.log","a"){|f| f.puts "Params #{params}"}
     @route = @durchfahrtsort.route
     if @route
       eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@durchfahrtsort, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
     
       if eindeutig   
-        File.open("log/ort.log","a"){|f| f.puts "Ort #{ort_e}"}
 
-        #@durchfahrtsort.ort = ort_e
-
+        #Indizes anpassen
+        success = @durchfahrtsort.route.erhoehe_durchfahrtsort_indizes(@durchfahrtsort.index)
+        File.open("log/ort.log","a"){|f| f.puts "indizes angepasst #{success}"}
+        
         respond_to do |format|
           if @durchfahrtsort.save
             flash[:info] = 'Durchfahrtsort was successfully created.'
             format.html { redirect_to @route }
             format.json { render :show, status: :created, location: @durchfahrtsort }
-          else
-            format.html { render :new }
-            format.json { render json: @durchfahrtsort.errors, status: :unprocessable_entity }
+          
+          else 
+              format.html { render :new }
+              format.json { render json: @durchfahrtsort.errors, status: :unprocessable_entity }
           end
         end
       else 
@@ -79,9 +85,13 @@ class DurchfahrtsorteController < ApplicationController
   # DELETE /durchfahrtsorte/1
   # DELETE /durchfahrtsorte/1.json
   def destroy
+    ab_index = @durchfahrtsort.index + 1
+    route = @durchfahrtsort.route
     @durchfahrtsort.destroy
+    route.decrease_indizes(ab_index)
     respond_to do |format|
-      format.html { redirect_to durchfahrtsorte_url, notice: 'Durchfahrtsort was successfully destroyed.' }
+      flash[:info] = 'Durchfahrtsort gelöscht.'
+      format.html { redirect_to route }
       format.json { head :no_content }
     end
   end

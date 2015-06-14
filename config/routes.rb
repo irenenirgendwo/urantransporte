@@ -1,11 +1,10 @@
 Rails.application.routes.draw do
 
-  resources :durchfahrtsorte
-  resources :routen do
-    get "new_durchfahrtsort", on: :member
-    post "create_durchfahrtsort", on: :member
-    delete "destroy_durchfahrtsort", on: :member
+  resources :durchfahrtsorte do
+    post "schiebe_hoch", on: :member
+    post "schiebe_runter", on: :member
   end
+  resources :routen
   
   get 'orte/ortswahl'
   resources :orte do
