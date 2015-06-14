@@ -11,6 +11,7 @@ json.features do
       end
       json.properties do
         json.name ort.name
+        json.typ "Durchfahrtsort"
         json.newcolor '#ffffff'
       end
     end

@@ -4,7 +4,9 @@ class Transportabschnitt < ActiveRecord::Base
   belongs_to :end_ort, :class_name => 'Ort'
   belongs_to :transport
   belongs_to :firma
+  belongs_to :route
   has_many :beobachtungen
+  # Ist das noch notwendig???
   has_and_belongs_to_many :orte
   
   def self.get_abschnitte_from_time(beobachtung_datetime)

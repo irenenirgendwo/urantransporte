@@ -207,8 +207,12 @@ class Transport < ActiveRecord::Base
     orte = {}
     strecken = []
     transportabschnitte.each do |abschnitt|
-      if abschnitt.start_ort && abschnitt.end_ort && abschnitt.start_ort.lat && abschnitt.end_ort.lat
-        strecken << [abschnitt.start_ort, abschnitt.end_ort] 
+      if abschnitt.route && abschnitt.route.name != "Unbekannt"
+        strecken.concat(abschnitt.route.get_strecken)
+      else
+        if abschnitt.start_ort && abschnitt.end_ort && abschnitt.start_ort.lat && abschnitt.end_ort.lat
+          strecken << [abschnitt.start_ort, abschnitt.end_ort] 
+        end
       end
       check_ort_p(orte, abschnitt.start_ort, "Abschnitt")
       check_ort_p(orte, abschnitt.end_ort, "Abschnitt")

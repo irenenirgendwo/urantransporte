@@ -25,6 +25,18 @@
   
   <div class="panel panel-default">
     <div class="panel-heading">
+      <h2 class="panel-title">Route </h2>
+    </div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label>Route</label>
+        <%= collection_select(:transportabschnitt, :route_id, Route.all, :id, :name, {}, class: "form-control col-sm-10") %>
+      </div>
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
       <h2 class="panel-title">Start</h2>
     </div>
     <div class="panel-body">

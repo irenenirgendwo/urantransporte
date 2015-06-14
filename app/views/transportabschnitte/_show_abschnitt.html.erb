@@ -17,7 +17,13 @@
   <% if abschnitt.start_datum && abschnitt.end_datum %>
     (<%= abschnitt.start_datum.strftime("%d.%m.%Y") %> – <%= abschnitt.end_datum.strftime("%d.%m.%Y") %>)
   <% end %>
-
+  <br />
+  <% unless abschnitt.route.nil? || abschnitt.route.name =="Unbekannt" %>
+    <%= link_to "Route", abschnitt.route %>
+    <%= "|" if is_editor? %>
+  <% end %>
+  
+  <!--Ab hier Bearbeitungsfunktionen -->
   <% if is_editor? %>
     <%= link_to "Bearbeiten", edit_transportabschnitt_path(abschnitt) %>
     | <%= link_to 'Löschen', abschnitt, method: :delete, data: { confirm: 'Willst du den Transportabschnitt wirklich löschen?' } %>

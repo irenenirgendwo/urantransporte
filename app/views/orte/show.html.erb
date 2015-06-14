@@ -47,20 +47,10 @@
     <% unless @ort.transporte.empty? %>
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Transporte (nach Datum)</h3>
+          <h3 class="panel-title">Transporte</h3>
         </div>
         <div class="panel-body">
-          <ul>
-            <% @ort.transporte.each do |transport| %>
-              <% if transport.nil? %>
-                Error, sollte nicht auftreten, leerer Transport.
-              <% else %>
-                <li>
-                  <%= link_to transport.datum, transport  %>
-                </li>
-              <% end %>
-            <% end %>
-          </ul> 
+          <%= render "transporte/show_only_tabelle", transporte: @ort.transporte %>
         </div>
       </div>
     <% end %>

@@ -40,6 +40,9 @@ class Ort < ActiveRecord::Base
     self.beobachtungen.each do |beob|
       transporte << beob.transportabschnitt.transport unless beob.transportabschnitt.nil?
     end
+    self.durchfahrtsorte.each do |durchfahrt|
+      transporte.concat(durchfahrt.route.transporte)
+    end
     transporte.uniq
   end
   

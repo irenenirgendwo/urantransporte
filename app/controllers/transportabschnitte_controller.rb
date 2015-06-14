@@ -188,7 +188,7 @@ class TransportabschnitteController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transportabschnitt_params
-      params.require(:transportabschnitt).permit(:transport, :transport_id,
+      params.require(:transportabschnitt).permit(:transport, :transport_id, :route_id,
                                  :start_datum, :end_datum, :firma_id, :verkehrstraeger)
     end
     def orte_params

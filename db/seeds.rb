@@ -16,3 +16,4 @@ end
 Firma.find_or_create_by(name: "Unbekannt").update_attributes(reederei: true)
 Schiff.find_or_create_by(name: "Unbekannt")
 Anlage.find_or_create_by(name: "Unbekannt")
+Route.find_or_create_by(name: "Unbekannt")

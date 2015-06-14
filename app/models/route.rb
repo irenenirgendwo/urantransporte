@@ -1,6 +1,8 @@
 class Route < ActiveRecord::Base
 
   has_many :durchfahrtsorte
+  has_many :transportabschnitte
+  has_many :transporte, through: :transportabschnitte
   
   validates :name, presence: true, uniqueness: true
   
@@ -89,6 +91,5 @@ class Route < ActiveRecord::Base
      tausche_durchfahrtsorte(durchfahrtsort, durchfahrtsort_oben)
     end 
   end 
-  
   
 end
