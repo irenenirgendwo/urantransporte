@@ -4,22 +4,23 @@
     <%= link_to 'Alle Routen', routen_path, class: "btn btn-primary" %>
     <% if is_editor? %>
       <%= link_to 'Name ändern', edit_route_path(@route), class: "btn btn-primary" %>
-      <%= link_to 'Neuer Durchfahrtsort', new_durchfahrtsort_path(route: @route.id), class: "btn btn-success" %>
     <% end %>
   </div>
 </h1>
 
-  
 <div class="row">
   <div class="col-sm-6">
-    <h3>Durchfahrtsorte</h3>
+    <h3>
+      Durchfahrtsorte
+      <%= if is_editor?
+        link_to 'Neuer Durchfahrtsort', new_durchfahrtsort_path(route: @route.id), class: "btn btn-success header-buttons"
+      end %>
+    </h3>
     <%= render "durchfahrtsorte/durchfahrtsorte_auflistung", durchfahrtsorte: @route.ordered_durchfahrtsorte %>
   
     <h3>Transporte</h3>
     <%= render "transporte/show_only_tabelle", transporte: @route.transporte %>
   </div>
-  
-  
   
   <div class="col-sm-6">
     <h3>Karte</h3>
@@ -28,6 +29,5 @@
       allOrteMap("routen/<%= @route.id %>")
     </script>
   </div>
-  
   
 </div>

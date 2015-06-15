@@ -15,8 +15,6 @@
     <% if umschlag.end_datum || umschlag.ort %>
       | <%= link_to "Abschnitt danach anlegen", new_transportabschnitt_path(transport_id: umschlag.transport.id, umschlag_davor: umschlag.id) %>
     <% end %>
-    
-  <%= umschlag.ort.id %>
   <% end %>
   
   

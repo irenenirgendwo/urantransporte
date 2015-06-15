@@ -75,7 +75,7 @@ class Route < ActiveRecord::Base
   end 
   
   def schiebe_hoch(durchfahrtsort)
-    index_oben = durchfahrtsort.index + 1
+    index_oben = durchfahrtsort.index - 1
     durchfahrtsort_oben = self.durchfahrtsorte.find_by(index: index_oben)
     if durchfahrtsort_oben.nil?
       return false
@@ -85,7 +85,7 @@ class Route < ActiveRecord::Base
   end 
   
   def schiebe_runter(durchfahrtsort)
-    index_oben = durchfahrtsort.index-1
+    index_oben = durchfahrtsort.index + 1
     durchfahrtsort_oben = self.durchfahrtsorte.find_by(index: index_oben)
     if durchfahrtsort_oben.nil?
       return false

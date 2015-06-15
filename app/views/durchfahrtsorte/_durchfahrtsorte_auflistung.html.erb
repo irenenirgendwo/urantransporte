@@ -20,8 +20,16 @@
           <td><%= link_to durchfahrt.ort.name, durchfahrt.ort %></td>
           <% if is_editor? %>
             <td class="table-actions">
-              <%= link_to "Hoch", schiebe_hoch_durchfahrtsort_path(durchfahrt) unless durchfahrt.index == durchfahrt.route.durchfahrtsorte.size %>
-              <%= link_to "Runter", schiebe_runter_durchfahrtsort_path(durchfahrt) unless durchfahrt.index == 1 %>
+              <%= unless durchfahrt.index == 1 then
+                link_to schiebe_hoch_durchfahrtsort_path(durchfahrt) do
+                  render 'text_up'
+                end
+              end %>
+              <%= unless durchfahrt.index == durchfahrt.route.durchfahrtsorte.size then
+                link_to schiebe_runter_durchfahrtsort_path(durchfahrt) do
+                  render 'text_down'
+                end
+              end %>
               <%= link_to durchfahrt, method: :delete, data: { confirm: 'Willst du den Durchfahrtsort wirklich löschen?' } do
                 render 'text_remove'
               end %>
