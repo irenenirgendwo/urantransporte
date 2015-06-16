@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.2'
 # Use sqlite3 as the database for Active Record for test mode
 gem 'sqlite3'
 # Use mysql as the database for Active Record for production mode
@@ -36,7 +36,7 @@ gem 'spring',        group: :development
 gem 'leaflet-rails',                    '~> 0.7.4'
 
 #Bootstrap fürs Layout
-gem 'bootstrap-sass',                   '~> 3.3.4.1'
+gem 'bootstrap-sass',                   '~> 3.3.5'
 gem 'momentjs-rails',                   '>= 2.8.1'
 gem 'bootstrap3-datetimepicker-rails',  '~> 3.1.3'
 gem 'will_paginate',                    '~> 3.0.7'
@@ -57,5 +57,5 @@ gem 'geokit-rails',                     '~> 2.1.0'
 
 group :development do
   gem "rails-erd"
-  gem 'web-console',                    '~> 2.1.2'
+  gem 'web-console',                    '~> 2.1.3'
 end
