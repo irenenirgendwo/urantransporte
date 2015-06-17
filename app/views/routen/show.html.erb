@@ -1,11 +1,12 @@
+<%= link_to routen_path do %>
+  <span class='glyphicon glyphicon-menu-left' aria-hidden='true'></span> Alle Routen
+<% end %>
+
 <h1>
   Route: <%= @route.name %>
-  <div class="btn-group header-buttons">
-    <%= link_to 'Alle Routen', routen_path, class: "btn btn-primary" %>
-    <% if is_editor? %>
-      <%= link_to 'Name ändern', edit_route_path(@route), class: "btn btn-primary" %>
-    <% end %>
-  </div>
+  <% if is_editor? %>
+    <%= link_to 'Name ändern', edit_route_path(@route), class: "btn btn-primary header-buttons" %>
+  <% end %>
 </h1>
 
 <div class="row">

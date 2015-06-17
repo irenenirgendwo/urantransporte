@@ -1,7 +1,10 @@
+<%= link_to beobachtungen_path do %>
+  <span class='glyphicon glyphicon-menu-left' aria-hidden='true'></span> Alle Beobachtungen
+<% end %>
+
 <h1>Beobachtung aus <%= @beobachtung.ort %>
   <% if is_editor? %>
     <div class="btn-group header-buttons">
-      <%= link_to 'Alle Beobachtungen', beobachtungen_path, class: "btn btn-primary" %>
       <%= link_to 'Bearbeiten', edit_beobachtung_path(@beobachtung), class: "btn btn-primary" %>
       <%= link_to 'Löschen', @beobachtung, method: :delete, data: { confirm: 'Willst du die Beobachtung wirklich löschen?' }, class: "btn btn-danger" %></td>
     </div>

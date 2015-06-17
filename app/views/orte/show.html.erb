@@ -1,9 +1,13 @@
+<%= link_to orte_path do %>
+  <span class='glyphicon glyphicon-menu-left' aria-hidden='true'></span> Alle Orte
+<% end %>
+
 <h1>
   <%= @ort.name %>
   <% if is_editor? %>
     <div class="btn-group header-buttons">
       <%= link_to 'Bearbeiten', edit_ort_path(@ort), class: "btn btn-primary" %>
-      <%= link_to 'Löschen', @ort, method: :delete, data: { confirm: 'Willst du das Schiff wirklich löschen?' }, class: "btn btn-danger" %></td>
+      <%= link_to 'Löschen', @ort, method: :delete, data: { confirm: 'Willst du den Ort wirklich löschen?' }, class: "btn btn-danger" %></td>
     </div>
   <% end %>
   <br>
