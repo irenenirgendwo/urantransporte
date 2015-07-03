@@ -3,6 +3,8 @@
 <%= form_for(@ort) do |f| %>
   <%= render "ort_eingabe", ort: @ort, titel: "Koordinaten" %>
   <%= hidden_field_tag :redirection, @redirection %>
-  <%= link_to "Abbruch", @redirection, class: "btn btn-primary" %>
-  <%= submit_tag "Aktualisieren", class: "btn btn-success" %>
+  <div class="actions">
+    <%= f.submit class: "btn btn-success" %>
+    <%= link_to 'Abbrechen', @ort, class: "btn btn-danger" %>
+  </div>
 <% end %>
