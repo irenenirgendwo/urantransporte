@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="600" height="600" viewBox="-300 -300 600 600" id="svg2" sodipodi:version="0.32" inkscape:version="0.43" sodipodi:docname="Radiation 7 diamond.svg" sodipodi:docbase="C:\Documents and Settings\Owner\Desktop">
+  <metadata id="metadata13">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs id="defs11"/>
+  <sodipodi:namedview inkscape:window-height="543" inkscape:window-width="756" inkscape:pageshadow="2" inkscape:pageopacity="0.0" borderopacity="1.0" bordercolor="#666666" pagecolor="#ffffff" id="base" inkscape:zoom="0.48912655" inkscape:cx="603.00625" inkscape:cy="297.62901" inkscape:window-x="66" inkscape:window-y="99" inkscape:current-layer="svg2"/>
+  <rect style="opacity:0.9;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:5.63717079;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" id="rect1313" width="421.64548" height="421.64822" x="-209.44714" y="-210.15273" transform="matrix(0.71325,-0.70091,0.70091,0.71325,0,0)"/>
+  <g id="g1332" transform="matrix(0.4785,0,0,0.4785,-3.754487,-143.1365)">
+    <circle transform="matrix(0.704647,0,0,0.704647,2.707943,2.135852)" id="circle5" r="50" cx="0" cy="0" sodipodi:cx="0" sodipodi:cy="0" sodipodi:rx="50" sodipodi:ry="50"/>
+    <path id="bld" d="M 55.556468,2.135852 C 55.556492,-16.745131 45.483617,-34.191888 29.132206,-43.63238 L 90.788818,-150.42445 C 145.29338,-118.95623 178.8696,-60.800591 178.86969,2.135852 L 55.556468,2.135852 z "/>
+    <use id="use8" transform="matrix(-0.5,0.866025,-0.866025,-0.5,5.911616,0.858632)" xlink:href="#bld" x="0" y="0" width="600" height="600"/>
+    <use id="use10" transform="matrix(-0.5,-0.866025,0.866025,-0.5,2.212213,5.548924)" xlink:href="#bld" x="0" y="0" width="600" height="600"/>
+  </g>
+  <path style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="M -293.19098,-2.8552556 L -1.5889137,294.49002 L 296.42445,0.99049784 L -293.19098,-2.8552556 z " id="path1312" sodipodi:nodetypes="cccc"/>
+  <text xml:space="preserve" style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial" x="0.80863571" y="52.560642" id="text1314" sodipodi:linespacing="100%"><tspan sodipodi:role="line" id="tspan1316" x="0.80863571" y="52.560642">RADIOACTIVE</tspan></text>
+  <text xml:space="preserve" style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:100%;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Arial" x="1.75596" y="269.92188" id="text1318" sodipodi:linespacing="100%"><tspan sodipodi:role="line" id="tspan1320" x="1.75596" y="269.92188">7</tspan></text>
+</svg>
