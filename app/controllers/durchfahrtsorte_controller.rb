@@ -50,7 +50,7 @@ class DurchfahrtsorteController < ApplicationController
           end
         end
       else 
-        flash[:dangere] = 'Kein passender Ort oder Ort mehrdeutig, nicht gespeichert. Spezifizieren durch Karten-Eingabe.'
+        flash[:danger] = 'Kein passender Ort oder Ort mehrdeutig, nicht gespeichert. Spezifizieren durch Karten-Eingabe.'
         redirect_to @route
       end
     else

@@ -121,17 +121,19 @@
           <div class="row">
             <div class="col-xs-6">
               <div class="form-group">
-                <%= f.label :gefahr_nummer, "Obere Nummer" %>
+                <%= f.label :gefahr_nummer, "Obere Nummer (Gefahrennummer)" %>
                 <%= f.text_field :gefahr_nummer, placeholder:"z.B. 78", class: "form-control" %>
               </div>
               <div class="form-group">
-                <%= f.label :un_nummer, "Untere Nummer" %>
+                <%= f.label :un_nummer, "Untere Nummer (UN-Nummer)" %>
                 <%= f.text_field :un_nummer, placeholder:"z.B. 2978", class: "form-control" %>
               </div>
             </div>
             <div class="col-xs-6">
-              <p>Beispiel:</p>
-              <%= render "stoffe/gefahr_tafel", gefahr_nummer: "78", un_nummer: "2978" %>
+              <div class="center-block" style="width: 12em;">
+                <label>Beispiel</label>
+                <%= render "stoffe/gefahr_tafel", gefahr_nummer: "78", un_nummer: "2978" %>
+              </div>
             </div>
           </div>
         </div>
