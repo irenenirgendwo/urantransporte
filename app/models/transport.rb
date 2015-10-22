@@ -1,4 +1,6 @@
 # encoding: utf-8
+# Kuemmert sich um alle Sachen, die konkret mit dem Transport zusammen haengen,
+# also auch Sortierung der entsprechenden Abschnitte und Umschlaege.
 class Transport < ActiveRecord::Base
 
   # Transportabschnitte und -umschlaege mit loeschen, beim Loeschen des Transports
@@ -65,6 +67,7 @@ class Transport < ActiveRecord::Base
   
 
   # Sucht das Gesamtstart- und Enddatum aus den Transportabschnitten raus.
+  # depricated???
   #
   def get_start_and_end_datum abschnitt_umschlag_list
     start_datum = self.datum
@@ -80,12 +83,87 @@ class Transport < ActiveRecord::Base
     return start_datum.to_date, end_datum.to_date
   end
   
-  # Sortiert Transportabschnitte und Umschlaege (Logik in den Controller).
-  # Funktioniert auch bei unvollstaendigen Umschlaegen oder Transportabschnitten.
+  
+ 
+  # Neue Methode zur Sortierung, geht erst nach Orten, auch wenn kein Startort drin.
   #
   def sort_abschnitte_and_umschlaege
     abschnitt_umschlag_list = []
-    abschnitte = self.transportabschnitte.order(:end_datum)
+    # Hilfsmethode, baut einen nach Orten sortierten Hash auf.
+    ort_to_detail = sort_abschnitte_and_umschlaege_by_ort
+    if self.start_anlage.ort
+      ort_aktuell = self.start_anlage.ort
+      if ort_aktuell.nil? || ort_to_detail[ort_aktuell].nil?
+        ort_aktuell = abschnitt_only_start_ort(ort_to_detail.keys)  
+      end 
+      while not (ort_to_detail.empty? || ort_aktuell.nil?)
+        next_ort = nil
+        ort_to_detail[ort_aktuell].each do |abschnitt_umschlag|
+          abschnitt_umschlag_list << abschnitt_umschlag
+          next_ort = abschnitt_umschlag.end_ort if abschnitt_umschlag.kind_of? Transportabschnitt  
+        end
+        ort_to_detail.delete(ort_aktuell) 
+        ort_aktuell = next_ort
+      end 
+      # Rest nach Datum sortieren
+      if not ort_to_detail.empty?
+        abschnitt_umschlag_list = abschnitt_umschlag_list.concat(sort_abschnitte_and_umschlaege_by_date(ort_to_detail.values.flatten))
+      end
+    end 
+    abschnitt_umschlag_list
+  end 
+  
+  # Sortiert alle Umschlaege und Transportabschnitte in einen Hash,
+  # der jeweils den (Start)Ort einer Liste aus Umschlaegen/Abschnitten zuordnet.
+  # Umschlaege kommen dabei automatisch zuerst.
+  #
+  def sort_abschnitte_and_umschlaege_by_ort
+    ort_to_detail = {}
+    self.umschlaege.each do |umschlag|
+      ort = umschlag.ort
+      ort_to_detail[ort] ||= []
+      ort_to_detail[ort] << umschlag
+    end 
+    self.transportabschnitte.each do |abschnitt|
+      ort = abschnitt.start_ort
+      ort_to_detail[ort] ||= []
+      ort_to_detail[ort] << abschnitt
+    end 
+    ort_to_detail
+  end 
+  
+  # Ermittelt den Ort aus dem uebergebenen Array, der kein End-Ort eines 
+  # Transportabschnitts ist (also der Start der Eingabe)
+  #
+  def abschnitt_only_start_ort orte
+    orte.each do |ort|
+      if ort && self.transportabschnitte.where(end_ort_id: ort.id).empty?
+        return ort 
+      end 
+    end 
+    nil
+  end 
+  
+  # Sortiert die uebergebene List mit Umschlaegen und Abschnitten nach dem End-Datum.
+  # Eintraege ohne werden ans Ende gehaengt.
+  #
+  def sort_abschnitte_and_umschlaege_by_date start_liste
+    abschnitt_umschlag_list = []
+    mit_end_datum = start_liste.select{|element| element.end_datum }
+    abschnitt_umschlag_list.concat(mit_end_datum.sort_by{|element| element.end_datum} )
+    ohne_end_datum = start_liste.select{|element| element.end_datum.nil? }
+    abschnitt_umschlag_list.concat(ohne_end_datum)
+    abschnitt_umschlag_list
+  end
+
+  
+  # Sortiert Transportabschnitte und Umschlaege (Logik in den Controller).
+  # Funktioniert auch bei unvollstaendigen Umschlaegen oder Transportabschnitten.
+  #
+  # depricated
+  def sort_abschnitte_and_umschlaege_old
+    abschnitt_umschlag_list = []
+    abschnitte = self.transportabschnitte.order(:start_datum)
     
     listed_umschlaege = []
     listed_abschnitte = []
@@ -129,6 +207,7 @@ class Transport < ActiveRecord::Base
       end 
     
     end
+    
     
     
 
