@@ -4,6 +4,9 @@ class TransporteController < ApplicationController
   before_action :editor_user, only: [:new, :edit, :create, :update, :destroy, :union, :set_aehnliche_transporte_options, :aehnliche_transporte]
   before_action :set_new_stoff_and_anlage, only: [:new, :edit]
 
+  # Zeigt einen Transport ein. 
+  # Funktionalitaeten zur Sortierung von Abschnitten und Umschlaegen sind im Transport-Modell.
+  #
   # GET /transporte/1
   # GET /transporte/1.json
   #

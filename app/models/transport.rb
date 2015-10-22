@@ -1,6 +1,7 @@
 # encoding: utf-8
 # Kuemmert sich um alle Sachen, die konkret mit dem Transport zusammen haengen,
-# also auch Sortierung der entsprechenden Abschnitte und Umschlaege.
+# also auch z.B. Sortierung der entsprechenden Abschnitte und Umschlaege.
+#
 class Transport < ActiveRecord::Base
 
   # Transportabschnitte und -umschlaege mit loeschen, beim Loeschen des Transports
@@ -25,6 +26,8 @@ class Transport < ActiveRecord::Base
     Transport.where("datum >= ? and datum <= ?", datum.to_date - plus_minus_tage.days, datum.to_date + plus_minus_tage.days)
   end
 
+  # Sucht Transporte rund um ein bestimmtes Datum mit gleichem Start bzw. Ziel
+  #
   def self.get_transporte_around_options(datum,plus_minus_tage, start, ziel)
     transporte = get_transporte_around(datum,plus_minus_tage)
     transporte = transporte.where(start_anlage: start) if start 
@@ -86,6 +89,7 @@ class Transport < ActiveRecord::Base
   
  
   # Neue Methode zur Sortierung, geht erst nach Orten, auch wenn kein Startort drin.
+  # Hilfsmethoden im Private-Teil.
   #
   def sort_abschnitte_and_umschlaege
     abschnitt_umschlag_list = []
@@ -113,149 +117,7 @@ class Transport < ActiveRecord::Base
     abschnitt_umschlag_list
   end 
   
-  # Sortiert alle Umschlaege und Transportabschnitte in einen Hash,
-  # der jeweils den (Start)Ort einer Liste aus Umschlaegen/Abschnitten zuordnet.
-  # Umschlaege kommen dabei automatisch zuerst.
-  #
-  def sort_abschnitte_and_umschlaege_by_ort
-    ort_to_detail = {}
-    self.umschlaege.each do |umschlag|
-      ort = umschlag.ort
-      ort_to_detail[ort] ||= []
-      ort_to_detail[ort] << umschlag
-    end 
-    self.transportabschnitte.each do |abschnitt|
-      ort = abschnitt.start_ort
-      ort_to_detail[ort] ||= []
-      ort_to_detail[ort] << abschnitt
-    end 
-    ort_to_detail
-  end 
-  
-  # Ermittelt den Ort aus dem uebergebenen Array, der kein End-Ort eines 
-  # Transportabschnitts ist (also der Start der Eingabe)
-  #
-  def abschnitt_only_start_ort orte
-    orte.each do |ort|
-      if ort && self.transportabschnitte.where(end_ort_id: ort.id).empty?
-        return ort 
-      end 
-    end 
-    nil
-  end 
-  
-  # Sortiert die uebergebene List mit Umschlaegen und Abschnitten nach dem End-Datum.
-  # Eintraege ohne werden ans Ende gehaengt.
-  #
-  def sort_abschnitte_and_umschlaege_by_date start_liste
-    abschnitt_umschlag_list = []
-    mit_end_datum = start_liste.select{|element| element.end_datum }
-    abschnitt_umschlag_list.concat(mit_end_datum.sort_by{|element| element.end_datum} )
-    ohne_end_datum = start_liste.select{|element| element.end_datum.nil? }
-    abschnitt_umschlag_list.concat(ohne_end_datum)
-    abschnitt_umschlag_list
-  end
 
-  
-  # Sortiert Transportabschnitte und Umschlaege (Logik in den Controller).
-  # Funktioniert auch bei unvollstaendigen Umschlaegen oder Transportabschnitten.
-  #
-  # depricated
-  def sort_abschnitte_and_umschlaege_old
-    abschnitt_umschlag_list = []
-    abschnitte = self.transportabschnitte.order(:start_datum)
-    
-    listed_umschlaege = []
-    listed_abschnitte = []
-    
-    # Prioritaer: Ortssortierung, sonst Zeit, beginnend mit Start-Ort der Anlage.
-    if self.start_anlage.ort
-      ort_aktuell = self.start_anlage.ort.id
-      abschnitt_aktuell = abschnitte.where(start_ort_id: self.start_anlage.ort.id)
-      i = 0 
-      last_umschlag = nil
-      while ort_aktuell && i < 1000
-        #File.open("log/transport.log","a"){|f| f.puts "Aktueller Ort #{ort_aktuell}" }
-        i += 1
-        # erst umschlaege mit ort suchen, wenn zuletzt kein Umschlag war
-        unless last_umschlag
-          umschlaege = self.umschlaege.where(ort_id: ort_aktuell)
-          umschlaege.each do |umschlag|
-            abschnitt_umschlag_list << umschlag
-            listed_umschlaege << umschlag
-            last_umschlag = true
-            File.open("log/transport.log","a"){|f| f.puts "Umschlag  #{umschlag.attributes}" }
-          end
-        end
-        # dann abschnitte hinzufuegen
-        abschnitte = self.transportabschnitte.where(start_ort_id: ort_aktuell)
-        abschnitte.each do |abschnitt|
-          abschnitt_umschlag_list << abschnitt
-          listed_abschnitte << abschnitt
-          ort_aktuell = abschnitt.end_ort ? abschnitt.end_ort.id : nil
-          last_umschlag = false
-          # Chaos gibt es wenn mehrere Abschnitte an einem Ort beginnen, 
-          #sollte aber ja nicht der Normalfall sein.
-        end
-        
-        
-        # Abbruchbedingung
-        if abschnitte.empty? && umschlaege.empty?
-          ort_aktuell = false
-        end
-        
-      end 
-    
-    end
-    
-    
-    
-
-    #umschlaege = self.umschlaege
-    
-    # ortsweise sortieren so moeglich
-    #if abschnitte_mit_ende
-    #  abschnitt_first = abschnitte_mit_ende.first 
-    #  if abschnitt_first
-   # 
-    #listed_umschlaege = []
-    #abschnitte_mit_ende.each do |abschnitt|
-    #  abschnitt_umschlag_list << abschnitt
-    #  umschlag = self.umschlaege.find_by ort_id: abschnitt.end_ort_id
-    #  unless umschlag.nil?
-    #    abschnitt_umschlag_list << umschlag
-    #    listed_umschlaege << umschlag
-    #  end
-    #end 
-    
-    # Restliche Abschnitte
-    if listed_abschnitte.size < self.transportabschnitte.size
-      self.transportabschnitte.where.not(end_datum: nil).order(:end_datum).each do |abschnitt|
-        unless listed_abschnitte.include? abschnitt
-          abschnitt_umschlag_list << abschnitt
-        end
-      end 
-      self.transportabschnitte.where(end_datum: nil).order(:end_datum).each do |abschnitt|
-        unless listed_abschnitte.include? abschnitt
-          abschnitt_umschlag_list << abschnitt
-        end
-      end 
-    end
-    
-    # Restliche Umchlaege
-    if listed_umschlaege.size < self.umschlaege.size
-      self.umschlaege.each do |umschlag|
-        unless listed_umschlaege.include? umschlag
-          abschnitt_umschlag_list << umschlag
-        end
-      end 
-    end
-    
-    
-   
-    abschnitt_umschlag_list 
-  end
-  
   # Sammelt alle Durchfahrtsorte zusammen, aus Anlagenorten, Umschlagsorten, Abschnitten
   # und zugeordneten Beobachtungen
   #
@@ -285,6 +147,7 @@ class Transport < ActiveRecord::Base
   def get_known_orte_with_props
     orte = {}
     strecken = []
+    # Transportabschnitte inklusive Beobachtungsorte und Strecke der Route
     transportabschnitte.each do |abschnitt|
       if abschnitt.route && abschnitt.route.name != "Unbekannt"
         strecken.concat(abschnitt.route.get_strecken)
@@ -298,13 +161,12 @@ class Transport < ActiveRecord::Base
       abschnitt.beobachtungen.each do |beob|
         check_ort_p(orte, beob.ort, "Beobachtung")
       end
-      #abschnitt.orte.each do |durchfahrt|
-      #  check_ort_p(orte, durchfahrt)
-      #end
     end
+    # Umschlaege
     umschlaege.each do |umschlag|
       check_ort_p(orte, umschlag.ort, "Umschlag")
     end
+    # Start und Zielanlage zuletzt, damit auf jeden Fall das aktuellste, andere werden ggf. ueberschrieben
     check_ort_p(orte, start_anlage.ort, "Start-Anlage")
     check_ort_p(orte, ziel_anlage.ort, "Ziel-Anlage")
     if strecken.empty? && start_anlage.ort && ziel_anlage.ort && start_anlage.ort.lat && ziel_anlage.ort.lat
@@ -314,21 +176,7 @@ class Transport < ActiveRecord::Base
   end
   
   
-  # Hilfsmethode für get_known_orte
-  def check_ort_ll(ort_array, ort)
-    unless ort_array.include? ort
-      ort_array << ort if ort and ort.lon and ort.lat
-    end
-  end
-  
-  def check_ort_p(ort_hash,ort,prop)
-    if ort and ort.lon and ort.lat
-      #ort_hash[ort] ||=[]
-      #ort_hash[ort] << prop
-      ort_hash[ort] = prop
-    end
-  end 
-  
+ 
   # Gibt die Ids aller Orte zurück
   #
   def orte_ids
@@ -351,6 +199,171 @@ class Transport < ActiveRecord::Base
       sub_query = scopes.map { |s| s.select(id_column).to_sql }.join(" UNION ")
       where "#{id_column} IN (#{sub_query})"
   end
+
+
+  private 
   
+  
+  ## Hilfsmethoden zur Sortierung von Umschlag- und Transportkette
+  
+  
+    # Sortiert alle Umschlaege und Transportabschnitte in einen Hash,
+    # der jeweils den (Start)Ort einer Liste aus Umschlaegen/Abschnitten zuordnet.
+    # Umschlaege kommen dabei automatisch zuerst.
+    #
+    def sort_abschnitte_and_umschlaege_by_ort
+      ort_to_detail = {}
+      self.umschlaege.each do |umschlag|
+        ort = umschlag.ort
+        ort_to_detail[ort] ||= []
+        ort_to_detail[ort] << umschlag
+      end 
+      self.transportabschnitte.each do |abschnitt|
+        ort = abschnitt.start_ort
+        ort_to_detail[ort] ||= []
+        ort_to_detail[ort] << abschnitt
+      end 
+      ort_to_detail
+    end 
+    
+    # Ermittelt den Ort aus dem uebergebenen Array, der kein End-Ort eines 
+    # Transportabschnitts ist (also der Start der Eingabe)
+    #
+    def abschnitt_only_start_ort orte
+      orte.each do |ort|
+        if ort && self.transportabschnitte.where(end_ort_id: ort.id).empty?
+          return ort 
+        end 
+      end 
+      nil
+    end 
+    
+    # Sortiert die uebergebene List mit Umschlaegen und Abschnitten nach dem End-Datum.
+    # Eintraege ohne werden ans Ende gehaengt.
+    #
+    def sort_abschnitte_and_umschlaege_by_date start_liste
+      abschnitt_umschlag_list = []
+      mit_end_datum = start_liste.select{|element| element.end_datum }
+      abschnitt_umschlag_list.concat(mit_end_datum.sort_by{|element| element.end_datum} )
+      ohne_end_datum = start_liste.select{|element| element.end_datum.nil? }
+      abschnitt_umschlag_list.concat(ohne_end_datum)
+      abschnitt_umschlag_list
+    end
+    
+
+  ## Hilsmethoden fuers Sammeln der Orte
+  
+    def check_ort_ll(ort_array, ort)
+      unless ort_array.include? ort
+        ort_array << ort if ort and ort.lon and ort.lat
+      end
+    end
+    
+    def check_ort_p(ort_hash,ort,prop)
+      if ort and ort.lon and ort.lat
+        ort_hash[ort] = prop
+      end
+    end 
+  
+  
+  
+  # Sortiert Transportabschnitte und Umschlaege (Logik in den Controller).
+  # Funktioniert auch bei unvollstaendigen Umschlaegen oder Transportabschnitten.
+  #
+  # depricated
+  #def sort_abschnitte_and_umschlaege_old
+    #abschnitt_umschlag_list = []
+    #abschnitte = self.transportabschnitte.order(:start_datum)
+    
+    #listed_umschlaege = []
+    #listed_abschnitte = []
+    
+    ## Prioritaer: Ortssortierung, sonst Zeit, beginnend mit Start-Ort der Anlage.
+    #if self.start_anlage.ort
+      #ort_aktuell = self.start_anlage.ort.id
+      #abschnitt_aktuell = abschnitte.where(start_ort_id: self.start_anlage.ort.id)
+      #i = 0 
+      #last_umschlag = nil
+      #while ort_aktuell && i < 1000
+        ##File.open("log/transport.log","a"){|f| f.puts "Aktueller Ort #{ort_aktuell}" }
+        #i += 1
+        ## erst umschlaege mit ort suchen, wenn zuletzt kein Umschlag war
+        #unless last_umschlag
+          #umschlaege = self.umschlaege.where(ort_id: ort_aktuell)
+          #umschlaege.each do |umschlag|
+            #abschnitt_umschlag_list << umschlag
+            #listed_umschlaege << umschlag
+            #last_umschlag = true
+            #File.open("log/transport.log","a"){|f| f.puts "Umschlag  #{umschlag.attributes}" }
+          #end
+        #end
+        ## dann abschnitte hinzufuegen
+        #abschnitte = self.transportabschnitte.where(start_ort_id: ort_aktuell)
+        #abschnitte.each do |abschnitt|
+          #abschnitt_umschlag_list << abschnitt
+          #listed_abschnitte << abschnitt
+          #ort_aktuell = abschnitt.end_ort ? abschnitt.end_ort.id : nil
+          #last_umschlag = false
+          ## Chaos gibt es wenn mehrere Abschnitte an einem Ort beginnen, 
+          ##sollte aber ja nicht der Normalfall sein.
+        #end
+        
+        
+        ## Abbruchbedingung
+        #if abschnitte.empty? && umschlaege.empty?
+          #ort_aktuell = false
+        #end
+        
+      #end 
+    
+    #end
+    
+    
+    
+
+    ##umschlaege = self.umschlaege
+    
+    ## ortsweise sortieren so moeglich
+    ##if abschnitte_mit_ende
+    ##  abschnitt_first = abschnitte_mit_ende.first 
+    ##  if abschnitt_first
+   ## 
+    ##listed_umschlaege = []
+    ##abschnitte_mit_ende.each do |abschnitt|
+    ##  abschnitt_umschlag_list << abschnitt
+    ##  umschlag = self.umschlaege.find_by ort_id: abschnitt.end_ort_id
+    ##  unless umschlag.nil?
+    ##    abschnitt_umschlag_list << umschlag
+    ##    listed_umschlaege << umschlag
+    ##  end
+    ##end 
+    
+    ## Restliche Abschnitte
+    #if listed_abschnitte.size < self.transportabschnitte.size
+      #self.transportabschnitte.where.not(end_datum: nil).order(:end_datum).each do |abschnitt|
+        #unless listed_abschnitte.include? abschnitt
+          #abschnitt_umschlag_list << abschnitt
+        #end
+      #end 
+      #self.transportabschnitte.where(end_datum: nil).order(:end_datum).each do |abschnitt|
+        #unless listed_abschnitte.include? abschnitt
+          #abschnitt_umschlag_list << abschnitt
+        #end
+      #end 
+    #end
+    
+    ## Restliche Umchlaege
+    #if listed_umschlaege.size < self.umschlaege.size
+      #self.umschlaege.each do |umschlag|
+        #unless listed_umschlaege.include? umschlag
+          #abschnitt_umschlag_list << umschlag
+        #end
+      #end 
+    #end
+    
+
+   # abschnitt_umschlag_list 
+  #end
+      
 
 end
