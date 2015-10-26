@@ -97,17 +97,23 @@ class Transport < ActiveRecord::Base
     ort_to_detail = sort_abschnitte_and_umschlaege_by_ort
     if self.start_anlage.ort
       ort_aktuell = self.start_anlage.ort
-      if ort_aktuell.nil? || ort_to_detail[ort_aktuell].nil?
-        ort_aktuell = abschnitt_only_start_ort(ort_to_detail.keys)  
+      if ort_aktuell.nil? || ort_to_detail[ort_aktuell.id].nil?
+        ort_aktuell = abschnitt_only_start_ort(ort_to_detail.keys) 
       end 
-      while not (ort_to_detail.empty? || ort_aktuell.nil?)
+      counter = 0
+      while not (ort_aktuell.nil? || ort_to_detail.empty? || counter > 100)
+        counter += 1
         next_ort = nil
-        ort_to_detail[ort_aktuell].each do |abschnitt_umschlag|
-          abschnitt_umschlag_list << abschnitt_umschlag
-          next_ort = abschnitt_umschlag.end_ort if abschnitt_umschlag.kind_of? Transportabschnitt  
+        ort_aktuell_id = ort_aktuell.nil? ? 0 : ort_aktuell.id 
+        unless ort_to_detail[ort_aktuell_id].nil?
+        
+          ort_to_detail[ort_aktuell_id].each do |abschnitt_umschlag|
+            abschnitt_umschlag_list << abschnitt_umschlag
+            next_ort = abschnitt_umschlag.end_ort if abschnitt_umschlag.kind_of? Transportabschnitt  
+          end
+          ort_to_detail.delete(ort_aktuell_id) 
+          ort_aktuell = next_ort
         end
-        ort_to_detail.delete(ort_aktuell) 
-        ort_aktuell = next_ort
       end 
       # Rest nach Datum sortieren
       if not ort_to_detail.empty?
@@ -215,13 +221,15 @@ class Transport < ActiveRecord::Base
       ort_to_detail = {}
       self.umschlaege.each do |umschlag|
         ort = umschlag.ort
-        ort_to_detail[ort] ||= []
-        ort_to_detail[ort] << umschlag
+        ort_id = ort.nil? ? 0 : ort.id
+        ort_to_detail[ort_id] ||= []
+        ort_to_detail[ort_id] << umschlag
       end 
       self.transportabschnitte.each do |abschnitt|
         ort = abschnitt.start_ort
-        ort_to_detail[ort] ||= []
-        ort_to_detail[ort] << abschnitt
+        ort_id = ort.nil? ? 0 : ort.id
+        ort_to_detail[ort_id] ||= []
+        ort_to_detail[ort_id] << abschnitt
       end 
       ort_to_detail
     end 
@@ -230,8 +238,8 @@ class Transport < ActiveRecord::Base
     # Transportabschnitts ist (also der Start der Eingabe)
     #
     def abschnitt_only_start_ort orte
-      orte.each do |ort|
-        if ort && self.transportabschnitte.where(end_ort_id: ort.id).empty?
+      orte.each do |ort_id|
+        if !ort_id==0 && self.transportabschnitte.where(end_ort_id: ort_id).empty?
           return ort 
         end 
       end 
