@@ -16,6 +16,7 @@ class TransportabschnitteController < ApplicationController
       @beobachtung = Beobachtung.find(@beobachtung_id)
     end
     @transportabschnitt = Transportabschnitt.new
+    @transportabschnitt.route = Route.find_by(name: "Unbekannt")
     # Wenn Abschnitt oder Umschlag davor oder danach schon existiert, 
     # dann nimm daher die entsprechenden Anfangs- und Enddaten
     if params[:abschnitt_davor]

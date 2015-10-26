@@ -52,12 +52,12 @@
         <div class="input-group">
           <%= f.text_field :start_ort, disabled: true, class: "form-control" %>
           <span class="input-group-btn">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#ortModal-Start" type="button">Ort eingeben</button>
+            <button class="btn btn-primary" id="start_ort_eingabe" data-toggle="modal" data-target="#ortModal-Start" type="button">Ort eingeben</button>
           </span>
           <% anlagen_ort = @transport.start_anlage.ort if @transport %>
           <% if anlagen_ort %>
             <span class="input-group-btn">
-              <span class="btn btn-primary" onclick="setup_start_ort_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Start-Anlage als Ort wählen</span>
+              <span class="btn btn-primary" id="start_ort_anlage" type="button" onclick="setup_start_ort_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Start-Anlage als Ort wählen</span>
             </span>
           <% end %>
         </div>
@@ -87,12 +87,12 @@
         <div class="input-group">
           <%= f.text_field :end_ort, disabled: true, class: "form-control" %>
           <span class="input-group-btn">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#ortModal-Ziel" type="button">Ort eingeben</button>
+            <button class="btn btn-primary" id="end_ort_eingabe" type="button" data-toggle="modal" data-target="#ortModal-Ziel" type="button">Ort eingeben</button>
           </span>
           <% anlagen_ort = @transport.ziel_anlage.ort if @transport%>
           <% if anlagen_ort %>
             <span class="input-group-btn">
-              <span class="btn btn-primary" onclick="setup_ziel_ort_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Ziel-Anlage als Ort wählen</span>
+              <span class="btn btn-primary" id="end_ort_anlage" type="button" onclick="setup_ziel_ort_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Ziel-Anlage als Ort wählen</span>
             </span>
           <% end %>
         </div>

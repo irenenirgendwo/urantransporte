@@ -1,5 +1,5 @@
 class RoutenController < ApplicationController
-  before_action :set_route, only: [:show, :edit, :update, :destroy]
+  before_action :set_route, only: [:show, :edit, :update, :destroy, :get_end_orte]
 
   # GET /routen
   # GET /routen.json
@@ -64,6 +64,17 @@ class RoutenController < ApplicationController
       flash[:success] = "Route gelöscht."
       format.html { redirect_to routen_url }
       format.json { head :no_content }
+    end
+  end
+  
+  def get_end_orte
+    puts "Hallo hier bin ich"
+    alle_orte = @route.ordered_orte
+    @start_ort = alle_orte.first
+    @end_ort = alle_orte.last
+    respond_to do |format|
+      #format.html 
+      format.json 
     end
   end
 

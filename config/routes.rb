@@ -4,7 +4,9 @@ Rails.application.routes.draw do
     get "schiebe_hoch", on: :member
     get "schiebe_runter", on: :member
   end
-  resources :routen
+  resources :routen do 
+    get "get_end_orte", on: :member
+  end 
   
   get 'orte/ortswahl'
   resources :orte do
