@@ -59,29 +59,41 @@ class Ort < ActiveRecord::Base
   
   # fuegt einen anderen Ort mit dessen Verknuepfungen diesem hinzu
   # und loescht den anderen Ort.
-  # TODO: Funktioniert so noch nicht, irgendwie bleiben die alten Referenzen erhalten :(
+  # Funktionert doch, die alten Referenzen bleiben nur im Cache. Daher darauf achten, den Cache zu leeren.
   #
   def add_ort(ort)
     #File.open("log/ort.log","a"){|f| f.puts "Ort #{self.id} nimmt Ort auf #{ort.id}" }
     objektliste = ort.objekte_mit_ort_id
     objektliste.each do |objekt|
       objekt.ort = self 
-      objekt.save 
+      return false unless objekt.save 
     #  File.open("log/ort.log","a"){|f| f.puts "#{objekt} Ort #{objekt.ort.id}" }
     end
+ 
     #File.open("log/ort.log","a"){|f| f.puts "ortsobjekte #{ort.objekte_mit_ort_id}" }
     ort.start_transportabschnitte.each do |abschnitt|
       #File.open("log/ort.log","a"){|f| f.puts "#{abschnitt} old Ort #{abschnitt.start_ort.id}" }
       abschnitt.start_ort = self
-      abschnitt.save
+      return false unless abschnitt.save
       #File.open("log/ort.log","a"){|f| f.puts "#{abschnitt} new Ort #{abschnitt.start_ort.id}" }
     end 
     ort.ziel_transportabschnitte.each do |abschnitt|
       abschnitt.end_ort = self
-      abschnitt.save
+      return false unless abschnitt.save
     end 
+    # Cache leeren
+    ort.empty_cache
     return ort
   end
+  
+  def empty_cache
+    self.anlagen(true)
+    self.start_transportabschnitte(true)
+    self.ziel_transportabschnitte(true)
+    self.beobachtungen(true)
+    self.umschlaege(true)
+    self.durchfahrtsorte(true)
+  end 
   
   # Gibt alle Orte, die nicht identisch sind (falls der Ort gespeichert ist) im Umrkeis von radius aus.
   #
