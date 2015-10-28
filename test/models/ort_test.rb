@@ -78,5 +78,11 @@ class OrtTest < ActiveSupport::TestCase
     assert_equal 3, ort.objekte_mit_ort_id.size, "#{ort.objekte_mit_ort_id} \nORT 2 #{ort2.objekte_mit_ort_id}"
   end 
   
+  test "get routen" do
+    gronau = Ort.find(1)
+    routen = gronau.get_routen
+    assert_equal 1, routen.size
+    assert_equal 1, routen.first.id
+  end 
   
 end

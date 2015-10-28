@@ -10,7 +10,7 @@ class OrteController < ApplicationController
   def show
     @umkreis_orte = @ort.orte_im_umkreis(50)
     @namens_orte = Ort.orte_mit_namen @ort.name
-    
+    @routen = @ort.get_routen
   end
   
   # Zeigt ein Formular an zur Auswahl von einem aus mehreren Orten 

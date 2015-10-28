@@ -24,6 +24,10 @@ class Ort < ActiveRecord::Base
     lat.to_s + ',' + lon.to_s
   end
   
+  def get_routen
+    Route.joins(:durchfahrtsorte).where("ort_id = ?",self.id).distinct
+  end
+  
   # gibt ein Array aller Transporte zurueck, die ueber Abschnitte, Beobachtungen oder Umschlaege mit dem Transport verknuepft sind
   # 
   def transporte
