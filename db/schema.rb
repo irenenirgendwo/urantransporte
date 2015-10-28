@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150614145109) do
+ActiveRecord::Schema.define(version: 20151028193819) do
 
   create_table "anlagen", force: :cascade do |t|
     t.string   "name",                 limit: 255,   null: false
@@ -45,10 +45,10 @@ ActiveRecord::Schema.define(version: 20150614145109) do
     t.datetime "ankunft_zeit"
     t.datetime "abfahrt_zeit"
     t.string   "verkehrstraeger",               limit: 255
-    t.boolean  "kennzeichen_radioaktiv",        limit: 1
-    t.boolean  "kennzeichen_aetzend",           limit: 1
-    t.boolean  "kennzeichen_spaltbar",          limit: 1
-    t.boolean  "kennzeichen_umweltgefaehrdend", limit: 1
+    t.boolean  "kennzeichen_radioaktiv"
+    t.boolean  "kennzeichen_aetzend"
+    t.boolean  "kennzeichen_spaltbar"
+    t.boolean  "kennzeichen_umweltgefaehrdend"
     t.string   "fahrtrichtung",                 limit: 255
     t.string   "gefahr_nummer",                 limit: 255
     t.string   "un_nummer",                     limit: 255
@@ -62,9 +62,9 @@ ActiveRecord::Schema.define(version: 20150614145109) do
     t.string   "lkw_beschreibung",              limit: 255
     t.string   "schiff_name",                   limit: 255
     t.text     "schiff_beschreibung",           limit: 65535
-    t.boolean  "polizei",                       limit: 1
-    t.boolean  "hubschrauber",                  limit: 1
-    t.boolean  "foto",                          limit: 1
+    t.boolean  "polizei"
+    t.boolean  "hubschrauber"
+    t.boolean  "foto"
     t.string   "email",                         limit: 255
     t.string   "quelle",                        limit: 255
     t.string   "foto_path",                     limit: 255
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 20150614145109) do
   end
 
   create_table "durchfahrtsorte", force: :cascade do |t|
-    t.integer  "index",      limit: 4
+    t.integer  "reihung",    limit: 4
     t.integer  "ort_id",     limit: 4
     t.integer  "route_id",   limit: 4
     t.datetime "created_at",           null: false
@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 20150614145109) do
     t.string   "typ",          limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "reederei",     limit: 1
+    t.boolean  "reederei"
   end
 
   create_table "orte", force: :cascade do |t|
@@ -183,11 +183,11 @@ ActiveRecord::Schema.define(version: 20150614145109) do
     t.string   "stoff",            limit: 255
     t.date     "antragsdatum"
     t.integer  "max_anzahl",       limit: 4
-    t.boolean  "schiene",          limit: 1
-    t.boolean  "strasse",          limit: 1
-    t.boolean  "see",              limit: 1
-    t.boolean  "luft",             limit: 1
-    t.boolean  "umschlag",         limit: 1
+    t.boolean  "schiene"
+    t.boolean  "strasse"
+    t.boolean  "see"
+    t.boolean  "luft"
+    t.boolean  "umschlag"
     t.date     "erstellungsdatum"
     t.date     "gueltigkeit"
     t.datetime "created_at"

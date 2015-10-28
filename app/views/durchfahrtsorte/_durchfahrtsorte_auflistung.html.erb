@@ -5,7 +5,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Index</th>
+        <th>reihung</th>
         <th>Ortsname</th>
         <% if is_editor? %>
           <th></th>
@@ -16,16 +16,16 @@
     <tbody>
       <% durchfahrtsorte.each do |durchfahrt| %>
         <tr>
-          <td><%= durchfahrt.index %></td>
+          <td><%= durchfahrt.reihung %></td>
           <td><%= link_to durchfahrt.ort.name, durchfahrt.ort %></td>
           <% if is_editor? %>
             <td class="table-actions">
-              <%= unless durchfahrt.index == 1 then
+              <%= unless durchfahrt.reihung == 1 then
                 link_to schiebe_hoch_durchfahrtsort_path(durchfahrt) do
                   render 'text_up'
                 end
               end %>
-              <%= unless durchfahrt.index == durchfahrt.route.durchfahrtsorte.size then
+              <%= unless durchfahrt.reihung == durchfahrt.route.durchfahrtsorte.size then
                 link_to schiebe_runter_durchfahrtsort_path(durchfahrt) do
                   render 'text_down'
                 end

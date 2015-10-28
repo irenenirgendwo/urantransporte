@@ -5,7 +5,7 @@ class DurchfahrtsorteController < ApplicationController
 
   # GET /durchfahrtsorte/new
   # Route wird gesucht
-  # Default-Einfuege-Index ist am Ende der Route
+  # Default-Einfuege-reihung ist am Ende der Route
   #
   def new
     @durchfahrtsort = Durchfahrtsort.new
@@ -13,8 +13,8 @@ class DurchfahrtsorteController < ApplicationController
     if params[:route] || Route.find(params[:route].to_i).nil?
       @route = Route.find(params[:route].to_i)
       @durchfahrtsort.route = @route
-      @last_index = @route.durchfahrtsorte.size + 1
-      @durchfahrtsort.index = @last_index
+      @last_reihung = @route.durchfahrtsorte.size + 1
+      @durchfahrtsort.reihung = @last_reihung
     else 
       redirect_to routen_path, error: "Keine Route zum Erstellen eines Durchfahrtsortes"
     end
@@ -31,22 +31,25 @@ class DurchfahrtsorteController < ApplicationController
     @route = @durchfahrtsort.route
     if @route
       eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@durchfahrtsort, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
-    
       if eindeutig   
-
-        #Indizes anpassen
-        success = @durchfahrtsort.route.erhoehe_durchfahrtsort_indizes(@durchfahrtsort.index)
-        File.open("log/ort.log","a"){|f| f.puts "indizes angepasst #{success}"}
-        
-        respond_to do |format|
-          if @durchfahrtsort.save
-            flash[:success] = 'Durchfahrtsort erfolgreich angelegt.'
-            format.html { redirect_to @route }
-            format.json { render :show, status: :created, location: @durchfahrtsort }
+        if @route.includes_ort? ort_e.id
+          flash[:danger] = 'Ort schon in der Route vorhanden.'
+          redirect_to @route
+        else
+          #Indizes anpassen
+          success = @durchfahrtsort.route.erhoehe_durchfahrtsort_indizes(@durchfahrtsort.reihung)
+          File.open("log/ort.log","a"){|f| f.puts "indizes angepasst #{success}"}
           
-          else 
-              format.html { render :new }
-              format.json { render json: @durchfahrtsort.errors, status: :unprocessable_entity }
+          respond_to do |format|
+            if @durchfahrtsort.save
+              flash[:success] = 'Durchfahrtsort erfolgreich angelegt.'
+              format.html { redirect_to @route }
+              format.json { render :show, status: :created, location: @durchfahrtsort }
+            
+            else 
+                format.html { render :new }
+                format.json { render json: @durchfahrtsort.errors, status: :unprocessable_entity }
+            end
           end
         end
       else 
@@ -62,10 +65,10 @@ class DurchfahrtsorteController < ApplicationController
   # DELETE /durchfahrtsorte/1
   # DELETE /durchfahrtsorte/1.json
   def destroy
-    ab_index = @durchfahrtsort.index + 1
+    ab_reihung = @durchfahrtsort.reihung + 1
     route = @durchfahrtsort.route
     @durchfahrtsort.destroy
-    route.decrease_indizes(ab_index)
+    route.decrease_indizes(ab_reihung)
     respond_to do |format|
       flash[:success] = 'Durchfahrtsort gelöscht.'
       format.html { redirect_to route }
@@ -102,6 +105,6 @@ class DurchfahrtsorteController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def durchfahrtsort_params
-      params.require(:durchfahrtsort).permit(:index, :route_id)
+      params.require(:durchfahrtsort).permit(:reihung, :route_id)
     end
 end

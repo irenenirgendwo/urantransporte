@@ -11,7 +11,7 @@ class RouteTest < ActiveSupport::TestCase
     assert_equal 2, @route.durchfahrtsorte.size
     # Funktioniert nicht, SQL-Abfrage nicht, warum auch immer.
     # In development mode mit mysql schon.
-    #assert @route.erhoehe_durchfahrtsort_indizes 1
-    #assert @route.erhoehe_durchfahrtsort_indizes 2
+    assert @route.erhoehe_durchfahrtsort_indizes 1
+    assert @route.erhoehe_durchfahrtsort_indizes 2
   end
 end

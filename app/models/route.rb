@@ -11,11 +11,15 @@ class Route < ActiveRecord::Base
   end 
   
   def ordered_durchfahrtsorte
-    self.durchfahrtsorte.order("durchfahrtsorte.index")
+    self.durchfahrtsorte.order("durchfahrtsorte.reihung")
   end 
   
   def ordered_orte 
     self.ordered_durchfahrtsorte.map {|durch_ort| durch_ort.ort}
+  end 
+  
+  def includes_ort? ort_id
+    self.durchfahrtsorte.map{|durch_ort| durch_ort.ort.id}.include?(ort_id)
   end 
   
   
@@ -40,43 +44,43 @@ class Route < ActiveRecord::Base
     strecken
   end 
   
-  def erhoehe_durchfahrtsort_indizes ab_index
-    return false if ab_index.nil?
-    #d_orte = Durchfahrtsort.where("durchfahrtsorte.route_id = ? AND durchfahrtsorte.index > ?", self.id, ab_index -1).order("durchfahrtsorte.index DESC")
-    d_orte = self.durchfahrtsorte.where("durchfahrtsorte.index >= ?",ab_index).order("durchfahrtsorte.index DESC")
+  def erhoehe_durchfahrtsort_indizes ab_reihung
+    return false if ab_reihung.nil?
+    #d_orte = Durchfahrtsort.where("durchfahrtsorte.route_id = ? AND durchfahrtsorte.reihung > ?", self.id, ab_reihung -1).order("durchfahrtsorte.reihung DESC")
+    d_orte = self.durchfahrtsorte.where("durchfahrtsorte.reihung >= ?",ab_reihung).order("durchfahrtsorte.reihung DESC")
     success = true
     d_orte.each do |durchfahrt|
-      durchfahrt.index += 1
+      durchfahrt.reihung += 1
       success = success && durchfahrt.save 
     end 
     success
   end 
   
-  def decrease_indizes ab_index
-    d_orte = self.durchfahrtsorte.where("durchfahrtsorte.index >= ?",ab_index).order("durchfahrtsorte.index ASC")
+  def decrease_indizes ab_reihung
+    d_orte = self.durchfahrtsorte.where("durchfahrtsorte.reihung >= ?",ab_reihung).order("durchfahrtsorte.reihung ASC")
     success = true
     d_orte.each do |durchfahrt|
-      durchfahrt.index -= 1
+      durchfahrt.reihung -= 1
       success = success && durchfahrt.save 
     end 
     success
   end 
   
   def tausche_durchfahrtsorte(ort_unten, ort_oben)
-    index_unten = ort_unten.index 
-    index_oben = ort_oben.index 
-    ort_unten.index = 0
+    reihung_unten = ort_unten.reihung 
+    reihung_oben = ort_oben.reihung 
+    ort_unten.reihung = 0
     ort_unten.save 
-    ort_oben.index = index_unten 
+    ort_oben.reihung = reihung_unten 
     ort_oben.save 
-    ort_unten.index = index_oben
+    ort_unten.reihung = reihung_oben
     ort_unten.save
     return true
   end 
   
   def schiebe_hoch(durchfahrtsort)
-    index_oben = durchfahrtsort.index - 1
-    durchfahrtsort_oben = self.durchfahrtsorte.find_by(index: index_oben)
+    reihung_oben = durchfahrtsort.reihung - 1
+    durchfahrtsort_oben = self.durchfahrtsorte.find_by(reihung: reihung_oben)
     if durchfahrtsort_oben.nil?
       return false
     else 
@@ -85,8 +89,8 @@ class Route < ActiveRecord::Base
   end 
   
   def schiebe_runter(durchfahrtsort)
-    index_oben = durchfahrtsort.index + 1
-    durchfahrtsort_oben = self.durchfahrtsorte.find_by(index: index_oben)
+    reihung_oben = durchfahrtsort.reihung + 1
+    durchfahrtsort_oben = self.durchfahrtsorte.find_by(reihung: reihung_oben)
     if durchfahrtsort_oben.nil?
       return false
     else 

@@ -3,7 +3,8 @@ require 'test_helper'
 class DurchfahrtsorteControllerTest < ActionController::TestCase
   setup do
     @durchfahrtsort = durchfahrtsorte(:one)
-    @ort = orte(:gronau)
+    @gronau = orte(:gronau)
+    @ort = orte(:hamburg)
     @route1 = routen(:one)
   end
 
@@ -14,22 +15,23 @@ class DurchfahrtsorteControllerTest < ActionController::TestCase
   end
 
   test "should create durchfahrtsort" do
-    assert_equal 1, @ort.id
+    assert_equal 1, @gronau.id
     assert_equal 1, @route1.id
     assert_difference('Durchfahrtsort.count') do
-      post :create, durchfahrtsort: { index: 3, ort_id: @ort.id, route_id: @route1.id }
+      post :create, durchfahrtsort: { reihung: 3, route_id: @route1.id }, ortname: "Hamburg"
     end
-
-    assert_redirected_to routen_path(assigns(:durchfahrtsort))
+    assert_redirected_to @route1
     
     
     assert_difference('Durchfahrtsort.count') do
-      post :create, durchfahrtsort: { index: 1, ort_id: @ort.id, route_id: 2 }
+      post :create, durchfahrtsort: { reihung: 1, route_id: 2 }, ortname: "Hamburg"
     end
-    assert_redirected_to routen_path(assigns(:durchfahrtsort))
+    assert_redirected_to routen(:two)
     
-    post :create, durchfahrtsort: { index: 1, ort_id: @ort.id, route_id: 1 }
     # ORt schon vorhanden 
+    assert_no_difference('Durchfahrtsort.count') do
+      post :create, durchfahrtsort: { reihung: 1, route_id: 1 }, ortname: "Gronau"
+    end
     assert_redirected_to new_durchfahrtsort_path
   end
 
@@ -39,6 +41,6 @@ class DurchfahrtsorteControllerTest < ActionController::TestCase
       delete :destroy, id: @durchfahrtsort
     end
 
-    assert_redirected_to routen_path
+    assert_redirected_to @route1
   end
 end

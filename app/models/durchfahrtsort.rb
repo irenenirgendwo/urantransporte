@@ -5,7 +5,7 @@ class Durchfahrtsort < ActiveRecord::Base
   
   # Route und Ort müssen da sein, und pro Route gibt es jeden Index nur einmal
   validates :route, presence: true
-  validates :index, presence: true, :uniqueness => {:scope => [:route]}
+  validates :reihung, presence: true, :uniqueness => {:scope => [:route]}
   validates :ort, presence: true
 
   

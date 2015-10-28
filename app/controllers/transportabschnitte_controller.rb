@@ -93,12 +93,12 @@ class TransportabschnitteController < ApplicationController
     File.open("log/abschnitt.log","a"){|f| f.puts "params #{params}"}
     File.open("log/abschnitt.log","a"){|f| f.puts "alter ort #{params[:start_ort_ident] != ""}"}
     # Wenn Ort sich geandert hat
-    unless params[:start_ort_ident] == ""
+    unless params[:start_ort_ident].nil? || params[:start_ort_ident] == ""
       if @transportabschnitt.start_ort.nil? || (params[:start_ort_ident].to_i != @transportabschnitt.start_ort.id ) 
         @transportabschnitt.start_ort = Ort.find(params[:start_ort_ident].to_i)
       end
     end
-    unless params[:end_ort_ident] == ""
+    unless params[:end_ort_ident].nil? || params[:end_ort_ident] == "" 
       if @transportabschnitt.end_ort.nil? || params[:end_ort_ident] != @transportabschnitt.end_ort.id
          @transportabschnitt.end_ort = Ort.find(params[:end_ort_ident].to_i)
       end
