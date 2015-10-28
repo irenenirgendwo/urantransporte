@@ -12,7 +12,6 @@ class RoutenController < ApplicationController
   def show
     @orte = @route.ordered_orte
     @strecken = @route.get_strecken
-    
   end
 
   # GET /routen/new
@@ -68,7 +67,6 @@ class RoutenController < ApplicationController
   end
   
   def get_end_orte
-    puts "Hallo hier bin ich"
     alle_orte = @route.ordered_orte
     @start_ort = alle_orte.first
     @end_ort = alle_orte.last
