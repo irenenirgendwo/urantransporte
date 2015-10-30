@@ -59,3 +59,8 @@ group :development do
   gem "rails-erd"
   gem 'web-console',                    '~> 2.1.3'
 end
+
+group :test do
+  gem "capybara"
+  gem "launchy"
+end

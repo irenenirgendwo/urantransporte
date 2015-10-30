@@ -207,18 +207,25 @@ class BeobachtungenController < ApplicationController
   
   def update_foto
     uploaded_io = params[:upload_foto]
-    file_path = Rails.root.join('public', 'fotos', uploaded_io.original_filename)
-    File.open(file_path, 'wb') do |file|
-      file.write(uploaded_io.read)
-    end
-    respond_to do |format|
-      if @beobachtung.update(:foto_path => uploaded_io.original_filename, :foto_recht => params[:foto_recht])
-        flash[:success] = 'Foto zur Beobachtung hochgeladen.'
-        format.html { redirect_to @beobachtung }
-        format.json { render :show, status: :created, location: @beobachtung }
-      else
-        format.html { render :new }
-        format.json { render json: @beobachtung.errors, status: :unprocessable_entity }
+    if uploaded_io.nil?
+      flash[:danger] = "Keine Datei ausgewählt."
+      respond_to do |format|
+         format.html { render :load_foto }
+      end 
+    else
+      file_path = Rails.root.join('public', 'fotos', uploaded_io.original_filename)
+      File.open(file_path, 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
+      respond_to do |format|
+        if @beobachtung.update(:foto_path => uploaded_io.original_filename, :foto_recht => params[:foto_recht])
+          flash[:success] = 'Foto zur Beobachtung hochgeladen. Danke.'
+          format.html { redirect_to @beobachtung }
+          format.json { render :show, status: :created, location: @beobachtung }
+        else
+          format.html { render :new }
+          format.json { render json: @beobachtung.errors, status: :unprocessable_entity }
+        end
       end
     end
   end 
