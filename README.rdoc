@@ -21,19 +21,19 @@ If it does not work, maybe you'll need a javascript runtime environment, install
 
 ==== Run Tests
 
-* terminal command to run all tests in root folder: rake test
-* rake test:units runs the unit tests, each test for a model to test self defined model actions
-* rake test:functionals runs the functional tests which are testing controller actions
-* rake test:integration runs the integration tests which define use cases to browse the application. See more in issue #70.
+* terminal command to run all tests in root folder: <code>rake test</code>
+* <code>rake test:units</code> runs the unit tests, each test for a model to test self defined model actions
+* <code>rake test:functionals</code> runs the functional tests which are testing controller actions
+* <code>rake test:integration</code> runs the integration tests which define use cases to browse the application. See more in issue #70.
 
 ==== TODOs
 
-* [TODO-List on the wiki](https://github.com/irenenirgendwo/urantransporte/wiki)
-* [Issues to fix]()
+* TODO-List on the wiki: https://github.com/irenenirgendwo/urantransporte/wiki)
+* Issues to fix: https://github.com/irenenirgendwo/urantransporte/issues
 
 === Dokumentation
 
-You find the documentation [at the wiki](https://github.com/irenenirgendwo/urantransporte/wiki/Datenmodell)
+You find the documentation at the wiki: https://github.com/irenenirgendwo/urantransporte/wiki/Datenmodell
 
 === Dependencies
 Required: 
