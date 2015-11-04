@@ -14,34 +14,44 @@ If it does not work, maybe you'll need a javascript runtime environment, install
 
 ==== Get admin rights
 * Create user
+* Open terminal
 * Run <code>rails c</code> to enter rails console
 * Run <code>user = User.find_by(email: "your email")</code> to find your user
 * Run <code>user.update(:role => :admin)</code> or <code>user.update(:role => :editor)</code> to set your user role
 
-=== Later: How to get the application running
+==== Run Tests
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* terminal command to run all tests in root folder: rake test
+* rake test:units runs the unit tests, each test for a model to test self defined model actions
+* rake test:functionals runs the functional tests which are testing controller actions
+* rake test:integration runs the integration tests which define use cases to browse the application. See more in issue #70.
 
-Things you may want to cover:
+==== TODOs
 
-* Ruby version
+* [TODO-List on the wiki](https://github.com/irenenirgendwo/urantransporte/wiki)
+* [Issues to fix]()
 
-* System dependencies
+=== Dokumentation
+
+You find the documentation [at the wiki](https://github.com/irenenirgendwo/urantransporte/wiki/Datenmodell)
+
+=== Dependencies
+Required: 
+* activated Javascript
+
+Works with:
+* Ruby 2.1
+* Rails: 4.2.3
+
+=== Deploy the project
+
+Still TODO. Things you may want to cover:
 
 * Configuration
-
 * Database creation
-
 * Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
 * Deployment instructions
-
-* ...
+* Services (job queues, cache servers, search engines, etc.)
 
 
 Please feel free to use a different markup language if you do not plan to run
