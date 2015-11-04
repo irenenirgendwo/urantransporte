@@ -77,17 +77,9 @@ class BeobachtungenController < ApplicationController
       end
     end
     
-    if logged_in?
-      eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@beobachtung, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
-    else
-      @ort = Ort.create_by_koordinates_and_name(params[:ortname], params[:lat], params[:lon])
-      @beobachtung.ort = @ort
-    end
-    
-    # Beobachtung korrekt eingegeben, also speicherbar 
-    
     # Wenn eingeloggt, evtl. Ortsauswahl treffen
     if logged_in? 
+      eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@beobachtung, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
       if eindeutig
         if @beobachtung.save
           respond_to do |format|
@@ -120,22 +112,33 @@ class BeobachtungenController < ApplicationController
       end
     # Wenn nicht eingeloggt, Foto oder Danke.
     else 
-      if @beobachtung.save 
-        respond_to do |format|
-          format.html do
-              flash[:success] =  'Beobachtung wurde angelegt.'
-              if @beobachtung.foto 
-                redirect_to load_foto_beobachtung_path(@beobachtung)
-              else
-                redirect_to danke_beobachtung_path(@beobachtung)
-              end 
-          end       
-          format.json { render :show, status: :created, location: @beobachtung }
-        end
-      else 
+      if params[:ortname]=="" && params[:lat]==""
+        flash[:danger] = 'Bitte einen Ort eingeben über die Karte oder das Namensfeld.'
         respond_to do |format|
           format.html { render :new }
           format.json { render json: @anlage.errors, status: :unprocessable_entity }
+        end
+      else
+        # Ort erstellen
+        @ort = Ort.create_by_koordinates_and_name(params[:ortname], params[:lat], params[:lon])
+        @beobachtung.ort = @ort
+        if @beobachtung.save 
+          respond_to do |format|
+            format.html do
+                flash[:success] =  'Beobachtung wurde angelegt.'
+                if @beobachtung.foto 
+                  redirect_to load_foto_beobachtung_path(@beobachtung)
+                else
+                  redirect_to danke_beobachtung_path(@beobachtung)
+                end 
+            end       
+            format.json { render :show, status: :created, location: @beobachtung }
+          end
+        else 
+          respond_to do |format|
+            format.html { render :new }
+            format.json { render json: @anlage.errors, status: :unprocessable_entity }
+          end
         end
       end
     end
@@ -207,23 +210,31 @@ class BeobachtungenController < ApplicationController
   
   def update_foto
     uploaded_io = params[:upload_foto]
+    filename = uploaded_io.original_filename
     if uploaded_io.nil?
       flash[:danger] = "Keine Datei ausgewählt."
       respond_to do |format|
          format.html { render :load_foto }
       end 
     else
-      file_path = Rails.root.join('public', 'fotos', uploaded_io.original_filename)
+      file_path = Rails.root.join('public', 'fotos', filename)
       File.open(file_path, 'wb') do |file|
         file.write(uploaded_io.read)
       end
       respond_to do |format|
-        if @beobachtung.update(:foto_path => uploaded_io.original_filename, :foto_recht => params[:foto_recht])
+        #puts "file geladen #{filename} #{params[:foto_recht]} #{@beobachtung.id}"
+        if @beobachtung.update(:foto_path => filename, :foto_recht => params[:foto_recht])
           flash[:success] = 'Foto zur Beobachtung hochgeladen. Danke.'
-          format.html { redirect_to @beobachtung }
-          format.json { render :show, status: :created, location: @beobachtung }
+          if logged_in?
+            format.html { redirect_to @beobachtung }
+            format.json { render :show, status: :updated, location: @beobachtung }
+          else 
+            format.html { redirect_to danke_beobachtung_path(@beobachtung) }
+          end
         else
-          format.html { render :new }
+          flash[:danger] = "Foto hochladen nicht erfolgreich. Vielleicht umbenennen?"
+          #puts @beobachtung.attributes
+          format.html { render :load_foto }
           format.json { render json: @beobachtung.errors, status: :unprocessable_entity }
         end
       end
@@ -252,7 +263,7 @@ class BeobachtungenController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
     def set_beobachtung
-      @beobachtung = Beobachtung.find(params[:id])
+      @beobachtung = Beobachtung.find(params[:id].to_i)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

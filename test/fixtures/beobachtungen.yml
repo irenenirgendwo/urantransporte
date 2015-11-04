@@ -1,6 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 zug:
+  id: 1
   ankunft_zeit: 2014-10-11 19:46:58
   abfahrt_zeit: 2014-10-11 19:46:58
   ort_id: 3
@@ -24,6 +25,7 @@ zug:
   email: MyString
 
 lkw:
+  id: 2
   ankunft_zeit: 2014-10-11 19:46:58
   abfahrt_zeit: 2014-10-11 19:46:58
   ort_id: 3

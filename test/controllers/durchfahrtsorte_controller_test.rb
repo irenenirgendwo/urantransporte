@@ -28,11 +28,11 @@ class DurchfahrtsorteControllerTest < ActionController::TestCase
     end
     assert_redirected_to routen(:two)
     
-    # ORt schon vorhanden 
+    # Ort schon vorhanden 
     assert_no_difference('Durchfahrtsort.count') do
       post :create, durchfahrtsort: { reihung: 1, route_id: 1 }, ortname: "Gronau"
     end
-    assert_redirected_to new_durchfahrtsort_path
+    assert_redirected_to @route1
   end
 
 
