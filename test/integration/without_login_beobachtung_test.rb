@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class WithoutLoginTest < ActionDispatch::IntegrationTest
+class WithoutLoginBeobachtungTest < ActionDispatch::IntegrationTest
 
   include Capybara::DSL
 
