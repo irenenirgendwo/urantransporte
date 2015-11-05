@@ -150,7 +150,8 @@ class BeobachtungenController < ApplicationController
   # PATCH/PUT /beobachtungen/1.json
   def update
     # Ortsupdate nur wenn Ort sich aendert
-    unless @beobachtung.ort.name == params[:ortname] && @beobachtung.ort.lat == params[:lat] 
+    eindeutig = true
+    unless @beobachtung.ort.name == params[:ortname] && @beobachtung.ort.lat.to_s == params[:lat] 
       if logged_in? 
         ortname = params[:ortname] != @beobachtung.ort.name ? params[:ortname] : nil
         plz = params[:plz] != @beobachtung.ort.plz ? params[:plz] : nil
@@ -161,13 +162,13 @@ class BeobachtungenController < ApplicationController
           @beobachtung.ort = ort_e
         end
       else
-        eindeutig = true
         @beobachtung.ort = Ort.create_by_koordinates_and_name(params[:ortname], params[:lat], params[:lon])
       end
     end
     respond_to do |format|
       if eindeutig && @beobachtung.save && @beobachtung.update(beobachtung_params)
-        format.html { redirect_to beobachtung_path, notice: 'Beobachtung wurde aktualisiert.' }
+        flash[:success] = "Beobachtung wurde aktualisiert."
+        format.html { redirect_to beobachtung_path }
        # format.html { redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde aktualisiert.' }
         format.json { render :show, status: :ok, location: @beobachtung }
       else

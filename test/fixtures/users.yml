@@ -9,3 +9,4 @@ anna:
 arthur:
   name: Arthur
   email: arthur@nirgendwo.info
+  remember_digest: test01

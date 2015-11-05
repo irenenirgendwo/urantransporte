@@ -7,28 +7,28 @@
         
         <div class="col-sm-6">
           <p>
-            <strong>Verkehrstraeger:</strong>
+            <strong>Verkehrsträger:</strong>
             <%= beobachtung.verkehrstraeger %>
           </p>
           <p>
-            <strong>Container beschreibung:</strong>
+            <strong>Container-Beschreibung:</strong>
             <%= beobachtung.container_beschreibung %>
           </p>
 
           <p>
-            <strong>Anzahl container:</strong>
+            <strong>Anzahl der Container:</strong>
             <%= beobachtung.anzahl_container %>
           </p>
 
           <% case beobachtung.verkehrstraeger %>
           <% when "LKW" then %>
             <p>
-              <strong>Anzahl lkw:</strong>
+              <strong>Anzahl der LKW:</strong>
               <%= beobachtung.anzahl_lkw %>
             </p>
             
             <p>
-              <strong>Kennzeichen lkw:</strong>
+              <strong>Kennzeichen der LKW:</strong>
               <%= beobachtung.kennzeichen_lkw %>
             </p>
             
@@ -39,11 +39,11 @@
 
           <% when "Zug" then %>
             <p>
-              <strong>Lok Beschreibung:</strong>
+              <strong>Beschreibung der Lok:</strong>
               <%= beobachtung.lok_beschreibung %>
             </p>
             <p>
-              <strong>Zug beschreibung:</strong>
+              <strong>Beschreibung des Zugs:</strong>
               <%= beobachtung.zug_beschreibung %>
             </p>
           <% when "Schiff" then %>
@@ -64,7 +64,7 @@
 
 
           <p>
-            <strong>Firma beschreibung:</strong>
+            <strong>Firma:</strong>
             <%= beobachtung.firma_beschreibung %>
           </p>
           
@@ -107,7 +107,9 @@
               <p>
                 Aufgenommen von: <%= beobachtung.foto_recht %>
                 <% if edit_allowed?(beobachtung.quelle)  %>
-                  <%= link_to "Foto ändern", load_foto_beobachtung_path(beobachtung), class: "btn btn-primary"  %>
+                  <p>
+                    <%= link_to "Foto ändern", load_foto_beobachtung_path(beobachtung), class: "btn btn-primary"  %>
+                  </p>
                 <% end %>
               </p>
             <% else %>
