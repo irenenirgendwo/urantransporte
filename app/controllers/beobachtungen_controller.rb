@@ -1,7 +1,8 @@
 # encoding: utf-8
 class BeobachtungenController < ApplicationController
   before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :load_foto, :update_foto, :abschnitt_zuordnen, :set_toleranz_tage, :save_ort]
-  before_action :editor_user, only: [:edit, :update, :destroy, :index, :save_ort]
+  before_action :editor_user, only: [:index, :destroy]
+  before_action :beobachtung_edit_allowed, only: [:edit, :update, :save_ort]
   before_action :set_schiffe, only: [:edit, :new, :update, :create, :save_ort]
   
   include OrteAuswahl
@@ -142,9 +143,6 @@ class BeobachtungenController < ApplicationController
         end
       end
     end
-      
-    
-    
   end
 
   # PATCH/PUT /beobachtungen/1
@@ -252,7 +250,7 @@ class BeobachtungenController < ApplicationController
         redirect_to @beobachtung
       else
         flash[:danger] = "Ort nicht korrekt gespeichert."
-        redirect_to edit_anlage_path(@beobachtung)
+        redirect_to edit_beobachtung_path(@beobachtung)
       end
     else 
       flash[:info] = "Kein Ort übermittelt." 
@@ -285,6 +283,10 @@ class BeobachtungenController < ApplicationController
         @schiffe << [schiff.name, schiff.id]
       end
       @schiff_unbekannt = Schiff.find_by_name("Unbekannt").id
+    end
+    
+    def beobachtung_edit_allowed
+      edit_allowed?(@beobachtung.quelle)
     end
     
 

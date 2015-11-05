@@ -43,6 +43,10 @@ module SessionsHelper
     user == current_user
   end
   
+  def edit_allowed?(user_name)
+    is_editor? || (User.find_by(name: user_name) && current_user.name == user_name)
+  end
+  
   def redirect_back_or(default)
     redirect_to(session[:forwarding_url] || default)
     session.delete(:forwarding_url)

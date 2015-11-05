@@ -1,12 +1,20 @@
-<%= link_to beobachtungen_path do %>
-  <span class='glyphicon glyphicon-menu-left' aria-hidden='true'></span> Alle Beobachtungen
+<% if is_editor? %>
+  <%= link_to beobachtungen_path do %>
+    <span class='glyphicon glyphicon-menu-left' aria-hidden='true'></span> Alle Beobachtungen
+  <% end %>
+<% else %>
+ <%= link_to welcome_index_path do %>
+    <span class='glyphicon glyphicon-menu-left' aria-hidden='true'></span> Startseite
+  <% end %>
 <% end %>
 
 <h1>Beobachtung aus <%= @beobachtung.ort %>
-  <% if is_editor? %>
+  <% if edit_allowed?(@beobachtung.quelle) %>
     <div class="btn-group header-buttons">
       <%= link_to 'Bearbeiten', edit_beobachtung_path(@beobachtung), class: "btn btn-primary" %>
-      <%= link_to 'Löschen', @beobachtung, method: :delete, data: { confirm: 'Willst du die Beobachtung wirklich löschen?' }, class: "btn btn-danger" %></td>
+      <% if is_editor? %>
+        <%= link_to 'Löschen', @beobachtung, method: :delete, data: { confirm: 'Willst du die Beobachtung wirklich löschen?' }, class: "btn btn-danger" %></td>
+      <% end %>
     </div>
   <% end %>
 </h1>
@@ -24,7 +32,7 @@
 <%= render "show_beschreibung", beobachtung: @beobachtung %>
 
 
-<% if logged_in? %>
+<% if is_editor? %>
 
   <!-- Zeigt den zugeordneten Transportabschnitt oder ermoeglicht eine Zuordnung -->
   <%= render "show_transportabschnitt", beobachtung: @beobachtung %>
