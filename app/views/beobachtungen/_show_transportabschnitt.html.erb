@@ -36,24 +36,29 @@
               <table class="table table-striped">
                 <thead>
                   <tr>
+                    <th></th>
                     <th>Startdatum</th>
                     <th>Endatum</th>
                     <th>Start</th>
                     <th>Ziel</th>
                     <th>Stoff</th>
-                    <th colspan="2"></th>
+                    <th></th>
                   </tr>
                 </thead>
 
                 <tbody>
                   <% @transportabschnitte.each do |transportabschnitt| %>
                     <tr>
+                      <td>
+                        <%= link_to transportabschnitt do
+                          render 'text_show'
+                        end %>
+                      </td>
                       <td> <%= transportabschnitt.start_datum %></td>
                       <td> <%= transportabschnitt.end_datum %></td>
                       <td> <%= transportabschnitt.start_ort %></td>
                       <td> <%= transportabschnitt.end_ort %></td>
                       <td> <%= transportabschnitt.transport ? transportabschnitt.transport.stoff : nil %></td>
-                      <td><%= link_to 'Show', transportabschnitt %></td>
                       <td><%= link_to 'Zuordnen', abschnitt_zuordnen_beobachtung_path(@beobachtung, abschnitt: transportabschnitt.id) %></td>
                     </tr>
                   <% end %>
@@ -82,22 +87,27 @@
             <table class="table table-striped">
               <thead>
                 <tr>
+                  <th></th>
                   <th>Datum</th>
                   <th>Start</th>
                   <th>Ziel</th>
                   <th>Stoff</th>
-                  <th colspan="2"></th>
+                  <th></th>
                 </tr>
               </thead>
 
               <tbody>
                 <% @transporte.each do |transport| %>
                   <tr>
+                    <td>
+                      <%= link_to transport do
+                        render 'text_show'
+                      end %>
+                    </td>
                     <td><%= transport.datum %></td>
                     <td><%= link_to transport.start_anlage, transport.start_anlage %></td>
                     <td><%= link_to transport.ziel_anlage, transport.ziel_anlage %></td>
                     <td><%= link_to transport.stoff, transport.stoff %></td>
-                    <td><%= link_to 'Show', transport %></td>
                     <td><%= link_to 'Neuen Transportabschnitt anlegen', new_transportabschnitt_path(beobachtung_id: @beobachtung.id, transport_id: transport.id) %></td>
                   </tr>
                 <% end %>
