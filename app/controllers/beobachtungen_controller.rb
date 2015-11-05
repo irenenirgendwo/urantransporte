@@ -84,15 +84,15 @@ class BeobachtungenController < ApplicationController
       if eindeutig
         if @beobachtung.save
           respond_to do |format|
-              format.html do
-                flash[:success] = 'Beobachtung wurde angelegt.'
-                if @beobachtung.foto 
-                  redirect_to load_foto_beobachtung_path(@beobachtung)
-                else logged_in?
-                  redirect_to @beobachtung
-                end 
-              end
-              format.json { render :show, status: :created, location: @anlage }
+            format.html do
+              flash[:success] = 'Beobachtung wurde angelegt.'
+              if @beobachtung.foto 
+                redirect_to load_foto_beobachtung_path(@beobachtung)
+              else logged_in?
+                redirect_to @beobachtung
+              end 
+            end
+            format.json { render :show, status: :created, location: @anlage }
           end
         else 
           respond_to do |format|
@@ -101,6 +101,7 @@ class BeobachtungenController < ApplicationController
           end
         end
       else
+        # beliebigen Ort setzen, nachher umsetzen
         @beobachtung.ort = Ort.first
         @beobachtung.save
         if ort_e.nil?
@@ -148,13 +149,29 @@ class BeobachtungenController < ApplicationController
   # PATCH/PUT /beobachtungen/1
   # PATCH/PUT /beobachtungen/1.json
   def update
-    @beobachtung.ort = Ort.create_by_koordinates_and_name(params[:ort], params[:lat], params[:lon])
+    # Ortsupdate nur wenn Ort sich aendert
+    unless @beobachtung.ort.name == params[:ortname] && @beobachtung.ort.lat == params[:lat] 
+      if logged_in? 
+        ortname = params[:ortname] != @beobachtung.ort.name ? params[:ortname] : nil
+        plz = params[:plz] != @beobachtung.ort.plz ? params[:plz] : nil
+        lat = params[:lat] != @beobachtung.ort.lat ? params[:lat] : nil
+        lon = params[:lon] != @beobachtung.ort.lon ? params[:lon] : nil
+        eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@beobachtung, ortname.to_s, plz, lat, lon, "create")
+        if eindeutig
+          @beobachtung.ort = ort_e
+        end
+      else
+        eindeutig = true
+        @beobachtung.ort = Ort.create_by_koordinates_and_name(params[:ortname], params[:lat], params[:lon])
+      end
+    end
     respond_to do |format|
-      if @beobachtung.save && @beobachtung.update(beobachtung_params)
+      if eindeutig && @beobachtung.save && @beobachtung.update(beobachtung_params)
         format.html { redirect_to beobachtung_path, notice: 'Beobachtung wurde aktualisiert.' }
        # format.html { redirect_to load_foto_beobachtung_path(@beobachtung), notice: 'Beobachtung wurde aktualisiert.' }
         format.json { render :show, status: :ok, location: @beobachtung }
       else
+        flash[:danger] = "Ort nicht eindeutig, bitte über Karte eingeben" unless eindeutig
         format.html { render :edit }
         format.json { render json: @beobachtung.errors, status: :unprocessable_entity }
       end

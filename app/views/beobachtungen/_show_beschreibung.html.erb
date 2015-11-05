@@ -100,18 +100,20 @@
             <%= image_tag "transportsign_pollution.svg", alt: "umweltgefährdend", size: "70x70" %>
           <% end %>
 
+          <% if foto_anzeige %>
             <h4>Foto:</h4>
-          <% if beobachtung.foto_path %>
-            <img src="/fotos/<%=beobachtung.foto_path%>" alt="Transport-Foto" width="400">
-            <p>
-              Aufgenommen von: <%= beobachtung.foto_recht %>
+            <% if beobachtung.foto_path %>
+              <img src="/fotos/<%=beobachtung.foto_path%>" alt="Transport-Foto" width="400">
+              <p>
+                Aufgenommen von: <%= beobachtung.foto_recht %>
+                <% if edit_allowed?(beobachtung.quelle)  %>
+                  <%= link_to "Foto ändern", load_foto_beobachtung_path(beobachtung), class: "btn btn-primary"  %>
+                <% end %>
+              </p>
+            <% else %>
               <% if edit_allowed?(beobachtung.quelle) %>
-                <%= link_to "Foto ändern", load_foto_beobachtung_path(beobachtung), class: "btn btn-primary"  %>
+                <%= link_to "Foto hochladen", load_foto_beobachtung_path(beobachtung), class: "btn btn-primary"  %>
               <% end %>
-            </p>
-          <% else %>
-            <% if edit_allowed?(beobachtung.quelle) %>
-              <%= link_to "Foto hochladen", load_foto_beobachtung_path(beobachtung), class: "btn btn-primary"  %>
             <% end %>
           <% end %>
 

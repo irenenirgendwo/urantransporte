@@ -29,7 +29,7 @@
 <%= render "show_eckdaten", beobachtung: @beobachtung, titel: "Eckdaten" %>
 
 <!--Zeigt Beschreibung des Transports und die Gefahrgut-Kennzeichnung -->
-<%= render "show_beschreibung", beobachtung: @beobachtung %>
+<%= render "show_beschreibung", beobachtung: @beobachtung, foto_anzeige: true %>
 
 
 <% if is_editor? %>
