@@ -53,8 +53,8 @@
                           render 'text_show'
                         end %>
                       </td>
-                      <td> <%= transportabschnitt.start_datum %></td>
-                      <td> <%= transportabschnitt.end_datum %></td>
+                      <td> <%= l transportabschnitt.start_datum %></td>
+                      <td> <%= l transportabschnitt.end_datum %></td>
                       <td> <%= transportabschnitt.start_ort %></td>
                       <td> <%= transportabschnitt.end_ort %></td>
                       <td> <%= transportabschnitt.transport ? transportabschnitt.transport.stoff : nil %></td>
@@ -103,7 +103,7 @@
                         render 'text_show'
                       end %>
                     </td>
-                    <td><%= transport.datum %></td>
+                    <td><%= l transport.datum %></td>
                     <td><%= link_to transport.start_anlage, transport.start_anlage %></td>
                     <td><%= link_to transport.ziel_anlage, transport.ziel_anlage %></td>
                     <td><%= link_to transport.stoff, transport.stoff %></td>
