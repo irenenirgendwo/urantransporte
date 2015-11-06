@@ -6,14 +6,12 @@
 
 
         <% if @beobachtung.transportabschnitt %>
-        
-          <h4>Zugeordneter Transport</h4>
-          
+
           <% if @beobachtung.transportabschnitt.transport %>
             <div class="btn-group header-buttons">
               <%= link_to 'Transport anzeigen', @beobachtung.transportabschnitt.transport, class: "btn btn-primary" %>
             </div>
-            <h4>Transportdaten</h4>
+            <h4>Die Beobachtung wurde bei dem folgenden Transport gemacht.</h4>
             <%= render "transporte/show_transport_grunddaten", transport: @beobachtung.transportabschnitt.transport %>
           <% end %>
           
@@ -33,7 +31,7 @@
           <% else %>
               Mit "Zuordnen" wird diese Beobachtung dem ausgewählten Transportabschnitt zugeordnet.
               Jede Beobachtung kann nur einem Transportabschnitt zugeordnet werden.
-              <table class="table table-striped">
+              <table class="table table-striped" id="beobachtung_transportabschnitt_table">
                 <thead>
                   <tr>
                     <th></th>
@@ -84,7 +82,7 @@
                Wenn die Beobachtung zu einem der folgenden aufgelisteteten Transporte passt, wähle "Neuen Transportabschnitt anlegen"
                um einen neuen Transportabschnitt zum jeweiligen Transport zu erstellen, der automatisch dieser Beobachtung zugeordnet wird.
             </p>
-            <table class="table table-striped">
+            <table class="table table-striped" id="beobachtung_transporte_table">
               <thead>
                 <tr>
                   <th></th>

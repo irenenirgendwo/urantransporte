@@ -1,12 +1,39 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-zug:
+lkw:
   id: 1
+  ankunft_zeit: 2012-07-05 10:00
+  abfahrt_zeit: 2012-07-05 11:46:58
+  ort_id: 3
+  fahrtrichtung: MyString
+  verkehrstraeger: LKW
+  kennzeichen_radioaktiv: true
+  kennzeichen_aetzend: false
+  kennzeichen_spaltbar: false
+  kennzeichen_umweltgefaehrdend: false
+  gefahr_nummer: 78
+  un_nummer: 2978
+  firma_beschreibung: MyString
+  container_beschreibung: MyText
+  anzahl_container: 1
+  anzahl_lkw: 1
+  kennzeichen_lkw: MyString
+  lkw_beschreibung: MyText
+  polizei: false
+  hubschrauber: false
+  foto: false
+  quelle: Formular
+  email: MyString
+  transportabschnitt_id: nil
+  
+
+zug:
+  id: 2
   ankunft_zeit: 2014-10-11 19:46:58
   abfahrt_zeit: 2014-10-11 19:46:58
   ort_id: 3
   fahrtrichtung: MyString
-  verkehrstraeger: MyString
+  verkehrstraeger: Zug
   kennzeichen_radioaktiv: false
   kennzeichen_aetzend: false
   kennzeichen_spaltbar: false
@@ -21,30 +48,27 @@ zug:
   polizei: false
   hubschrauber: false
   foto: false
-  quelle: MyString
+  quelle: admin
   email: MyString
 
-lkw:
-  id: 2
-  ankunft_zeit: 2014-10-11 19:46:58
-  abfahrt_zeit: 2014-10-11 19:46:58
-  ort_id: 3
-  fahrtrichtung: MyString
-  verkehrstraeger: MyString
-  kennzeichen_radioaktiv: false
+  
+schiff_zugeordnet:
+  id: 3
+  ankunft_zeit: 2012-07-03 19:46:58
+  ort_id: 6
+  fahrtrichtung: Westen
+  verkehrstraeger: Schiff
+  kennzeichen_radioaktiv: true
   kennzeichen_aetzend: false
   kennzeichen_spaltbar: false
-  kennzeichen_umweltgefaehrdend: false
-  gefahr_nummer: MyString
-  un_nummer: 
+  kennzeichen_umweltgefaehrdend: true
+  gefahr_nummer: 78
+  un_nummer: 2978
   firma_beschreibung: MyString
   container_beschreibung: MyText
   anzahl_container: 1
-  anzahl_lkw: 1
-  kennzeichen_lkw: MyString
-  lkw_beschreibung: MyText
   polizei: false
   hubschrauber: false
   foto: false
-  quelle: MyString
-  email: MyString
+  quelle: Formular
+  transportabschnitt_id: 1

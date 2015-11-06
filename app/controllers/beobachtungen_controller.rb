@@ -1,7 +1,7 @@
 # encoding: utf-8
 class BeobachtungenController < ApplicationController
   before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :load_foto, :update_foto, :abschnitt_zuordnen, :set_toleranz_tage, :save_ort]
-  before_action :editor_user, only: [:index, :destroy]
+  #before_action :editor_user, only: [:index, :destroy]
   before_action :beobachtung_edit_allowed, only: [:edit, :update, :save_ort]
   before_action :set_schiffe, only: [:edit, :new, :update, :create, :save_ort]
   

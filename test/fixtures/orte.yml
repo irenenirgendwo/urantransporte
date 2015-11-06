@@ -37,3 +37,9 @@ ungenutzt:
   lon: -80.6399922
   plz: 33701
 #  column: value
+kiel:
+  id: 6
+  name: Kiel
+  lat: 24.772975
+  lon: -20.6399922
+  plz: 24143

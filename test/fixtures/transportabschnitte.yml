@@ -5,13 +5,16 @@
 # below each fixture, per the syntax in the comments below
 #
 petersburg_hamburg: 
+  id: 1
   start_ort_id: 4
   end_ort_id: 3
   transport_id: 3
   start_datum: 2012-07-01
   end_datum: 2012-07-04
+  verkehrstraeger: Schiff
 
 hamburg_lingen_1: 
+  id: 2
   start_ort_id: 3
   end_ort_id: 2
   firma_id: 1

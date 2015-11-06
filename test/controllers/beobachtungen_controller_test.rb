@@ -47,10 +47,10 @@ class BeobachtungenControllerTest < ActionController::TestCase
 
   test "should update beobachtung" do
     patch :update, id: @beobachtung, beobachtung: { beschreibung: @beobachtung.beschreibung, foto: true }
-    assert_response :redirect
+    assert_response :success
     
     patch :update, id: @beobachtung, beobachtung: { beschreibung: @beobachtung.beschreibung }
-    assert_response :redirect
+    assert_response :success
   end
   
   test "should update foto" do 
