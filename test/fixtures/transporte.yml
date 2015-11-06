@@ -34,3 +34,11 @@ petersburg_lingen2:
   start_anlage_id: 3
   ziel_anlage_id: 2
 
+gronau_lingen3:
+  id: 5
+  datum: 2012-07-10
+  stoff_id: 1
+  behaelter: 48Y
+  anzahl: 16
+  start_anlage_id: 1
+  ziel_anlage_id: 2

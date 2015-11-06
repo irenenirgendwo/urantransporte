@@ -9,7 +9,7 @@ class WithoutLoginBeobachtungTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select 'table', 1
     assert_select 'nav', 1
-    assert_select 'tr', 4
+    assert_select 'tr', 5
   end
   
   test "Beobachtung melden ohne Foto" do 

@@ -59,7 +59,7 @@ class TransportTest < ActiveSupport::TestCase
   end
   
   test "get all known orte" do 
-    assert_equal 3, @transport_russ_lingen_1.get_known_orte.size
+    assert_equal 4, @transport_russ_lingen_1.get_known_orte.size
     assert @transport_russ_lingen_1.orte_ids.include?(2)
   end
 

@@ -1,14 +1,17 @@
 <h1>Neuer Transport</h1>
 
-<div class="row">
-  
-  <% if @beobachtung %>
+
+
+<% if @beobachtung %>
+  <div class="row">
     <div class="col-sm-6">
       <%= render 'form' %>
     </div>
-    <%= render "beobachtungen/eingabehilfe", beobachtung: @beobachtung %>
-  <% else %>
-    <%= render 'form' %>
-  <% end %>
-</div>
+    <div class="col-sm-6">
+      <%= render "beobachtungen/eingabehilfe", beobachtung: @beobachtung %>
+    </div>
+  </div>
+<% else %>
+  <%= render 'form' %>
+<% end %>
 

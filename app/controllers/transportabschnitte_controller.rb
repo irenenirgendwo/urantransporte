@@ -63,13 +63,11 @@ class TransportabschnitteController < ApplicationController
       redirection_path = @beobachtung if @beobachtung
     end
 
-  # Orte finden, zuordnen oder falls nötig, neu erstellen.
-    # TODO: Auswahlmöglichkeit bei Mehrfachtreffern. Aktuell wird einfach der letzte genommen.
-    # ausgelagert in Funktion conerns/OrteVerwalten/find_or_create_ort.
-    if params[:start_ort_ident]
+    # Orte zuordnen (Auswahl über Modalmaske, also id vorhanden, wenn Auswahl getroffen)
+    if params[:start_ort_ident] && params[:start_ort_ident].to_i != 0
       @transportabschnitt.start_ort = Ort.find(params[:start_ort_ident].to_i)
     end
-    if params[:end_ort_ident]
+    if params[:end_ort_ident] && params[:end_ort_ident].to_i != 0
       @transportabschnitt.end_ort = Ort.find(params[:end_ort_ident].to_i)
     end
 

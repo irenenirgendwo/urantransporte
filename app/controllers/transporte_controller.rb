@@ -20,9 +20,13 @@ class TransporteController < ApplicationController
   def new
     @transport = Transport.new
     @stoff = Stoff.new
-    @beobachtung_id = params[:beobachtung_id].to_i if params[:beobachtung_id]
-    @beobachtung = Beobachtung.find(@beobachtung_id) if params[:beobachtung_id]
-    @redirect_params = new_transport_path
+    if params[:beobachtung_id]
+      @beobachtung_id = params[:beobachtung_id].to_i
+      @beobachtung = Beobachtung.find(@beobachtung_id) 
+      @redirect_params = @beobachtung
+    else 
+      @redirect_params = transporte_path
+    end
   end
 
   # GET /transporte/1/edit

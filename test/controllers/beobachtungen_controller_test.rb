@@ -56,7 +56,8 @@ class BeobachtungenControllerTest < ActionController::TestCase
   test "should update foto" do 
     test_file = fixture_file_upload('files/schweich.jpg','application/jpg')
     patch :update_foto, id: @beobachtung.id, upload_foto: test_file, foto_recht: "Pay" 
-    neue_beobachtung = Beobachtung.find(1)
+    beob_id = @beobachtung.id
+    neue_beobachtung = Beobachtung.find(beob_id)
     assert_equal "Pay", neue_beobachtung.foto_recht, "#{neue_beobachtung}"
     assert_not_nil neue_beobachtung.foto_path
     assert_response :redirect

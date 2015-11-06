@@ -115,12 +115,12 @@
           
           <% end %>
           
-          <h4> Nicht passendes gefunden? </h4>
+          <h4> Nichts passendes gefunden? </h4>
           Wenn die angezeigten Transporte und Transportabschnitte nicht passen (oder keine gefunden wurden),
           gibt es hier die Möglichkeit, einen neuen Transport anzulegen. 
           Danach kann dann ein neuer Transportabschnitt für den angelegten Trasnport und diese Beobachtung erstellt werden.
            
-          <strong><%= link_to 'Neuen Transport anlegen', new_transport_path(beobachtung_id: @beobachtung.id) %></strong>
+          <strong><%= link_to 'Neuen Transport anlegen', new_transport_path(beobachtung_id: @beobachtung.id), class: "btn btn-primary" %></strong>
           
         <% end %>  
     </div>
