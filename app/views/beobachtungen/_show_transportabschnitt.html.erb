@@ -10,6 +10,7 @@
           <% if @beobachtung.transportabschnitt.transport %>
             <div class="btn-group header-buttons">
               <%= link_to 'Transport anzeigen', @beobachtung.transportabschnitt.transport, class: "btn btn-primary" %>
+              <%= link_to 'Zuordnung aufheben', delete_zuordnung_beobachtung_path(@beobachtung), class: "btn btn-danger" %>
             </div>
             <h4>Die Beobachtung wurde bei dem folgenden Transport gemacht.</h4>
             <%= render "transporte/show_transport_grunddaten", transport: @beobachtung.transportabschnitt.transport %>

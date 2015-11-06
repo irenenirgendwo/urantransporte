@@ -5,7 +5,8 @@ class BeobachtungenTest < ActionDispatch::IntegrationTest
   include Capybara::DSL
   include SessionsHelper
   
-  # Das automatische zurueck setzten funktioniert nicht richtig
+  # Das automatische zurueck setzen funktioniert nicht richtig
+  # Die Beobachtung soll aber immer wieder neu zugeordnet werden können.
   setup do 
     beob = Beobachtung.find(1)
     beob.transportabschnitt= nil
@@ -151,6 +152,11 @@ class BeobachtungenTest < ActionDispatch::IntegrationTest
     assert page.has_content?("Beobachtungen: Hamburg")
     
     # Transportzuordnung wieder loeschen
+    click_link "Zuordnung aufheben"
+    assert page.has_content?("Mögliche Transportabschnitte:")
+    assert page.has_content?("Mögliche Transporte")
+    assert_equal 1, find('#beobachtung_transportabschnitt_table').find('tbody').all('tr').count
+    assert_equal 2, find('#beobachtung_transporte_table').find('tbody').all('tr').count
   end
   
   test "lege neuen Abschnitt an beim zuordnen" do 
@@ -166,7 +172,7 @@ class BeobachtungenTest < ActionDispatch::IntegrationTest
     assert_equal 1, find('#beobachtung_transportabschnitt_table').find('tbody').all('tr').count
     assert_equal 2, find('#beobachtung_transporte_table').find('tbody').all('tr').count
     
-    
+    # TODO ab hier
   end 
   
   test "lege neuen Transport an beim zuordnen" do

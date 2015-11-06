@@ -1,7 +1,7 @@
 # encoding: utf-8
 class BeobachtungenController < ApplicationController
-  before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :load_foto, :update_foto, :abschnitt_zuordnen, :set_toleranz_tage, :save_ort]
-  #before_action :editor_user, only: [:index, :destroy]
+  before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :load_foto, :update_foto, :abschnitt_zuordnen, :delete_zuordnung, :set_toleranz_tage, :save_ort]
+  before_action :editor_user, only: [:index, :destroy, :delete_zuordnung, :abschnitt_zuordnen, :set_toleranz_tage]
   before_action :beobachtung_edit_allowed, only: [:edit, :update, :save_ort]
   before_action :set_schiffe, only: [:edit, :new, :update, :create, :save_ort]
   
@@ -206,6 +206,16 @@ class BeobachtungenController < ApplicationController
     flash[:danger] = "Fehler: Transportabschnitt wurde nicht zugeordnet."
     redirect_to @beobachtung
   end
+  
+  def delete_zuordnung
+    @beobachtung.transportabschnitt = nil
+    if @beobachtung.save 
+      flash[:success] = "Zuordnung gelöscht. Neue Zuordnung zu einem Transport möglich."
+    else 
+      flash[:danger] = "Löschen nicht erfolgreich."
+    end
+    redirect_to @beobachtung
+  end 
   
   # laedt das Partial zu der Transporabschnittszuordnung neu, mit einer neuen Toleranzschwelle 
   # fuer das Transportdatum der angezeigten passenden Transporte.
