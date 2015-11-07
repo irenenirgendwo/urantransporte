@@ -31,7 +31,9 @@ class DurchfahrtsorteController < ApplicationController
     @route = @durchfahrtsort.route
     if @route
       eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@durchfahrtsort, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
-      if eindeutig   
+      File.open("log/ort.log","a"){|f| f.puts "ort_e #{ort_e}"}
+
+      if eindeutig && ort_e  
         if @route.includes_ort? ort_e.id
           flash[:danger] = 'Ort schon in der Route vorhanden.'
           redirect_to @route
@@ -53,8 +55,11 @@ class DurchfahrtsorteController < ApplicationController
           end
         end
       else 
-        flash[:danger] = 'Kein passender Ort oder Ort mehrdeutig, nicht gespeichert. Spezifizieren durch Karten-Eingabe.'
-        redirect_to @route
+        respond_to do |format|
+          @durchfahrtsort.errors[:base] << 'Kein passender Ort oder Ort mehrdeutig, nicht gespeichert. Spezifizieren durch Karten-Eingabe.'
+          @durchfahrtsort.save
+          format.html { render :new }
+        end
       end
     else
       flash[:danger] = "Keine Route zum Anlegen des Durchfahrtsortes"
@@ -67,13 +72,21 @@ class DurchfahrtsorteController < ApplicationController
   def destroy
     ab_reihung = @durchfahrtsort.reihung + 1
     route = @durchfahrtsort.route
-    @durchfahrtsort.destroy
-    route.decrease_indizes(ab_reihung)
-    respond_to do |format|
-      flash[:success] = 'Durchfahrtsort gelöscht.'
-      format.html { redirect_to route }
-      format.json { head :no_content }
-    end
+    if route.transportabschnitte.empty? || (@durchfahrtsort.ort != route.start_ort && @durchfahrtsort.ort != route.end_ort)
+      @durchfahrtsort.destroy
+      route.decrease_indizes(ab_reihung)
+      respond_to do |format|
+        flash[:success] = 'Durchfahrtsort gelöscht.'
+        format.html { redirect_to route }
+        format.json { head :no_content }
+      end
+    else 
+     respond_to do |format|
+        flash[:danger] = 'Start und Endort dürfen nicht gelöscht werden, weil Transportabschntitte zugeordnet sind.'
+        format.html { redirect_to route }
+        format.json { head :no_content }
+      end
+    end 
   end
   
   

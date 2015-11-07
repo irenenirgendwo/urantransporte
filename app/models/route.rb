@@ -82,6 +82,9 @@ class Route < ActiveRecord::Base
     d_orte.each do |durchfahrt|
       durchfahrt.reihung += 1
       success = success && durchfahrt.save 
+      File.open("log/ort.log","a"){|f| f.puts "#{durchfahrt.attributes}  #{success}"}
+      File.open("log/ort.log","a"){|f| f.puts "#{durchfahrt.errors[:base]}"}
+
     end 
     success
   end 

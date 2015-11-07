@@ -20,18 +20,22 @@
           <td><%= link_to durchfahrt.ort.name, durchfahrt.ort %></td>
           <% if is_editor? %>
             <td class="table-actions">
-              <%= unless durchfahrt.reihung == 1 then
+              <% routen_size = durchfahrt.route.durchfahrtsorte.size %>
+              <%= unless durchfahrt.reihung == 1 || (!durchfahrt.route.transportabschnitte.empty? && (durchfahrt.reihung == 2 || durchfahrt.reihung == routen_size )) then
                 link_to schiebe_hoch_durchfahrtsort_path(durchfahrt) do
                   render 'text_up'
                 end
               end %>
-              <%= unless durchfahrt.reihung == durchfahrt.route.durchfahrtsorte.size then
+              
+              <%= unless durchfahrt.reihung == routen_size || (!durchfahrt.route.transportabschnitte.empty? && (durchfahrt.reihung == 1 || durchfahrt.reihung == routen_size -1 )) then
                 link_to schiebe_runter_durchfahrtsort_path(durchfahrt) do
                   render 'text_down'
                 end
               end %>
-              <%= link_to durchfahrt, method: :delete, data: { confirm: 'Willst du den Durchfahrtsort wirklich löschen?' } do
-                render 'text_remove'
+              <%= unless !durchfahrt.route.transportabschnitte.empty? && (durchfahrt.reihung == 1 || durchfahrt.reihung == routen_size) then
+                link_to durchfahrt, method: :delete, data: { confirm: 'Willst du den Durchfahrtsort wirklich löschen?' } do
+                  render 'text_remove'
+                end 
               end %>
             </td>
           <% end %>
