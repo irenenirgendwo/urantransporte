@@ -2,18 +2,15 @@
 <%= render 'anlagen/form_modal' %>
 
 <%= form_for(@transport) do |f| %>
-
-  <% if @transport.errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(@transport.errors.count, "error") %> prohibited this transport from being saved:</h2>
-
-              <ul>
-              <% @transport.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-              </ul>
-            </div>
+  
+   <% if @transport.errors.any? %>
+    <div class="alert alert-danger">
+      <% @transport.errors.full_messages.each do |message| %>
+        <p><%= message %></p>
+      <% end %>
+    </div>
   <% end %>
+  
 
   <div class="panel panel-default" id="transport_eingabe">
   

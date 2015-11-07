@@ -3,19 +3,16 @@
 <%= render 'orte/form_modal', ort_typ: "Ziel" %>
 
 <%= form_for(@transportabschnitt) do |f| %>
- 
+  
   <% if @transportabschnitt.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@transportabschnitt.errors.count, "error") %> prohibited this transportabschnitt from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger">
       <% @transportabschnitt.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <p><%= message %></p>
       <% end %>
-      </ul>
     </div>
   <% end %>
   
+    
   <% if @transport %>
     <%= hidden_field_tag :transport_id, @transport.id %>
   <% end %>
@@ -57,7 +54,7 @@
           <% anlagen_ort = @transport.start_anlage.ort if @transport %>
           <% if anlagen_ort %>
             <span class="input-group-btn">
-              <span class="btn btn-primary" id="start_ort_anlage" type="button" onclick="setup_start_ort_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Start-Anlage als Ort wählen</span>
+              <button class="btn btn-primary" id="start_ort_anlage" type="button" onclick="setup_start_ort_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Start-Anlage als Ort wählen</button>
             </span>
           <% end %>
         </div>
@@ -92,7 +89,7 @@
           <% anlagen_ort = @transport.ziel_anlage.ort if @transport%>
           <% if anlagen_ort %>
             <span class="input-group-btn">
-              <span class="btn btn-primary" id="end_ort_anlage" type="button" onclick="setup_ziel_ort_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Ziel-Anlage als Ort wählen</span>
+              <button class="btn btn-primary" id="end_ort_anlage" type="button" onclick="setup_ziel_ort_wahl(<%= anlagen_ort.id %>,'<%= anlagen_ort.name %>')">Ziel-Anlage als Ort wählen</button>
             </span>
           <% end %>
         </div>

@@ -132,13 +132,8 @@ class Transport < ActiveRecord::Base
     check_ort_ll(orte, start_anlage.ort)
     check_ort_ll(orte, ziel_anlage.ort)
     transportabschnitte.each do |abschnitt|
-      check_ort_ll(orte, abschnitt.start_ort)
-      check_ort_ll(orte, abschnitt.end_ort)
-      abschnitt.beobachtungen.each do |beob|
-        check_ort_ll(orte, beob.ort)
-      end
-      abschnitt.orte.each do |durchfahrt|
-        check_ort_ll(orte, durchfahrt)
+      abschnitt.orte.each do |ort|
+        check_ort_ll(orte, ort)
       end
     end
     umschlaege.each do |umschlag|

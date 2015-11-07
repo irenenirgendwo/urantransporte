@@ -1,12 +1,10 @@
 <%= form_for(@stoff) do |f| %>
+  
   <% if @stoff.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@stoff.errors.count, "error") %> prohibited this stoff from being saved:</h2>
-      <ul>
-        <% @stoff.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+    <div class="alert alert-danger">
+      <% @stoff.errors.full_messages.each do |message| %>
+        <p><%= message %></p>
+      <% end %>
     </div>
   <% end %>
  

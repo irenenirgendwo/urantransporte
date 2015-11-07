@@ -100,6 +100,9 @@ class AnlagenController < ApplicationController
       
     else 
       respond_to do |format|
+        kategorie = @anlage.anlagen_kategorie ? @anlage.anlagen_kategorie : AnlagenKategorie.find_by(name: "Unbekannt")
+        @kategorie_options = kategorie.nil? ? {} : {:selected => kategorie.id}
+        @synonym = params[:synonym]
         format.html { render :new }
         format.json { render json: @anlage.errors, status: :unprocessable_entity }
       end
@@ -134,6 +137,9 @@ class AnlagenController < ApplicationController
           format.html { redirect_to @anlage }
           format.json { render :show, status: :created, location: @anlage }
         else
+          kategorie = @anlage.anlagen_kategorie ? @anlage.anlagen_kategorie : AnlagenKategorie.find_by(name: "Unbekannt")
+          @kategorie_options = kategorie.nil? ? {} : {:selected => kategorie.id}
+          @synonym = params[:synonym]
           format.html { render :new }
           format.json { render json: @anlage.errors, status: :unprocessable_entity }
         end

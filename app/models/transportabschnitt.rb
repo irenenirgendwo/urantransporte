@@ -7,15 +7,53 @@ class Transportabschnitt < ActiveRecord::Base
   belongs_to :route
   has_many :beobachtungen
   # Ist das noch notwendig???
-  has_and_belongs_to_many :orte
+  #has_and_belongs_to_many :orte
+  validate do |abschnitt| 
+    RoutenValidator.new(abschnitt).validate 
+  end
+  
+  class RoutenValidator < ActiveModel::Validator
+  
+    def initialize(abschnitt)
+      @abschnitt = abschnitt
+    end 
+    
+    def validate
+      if @abschnitt.route && @abschnitt.route.durchfahrtsorte.size > 1
+        unless (@abschnitt.route.start_ort == @abschnitt.start_ort && @abschnitt.route.end_ort == @abschnitt.end_ort)
+           @abschnitt.errors[:base] << "Start- und Endort müssen zur ausgewählten Route passen."
+        end
+      end
+    end
+    
+  end
   
   def self.get_abschnitte_from_time(beobachtung_datetime)
     datum = beobachtung_datetime.to_date
     Transportabschnitt.where("start_datum <= ? and end_datum >= ? ",datum, datum)
   end
+  
+  def orte
+    orte = []
+    if self.route && self.route.durchfahrtsorte.size > 1
+      self.route.durchfahrtsorte.each do |dort|
+        orte << dort.ort
+      end
+    else
+      orte << self.start_ort
+      orte << self.end_ort 
+    end
+    self.beobachtungen.each do |beob|
+      orte << beob.ort
+    end
+    orte.uniq
+  end 
 
-  def faehrt_durch(ort, radius)
-    
-  end
+#  def faehrt_durch(ort, radius)
+#    
+#  end
+  
+
+ 
   
 end

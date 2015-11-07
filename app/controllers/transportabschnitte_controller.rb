@@ -39,7 +39,12 @@ class TransportabschnitteController < ApplicationController
       @transportabschnitt.end_datum = umschlag.start_datum
       @transportabschnitt.end_ort = umschlag.ort
     end 
-     @redirect_params = new_transportabschnitt_path(transport_id: @transport.id) 
+    @redirect_params = new_transportabschnitt_path(transport_id: @transport.id) 
+    
+    respond_to do |format|
+      format.html { render 'new'}
+      format.js { render 'new' }
+    end
   end
 
   # GET /transportabschnitte/1/edit
@@ -78,6 +83,8 @@ class TransportabschnitteController < ApplicationController
         format.html { redirect_to redirection_path }
         format.json { render :show, status: :created, location: @transportabschnitt }
       else
+        init_ort_and_firma
+        firma = @transportabschnitt.firma if @transportabschnitt.firma
         format.html { render :new }
         format.json { render json: @transportabschnitt.errors, status: :unprocessable_entity }
       end
@@ -110,6 +117,8 @@ class TransportabschnitteController < ApplicationController
         format.html { redirect_to redirection_path }
         format.json { render :show, status: :ok, location: @transport }
       else
+        init_ort_and_firma
+        firma = @transportabschnitt.firma if @transportabschnitt.firma
         format.html { render :edit }
         format.json { render json: @transportabschnitt.errors, status: :unprocessable_entity }
       end

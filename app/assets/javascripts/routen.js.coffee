@@ -6,7 +6,7 @@
 # ueber routen/route_id/get_end_orte
 # Bei Auswahl von Unbekannt werden alle Felder geleert
 
-$(document).on "ready page:change", ->
+ready = ->
   $("#transportabschnitt_route_id").change ->
     if $('#transportabschnitt_route_id option:selected').text() == "Unbekannt"
       $("#start_ort_eingabe").prop("disabled",false)
@@ -35,3 +35,5 @@ $(document).on "ready page:change", ->
         $("#end_ort_anlage").prop("disabled",true)
     end
   
+$(document).ready(ready)
+$(document).on('page:load', ready)

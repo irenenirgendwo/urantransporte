@@ -1,17 +1,14 @@
 <%= form_for(@anlage) do |f| %>
 
-  <%= hidden_field_tag :redirect_params, @redirect_params %>
   <% if @anlage.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@anlage.errors.count, "error") %> prohibited this anlage from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger">
       <% @anlage.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <p><%= message %></p>
       <% end %>
-      </ul>
     </div>
   <% end %>
+  
+  <%= hidden_field_tag :redirect_params, @redirect_params %>
 
   <div class="row">
   

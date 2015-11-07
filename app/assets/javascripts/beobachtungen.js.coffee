@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 # Funktioniert aus irgendeinem Grund nicht ausser bei Seite aktualisieren, 
 # deswegen jetzt mit Javascript in application.js
-$(document).on "ready page:change", ->
+ready = ->
   $(".beobachtung_lkw").hide()
   $(".beobachtung_zug").hide()
   $(".beobachtung_schiff").hide()
