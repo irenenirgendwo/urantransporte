@@ -37,7 +37,7 @@ Alle angelegten Transport-Routen
           <td><%= route.name %></td>
           <td><%= route.start_ort.name if route.start_ort%></td>
           <td><%= route.end_ort.name if route.end_ort %></td>
-          <% if is_editor? %>
+          <% if is_editor? && route.name != "Unbekannt" %>
             <td class="table-actions">
               <%= link_to edit_route_path(route) do
                 render 'text_edit'

@@ -18,7 +18,7 @@ class DurchfahrtsorteControllerTest < ActionController::TestCase
     assert_equal 1, @gronau.id
     assert_equal 1, @route1.id
     assert_difference('Durchfahrtsort.count') do
-      post :create, durchfahrtsort: { reihung: 3, route_id: @route1.id }, ortname: "Hamburg"
+      post :create, durchfahrtsort: { reihung: 2, route_id: @route1.id }, ortname: "Hamburg"
     end
     assert_redirected_to @route1
     

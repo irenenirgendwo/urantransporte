@@ -8,13 +8,6 @@ class RouteTest < ActiveSupport::TestCase
     @lingen = durchfahrtsorte(:two)
   end 
   
-  test "erhoehe_indizes" do
-    assert_equal 1, @route.id
-    assert_equal 2, @route.durchfahrtsorte.size
-    assert @route.erhoehe_durchfahrtsort_indizes 1
-    assert @route.erhoehe_durchfahrtsort_indizes 2
-  end
-  
   test "schiebe ort hoch" do 
     assert_equal 2, @lingen.reihung
     assert @route.schiebe_hoch(@lingen), "#{@lingen.attributes}"
@@ -30,6 +23,12 @@ class RouteTest < ActiveSupport::TestCase
     assert @route.includes_ort?(orte(:gronau).id)
     assert @route.includes_ort?(2)
     assert !@route.includes_ort?(orte(:hamburg).id)
+    assert @route.includes_ort?(orte(:kiel).id)
+  end 
+  
+  test "zuordnung" do
+    route = routen(:route_zugeordnet)
+    assert !route.transportabschnitte.empty?
   end 
   
 end

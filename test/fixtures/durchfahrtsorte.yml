@@ -9,3 +9,24 @@ two:
   reihung: 2
   ort_id: 2
   route_id: 1
+
+three:
+  reihung: 3
+  ort_id: 6
+  route_id: 1
+
+#st-petersburg-kiel-hamburg
+z1:
+  reihung: 1
+  ort_id: 4
+  route_id: 3
+
+z2:
+  reihung: 2
+  ort_id: 6
+  route_id: 3
+
+z3:
+  reihung: 3
+  ort_id: 3
+  route_id: 3

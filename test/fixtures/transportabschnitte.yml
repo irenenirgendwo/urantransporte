@@ -12,6 +12,7 @@ petersburg_hamburg:
   start_datum: 2012-07-01
   end_datum: 2012-07-04
   verkehrstraeger: Schiff
+  route_id: 3
 
 hamburg_lingen_1: 
   id: 2
