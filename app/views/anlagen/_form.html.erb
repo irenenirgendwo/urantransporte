@@ -1,12 +1,6 @@
 <%= form_for(@anlage) do |f| %>
 
-  <% if @anlage.errors.any? %>
-    <div class="alert alert-danger">
-      <% @anlage.errors.full_messages.each do |message| %>
-        <p><%= message %></p>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render 'layouts/objekt_error_messages', objekt: @anlage %>
   
   <%= hidden_field_tag :redirect_params, @redirect_params %>
 

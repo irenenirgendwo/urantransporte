@@ -11,16 +11,7 @@
         
         <div class="modal-body">
           <%= hidden_field_tag :redirect_params, @redirect_params %>
-          <% if @firma.errors.any? %>
-            <div id="error_explanation">
-              <h2><%= pluralize(@firma.errors.count, "error") %> verhindern, dass diese Firma gespeichert wird:</h2>
-              <ul>
-              <% @stoff.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-              </ul>
-            </div>
-          <% end %>
+          <%= render 'layouts/objekt_error_messages', objekt: @firma %>
            
           <div class="form-group">
             <%= f.label :name, "Name" %>

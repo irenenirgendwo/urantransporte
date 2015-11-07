@@ -1,15 +1,6 @@
 <%= form_for(@route) do |f| %>
-  <% if @route.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@route.errors.count, "error") %> prohibited this route from being saved:</h2>
+    <%= render 'layouts/objekt_error_messages', objekt: @route %>
 
-      <ul>
-      <% @route.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
    
   <div class="panel panel-default">
     <div class="panel-heading">

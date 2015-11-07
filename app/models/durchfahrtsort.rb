@@ -7,6 +7,11 @@ class Durchfahrtsort < ActiveRecord::Base
   validates :route, presence: true
   validates :reihung, presence: true, :uniqueness => {:scope => [:route]}
   validates :ort, presence: true
-
+  
+  validate do |durchfahrtsort| 
+    if durchfahrtsort.route.durchfahrtsorte.size + 1 < reihung
+      durchfahrtsort.errors[:base] << "Der erste Durchfahrtsort muss den Index 1 haben."
+    end
+  end
   
 end

@@ -1,16 +1,6 @@
 <%= form_for(@durchfahrtsort) do |f| %>
 
-  <% if @durchfahrtsort.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@durchfahrtsort.errors.count, "error") %> prohibited this durchfahrtsort from being saved:</h2>
-
-      <ul>
-      <% @durchfahrtsort.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'layouts/objekt_error_messages', objekt: @durchfahrtsort %>
   
   <%= f.hidden_field :route_id %>
   

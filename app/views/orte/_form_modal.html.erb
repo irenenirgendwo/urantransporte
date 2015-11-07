@@ -3,6 +3,8 @@
   <div class="modal fade" id="ortModal-<%= objekt.id if defined?(objekt)%><%= ort_typ if defined?(ort_typ) %>" tabindex="-1" role="dialog" aria-labelledby="ortModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
+        <%= render 'layouts/objekt_error_messages', objekt: @ort %>
+
         
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schließen</span></button>

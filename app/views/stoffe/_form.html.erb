@@ -1,24 +1,8 @@
 <%= form_for(@stoff) do |f| %>
   
-  <% if @stoff.errors.any? %>
-    <div class="alert alert-danger">
-      <% @stoff.errors.full_messages.each do |message| %>
-        <p><%= message %></p>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render 'layouts/objekt_error_messages', objekt: @stoff %>
  
   <%= hidden_field_tag :redirect_params, @redirect_params %>
-  <% if @stoff.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@anlage.errors.count, "error") %> prohibited this anlage from being saved:</h2>
-      <ul>
-        <% @stoff.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
      
   <div class="form-group">
     <%= f.label :bezeichnung, "Bezeichung" %>

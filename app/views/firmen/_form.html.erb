@@ -1,15 +1,6 @@
 <%= form_for(@firma) do |f| %>
-  <% if @firma.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@firma.errors.count, "error") %> prohibited this firma from being saved:</h2>
+  <%= render 'layouts/objekt_error_messages', objekt: @firma %>
 
-      <ul>
-      <% @firma.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 
   <div class="form-group">
     <%= f.label :name, "Name" %>

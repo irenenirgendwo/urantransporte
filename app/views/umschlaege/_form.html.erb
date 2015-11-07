@@ -1,17 +1,7 @@
 <!--Tranport: <%= @transport %>-->
 
 <%= form_for(@umschlag) do |f| %>
-  <% if @umschlag.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@umschlag.errors.count, "error") %> prohibited this umschlag from being saved:</h2>
-
-        <ul>
-        <% @umschlag.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-        </ul>
-      </div>
-  <% end %>
+  <%= render 'layouts/objekt_error_messages', objekt: @umschlag %>
     
   <div class="row">
     <div class="col-sm-6">

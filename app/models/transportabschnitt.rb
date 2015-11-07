@@ -1,5 +1,6 @@
 # encoding: utf-8
 class Transportabschnitt < ActiveRecord::Base
+
   belongs_to :start_ort, :class_name => 'Ort'
   belongs_to :end_ort, :class_name => 'Ort'
   belongs_to :transport
@@ -12,6 +13,7 @@ class Transportabschnitt < ActiveRecord::Base
     RoutenValidator.new(abschnitt).validate 
   end
   
+  # validiert ob Start und Endort zur Route passen, sonst darf nicht gespeichert werden.
   class RoutenValidator < ActiveModel::Validator
   
     def initialize(abschnitt)

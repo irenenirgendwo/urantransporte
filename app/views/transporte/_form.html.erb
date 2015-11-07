@@ -3,14 +3,7 @@
 
 <%= form_for(@transport) do |f| %>
   
-   <% if @transport.errors.any? %>
-    <div class="alert alert-danger">
-      <% @transport.errors.full_messages.each do |message| %>
-        <p><%= message %></p>
-      <% end %>
-    </div>
-  <% end %>
-  
+  <%= render 'layouts/objekt_error_messages', objekt: @transport %>
 
   <div class="panel panel-default" id="transport_eingabe">
   

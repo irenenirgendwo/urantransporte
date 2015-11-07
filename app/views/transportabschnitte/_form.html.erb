@@ -1,17 +1,10 @@
 <%= render 'firmen/form_modal' %>
 <%= render 'orte/form_modal', ort_typ: "Start" %>
 <%= render 'orte/form_modal', ort_typ: "Ziel" %>
-
 <%= form_for(@transportabschnitt) do |f| %>
   
-  <% if @transportabschnitt.errors.any? %>
-    <div class="alert alert-danger">
-      <% @transportabschnitt.errors.full_messages.each do |message| %>
-        <p><%= message %></p>
-      <% end %>
-    </div>
-  <% end %>
-  
+  <%= render 'layouts/objekt_error_messages', objekt: @transportabschnitt %>
+
     
   <% if @transport %>
     <%= hidden_field_tag :transport_id, @transport.id %>
