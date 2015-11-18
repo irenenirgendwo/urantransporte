@@ -13,11 +13,11 @@
     <div class="form-group">
       <label>Anlagen-Kategorie</label>
       <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu-<%=typ%>" data-toggle="dropdown">
           Anlagen-Auswahl
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu-<%=typ%>">
           <li><%= link_to "Alle", abfragen_index_path , class: "list-group-item" %></li>
           <% anlagen_kategorien.each do |kategorie| %>
             <li role="presentation">

@@ -1,12 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   bezeichnung: Uranoxid
   beschreibung: MyText
   un_nummer: MyString
   gefahr_nummer: MyString
 
 two:
+  id: 2
   bezeichnung: Uranhexafluorid
   beschreibung: MyText
   un_nummer: 2977

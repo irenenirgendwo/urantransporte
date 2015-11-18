@@ -4,6 +4,7 @@ urenco:
   id: 1
   name: Urenco
   ort_id: 1
+  anlagen_kategorie_id: 1
   beschreibung: MyText
 
 anf:
@@ -22,4 +23,5 @@ ohne_transporte:
   id: 4
   name: beliebig 
   ort_id: 2
+  anlagen_kategorie_id: 2
   beschreibung: MyText

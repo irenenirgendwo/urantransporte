@@ -143,7 +143,6 @@ class AbfragenController < ApplicationController
             verkehrstraeger << splitted_key[1]
           end
         when "Stoff" then
-          puts "stoff"
           unless splitted_key[1]=="alle" || params.keys.include?("Stoff-alle")
             stoffe << splitted_key[1].to_i
           end
