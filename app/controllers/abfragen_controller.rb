@@ -9,11 +9,27 @@ class AbfragenController < ApplicationController
   # GET /transporte
   # GET /abfragen/index
   def index
-    @stoff_auswahl = Stoff.get_stoffe_for_selection_field
-    @start_anlagen = Anlage.get_anlagen_for_list_field(params[:start_kategorie])
-    @ziel_anlagen = Anlage.get_anlagen_for_list_field(params[:ziel_kategorie])
-    @anlagen_kategorien = AnlagenKategorie.all
+    setup_auswahl
+    @start_datum = "01.12.2012"
+    @end_datum = "31.12.2012"
+    @radius = 500
+    @ort_name = ""
+    @checked_stoffe =[]
+    @checked_verkehrstraeger = [] 
+    @checked_start_anlagen = [] 
+    @checked_ziel_anlagen = []
   end
+  
+  def new 
+    setup_auswahl 
+    @start_datum = params[:start_datum]
+    @end_datum = params[:end_datum]
+    @checked_stoffe, @checked_verkehrstraeger, @checked_start_anlagen, @checked_ziel_anlagen = extract_params
+    @radius = params[:radius]
+    @ort_name = params[:dort]
+    render 'index'
+    
+  end 
 
   # zeigt Ergebnisse
   #
@@ -51,6 +67,13 @@ class AbfragenController < ApplicationController
   
   
   private
+  
+    def setup_auswahl
+      @stoff_auswahl = Stoff.get_stoffe_for_selection_field
+      @start_anlagen = Anlage.get_anlagen_for_list_field(params[:start_kategorie])
+      @ziel_anlagen = Anlage.get_anlagen_for_list_field(params[:ziel_kategorie])
+      @anlagen_kategorien = AnlagenKategorie.all
+    end 
   
     # sollen eigentlich noch nach transportabschnitten ueber mehrere tage 
     # einsortiert werden.

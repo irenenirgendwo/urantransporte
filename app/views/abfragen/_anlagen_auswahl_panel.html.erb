@@ -30,7 +30,7 @@
     
     <div class="form-group">
       <label>Anlagen-Auswahl</label>
-      <%= select_tag "#{typ}[]", options_from_collection_for_select(anlagen_auswahl, "id", "name"), :multiple=>true, class: 'form-control' %>
+      <%= select_tag "#{typ}[]", options_from_collection_for_select(anlagen_auswahl, "id", "name", checked_anlagen), :multiple=>true, class: 'form-control' %>
     </div>
     
   </div>    

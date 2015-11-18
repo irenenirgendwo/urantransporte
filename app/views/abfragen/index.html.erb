@@ -10,33 +10,35 @@
   <div class="row">
   
     <div class="col-sm-4">
-      <%= render "zeit_auswahl_panel" %>
+      <%= render "zeit_auswahl_panel", start: @start_datum, ende: @end_datum %>
     </div>
     
     <div class="col-sm-4">
-      <%= render "ort_auswahl_panel" %>
+      <%= render "ort_auswahl_panel", ort_name: @ort_name, radius: @radius %>
     </div>
     
     <div class="col-sm-4">
-      <%= render "auswahl_panel", typ: "Verkehrsträger", auswahl: VERKEHRSTRAEGER_COMBOBOX %>
+      <%= render "auswahl_panel", typ: "Verkehrsträger", auswahl: VERKEHRSTRAEGER_COMBOBOX, checked: @checked_verkehrstraeger %>
     </div>
      
     <div class="col-sm-4">
       <%= render "anlagen_auswahl_panel", typ_kategorie: "start_kategorie",
                                       typ: "Start", 
                                       anlagen_auswahl: @start_anlagen,
-                                      anlagen_kategorien: @anlagen_kategorien %>
+                                      anlagen_kategorien: @anlagen_kategorien,
+                                      checked_anlagen: @checked_start_anlagen %>
     </div>
     
     <div class="col-sm-4">
       <%= render "anlagen_auswahl_panel", typ_kategorie: "ziel_kategorie", 
                                       typ: "Ziel", 
                                       anlagen_auswahl: @ziel_anlagen,
-                                      anlagen_kategorien: @anlagen_kategorien %>
+                                      anlagen_kategorien: @anlagen_kategorien,
+                                      checked_anlagen: @checked_ziel_anlagen %>
     </div>
     
     <div class="col-sm-4">
-      <%= render "auswahl_panel", typ: "Stoff", auswahl: @stoff_auswahl %>
+      <%= render "auswahl_panel", typ: "Stoff", auswahl: @stoff_auswahl, checked: @checked_stoffe %>
     </div>
     
   </div>

@@ -1,3 +1,11 @@
+<div class="btn-group header-buttons">
+  <%= form_tag({action: :new}, multipart: true, class: "clearfix") do %>
+    <%= hidden_field_tag "year", @year %>
+    <%= render 'hidden_fields' %>
+    <%= submit_tag "Zurück zur Auswahl", class: "btn btn-primary"  %>
+  <% end %>
+</div>
+
 <h1>Ausgewählte Transporte</h1>
 
 <%= render 'auswahl_daten' %>

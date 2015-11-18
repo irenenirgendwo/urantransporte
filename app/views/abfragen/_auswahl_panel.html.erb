@@ -12,7 +12,7 @@
     <% auswahl.each do |auswahl_bezeichnung, auswahl_id| %>
       <div class="checkbox">
         <label>
-          <%= check_box_tag "#{typ}-#{auswahl_id}" %>
+          <%= check_box_tag "#{typ}-#{auswahl_id}", nil, checked.include?(auswahl_id) %>
           <%= auswahl_bezeichnung %>
         </label>
       </div>
