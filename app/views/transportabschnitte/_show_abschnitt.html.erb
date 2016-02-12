@@ -1,14 +1,25 @@
 <div class="transportabschnitt">
   <% if abschnitt.verkehrstraeger == "Schiff" %>
     Schiffstransport
-  <% elsif abschnitt.verkehrstraeger == "LKW" %>
-    LKW-Transport
-  <% elsif abschnitt.verkehrstraeger == "Flugzeug" %>
-    Flugzeugtransport
-  <% elsif abschnitt.verkehrstraeger == "Zug" %>
-    Bahn-Transport
+    <% if abschnitt.schiff %>
+      mit der "<%= link_to abschnitt.schiff.name, abschnitt.schiff %>" 
+    <% end %>
+    <% if abschnitt.firma %>
+      (Reederei: <%= link_to abschnitt.firma.name, abschnitt.firma %>)
+    <% end %>
   <% else %>
-    Transport mit unbekanntem Verkehrsträger
+    <% if abschnitt.verkehrstraeger == "LKW" %>
+      LKW-Transport
+    <% elsif abschnitt.verkehrstraeger == "Flugzeug" %>
+      Flugzeugtransport
+    <% elsif abschnitt.verkehrstraeger == "Zug" %>
+      Bahn-Transport
+    <% else %>
+      Transport mit unbekanntem Verkehrsträger
+    <% end %>
+    <% if abschnitt.firma %>
+      (Spedition: <%= link_to abschnitt.firma.name, abschnitt.firma %>
+    <% end %>
   <% end %>
   
   <% if abschnitt.start_ort && abschnitt.end_ort%>

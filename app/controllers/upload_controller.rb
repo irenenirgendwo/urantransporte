@@ -398,7 +398,6 @@ class UploadController < ApplicationController
     end
     
     def create_umschlag_data(row_as_hash, umschlag_params, transport)
-      @logger.puts "create umschlag"
       umschlag = Umschlag.new
       umschlag.transport = transport
       unless umschlag_params[:ort]=="Nicht vorhanden" 
@@ -411,7 +410,7 @@ class UploadController < ApplicationController
         # Wenn Transport von Umschlagort weg mit Schiff
         if row_as_hash[params[:abtransport]]=="ja"
           # Umschlag endet mit Abfahrt Schiff
-          abfahrt_datum = create_datetime(row_as_hash, umschlag_params[:abfahrt_datum], umschlag_params[:abfahrt_datum])
+          abfahrt_datum = create_datetime(row_as_hash, umschlag_params[:abfahrt_datum], umschlag_params[:abfahrt_zeit])
           umschlag.end_datum = abfahrt_datum
           umschlag.save
           # Transportabschnitt davor anlegen
@@ -433,7 +432,7 @@ class UploadController < ApplicationController
           end
         else
           # Umschlag beginnt mit Ankunft Schiff
-          ankunft_datum = create_datetime(row_as_hash, umschlag_params[:ankunft_datum], umschlag_params[:ankunft_datum])
+          ankunft_datum = create_datetime(row_as_hash, umschlag_params[:ankunft_datum], umschlag_params[:ankunft_zeit])
           umschlag.start_datum = ankunft_datum
           unless umschlag.save
             @logger.puts umschlag.errors
@@ -443,7 +442,7 @@ class UploadController < ApplicationController
           abschnitt.transport = transport
           abschnitt.start_ort = umschlag.ort 
           if umschlag_params[:lkw] && umschlag_params[:bahn]
-            @logger.puts "weiteren abschnitt verkehrstraeger waehlen"
+            #@logger.puts "weiteren abschnitt verkehrstraeger waehlen"
             abschnitt.verkehrstraeger = get_verkehrsmittel(row_as_hash[umschlag_params[:lkw]], row_as_hash[umschlag_params[:bahn]])
           end
           unless abschnitt.save 
@@ -489,6 +488,7 @@ class UploadController < ApplicationController
           row_as_hash[date_or_datetime]
         else
           date = Date.strptime(row_as_hash[date_or_datetime],"%d.%m.%y")
+          @logger.puts "#{date} #{row_as_hash[time]}"
           "#{date} #{row_as_hash[time]}"
         end
       end 
