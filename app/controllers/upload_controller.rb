@@ -201,9 +201,9 @@ class UploadController < ApplicationController
     # Weitere optionale Spaltennamen
     anzahl_spalten_name = params[:anzahl] == "Nicht vorhanden" ? nil : params[:anzahl] 
     menge_brutto_spalten_name = params[:menge_brutto] == "Nicht vorhanden" ? nil : params[:menge_brutto] 
-    menge_brutto_umrechnungsfaktor_spalten_name = params[:menge_brutto_umrechnungsfaktor]
+    menge_brutto_umrechnungsfaktor = params[:menge_brutto_umrechnungsfaktor].gsub(",",".").to_f
     menge_netto_spalten_name = params[:menge_netto] == "Nicht vorhanden" ? nil : params[:menge_netto] 
-    menge_netto_umrechnungsfaktor_spalten_name = params[:menge_netto_umrechnungsfaktor]
+    menge_netto_umrechnungsfaktor = params[:menge_netto_umrechnungsfaktor].gsub(",",".").to_f
     behaelter_spalten_name = params[:behaelter] == "Nicht vorhanden" ? nil : params[:behaelter] 
     firmen_spalten_name = params[:firmen] == "Nicht vorhanden" ? nil : params[:firmen] 
     firma_trennzeichen = params[:firma_trennzeichen] 
@@ -229,22 +229,19 @@ class UploadController < ApplicationController
         start_anlage =  AnlagenSynonym.find_anlage_to_synonym(row_as_hash[start_anlage_spalten_name])
         ziel_anlage =  AnlagenSynonym.find_anlage_to_synonym(row_as_hash[ziel_anlage_spalten_name])
         # Nehmen mal Format dd.mm.yyyy an.
-        datum_werte = row_as_hash[datum_spalten_name].split(".") 
-        datum = Date.new(datum_werte[2].to_i, datum_werte[1].to_i,datum_werte[0].to_i)
+        #datum_werte = row_as_hash[datum_spalten_name].split(".") 
+        @logger.puts "Datum: #{row_as_hash[datum_spalten_name]}"
+        datum = Date.strptime(row_as_hash[datum_spalten_name],"%d.%m.%y")
         transport_params = { :start_anlage => start_anlage, :ziel_anlage => ziel_anlage, :datum => datum }
-        @logger.puts "row #{row_as_hash}"
-        @logger.puts "Stoffspaltenname #{stoff_spalten_name}"
-        @logger.puts "Inhalt #{row_as_hash[stoff_spalten_name]}"
-        @logger.close
-        @logger = File.new("log/upload.log","a")
+        #@logger.puts "row #{row_as_hash}"
         transport_params[:stoff] = StoffSynonym.find_stoff_to_synonym(row_as_hash[stoff_spalten_name]) 
         
         # Optionale Parameter
         transport_params[:anzahl] = row_as_hash[anzahl_spalten_name] if anzahl_spalten_name
         transport_params[:menge_netto] = menge_netto_spalten_name.nil? ? nil : row_as_hash[menge_netto_spalten_name].to_f *
-                                   row_as_hash[menge_netto_umrechnungsfaktor_spalten_name].to_f
+                                   menge_netto_umrechnungsfaktor
         transport_params[:menge_brutto] = menge_brutto_spalten_name.nil? ? nil : row_as_hash[menge_brutto_spalten_name].to_f *
-                                   row_as_hash[menge_brutto_umrechnungsfaktor_spalten_name].to_f
+                                   menge_brutto_umrechnungsfaktor
         transport_params[:behaelter] = row_as_hash[behaelter_spalten_name] if behaelter_spalten_name
         transport_params[:quelle] = quelle
         # TODO: Genehmigung erstellen!
@@ -419,6 +416,7 @@ class UploadController < ApplicationController
           umschlag.save
           # Transportabschnitt davor anlegen
           abschnitt = Transportabschnitt.new 
+          abschnitt.transport = transport
           abschnitt.end_ort = umschlag.ort 
           if umschlag_params[:lkw] && umschlag_params[:bahn]
             abschnitt.verkehrstraeger = get_verkehrsmittel(row_as_hash[umschlag_params[:lkw]], row_as_hash[umschlag_params[:bahn]])
@@ -427,7 +425,7 @@ class UploadController < ApplicationController
             # Fehlerbehandlung
           end
           # Transportabschnitt danach anlegen
-          abschnitt = lege_abschnitt_zu_schiff_an(row_as_hash, umschlag_params)
+          abschnitt = lege_abschnitt_zu_schiff_an(row_as_hash, umschlag_params, transport)
           abschnitt.start_datum = abfahrt_datum
           abschnitt.start_ort = umschlag.ort
           unless abschnitt.save 
@@ -437,15 +435,20 @@ class UploadController < ApplicationController
           # Umschlag beginnt mit Ankunft Schiff
           ankunft_datum = create_datetime(row_as_hash, umschlag_params[:ankunft_datum], umschlag_params[:ankunft_datum])
           umschlag.start_datum = ankunft_datum
-          umschlag.save
+          unless umschlag.save
+            @logger.puts umschlag.errors
+          end
           # Transportabschnitt danach anlegen
           abschnitt = Transportabschnitt.new 
+          abschnitt.transport = transport
           abschnitt.start_ort = umschlag.ort 
           if umschlag_params[:lkw] && umschlag_params[:bahn]
+            @logger.puts "weiteren abschnitt verkehrstraeger waehlen"
             abschnitt.verkehrstraeger = get_verkehrsmittel(row_as_hash[umschlag_params[:lkw]], row_as_hash[umschlag_params[:bahn]])
           end
           unless abschnitt.save 
             # Fehlerbehandlung
+            @logger.puts abschnitt.errors
           end
           # Transportabschnitt davor anlegen
           abschnitt = lege_abschnitt_zu_schiff_an(row_as_hash, umschlag_params, transport)
@@ -453,6 +456,7 @@ class UploadController < ApplicationController
           abschnitt.end_ort = umschlag.ort
           unless abschnitt.save 
             # Fehlerbehandlung
+            @logger.puts abschnitt.errors
           end
         end
       end
@@ -464,6 +468,7 @@ class UploadController < ApplicationController
         abschnitt = Transportabschnitt.new 
       else 
         firma = Firma.find_or_create_firma(row_as_hash[umschlag_params[:reederei]])
+        @logger.puts firma.attributes
         abschnitt = create_abschnitt_to_firma(firma, transport, true)
       end
       abschnitt.verkehrstraeger = "Schiff"
@@ -483,7 +488,8 @@ class UploadController < ApplicationController
         if time =="Nicht vorhanden"
           row_as_hash[date_or_datetime]
         else
-          "#{row_as_hash[date_or_datetime]} #{row_as_hash[time]}"
+          date = Date.strptime(row_as_hash[date_or_datetime],"%d.%m.%y")
+          "#{date} #{row_as_hash[time]}"
         end
       end 
     end 

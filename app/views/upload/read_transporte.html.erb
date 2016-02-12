@@ -46,16 +46,20 @@
       <h4>Angaben zur transportierten Menge </h4>
       <div class="form-group">
         <label class="col-sm-2 control-label">Brutto-Masse (inklusive Behälter)</label>
-        <div class="col-sm-10">
+        <div class="col-sm-5">
           <%= select_tag :menge_brutto, options_for_select(@headers_with_nil), class: "form-control"  %>
-          <p>Umrechnungsfaktor um zu Tonnen zu kommen: <%= text_field_tag :menge_brutto_umrechnungsfaktor, "1" %></p>
+        </div>
+        <div class="col-sm-5">
+          <p>Umrechnungsfaktor zu kg: <%= text_field_tag :menge_brutto_umrechnungsfaktor, "1" %></p>
         </div>
       </div>
       <div class="form-group">
         <label class="col-sm-2 control-label">Netto-Masse des radioaktiven Stoffs</label>
-        <div class="col-sm-10">
+        <div class="col-sm-5">
           <%= select_tag :menge_netto, options_for_select(@headers_with_nil), class: "form-control"  %>
-          <p>Umrechnungsfaktor um zu Tonnen zu kommen: <%= text_field_tag :menge_netto_umrechnungsfaktor, "1" %></p>
+        </div>
+        <div class="col-sm-5">
+          <p>Umrechnungsfaktor zu kg: <%= text_field_tag :menge_netto_umrechnungsfaktor, "1" %></p>
         </div>
       </div>
       <div class="form-group">
