@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151028193819) do
+ActiveRecord::Schema.define(version: 20160212144502) do
 
   create_table "anlagen", force: :cascade do |t|
     t.string   "name",                 limit: 255,   null: false
@@ -157,9 +157,11 @@ ActiveRecord::Schema.define(version: 20151028193819) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "route_id",        limit: 4
+    t.integer  "schiff_id",       limit: 4
   end
 
   add_index "transportabschnitte", ["route_id"], name: "index_transportabschnitte_on_route_id", using: :btree
+  add_index "transportabschnitte", ["schiff_id"], name: "index_transportabschnitte_on_schiff_id", using: :btree
 
   create_table "transporte", force: :cascade do |t|
     t.date     "datum",                                              null: false
@@ -225,4 +227,5 @@ ActiveRecord::Schema.define(version: 20151028193819) do
   end
 
   add_foreign_key "transportabschnitte", "routen"
+  add_foreign_key "transportabschnitte", "schiffe"
 end

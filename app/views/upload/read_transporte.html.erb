@@ -71,8 +71,8 @@
         </div>
       </div>
       
-      <h4>Transportgenehmigung</h4>
-      <!-- TODO: Einklappbar, falls keine Genehmigungen vorhanden -->
+       <!-- TODO: Einklappbar, falls keine Genehmigungen vorhanden -->
+      <!--<h4>Transportgenehmigung</h4>
       <p> 
       Zur Kenntnis: Die Sachen hier werden noch nicht eingelesen, da fehlt mir noch die richtige Idee für die Verknüpfung
         mit der Genehmigungstabelle.
@@ -142,6 +142,72 @@
         <div class="col-sm-10">
           <%= select_tag :gueltigkeit, options_for_select(@headers_with_nil), class: "form-control" %>
         </div>
+      </div>-->
+        
+      
+      <h4>Daten zum Umschlag</h4>
+      <p> Damit die Umschläge und Transportabschnitte sinnvoll erstellt werden können zum Transport, ist eine Spalte, in der steht, ob es sich um einen Abtransport (ja) oder Antransport (nein) handelt.
+      </p>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Abtransport (ja oder nein)</label>
+        <div class="col-sm-10">
+          <%= select_tag :abtransport, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Umschlagort</label>
+        <div class="col-sm-10">
+          <%= select_tag :umschlag_ort, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Terminal</label>
+        <div class="col-sm-10">
+          <%= select_tag :umschlag_terminal, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Ankunft-Zeit Schiff (Datum + Uhrzeit)</label>
+        <div class="col-sm-5">
+          <%= select_tag :umschlag_ankunft_datum, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+        <div class="col-sm-5">
+          <%= select_tag :umschlag_ankunft_zeit, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Abfahrt-Zeit Schiff (Datum + Uhrzeit)</label>
+        <div class="col-sm-5">
+          <%= select_tag :umschlag_abfahrt_datum, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+        <div class="col-sm-5">
+          <%= select_tag :umschlag_abfahrt_zeit, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Reederei</label>
+        <div class="col-sm-10">
+          <%= select_tag :reederei, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Schiff</label>
+        <div class="col-sm-10">
+          <%= select_tag :schiff, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="col-sm-2 control-label">LKW</label>
+        <div class="col-sm-10">
+          <%= select_tag :lkw, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Bahn</label>
+        <div class="col-sm-10">
+          <%= select_tag :bahn, options_for_select(@headers_with_nil), class: "form-control" %>
+        </div>
       </div>
       
       <h4>Weitere Daten zu Transportabschnitten </h4>
@@ -153,10 +219,6 @@
           <p>Mehrere Transportunternehmen werden mit dem Trennzeichen <%= text_field_tag :firma_trennzeichen, "," %> getrennt.</p>
         </div>
       </div>
-        
-      <h4>Daten zu Umschlagorten</h4>
-      <p>Zu jedem der hier angegeben Daten wird ein entsprechender Umschlag angelegt. Hier muss noch weiter gemacht werden.</p>
-      </p>
   
       <h3>Einstellungen</h3>
       <div class="form-group">

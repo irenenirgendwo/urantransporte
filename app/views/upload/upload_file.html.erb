@@ -22,6 +22,18 @@
         <label for="stoff">Stoff / Inhalt:</label>
         <%= select_tag 'stoff', options_for_select(@headers), class: "form-control" %>
       </div>
+      <!--
+      <h3>Optional: Schiffe und Reedereien</h3>
+      <p>Wenn Schiffs- und Reedereiangaben vorkommen, wähle die Spalten aus, in denen entsprechende Angaben stehen.</p>
+      <div class="form-group">
+        <label for="stoff">Schiffsnamen:</label>
+        <%= select_tag 'schiff', options_for_select(@headers_with_nil), class: "form-control" %>
+      </div>
+      <div class="form-group">
+        <label for="stoff">Reederei:</label>
+        <%= select_tag 'reederei', options_for_select(@headers_with_nil), class: "form-control" %>
+      </div>
+-->
       <%= hidden_field_tag 'file_path', @file_path %>
     </div>
     

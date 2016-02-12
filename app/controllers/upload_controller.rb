@@ -24,6 +24,8 @@ class UploadController < ApplicationController
       session[:csv_trennzeichen] = params[:trennzeichen]
       begin 
         @headers = read_headers_from_csv(@file_path)
+        @headers_with_nil = ["Nicht vorhanden"]
+        @headers_with_nil.concat(@headers)
         if @headers.nil? || @headers.empty?
           upload_fehler("Dateiformat nicht korrekt, konnte keine Überschriften finden.")
         elsif @headers.count == 1
@@ -53,6 +55,12 @@ class UploadController < ApplicationController
       session[:spalte_start] = @spalte_nr1
       session[:spalte_ziel] = @spalte_nr2
       session[:spalte_stoff] = @spalte_stoff
+      unless params[:schiff] == "Nicht vorhanden"
+        session[:spalte_schiff] = params[:schiff]
+      end
+      unless params[:reederei] == "Nicht vorhanden"
+        session[:spalte_reederei] = params[:reederei]
+      end
       @logger.puts "Anlagen sind in #{@spalte_nr1} und #{@spalte_nr2}"
       # Erstelle @anlagen_liste als Liste von Namen, die in den Spalten auftauchen.
       @anlagen_liste = []
@@ -202,6 +210,8 @@ class UploadController < ApplicationController
     # Genehmigungen werden nur eingelesen, wenn eine Genehmigungsnummer existiert.
     genehmigungen = params[:lfd_nr] == "Nicht vorhanden" ? nil : params[:lfd_nr] 
     genehmigungs_params = genehmigungen.nil? ? nil : read_genehmigungs_params(params)
+    umschlag_params = params[:umschlag_ort] == "Nicht vorhanden" ? nil : read_umschlag_params(params)
+    @logger.puts "umschlag: #{umschlag_params}"
     quelle = params[:quelle]
     
     @transporte_liste = {}
@@ -222,6 +232,11 @@ class UploadController < ApplicationController
         datum_werte = row_as_hash[datum_spalten_name].split(".") 
         datum = Date.new(datum_werte[2].to_i, datum_werte[1].to_i,datum_werte[0].to_i)
         transport_params = { :start_anlage => start_anlage, :ziel_anlage => ziel_anlage, :datum => datum }
+        @logger.puts "row #{row_as_hash}"
+        @logger.puts "Stoffspaltenname #{stoff_spalten_name}"
+        @logger.puts "Inhalt #{row_as_hash[stoff_spalten_name]}"
+        @logger.close
+        @logger = File.new("log/upload.log","a")
         transport_params[:stoff] = StoffSynonym.find_stoff_to_synonym(row_as_hash[stoff_spalten_name]) 
         
         # Optionale Parameter
@@ -232,9 +247,9 @@ class UploadController < ApplicationController
                                    row_as_hash[menge_brutto_umrechnungsfaktor_spalten_name].to_f
         transport_params[:behaelter] = row_as_hash[behaelter_spalten_name] if behaelter_spalten_name
         transport_params[:quelle] = quelle
-        # Genehmigung erstellen!
-        genehmigung = create_or_find_genehmigung(row_as_hash, genehmigungs_params)
-        transport_params[:transportgenehmigung] = genehmigung if genehmigung
+        # TODO: Genehmigung erstellen!
+        #genehmigung = create_or_find_genehmigung(row_as_hash, genehmigungs_params)
+        #transport_params[:transportgenehmigung] = genehmigung if genehmigung
 
         transport = Transport.new(transport_params)
         @logger.puts "Transport eingelesen #{transport.attributes}"
@@ -244,6 +259,10 @@ class UploadController < ApplicationController
           # Transportabschnitte zu Transportfirmen erstellen, wenn vorhanden
           if firmen_spalten_name
             create_transportabschnitte_to_firmen(row_as_hash[firmen_spalten_name], firma_trennzeichen, transport)
+          end
+          # Umschlaege erstellen 
+          unless umschlag_params.nil?
+            create_umschlag_data(row_as_hash, umschlag_params, transport)
           end
         else 
           # Je nach Einstellung Transporte verschmelzen
@@ -257,8 +276,8 @@ class UploadController < ApplicationController
         row_count += 1
     end 
     @logger.close
-	session.clear if @transporte_liste.empty?
-	render "fertig"
+    session.clear if @transporte_liste.empty?
+    render "fertig"
   end
 
  
@@ -296,24 +315,25 @@ class UploadController < ApplicationController
     # Getrennt wird dabei der String durch das übergebene Trennzeichen.
     #
     def create_transportabschnitte_to_firmen(firmen_name_string, firma_trennzeichen, transport)
-          if firmen_name_string
-            firmen_namen = firmen_name_string.split(firma_trennzeichen)
-            firmen_namen.each do |firma_name|
-              firma = Firma.find_by(name: firma_name)
-              if firma.nil?
-                firma = Firma.new(name: firma_name)
-                unless firma.save
-                  # Fehlerbehandlung
-                end 
-              end
-              # Transportabschnitt fuer die Firma anlegen
-              transportabschnitt = Transportabschnitt.new(firma: firma, transport: transport) 
-              unless transportabschnitt.save
-                # Fehlerbehandlung
-              end
-            end
-             
-          end
+      if firmen_name_string
+        firmen_namen = firmen_name_string.split(firma_trennzeichen)
+        firmen_namen.each do |firma_name|
+          firma = Firma.find_or_create_firma(firma_name)
+          create_abschnitt_to_firma(firma, transport)
+        end
+         
+      end
+    end
+    
+   
+    
+    def create_abschnitt_to_firma(firma, transport, is_reederei = false)
+      # Transportabschnitt fuer die Firma anlegen
+      transportabschnitt = Transportabschnitt.new(firma: firma, transport: transport) 
+      unless transportabschnitt.save
+        # Fehlerbehandlung
+      end
+      return transportabschnitt
     end
 
     # Macht die Parameter mit den Spaltennamen für die Genehmigung
@@ -334,6 +354,24 @@ class UploadController < ApplicationController
       genehmigungs_params[:stoff] = params[:stoff]
       genehmigungs_params
     end
+    
+    # Macht die Parameter mit den Spaltennamen für die Genehmigung
+    #
+    def read_umschlag_params params
+      umschlag_params = Hash.new
+      umschlag_params[:ort] = params[:umschlag_ort]
+      umschlag_params[:terminal] = params[:umschlag_terminal]
+      umschlag_params[:ankunft_datum] = params[:umschlag_ankunft_datum]
+      umschlag_params[:ankunft_zeit] = params[:umschlag_ankunft_zeit]
+      umschlag_params[:abfahrt_datum] = params[:umschlag_abfahrt_datum]
+      umschlag_params[:abfahrt_zeit] = params[:umschlag_abfahrt_zeit]
+      umschlag_params[:abtransport] = params[:abtransport]
+      umschlag_params[:lkw] = params[:lkw]
+      umschlag_params[:bahn] = params[:bahn]
+      umschlag_params[:schiff] = params[:schiff]
+      umschlag_params[:reederei] = params[:reederei]
+      umschlag_params
+    end
 
     # Liest aus der gegebenen Zeile die Daten für die Erstellung einer Genehmigung ein.
     # Voraussetzung ist, dass die laufende Nummer der Genehmigung angegeben ist.
@@ -344,8 +382,8 @@ class UploadController < ApplicationController
         genehmigungs_params.each do |merkmal, spalten_name|
           # Konvertierung der boolschen Felder
           if [:schiene, :strasse, :see, :luft, :umschlag].include? merkmal
-			genehmigungs_hash[merkmal] = row_as_hash[spalten_name] == "ja"
-	      # Konvertierung der Datumsfelder
+            genehmigungs_hash[merkmal] = row_as_hash[spalten_name] == "ja"
+          # Konvertierung der Datumsfelder
           elsif [:erstellungsdatum, :gueltigkeit, :antragsdatum].include? merkmal
             datum_werte = row_as_hash[datum_spalten_name].split(".") 
             genehmigungs_hash[merkmal] = Date.new(datum_werte[2].to_i,datum_werte[1].to_i,datum_werte[0].to_i)
@@ -356,8 +394,107 @@ class UploadController < ApplicationController
             genehmigungs_hash[merkmal] = row_as_hash[spalten_name]
           end
         end
+        genehmigungs_hash
+      else 
+        nil
       end
     end
+    
+    def create_umschlag_data(row_as_hash, umschlag_params, transport)
+      @logger.puts "create umschlag"
+      umschlag = Umschlag.new
+      umschlag.transport = transport
+      unless umschlag_params[:ort]=="Nicht vorhanden" 
+        umschlag.ort = Ort.find_or_create_ort(row_as_hash[umschlag_params[:ort]]) 
+      end
+      unless umschlag_params[:terminal]=="Nicht vorhanden"
+        umschlag.terminal = row_as_hash[umschlag_params[:terminal]] 
+      end
+      unless params[:abtransport] == "Nicht vorhanden"
+        # Wenn Transport von Umschlagort weg mit Schiff
+        if row_as_hash[params[:abtransport]]=="ja"
+          # Umschlag endet mit Abfahrt Schiff
+          abfahrt_datum = create_datetime(row_as_hash, umschlag_params[:abfahrt_datum], umschlag_params[:abfahrt_datum])
+          umschlag.end_datum = abfahrt_datum
+          umschlag.save
+          # Transportabschnitt davor anlegen
+          abschnitt = Transportabschnitt.new 
+          abschnitt.end_ort = umschlag.ort 
+          if umschlag_params[:lkw] && umschlag_params[:bahn]
+            abschnitt.verkehrstraeger = get_verkehrsmittel(row_as_hash[umschlag_params[:lkw]], row_as_hash[umschlag_params[:bahn]])
+          end
+          unless abschnitt.save 
+            # Fehlerbehandlung
+          end
+          # Transportabschnitt danach anlegen
+          abschnitt = lege_abschnitt_zu_schiff_an(row_as_hash, umschlag_params)
+          abschnitt.start_datum = abfahrt_datum
+          abschnitt.start_ort = umschlag.ort
+          unless abschnitt.save 
+            # Fehlerbehandlung
+          end
+        else
+          # Umschlag beginnt mit Ankunft Schiff
+          ankunft_datum = create_datetime(row_as_hash, umschlag_params[:ankunft_datum], umschlag_params[:ankunft_datum])
+          umschlag.start_datum = ankunft_datum
+          umschlag.save
+          # Transportabschnitt danach anlegen
+          abschnitt = Transportabschnitt.new 
+          abschnitt.start_ort = umschlag.ort 
+          if umschlag_params[:lkw] && umschlag_params[:bahn]
+            abschnitt.verkehrstraeger = get_verkehrsmittel(row_as_hash[umschlag_params[:lkw]], row_as_hash[umschlag_params[:bahn]])
+          end
+          unless abschnitt.save 
+            # Fehlerbehandlung
+          end
+          # Transportabschnitt davor anlegen
+          abschnitt = lege_abschnitt_zu_schiff_an(row_as_hash, umschlag_params, transport)
+          abschnitt.end_datum = ankunft_datum
+          abschnitt.end_ort = umschlag.ort
+          unless abschnitt.save 
+            # Fehlerbehandlung
+          end
+        end
+      end
+    end 
+    
+    def lege_abschnitt_zu_schiff_an(row_as_hash, umschlag_params, transport)
+      firma = nil
+      if umschlag_params[:reederei] == "Nicht vorhanden"
+        abschnitt = Transportabschnitt.new 
+      else 
+        firma = Firma.find_or_create_firma(row_as_hash[umschlag_params[:reederei]])
+        abschnitt = create_abschnitt_to_firma(firma, transport, true)
+      end
+      abschnitt.verkehrstraeger = "Schiff"
+      unless umschlag_params[:schiff] == "Nicht vorhanden"
+        schiff = Schiff.find_or_create_schiff(row_as_hash[umschlag_params[:schiff]],firma)
+        abschnitt.schiff = schiff
+      end
+      abschnitt
+    end
+    
+
+    
+    def create_datetime(row_as_hash, date_or_datetime, time)
+      if date_or_datetime =="Nicht vorhanden"
+        nil
+      else
+        if time =="Nicht vorhanden"
+          row_as_hash[date_or_datetime]
+        else
+          "#{row_as_hash[date_or_datetime]} #{row_as_hash[time]}"
+        end
+      end 
+    end 
+    
+    def get_verkehrsmittel(lkw_wert, bahn_wert)
+      if lkw_wert == "ja"
+        "LKW"
+      elsif bahn_wert == "ja"
+        "Zug"
+      end
+    end 
     
     # Zum Anzeigen unterschiedlicher Fehlermeldungen.
     #

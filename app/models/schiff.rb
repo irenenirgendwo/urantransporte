@@ -3,8 +3,21 @@ class Schiff < ActiveRecord::Base
   serialize :next_ports
   belongs_to :firma
   has_many :beobachtungen
+  has_many :transportabschnitte
   
   validates :name, presence: true, uniqueness: true
+  
+  def self.find_or_create_schiff(schiff_name, firma)
+    schiff = Schiff.find_by(name: schiff_name)
+    if schiff.nil?
+      schiff = Schiff.create(name: schiff_name)
+    end
+    if schiff.firma.nil? && !firma.nil?
+      schiff.firma = firma 
+      schiff.save
+    end
+    schiff
+  end
   
   def storePosition
     require 'nokogiri'

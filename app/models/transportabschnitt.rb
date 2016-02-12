@@ -6,6 +6,7 @@ class Transportabschnitt < ActiveRecord::Base
   belongs_to :transport
   belongs_to :firma
   belongs_to :route
+  belongs_to :schiff
   has_many :beobachtungen
   # Ist das noch notwendig???
   #has_and_belongs_to_many :orte
