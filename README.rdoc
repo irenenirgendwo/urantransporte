@@ -8,6 +8,7 @@
 * Get projekt with <code>git clone https://github.com/irenenirgendwo/urantransporte</code> to local folder.
 * Run <code>bundle install</code> in project folder.
 * Run <code>rake db:setup</code> or <code>rake db:migrate</code> and <code>rake db:seed</code> to create the database.
+* In the file <code>config/secrets.yml</code> add the parameters gmail_username: 'gmail_emailadresse' and gmail_password: 'password' with correct emailadress to the environment you want to use.
 * Run <code>rails server</code> to start the development server.
 If it does not work, maybe you'll need a javascript runtime environment, install for example node.js
 * Watch http://localhost:3000/ to enjoy the work.
@@ -45,13 +46,76 @@ Works with:
 
 === Deploy the project
 
-Still TODO. Things you may want to cover:
+urantransporte - production may use:
+* ruby
+* uwsgi
+* nginx
 
-* Configuration
-* Database creation
-* Database initialization
-* Deployment instructions
-* Services (job queues, cache servers, search engines, etc.)
+uwsig runs ruby and creates a socket for nginx
+
+user <-> nginx <-> uwsgi <-> ruby
+
+===installation on debian jessie===
+
+* install nessaary packages:
+<code>apt-get install ruby-rails uwsgi-plugin-rack-ruby2.1 libmysqlclient-dev libsqlite3-dev</code>
+
+* install urantransporte:
+
+<code> 
+cd /home/urantransporte
+
+git clone https://github.com/irenenirgendwo/urantransporte.git
+
+cd urantransporte
+
+bundle install --path vendor/bundle
+
+vi config/database.yml
+
+bundle exec rake db:setup
+</code>
+
+Test with:
+<code>bundle exec rails server</cide>
+
+If application runs:
+* add urantrasporte to uwsgi
+* add uwsgi to nginx
+
+--uwsgi config--
+[uwsgi]
+master = true
+touch-reload = %p
+
+chown-socket = www-data:www-data
+
+uid = urantransporte
+gui = urantransporte
+
+processes = 1
+
+plugin = rack,http
+rack = config.ru
+chdir = [PATH_TO_APP]
+
+--nginx config--
+server {
+        listen [IP4]:80;
+        listen [IP6]:80;
+
+        server_name urantransporte.nirgendwo.info;
+
+        access_log off;
+        error_log [PATH] warn;
+
+        location / {
+                include uwsgi_params;
+                uwsgi_pass unix:[PATH_TO_UWSGI_SOCKET];
+                uwsgi_modifier1 7;
+        } 
+
+}
 
 
 Please feel free to use a different markup language if you do not plan to run

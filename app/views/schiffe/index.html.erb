@@ -12,7 +12,7 @@
   allOrteMap("schiffe")
 </script>
 
-<% unless @reedereien %>
+<% unless @reedereien || @reedereien.empty? %>
   <p>Keine Schiffe gefunden.</p>
 <% else %>
   <% @reedereien.each do |r| %>

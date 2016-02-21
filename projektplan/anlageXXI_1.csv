@@ -1,0 +1,104 @@
+Schiffsname;Reederei;Ankunftdatum;AnkunftZeit;Anlegeplatz;Abfahrtdatum;Abfahrtzeit;TransportdatumBfS;StoffBfS;"Transport-
+Datum (HH)";Stoffart;Kernbrennstoffmassekg;Aktivität;"Gefahrgut-
+Klassifizierung";Behältertyp;Absender;Absendeort;Empfänger;Empfängerort;"Schiff
+(HH)";LKW(HH);Bahn(HH);Umschlag-ort;"Lager-
+zeit
+( > 1 d)";Ort;Abtransport
+Atlantic Compass;ACL;;;Unikai;;;08.05.13;unbestr. Uran in Form von UF6;08.05.13;UF6;12320;1248 GBq;2977;B(U);Urenco D;Gronau;WE/U;Columbia;Ja;Ja;;Uni;k.A.;;
+"
+Atlantic Companion";"
+ACL";;;"
+Unikai";;;15.05.13;"unbestr. Uran in Form von UF6 ""Heels""";15.05.13;UF6;122;9 GBq;2977;B(U);WE/U;Columbia;Urenco N;Almelo / NL;Ja;Ja;;Uni;k.A.;;
+"
+Atlantic Companion";"
+ACL";;;"
+Unikai";;;15.05.13;unbestr. Uran in Form von UF6;15.05.13;UF6;9240;624 GBq;2977;B(U);Urenco D;Gronau;GNF-Americas;"Wilmington /
+USA";Ja;Ja;;Uni;k.A.;;
+"
+Atlantic Conveyor 
+ 
+ ";"
+ACL
+ ";; ;"
+Unikai
+ ";;;17.05.13;"unbestr. Uran in Form von UF6 ""Heels""";17.05.13;UF6;31;0,5 GBq;2977;B(U);GNF-Americas;"Wilmington /
+USA";Urenco N;Almelo / NL;Ja;Ja;;Uni;k.A.;;
+"
+Atlantic Conveyor
+ 
+ ";"
+ACL
+ ";; ;"
+Unikai
+ ";;;18.05.13;unbestr. Uran in Form von Uranoxid-Tabletten;17.05.13;U sonst.;1387;76 GBq;3327;B(U);ARP;Richland / USA;ANF;Lingen;Ja;Ja;;Uni;< 1;;
+"
+Atlantic Conveyor
+ 
+ ";"
+ACL
+ ";; ;"
+Unikai
+ ";;;17.05.13;unbestr. Uran in Form von UF6;18.05.13;UF6;9240;624 GBq;2977;B(U);Urenco D;Gronau;ARP;Richland / USA;Ja;Ja;;Uni;k.A.;;
+Kapitan Yakovlev;NSC;05.06.13;04:16:00;"Athabaskakai
+HHLA-CTB";05.06.13;06:53:00;04.06.13;unbestr. BE;05.06.13;uBE;13920;1359 GBq;3325;IF;OJSC;Elektrostal / RUS;KKN;Neckarwestheim;Ja;Ja;;HHLA;k.A.;;
+Atlantic Cartier;ACL;01.05.13;;Unikai;21.06.13;23:34:00;17.06.13;unbestr. kontaminierte Reststoffe in Form von Uranoxid;17.06.13;U sonst.;9;k.A.;2910;"freigest.
+Versandstück";ANF;Lingen;ARP;Richland / USA;Ja;Ja;;Uni;< 1;;
+"
+Atlantic Conveyor";"
+ACL";"
+22.06.13";"
+05:19";"
+Unikai";"
+22.06.13";"
+15:51";22.06.13;unbestr. Uran in Form von UF6;22.06.13;UF6;12076;k.A.;2977;B(U);WE / U;Columbia;WE / S;Västeras;Ja;;;HaTr;k.A.;;
+"
+Atlantic Conveyor";"
+ACL";"
+22.06.13";"
+05:19";"
+Unikai";"
+22.06.13";"
+15:51";22.06.13;"unbestr. Uran in Form von UF6 ""Heels""";22.06.13;UF6;4;0,5 GBq;2977;B(U);GNF-Americas;"Wilmington /
+USA";Urenco N;Almelo / NL;Ja;Ja;;Uni;k.A.;;
+"
+Atlantic Conveyor";"
+ACL";"
+22.06.13";"
+05:19";"
+Unikai";"
+22.06.13";"
+15:51";22.06.13;"unbestr. Uran in Form von UF6 ""Heels""";22.06.13;UF6;46;0,5 GBq;2977;B(U);WE / U;Columbia;Urenco N;Almelo / NL;Ja;Ja;;Uni;k.A.;;
+"
+Atlantic Conveyor";"
+ACL";"
+22.06.13";"
+05:19";"
+Unikai";"
+22.06.13";"
+15:51";22.06.13;"unbestr. Uran in Form von UF6 ""Heels""";22.06.13;UF6;33;0,5 GBq;2977;B(U);WE / U;Columbia;Urenco N;Almelo / NL;Ja;Ja;;Uni;k.A.;;
+Sheksna;ASPOL;24.06.13;03:37:00;"Athabaskakai
+HHLA-CTB";24.06.13;06:28:00;23.06.13;unbestr. BE;24.06.13;uBE;1422;k.A.;3325;IF;OJSC;"Elektrostal /
+RUS";KKZ;Döttingen / CH;;;;HHLA;k.A.;;
+"
+Atlantic Concert";"
+ACL";"
+29.06.13";"
+04:46";"
+Unikai";"
+29.06.13";"
+18:53";29.06.13;unbestr. Uran in Form von UF6;29.06.13;UF6;6160;624 GBq;2977;B(U);Urenco D;Gronau;WE / U;South Carolina;Ja;Ja;;Uni;k.A.;;
+"
+Atlantic Concert";"
+ACL";"
+29.06.13";"
+04:46";"
+Unikai";"
+29.06.13";"
+18:53";29.06.13;unbestr. Uran in Form von UF6;29.06.13;UF6;6160;624 GBq;2977;B(U);Urenco D;Gronau;ARP;Richland / USA;Ja;Ja;;Uni;k.A.;;
+Kholmogory;NSC;08.07.13;04:05:00;"Athabaskakai
+HHLA-CTB";08.07.13;07:01:00;07.07.13;unbestr. Uran in Form von UF6;08.07.13;UF6;20020;k.A.;2977;B(U);Techs;Moskau / RUS;ANF;Lingen;Ja;Ja;;HHLA;k.A.;;
+Kholmogory;NSC;25.07.13;03:53:00;"Athabaskakai
+HHLA-CTB";25.07.13;06:24:00;24.07.13;unbestr. BE;25.07.13;uBE;12180;1173 GBq;3325;IF;OJSC;"Elektrostal /
+RUS";KKN;Neckarwestheim;Ja;Ja;;HHLA;< 1;;
+Atlantic Conveyor;ACL;25.07.13;17:13:00;Unikai;26.07.13;16:27:00;25.07.13;unbestr. Uran oder WAU in Form von UF6;25.07.13;UF6;6160;624 GBq;2977;B(U);Urenco N;Almelo / NL;ARP;Richland / USA;Ja;;;HaTr;< 1;;
+Hyundai Speed;HMM;31.07.13;13:40 (1);Altenwerder HHLA-CTA;02.08.13;04:40 (1);31.07.13;unbestr. Uran oder WAU in Form von UF6;31.07.13;UF6;21560;1847 GBq;2977;B(U);Urenco D;Gronau;KHNPC;Seoul / ROK;Ja;Ja;;HHLA;2;;

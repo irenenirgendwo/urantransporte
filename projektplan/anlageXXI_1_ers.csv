@@ -1,0 +1,11 @@
+Schiffsname;Reederei;Ankunftdatum;AnkunftZeit;Anlegeplatz;Abfahrtdatum;Abfahrtzeit;TransportdatumBfS;StoffBfS;"Transport-
+Datum (HH)";Stoffart;Kernbrennstoffmassekg;Aktivität;"Gefahrgut-
+Klassifizierung";Behältertyp;Absender;Absendeort;Empfänger;Empfängerort;"Schiff
+(HH)";LKW(HH);Bahn(HH);Umschlag-ort;"Lager-
+zeit
+( > 1 d)";Ort;Abtransport
+Kholmogory;NSC;08.07.13;04:05:00;"Athabaskakai
+HHLA-CTB";08.07.13;07:01:00;07.07.13;unbestr. Uran in Form von UF6;08.07.13;UF6;20020;k.A.;2977;B(U);Techs;Moskau / RUS;ANF;Lingen;Ja;Ja;;HHLA;k.A.;Hamburg;nein
+Kholmogory;NSC;25.07.13;03:53:00;"Athabaskakai
+HHLA-CTB";25.07.13;06:24:00;24.07.13;unbestr. BE;25.07.13;uBE;12180;1173 GBq;3325;IF;OJSC;"Elektrostal /
+RUS";KKN;Neckarwestheim;Ja;Ja;;HHLA;< 1;Hamburg;nein

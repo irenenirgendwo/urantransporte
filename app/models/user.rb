@@ -41,4 +41,9 @@ class User < ActiveRecord::Base
   def forget
     update_attribute(:remember_digest, nil)
   end
+  
+  def self.get_admin_mails
+    User.admin.pluck(:email)
+  end
+  
 end

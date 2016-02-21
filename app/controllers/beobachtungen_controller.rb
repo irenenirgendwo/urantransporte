@@ -83,6 +83,7 @@ class BeobachtungenController < ApplicationController
       eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@beobachtung, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
       if eindeutig
         if @beobachtung.save
+          send_mail
           respond_to do |format|
             format.html do
               flash[:success] = 'Beobachtung wurde angelegt.'
@@ -125,6 +126,8 @@ class BeobachtungenController < ApplicationController
         @ort = Ort.create_by_koordinates_and_name(params[:ortname], params[:lat], params[:lon])
         @beobachtung.ort = @ort
         if @beobachtung.save 
+          # Tell the UserMailer to send a welcome email after save
+          send_mail
           respond_to do |format|
             format.html do
                 flash[:success] =  'Beobachtung wurde angelegt.'
@@ -267,6 +270,8 @@ class BeobachtungenController < ApplicationController
     end
   end 
   
+
+  
   # Ort zu der Anlage speichern und Anlage anzeigen.
   # Nötig nach Anlage anlegen/updaten mit Ortsauswahl.
   #
@@ -287,6 +292,12 @@ class BeobachtungenController < ApplicationController
   end
 
   private
+  
+    def send_mail
+      url = "#{request.base_url}/beobachtungen/#{@beobachtung.id}"
+      BeobachtungMailer.benachrichtigung(@beobachtung,url).deliver_now
+    end 
+  
   # Use callbacks to share common setup or constraints between actions.
     def set_beobachtung
       @beobachtung = Beobachtung.find(params[:id].to_i)

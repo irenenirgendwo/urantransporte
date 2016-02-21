@@ -19,4 +19,7 @@
 *~
 
 /public/fotos/*.jpg
+/public/uploads/*
 /th-mysql*/
+
+config/secrets.yml
