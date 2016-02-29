@@ -29,3 +29,14 @@ development:
   password: pw01
   #<%= ENV['TESTDATABASE_DATABASE_PASSWORD'] %>
   host: localhost
+
+
+production:
+  database: uran
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: transport
+  password: pw01
+  #<%= ENV['TESTDATABASE_DATABASE_PASSWORD'] %>
+  host: localhost

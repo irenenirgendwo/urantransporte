@@ -22,4 +22,3 @@
 /public/uploads/*
 /th-mysql*/
 
-config/secrets.yml
