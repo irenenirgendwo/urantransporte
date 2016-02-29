@@ -8,7 +8,7 @@
 * Get projekt with <code>git clone https://github.com/irenenirgendwo/urantransporte</code> to local folder.
 * Run <code>bundle install</code> in project folder.
 * Run <code>rake db:setup</code> or <code>rake db:migrate</code> and <code>rake db:seed</code> to create the database.
-* In the file <code>config/secrets.yml</code> add the parameters gmail_username: 'gmail_emailadresse' and gmail_password: 'password' with correct emailadress to the environment you want to use.
+* In the file <code>config/secrets_sample.yml</code> and <code>config/database_sample</code> replace the <code>XXXX</code> parameters by working values and rename the files to <code>config/secrets.yml</code> and <code>config/database.yml</code>
 * Run <code>rails server</code> to start the development server.
 If it does not work, maybe you'll need a javascript runtime environment, install for example node.js
 * Watch http://localhost:3000/ to enjoy the work.

@@ -72,7 +72,7 @@
       
         <div class="col-sm-6">
           <h4>Gefahrgut-Symbol</h4>
-          <p>Wähle die Zeichen aus, die am Behälter oder Fahrzeug angebracht waren.</p>
+          <p>Wähle die Zeichen aus, die am Behälter oder Fahrzeug zu sehen/angebracht waren.</p>
           <div class="btn-group" data-toggle="buttons">
             <% if @beobachtung.kennzeichen_radioaktiv %>
               <label class="btn btn-default active">
@@ -155,7 +155,7 @@
         </div>
         <div class="col-sm-3">
           <div class="form-group">
-            <%= f.label :anzahl_container, "Anzahl der Container" %>
+            <%= f.label :anzahl_container, "Anzahl der Container (auch Schätzungen)" %>
             <%= f.number_field :anzahl_container, placeholder:1, class: "form-control", min:0 %>
           </div>
         </div>
