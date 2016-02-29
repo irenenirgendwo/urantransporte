@@ -8,6 +8,9 @@ class SchiffeController < ApplicationController
     @schiffe = Schiff.order(:name)
     @firma_unbekannt = Firma.find_by(name: "Unbekannt")
     @ohne_reederei = Schiff.where(firma_id: [nil, (@firma_unbekannt.nil? ? nil: @firma_unbekannt.id)])
+    @schiffe.each do |schiff|
+      schiff.storePosition
+    end
   end
   
   def show

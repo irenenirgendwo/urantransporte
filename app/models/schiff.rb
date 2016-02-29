@@ -28,8 +28,7 @@ class Schiff < ActiveRecord::Base
         doc = Nokogiri::HTML(open(self.vesselfinder_url.to_s))
         lattext = doc.at_css("span[itemprop='latitude']").text
         lontext = doc.at_css("span[itemprop='longitude']").text
-        destext = doc.at_css("span[itemprop='currentDestination']").text
-        etatext = doc.at_css("span[itemprop='shipETA']").text
+        File.open("log/ort.log","a"){|f| f.puts "===Schiff #{self.name}" }
         
         lat = lattext.split(' ')
         lon = lontext.split(' ')
@@ -44,9 +43,23 @@ class Schiff < ActiveRecord::Base
           self.update(current_lon: lon[0].to_f)
         end
         
-        self.update(current_destination: destext)
-        self.update(current_eta: etatext)
+        # Erst im nächsten Schritt Ziel und Ankunftszeit parsen, weil woanders stehen (css Aenderung moeglich)
+        doc.at_css("div[id='ais-data']").css("div[class='row param']").each do |property|
+          propname =  property.at_css("span[itemprop='name']") 
+          if propname
+            if propname.text =="Destination"
+              #File.open("log/ort.log","a"){|f| f.puts "--DEST #{property.at_css("span[itemprop='value']")}"}
+              destext = property.at_css("span[itemprop='value']").text
+              self.update(current_destination: destext)
+            elsif propname.text =="ETA"
+              etatext = property.at_css("span[itemprop='value']").text
+              #File.open("log/ort.log","a"){|f| f.puts "--ETA #{etatext}"}
+              self.update(current_eta: etatext)
+            end
+          end
+        end
       rescue
+        Rails.logger.warn("Fehler beim Parsen von #{self.vesselfinder_url}")
       end
     end
   end
