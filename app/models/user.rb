@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
   end
   
   def self.get_admin_mails
-    User.admin.pluck(:email)
+    User.where(benachrichtigung: true).pluck(:email)
   end
   
 end

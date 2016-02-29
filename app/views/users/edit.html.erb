@@ -27,6 +27,11 @@
     <%= f.password_field :password_confirmation, class: 'form-control' %>
   </div>
   
+  <div class="form-group">
+    <%= f.check_box :benachrichtigung  %>
+    <%= f.label :benachrichtigung, "E-Mail Benachrichtigung bei neuen Beobachtungen" %>
+  </div>
+  
   <% if is_admin? %>
     <div class="form-group">
       <%= f.label :role, "Rolle" %>
