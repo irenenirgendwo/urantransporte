@@ -430,7 +430,8 @@ class UploadController < ApplicationController
           unless abschnitt.save 
             # Fehlerbehandlung
           end
-        else
+        ## wenn weder abtransport noch antransport, kein umschlag anlegen weil nur transit
+        elsif row_as_hash[params[:abtransport]]=="nein"
           # Umschlag beginnt mit Ankunft Schiff
           ankunft_datum = create_datetime(row_as_hash, umschlag_params[:ankunft_datum], umschlag_params[:ankunft_zeit])
           umschlag.start_datum = ankunft_datum
@@ -466,7 +467,7 @@ class UploadController < ApplicationController
       if umschlag_params[:reederei] == "Nicht vorhanden"
         abschnitt = Transportabschnitt.new 
       else 
-        firma = Firma.find_or_create_firma(row_as_hash[umschlag_params[:reederei]])
+        firma = Firma.find_or_create_firmaabtra(row_as_hash[umschlag_params[:reederei]])
         @logger.puts firma.attributes
         abschnitt = create_abschnitt_to_firma(firma, transport, true)
       end

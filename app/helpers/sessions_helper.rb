@@ -44,7 +44,7 @@ module SessionsHelper
   end
   
   def edit_allowed?(user_name)
-    is_editor? || (User.find_by(name: user_name) && current_user.name == user_name)
+    is_editor? || (logged_in? && User.find_by(name: user_name) &&  current_user.name == user_name)
   end
   
   def redirect_back_or(default)
