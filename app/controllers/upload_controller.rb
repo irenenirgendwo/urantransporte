@@ -491,9 +491,13 @@ class UploadController < ApplicationController
           if row_as_hash[date_or_datetime].nil?
             nil
           else
-            date = Date.strptime(row_as_hash[date_or_datetime],"%d.%m.%y")
-            @logger.puts "#{date} #{row_as_hash[time]}"
-            "#{date} #{row_as_hash[time]}"
+            begin
+              date = Date.strptime(row_as_hash[date_or_datetime],"%d.%m.%y")
+              @logger.puts "#{date} #{row_as_hash[time]}"
+              "#{date} #{row_as_hash[time]}"
+            rescue 
+              nil
+            end
           end
         end
       end 
