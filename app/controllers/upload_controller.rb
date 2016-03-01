@@ -467,7 +467,7 @@ class UploadController < ApplicationController
       if umschlag_params[:reederei] == "Nicht vorhanden"
         abschnitt = Transportabschnitt.new 
       else 
-        firma = Firma.find_or_create_firmaabtra(row_as_hash[umschlag_params[:reederei]])
+        firma = Firma.find_or_create_firma(row_as_hash[umschlag_params[:reederei]])
         @logger.puts firma.attributes
         abschnitt = create_abschnitt_to_firma(firma, transport, true)
       end
