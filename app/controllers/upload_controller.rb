@@ -231,44 +231,49 @@ class UploadController < ApplicationController
         # Nehmen mal Format dd.mm.yyyy an.
         #datum_werte = row_as_hash[datum_spalten_name].split(".") 
         @logger.puts "Datum: #{row_as_hash[datum_spalten_name]}"
-        datum = Date.strptime(row_as_hash[datum_spalten_name],"%d.%m.%y")
-        transport_params = { :start_anlage => start_anlage, :ziel_anlage => ziel_anlage, :datum => datum }
-        #@logger.puts "row #{row_as_hash}"
-        transport_params[:stoff] = StoffSynonym.find_stoff_to_synonym(row_as_hash[stoff_spalten_name]) 
-        
-        # Optionale Parameter
-        transport_params[:anzahl] = row_as_hash[anzahl_spalten_name] if anzahl_spalten_name
-        transport_params[:menge_netto] = menge_netto_spalten_name.nil? ? nil : row_as_hash[menge_netto_spalten_name].to_f *
-                                   menge_netto_umrechnungsfaktor
-        transport_params[:menge_brutto] = menge_brutto_spalten_name.nil? ? nil : row_as_hash[menge_brutto_spalten_name].to_f *
-                                   menge_brutto_umrechnungsfaktor
-        transport_params[:behaelter] = row_as_hash[behaelter_spalten_name] if behaelter_spalten_name
-        transport_params[:quelle] = quelle
-        # TODO: Genehmigung erstellen!
-        #genehmigung = create_or_find_genehmigung(row_as_hash, genehmigungs_params)
-        #transport_params[:transportgenehmigung] = genehmigung if genehmigung
+        begin
+          datum = Date.strptime(row_as_hash[datum_spalten_name],"%d.%m.%y")
+          transport_params = { :start_anlage => start_anlage, :ziel_anlage => ziel_anlage, :datum => datum }
+          #@logger.puts "row #{row_as_hash}"
+          transport_params[:stoff] = StoffSynonym.find_stoff_to_synonym(row_as_hash[stoff_spalten_name]) 
+          
+          # Optionale Parameter
+          transport_params[:anzahl] = row_as_hash[anzahl_spalten_name] if anzahl_spalten_name
+          transport_params[:menge_netto] = menge_netto_spalten_name.nil? ? nil : row_as_hash[menge_netto_spalten_name].to_f *
+                                     menge_netto_umrechnungsfaktor
+          transport_params[:menge_brutto] = menge_brutto_spalten_name.nil? ? nil : row_as_hash[menge_brutto_spalten_name].to_f *
+                                     menge_brutto_umrechnungsfaktor
+          transport_params[:behaelter] = row_as_hash[behaelter_spalten_name] if behaelter_spalten_name
+          transport_params[:quelle] = quelle
+          # TODO: Genehmigung erstellen!
+          #genehmigung = create_or_find_genehmigung(row_as_hash, genehmigungs_params)
+          #transport_params[:transportgenehmigung] = genehmigung if genehmigung
 
-        transport = Transport.new(transport_params)
-        @logger.puts "Transport eingelesen #{transport.attributes}"
-        if transport.save 
-          @transporte_anzahl += 1
-          @logger.puts "Transport gespeichert."
-          # Transportabschnitte zu Transportfirmen erstellen, wenn vorhanden
-          if firmen_spalten_name
-            create_transportabschnitte_to_firmen(row_as_hash[firmen_spalten_name], firma_trennzeichen, transport)
-          end
-          # Umschlaege erstellen 
-          unless umschlag_params.nil?
-            create_umschlag_data(row_as_hash, umschlag_params, transport)
-          end
-        else 
-          # Je nach Einstellung Transporte verschmelzen
-          if params[:einstellung_vorhandene_transporte] == "J"
-            @logger.puts "Verschmelze_Transporte"
-            join_to_old_transport(row_count, transport) 
+          transport = Transport.new(transport_params)
+          @logger.puts "Transport eingelesen #{transport.attributes}"
+          if transport.save 
+            @transporte_anzahl += 1
+            @logger.puts "Transport gespeichert."
+            # Transportabschnitte zu Transportfirmen erstellen, wenn vorhanden
+            if firmen_spalten_name
+              create_transportabschnitte_to_firmen(row_as_hash[firmen_spalten_name], firma_trennzeichen, transport)
+            end
+            # Umschlaege erstellen 
+            unless umschlag_params.nil?
+              create_umschlag_data(row_as_hash, umschlag_params, transport)
+            end
           else 
-            @transporte_liste[row_count] = transport 
+            # Je nach Einstellung Transporte verschmelzen
+            if params[:einstellung_vorhandene_transporte] == "J"
+              @logger.puts "Verschmelze_Transporte"
+              join_to_old_transport(row_count, transport) 
+            else 
+              @transporte_liste[row_count] = transport 
+            end
           end
+        rescue => e
+           @logger.puts "Probleme beim Einlesen von Transport in Zeile #{row_count} von #{start_anlage} nach #{ziel_anlage}"
+           @logger.puts e
         end
         row_count += 1
     end 
