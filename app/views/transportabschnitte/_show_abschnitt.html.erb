@@ -2,7 +2,7 @@
   <% if abschnitt.verkehrstraeger == "Schiff" %>
     Schiffstransport
     <% if abschnitt.schiff %>
-      mit der "<%= link_to abschnitt.schiff.name, abschnitt.schiff %>" 
+      mit der "<%= is_editor? ? (link_to abschnitt.schiff.name, abschnitt.schiff) : abschnitt.schiff.name %>" 
     <% end %>
     <% if abschnitt.firma %>
       (Reederei: <%= link_to abschnitt.firma.name, abschnitt.firma %>)

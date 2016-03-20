@@ -12,7 +12,7 @@ class Schiff < ActiveRecord::Base
     if schiff.nil?
       schiff = Schiff.create(name: schiff_name)
     end
-    if schiff.firma.nil? && !firma.nil?
+    unless firma.nil? #schiff.firma.nil? && !firma.nil?
       schiff.firma = firma 
       schiff.save
     end

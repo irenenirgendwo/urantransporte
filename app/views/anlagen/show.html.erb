@@ -27,6 +27,10 @@
     <% if @anlage.beschreibung? %>
       <p><%= @anlage.beschreibung %></p>
     <% end %>
+    
+    <% if @anlage.bild_urheber %>
+      <p>Bild von: <%= @anlage.bild_urheber %></p>
+    <% end %>
 
     <% if is_editor? %>
       <h3> Synonyme für die Anlage </h3>

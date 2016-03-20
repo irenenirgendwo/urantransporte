@@ -1,5 +1,7 @@
-<%= link_to schiffe_path do %>
-  <span class='glyphicon glyphicon-menu-left' aria-hidden='true'></span> Alle Schiffe
+<% if is_editor? %>
+  <%= link_to schiffe_path do %>
+    <span class='glyphicon glyphicon-menu-left' aria-hidden='true'></span> Alle Schiffe
+  <% end %>
 <% end %>
 
 <h1>
@@ -60,7 +62,7 @@
   </div>
  
   <div class="col-sm-6">
-    <% if @schiff.current_lat && @schiff.current_lon %>
+    <% if is_editor? && @schiff.current_lat && @schiff.current_lon %>
       <div id="map" class="panel" style="height:400px;"></div>
         <script type="text/javascript">
             schiffMap(<%= @schiff.current_lat %>, <%= @schiff.current_lon %>, 0)

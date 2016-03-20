@@ -55,12 +55,6 @@ class UploadController < ApplicationController
       session[:spalte_start] = @spalte_nr1
       session[:spalte_ziel] = @spalte_nr2
       session[:spalte_stoff] = @spalte_stoff
-      unless params[:schiff] == "Nicht vorhanden"
-        session[:spalte_schiff] = params[:schiff]
-      end
-      unless params[:reederei] == "Nicht vorhanden"
-        session[:spalte_reederei] = params[:reederei]
-      end
       @logger.puts "Anlagen sind in #{@spalte_nr1} und #{@spalte_nr2}"
       # Erstelle @anlagen_liste als Liste von Namen, die in den Spalten auftauchen.
       @anlagen_liste = []
@@ -210,7 +204,7 @@ class UploadController < ApplicationController
     # Genehmigungen werden nur eingelesen, wenn eine Genehmigungsnummer existiert.
     genehmigungen = params[:lfd_nr] == "Nicht vorhanden" ? nil : params[:lfd_nr] 
     genehmigungs_params = genehmigungen.nil? ? nil : read_genehmigungs_params(params)
-    umschlag_params = params[:umschlag_ort] == "Nicht vorhanden" ? nil : read_umschlag_params(params)
+    umschlag_params = (params[:umschlag_ort] == "Nicht vorhanden") ? nil : read_umschlag_params(params)
     @logger.puts "umschlag: #{umschlag_params}"
     quelle = params[:quelle]
     
@@ -233,6 +227,7 @@ class UploadController < ApplicationController
         @logger.puts "Datum: #{row_as_hash[datum_spalten_name]}"
         begin
           datum = Date.strptime(row_as_hash[datum_spalten_name],"%d.%m.%y")
+          @logger.puts "converted datum: #{datum}"
           transport_params = { :start_anlage => start_anlage, :ziel_anlage => ziel_anlage, :datum => datum }
           #@logger.puts "row #{row_as_hash}"
           transport_params[:stoff] = StoffSynonym.find_stoff_to_synonym(row_as_hash[stoff_spalten_name]) 
@@ -263,10 +258,14 @@ class UploadController < ApplicationController
               create_umschlag_data(row_as_hash, umschlag_params, transport)
             end
           else 
+             @logger.puts "Transport nicht gespeichert #{transport.errors.first}."
             # Je nach Einstellung Transporte verschmelzen
             if params[:einstellung_vorhandene_transporte] == "J"
               @logger.puts "Verschmelze_Transporte"
-              join_to_old_transport(row_count, transport) 
+              old_transport = join_to_old_transport(row_count, transport) 
+              if umschlag_params && transport.umschlaege.empty?
+                create_umschlag_data(row_as_hash, umschlag_params, old_transport)
+              end
             else 
               @transporte_liste[row_count] = transport 
             end
@@ -277,6 +276,7 @@ class UploadController < ApplicationController
         end
         row_count += 1
     end 
+    @logger.puts "Fertig"
     @logger.close
     session.clear if @transporte_liste.empty?
     render "fertig"
@@ -300,6 +300,7 @@ class UploadController < ApplicationController
       # Zu Fehlerliste hinzufuegen 
       @transporte_liste[row_count] = new_transport 
     end
+    old_transport
   end 
   
 
@@ -403,6 +404,7 @@ class UploadController < ApplicationController
     end
     
     def create_umschlag_data(row_as_hash, umschlag_params, transport)
+      @logger.puts "Transport #{transport.attributes}"
       umschlag = Umschlag.new
       umschlag.transport = transport
       unless umschlag_params[:ort]=="Nicht vorhanden" 
@@ -411,13 +413,23 @@ class UploadController < ApplicationController
       unless umschlag_params[:terminal]=="Nicht vorhanden"
         umschlag.terminal = row_as_hash[umschlag_params[:terminal]] 
       end
+      @logger.puts "Umschlag #{umschlag.attributes}"
+      umschlag.save
       unless params[:abtransport] == "Nicht vorhanden"
+        @logger.puts "Umschlag und Transportabschnitte anlegen"
         # Wenn Transport von Umschlagort weg mit Schiff
         if row_as_hash[params[:abtransport]]=="ja"
+          @logger.puts "Abtransport"
           # Umschlag endet mit Abfahrt Schiff
-          abfahrt_datum = create_datetime(row_as_hash, umschlag_params[:abfahrt_datum], umschlag_params[:abfahrt_zeit])
-          umschlag.end_datum = abfahrt_datum
-          umschlag.save
+          abfahrt_datum = nil
+          if umschlag_params[:abfahrt_datum]
+            abfahrt_datum = create_datetime(row_as_hash, umschlag_params[:abfahrt_datum], umschlag_params[:abfahrt_zeit])
+            umschlag.end_datum = abfahrt_datum
+          end
+          @logger.puts "Umschlag angelegt, speichern"
+          unless umschlag.save
+            @logger.puts umschlag.errors
+          end
           # Transportabschnitt davor anlegen
           abschnitt = Transportabschnitt.new 
           abschnitt.transport = transport
@@ -427,19 +439,27 @@ class UploadController < ApplicationController
           end
           unless abschnitt.save 
             # Fehlerbehandlung
+            @logger.puts abschnitt.errors
           end
+          @logger.puts "Abschnitt angelegt, speichern"
           # Transportabschnitt danach anlegen
           abschnitt = lege_abschnitt_zu_schiff_an(row_as_hash, umschlag_params, transport)
           abschnitt.start_datum = abfahrt_datum
           abschnitt.start_ort = umschlag.ort
           unless abschnitt.save 
             # Fehlerbehandlung
+             @logger.puts abschnitt.errors
           end
         ## wenn weder abtransport noch antransport, kein umschlag anlegen weil nur transit
         elsif row_as_hash[params[:abtransport]]=="nein"
+          @logger.puts "Antransport"
           # Umschlag beginnt mit Ankunft Schiff
-          ankunft_datum = create_datetime(row_as_hash, umschlag_params[:ankunft_datum], umschlag_params[:ankunft_zeit])
-          umschlag.start_datum = ankunft_datum
+          ankunft_datum = nil
+          if umschlag_params[:ankunft_datum]
+            ankunft_datum = create_datetime(row_as_hash, umschlag_params[:ankunft_datum], umschlag_params[:ankunft_zeit])
+            umschlag.start_datum = ankunft_datum
+          end
+          @logger.puts "Umschlag angelegt, speichern"
           unless umschlag.save
             @logger.puts umschlag.errors
           end
@@ -455,6 +475,7 @@ class UploadController < ApplicationController
             # Fehlerbehandlung
             @logger.puts abschnitt.errors
           end
+          @logger.puts "Abschnitt angelegt, speichern"
           # Transportabschnitt davor anlegen
           abschnitt = lege_abschnitt_zu_schiff_an(row_as_hash, umschlag_params, transport)
           abschnitt.end_datum = ankunft_datum
@@ -463,6 +484,8 @@ class UploadController < ApplicationController
             # Fehlerbehandlung
             @logger.puts abschnitt.errors
           end
+        #else
+        #  umschlag.save
         end
       end
     end 
@@ -472,7 +495,7 @@ class UploadController < ApplicationController
       if umschlag_params[:reederei] == "Nicht vorhanden"
         abschnitt = Transportabschnitt.new 
       else 
-        firma = Firma.find_or_create_firma(row_as_hash[umschlag_params[:reederei]])
+        firma = Firma.find_or_create_firma(row_as_hash[umschlag_params[:reederei]],true)
         @logger.puts firma.attributes
         abschnitt = create_abschnitt_to_firma(firma, transport, true)
       end
