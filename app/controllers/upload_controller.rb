@@ -278,7 +278,7 @@ class UploadController < ApplicationController
     end 
     @logger.puts "Fertig"
     @logger.close
-    session.clear if @transporte_liste.empty?
+    # session.clear if @transporte_liste.empty?
     render "fertig"
   end
 
