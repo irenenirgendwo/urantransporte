@@ -99,6 +99,8 @@ plugin = rack,http
 rack = config.ru
 chdir = [PATH_TO_APP]
 
+env = RAILS_ENV=production
+
 --nginx config--
 server {
         listen [IP4]:80;
