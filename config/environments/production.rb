@@ -71,11 +71,11 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   # SMTP settings for gmail
   config.action_mailer.smtp_settings = {
-    :address              => "smtp.gmail.com",
-    :port                 => 587,
-    :user_name            => Rails.application.secrets.gmail_username,
-    :password             => Rails.application.secrets.gmail_password, #"uranRuby16",
-    :authentication       => "plain",
+    :address              => Rails.application.secrets.address, #"smtp.gmail.com",
+    :port                 => Rails.application.secrets.port,
+    #:user_name            => Rails.application.secrets.gmail_username,
+    #:password             => Rails.application.secrets.gmail_password, #"uranRuby16",
+    #:authentication       => "plain",
     :enable_starttls_auto => true
   }
 
