@@ -28,8 +28,8 @@ class AnlagenController < ApplicationController
   # GET /anlagen/1.json
   def show
     @synonyme = @anlage.anlagen_synonyms.pluck(:synonym)
-    @transporte_ab = Transport.where("start_anlage_id = ?", @anlage).paginate(page: params[:page_ab], per_page: 20)
-    @transporte_an = Transport.where("ziel_anlage_id = ?", @anlage).paginate(page: params[:page_an], per_page: 20)
+    @transporte_ab = Transport.where("start_anlage_id = ?", @anlage).order(datum: :desc).paginate(page: params[:page_ab], per_page: 20)
+    @transporte_an = Transport.where("ziel_anlage_id = ?", @anlage).order(datum: :desc).paginate(page: params[:page_an], per_page: 20)
   end
 
   # GET /anlagen/new
