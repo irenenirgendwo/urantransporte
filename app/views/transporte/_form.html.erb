@@ -33,7 +33,7 @@
               <label>Start-Anlage</label>
               <div class="row">
                 <div class="col-sm-8">
-                  <%= collection_select(:transport, :start_anlage_id, Anlage.all, :id, :name, {}, class:"form-control") %>
+                  <%= collection_select(:transport, :start_anlage_id, @anlagen, :id, :name, {}, class:"form-control") %>
                 </div>
                 <div class="col-sm-4">
                   <button class="btn btn-success" data-toggle="modal" data-target="#anlagenModal-" type="button">Neue Anlage</button>
@@ -45,7 +45,7 @@
               <label>Ziel-Anlage</label>
               <div class="row">
                 <div class="col-sm-8">
-                  <%= collection_select(:transport, :ziel_anlage_id, Anlage.all, :id, :name, {}, class:"form-control") %>
+                  <%= collection_select(:transport, :ziel_anlage_id, @anlagen, :id, :name, {}, class:"form-control") %>
                 </div>
                 <div class="col-sm-4">
                   <a class="btn btn-success" data-toggle="modal" data-target="#anlagenModal-" type="button">Neue Anlage</a>
@@ -57,7 +57,7 @@
               <%= f.label :stoff %>
               <div class="row">
                 <div class="col-sm-8">
-                  <%= collection_select(:transport, :stoff_id, Stoff.all, :id, :bezeichnung, {}, class: "form-control") %>
+                  <%= collection_select(:transport, :stoff_id, @stoffe, :id, :bezeichnung, {}, class: "form-control") %>
                 </div>
                 <div class="col-sm-4">
                   <button class="btn btn-success" data-toggle="modal" data-target="#stoffModal-" type="button">Neuer Stoff</button>

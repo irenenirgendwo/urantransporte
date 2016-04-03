@@ -138,5 +138,8 @@ class TransporteController < ApplicationController
     def set_new_stoff_and_anlage
       @stoff = Stoff.new
       @anlage = Anlage.new
+      
+      @stoffe = Stoff.order(:bezeichnung).all
+      @anlagen = Anlage.order(:name).all
     end
 end
