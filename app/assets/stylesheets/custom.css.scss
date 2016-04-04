@@ -47,4 +47,20 @@
 
 td.table-actions {
   text-align: right;
+  min-width: 68px;
+}
+
+.img-container {
+  position: relative;
+  padding: 0;
+  margin-bottom: 1em;
+  
+  .img-caption {
+    font-size: 90%;
+    color: white;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    text-shadow: 0 0 7px rgba(0, 0, 0, 0.8);
+  }
 }

@@ -28,9 +28,7 @@
       <p><%= @anlage.beschreibung %></p>
     <% end %>
     
-    <% if @anlage.bild_urheber %>
-      <p>Bild von: <%= @anlage.bild_urheber %></p>
-    <% end %>
+    
 
     <% if is_editor? %>
       <h3> Synonyme für die Anlage </h3>
@@ -44,7 +42,12 @@
   </div>
   <div class="col-sm-4">
     <% if @anlage.bild_url? %>
-      <img src="<%= @anlage.bild_url %>" class="img-responsive" alt="<%= @anlage.name %>">
+      <div class="img-container">
+        <img src="<%= @anlage.bild_url %>" class="img-responsive" alt="<%= @anlage.name %>">
+        <% if @anlage.bild_urheber %>
+          <span class="img-caption">Bild: <%= @anlage.bild_urheber %></span>
+        <% end %>
+      </div>
     <% end %>
     
     <% if @anlage.ort %>
