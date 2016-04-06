@@ -141,17 +141,5 @@ class TransporteController < ApplicationController
       
       @stoffe = Stoff.order(:bezeichnung).all
       @anlagen = Anlage.order(:name).all
-      
-      if Stoff.find_by_bezeichnung("Unbekannt")
-        @stoff_selected_id = Stoff.find_by_bezeichnung("Unbekannt").id
-      else
-        @stoff_selected_id = @stoffe.first.id
-      end
-      
-      if Anlage.find_by_name("Unbekannt")
-        @anlage_selected_id = Anlage.find_by_name("Unbekannt").id
-      else
-        @anlage_selected = @anlagen.first.id
-      end
     end
 end
