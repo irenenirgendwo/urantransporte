@@ -7,7 +7,7 @@ class BeobachtungMailer < ApplicationMailer
     @url  = url
     @beobachtung = beobachtung
     User.get_admin_mails.each do |mail|
-      mail(to: "irene@nirgendwo.info", subject: 'Atomtransport-DB: Neue Beobachtung')
+      mail(to: mail, subject: 'Atomtransport-DB: Neue Beobachtung')
     end
   end
   
