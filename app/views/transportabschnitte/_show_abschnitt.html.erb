@@ -55,17 +55,16 @@
     <% if abschnitt.end_datum || abschnitt.end_ort %>
       <%= link_to "Umschlag danach anlegen", new_umschlag_path(transport_id: abschnitt.transport.id, abschnitt_davor: abschnitt.id) %>
     <% end %>
-  <% end %>
-  
-  <% unless abschnitt.beobachtungen.empty? %>
+    
+    <% unless abschnitt.beobachtungen.empty? %>
       <br /> 
       Beobachtungen: 
-      <% number = 1 %>
       <% abschnitt.beobachtungen.each do |beobachtung| %>
         <%= link_to beobachtung.ort.to_s, beobachtung %>, 
       <% end %>
-  <% end %>
+    <% end %>
     
+  <% end %>
   
   <br />
 </div>
