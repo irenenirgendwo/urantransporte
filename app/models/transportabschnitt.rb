@@ -51,6 +51,16 @@ class Transportabschnitt < ActiveRecord::Base
     end
     orte.uniq
   end 
+  
+  def orte_without_routen
+    orte = []
+    orte << self.start_ort
+    orte << self.end_ort 
+    self.beobachtungen.each do |beob|
+      orte << beob.ort
+    end
+    orte.uniq
+  end
 
 #  def faehrt_durch(ort, radius)
 #    

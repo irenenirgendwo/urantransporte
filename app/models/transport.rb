@@ -145,6 +145,21 @@ class Transport < ActiveRecord::Base
     orte
   end
   
+  def get_known_orte_without_routen
+    orte = []
+    check_ort_ll(orte, start_anlage.ort)
+    check_ort_ll(orte, ziel_anlage.ort)
+    transportabschnitte.each do |abschnitt|
+      abschnitt.orte_without_routen.each do |ort|
+        check_ort_ll(orte, ort)
+      end
+    end
+    umschlaege.each do |umschlag|
+      check_ort_ll(orte, umschlag.ort)
+    end
+    orte
+  end
+  
   # Sammelt alle Durchfahrtsorte zusammen, aus Anlagenorten, Umschlagsorten, Abschnitten
   # und zugeordneten Beobachtungen
   #
