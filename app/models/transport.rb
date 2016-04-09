@@ -188,8 +188,21 @@ class Transport < ActiveRecord::Base
     # Start und Zielanlage zuletzt, damit auf jeden Fall das aktuellste, andere werden ggf. ueberschrieben
     check_ort_p(orte, start_anlage.ort, "Start-Anlage")
     check_ort_p(orte, ziel_anlage.ort, "Ziel-Anlage")
-    if strecken.empty? && start_anlage.ort && ziel_anlage.ort && start_anlage.ort.lat && ziel_anlage.ort.lat
-      strecken << [start_anlage.ort, ziel_anlage.ort] 
+    if strecken.empty? 
+      if umschlaege.empty? && start_anlage.ort && ziel_anlage.ort && start_anlage.ort.lat && ziel_anlage.ort.lat
+        strecken << [start_anlage.ort, ziel_anlage.ort] 
+      elsif start_anlage.ort && start_anlage.ort.lat
+        ort_aktuell = start_anlage.ort
+        umschlaege.each do |umschlag|
+          if umschlag.ort
+            strecken << [ort_aktuell, umschlag.ort]
+          end
+          ort_aktuell = umschlag.ort
+        end
+        if ziel_anlage.ort && ziel_anlage.ort.lat
+          strecken << [ort_aktuell, ziel_anlage.ort]
+        end
+      end
     end
     return orte, strecken
   end
