@@ -15,11 +15,11 @@ class BeobachtungenController < ApplicationController
     @beobachtungen = 
       case params[:zugeordnet]
       when "a" then
-        Beobachtung.paginate(page: params[:page], per_page: 20)
+        Beobachtung.order(ankunft_zeit: :desc).paginate(page: params[:page], per_page: 20)
       when "j" then
-        Beobachtung.where.not(transportabschnitt_id: nil).paginate(page: params[:page], per_page: 20)
+        Beobachtung.order(ankunft_zeit: :desc).where.not(transportabschnitt_id: nil).paginate(page: params[:page], per_page: 20)
       else
-        Beobachtung.where(transportabschnitt_id: nil).paginate(page: params[:page], per_page: 20)
+        Beobachtung.order(ankunft_zeit: :desc).paginate(page: params[:page], per_page: 20)
       end 
   end
 

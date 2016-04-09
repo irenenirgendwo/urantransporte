@@ -1,6 +1,6 @@
 class BeobachtungMailer < ApplicationMailer
 
-  default from: 'irene@nirgendwo.info'
+  default from: 'urantransport@nirgendwo.info'
  
   def benachrichtigung(beobachtung, url)
     @quelle = beobachtung.quelle
