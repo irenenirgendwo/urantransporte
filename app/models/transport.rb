@@ -70,8 +70,8 @@ class Transport < ActiveRecord::Base
   
 
   # Sucht das Gesamtstart- und Enddatum aus den Transportabschnitten raus.
-  # depricated???
-  #
+  # wird für Kalenderdarstellung benötigt
+  # 
   def get_start_and_end_datum abschnitt_umschlag_list
     start_datum = self.datum
     end_datum = self.datum
@@ -84,6 +84,16 @@ class Transport < ActiveRecord::Base
       end
     end 
     return start_datum.to_date, end_datum.to_date
+  end
+  
+  def start_datum
+    start_datum, end_datum = get_start_and_end_datum self.sort_abschnitte_and_umschlaege
+    start_datum
+  end
+  
+  def end_datum
+    start_datum, end_datum = get_start_and_end_datum self.sort_abschnitte_and_umschlaege
+    end_datum
   end
   
   

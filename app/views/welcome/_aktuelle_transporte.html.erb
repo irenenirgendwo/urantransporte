@@ -1,6 +1,6 @@
 <% unless @transporte.empty? %>
 
-  <table class="table table-striped">
+  <table class="table table-striped aktuell">
     <tbody>
       <% @transporte.each do |transport| %>
         <tr>
@@ -9,7 +9,12 @@
               render 'text_show'
             end %>
           </td>
-          <td><%= l transport.datum %>: <strong><%= transport.stoff %></strong> von <%= link_to transport.start_anlage, transport.start_anlage %> nach <%= link_to transport.ziel_anlage, transport.ziel_anlage %></td>
+          <% if transport.start_datum != transport.end_datum %>
+            <td class="datum"><%= l transport.start_datum %> – <%= l transport.end_datum %></td>
+          <% else %>
+            <td class="datum"><%= l transport.datum %></td>
+          <% end %>
+          <td><strong><%= link_to transport.stoff, transport.stoff %></strong> von <%= link_to transport.start_anlage, transport.start_anlage %> nach <%= link_to transport.ziel_anlage, transport.ziel_anlage %></td>
         </tr>
       <% end %>
     </tbody>
