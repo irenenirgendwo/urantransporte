@@ -15,7 +15,7 @@
 <%= render "show_transport_grunddaten", transport: @transport %>
 
 <h3>Transportverlauf </h3>
-<% if @transport.transportabschnitte.nil? || @transport.transportabschnitte.empty? %>
+<% if @abschnitt_umschlag_list.nil? || @abschnitt_umschlag_list .empty? %>
   Noch keine Transportabschnitte eingegeben.
 <% else %>
   <% @abschnitt_umschlag_list.each do |anzeigen| %>

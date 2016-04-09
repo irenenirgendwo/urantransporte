@@ -118,11 +118,14 @@ class Transport < ActiveRecord::Base
       end 
       # Rest nach Datum sortieren
       unless ort_to_detail.empty?
+        #File.open("log/transport.log","a"){|f| f.puts "Rest nach Datum" }
         abschnitt_umschlag_list = abschnitt_umschlag_list.concat(sort_abschnitte_and_umschlaege_by_date(ort_to_detail.values.flatten))
       end
     else 
+      #File.open("log/transport.log","a"){|f| f.puts "Alles nach Datum" }
       abschnitt_umschlag_list = abschnitt_umschlag_list.concat(sort_abschnitte_and_umschlaege_by_date(ort_to_detail.values.flatten))
     end 
+    #File.open("log/transport.log","a"){|f| f.puts "Transport #{id}: #{abschnitt_umschlag_list.to_s}" }
     abschnitt_umschlag_list
   end 
   
@@ -278,11 +281,12 @@ class Transport < ActiveRecord::Base
     def sort_abschnitte_and_umschlaege_by_date start_liste
       abschnitt_umschlag_list = []
       mit_end_datum = start_liste.select{|element| element.end_datum }
-      File.open("log/transport.log","a"){|f| f.puts mit_end_datum }
+      #File.open("log/transport.log","a"){|f| f.puts "Mit Ende #{mit_end_datum.to_s}" }
       abschnitt_umschlag_list.concat(mit_end_datum.sort_by{|element| element.end_datum} )
       ohne_end_datum = start_liste.select{|element| element.end_datum.nil? }
-      File.open("log/transport.log","a"){|f| f.puts ohne_end_datum }
+      #File.open("log/transport.log","a"){|f| f.puts "Ohne Ende: #{ohne_end_datum.to_s}" }
       abschnitt_umschlag_list.concat(ohne_end_datum)
+      #File.open("log/transport.log","a"){|f| f.puts "Liste bei Date #{abschnitt_umschlag_list.to_s}" }
       abschnitt_umschlag_list
     end
     
