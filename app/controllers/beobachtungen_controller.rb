@@ -295,7 +295,9 @@ class BeobachtungenController < ApplicationController
   
     def send_mail
       url = "#{request.base_url}/beobachtungen/#{@beobachtung.id}"
-      BeobachtungMailer.benachrichtigung(@beobachtung,url).deliver_now
+      User.get_admin_mails.each do |mail|
+        BeobachtungMailer.benachrichtigung(@beobachtung,url,mail).deliver_now
+      end
     end 
   
   # Use callbacks to share common setup or constraints between actions.

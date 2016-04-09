@@ -1,14 +1,12 @@
 class BeobachtungMailer < ApplicationMailer
 
-  default from: 'irene@nirgendwo.info'
+  default from: 'urantransport@nirgendwo.info'
  
-  def benachrichtigung(beobachtung, url)
+  def benachrichtigung(beobachtung, url, email)
     @quelle = beobachtung.quelle
     @url  = url
     @beobachtung = beobachtung
-    User.get_admin_mails.each do |mail|
-      mail(to: mail, subject: 'Atomtransport-DB: Neue Beobachtung')
-    end
+    mail(to: email, subject: 'Atomtransport-DB: Neue Beobachtung')
   end
   
 end
