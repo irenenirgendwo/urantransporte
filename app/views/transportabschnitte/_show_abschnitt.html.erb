@@ -4,7 +4,7 @@
     <% if abschnitt.schiff %>
       mit der "<%= is_editor? ? (link_to abschnitt.schiff.name, abschnitt.schiff) : abschnitt.schiff.name %>" 
     <% end %>
-    <% if abschnitt.firma %>
+    <% if abschnitt.firma && abschnitt.firma.id != 1 %>
       (Reederei: <%= link_to abschnitt.firma.name, abschnitt.firma %>)
     <% end %>
   <% else %>
@@ -17,16 +17,20 @@
     <% else %>
       Transport mit unbekanntem Verkehrsträger
     <% end %>
-    <% if abschnitt.firma %>
-      (Spedition: <%= link_to abschnitt.firma.name, abschnitt.firma %>
+    <% if abschnitt.firma && abschnitt.firma.id != 1 %>
+      (Spedition: <%= link_to abschnitt.firma.name, abschnitt.firma %>)
     <% end %>
   <% end %>
   
-  <% if abschnitt.start_ort && abschnitt.end_ort%>
-    von <%= abschnitt.start_ort %> nach <%= abschnitt.end_ort %>
+  <% if abschnitt.start_ort %> 
+    von <%= abschnitt.start_ort %>
   <% end %>
-  <% if abschnitt.start_datum && abschnitt.end_datum %>
-    (<%= abschnitt.start_datum.strftime("%d.%m.%Y") %> – <%= abschnitt.end_datum.strftime("%d.%m.%Y") %>)
+   <% if abschnitt.end_ort%>
+   nach <%= abschnitt.end_ort %>
+  <% end %>
+  <% if abschnitt.start_datum || abschnitt.end_datum %>
+    (<%= abschnitt.start_datum ? abschnitt.start_datum.strftime("%d.%m.%Y") : "unbekannt" %>
+     – <%= abschnitt.end_datum ? abschnitt.end_datum.strftime("%d.%m.%Y") : "unbekannt" %>)
   <% end %>
   <br />
   <% unless abschnitt.route.nil? || abschnitt.route.name =="Unbekannt" %>
