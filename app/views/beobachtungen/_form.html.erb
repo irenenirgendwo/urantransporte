@@ -16,14 +16,14 @@
           </div>
           <!--Javascript: Datum von abfahrts-zeit automatisch setzen bei veraenderung ankunfts_datum -->
           <div class="form-group">
-            <%= f.label :ankunft_zeit, "Ankunftszeit" %>
+            <%= f.label :ankunft_zeit, "Ankunftszeit / Sichtungszeit (Format: TT.MM.JJJJ HH:MM)" %>
             <div class='input-group date' id='datetimepicker-ankunft'>
               <%= f.text_field :ankunft_zeit, start_year:1999, class: "form-control" %>
               <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
           </div>
           <div class="form-group">
-            <%= f.label :abfahrt_zeit, "Abfahrtszeit" %>
+            <%= f.label :abfahrt_zeit, "Abfahrtszeit (Format: TT.MM.JJJJ HH:MM)" %>
             <div class='input-group date' id='datetimepicker-abfahrt'>
               <%= f.text_field :abfahrt_zeit, start_year:1999, class: "form-control" %>
               <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>

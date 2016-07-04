@@ -23,7 +23,7 @@ function geomap(typ, map_id='map'){
       lat = 52.2152;
       lon = 7.0793
     }
-    alert(lat);
+
     var map = L.map(map_id, {attributionControl: false}).setView([lat, lon], 7);
     var marker = L.marker([lat, lon]).addTo(map);
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
@@ -34,11 +34,10 @@ function geomap(typ, map_id='map'){
       document.getElementById(lat_name).value = e.latlng.lat.toFixed(6);
       document.getElementById(lon_name).value = e.latlng.lng.toFixed(6);
     });
-    alert(lon);
+    
     $('.modal').on('shown.bs.modal', function (e) {
       map.invalidateSize(true);
     });
-    alert('fertig');
 }
 
 function schiffMap(lat, lon, rot){

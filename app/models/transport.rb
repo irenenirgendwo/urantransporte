@@ -209,8 +209,8 @@ class Transport < ActiveRecord::Base
         umschlaege.each do |umschlag|
           if umschlag.ort
             strecken << [ort_aktuell, umschlag.ort]
+            ort_aktuell = umschlag.ort
           end
-          ort_aktuell = umschlag.ort
         end
         if ziel_anlage.ort && ziel_anlage.ort.lat
           strecken << [ort_aktuell, ziel_anlage.ort]
@@ -219,6 +219,8 @@ class Transport < ActiveRecord::Base
     end
     return orte, strecken
   end
+  
+  
   
   
  
