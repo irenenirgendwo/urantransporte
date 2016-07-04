@@ -10,7 +10,8 @@ json.features do
         end
       end
       json.properties do
-        json.name schiff.name
+        json.typ schiff.name
+        json.name "Reederei #{schiff.firma.name}"
       end
     end
   end

@@ -57,7 +57,7 @@ Rails.application.routes.draw do
   get "transporte/set_aehnliche_transporte_options/:id/:tage/:start/:ziel" => 'transporte#set_aehnliche_transporte_options', as: :set_aehnliche_transporte_options_transport
   #get "transporte/union/:id/:add_transport" => 'transporte#union', as: :union_transport
 
-  
+  get "beobachtungen/new_noscript"
   resources :beobachtungen do
     get "abschnitt_zuordnen", on: :member
     get "load_foto", on: :member

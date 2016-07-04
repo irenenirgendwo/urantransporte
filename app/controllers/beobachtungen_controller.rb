@@ -3,7 +3,7 @@ class BeobachtungenController < ApplicationController
   before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :load_foto, :update_foto, :abschnitt_zuordnen, :delete_zuordnung, :set_toleranz_tage, :save_ort]
   before_action :editor_user, only: [:index, :destroy, :delete_zuordnung, :abschnitt_zuordnen, :set_toleranz_tage]
   before_action :beobachtung_edit_allowed, only: [:edit, :update, :save_ort]
-  before_action :set_schiffe, only: [:edit, :new, :update, :create, :save_ort]
+  before_action :set_schiffe, only: [:edit, :new, :update, :create, :save_ort, :new_noscript]
   
   include OrteAuswahl
   
@@ -43,6 +43,11 @@ class BeobachtungenController < ApplicationController
   def new
     @beobachtung = Beobachtung.new
   end
+  
+  # GET /beobachtungen/new
+  def new_noscript
+    @beobachtung = Beobachtung.new
+  end
 
   # GET /beobachtungen/1/edit
   def edit
@@ -52,8 +57,9 @@ class BeobachtungenController < ApplicationController
   # POST /beobachtungen
   # POST /beobachtungen.json
   def create
+    File.open("log/transport.log","a"){|f| f.puts "params #{params}"}
     @beobachtung = Beobachtung.new(beobachtung_params)
-
+    File.open("log/transport.log","a"){|f| f.puts "ebob #{beobachtung_params}"}
     unless params[:beobachtung][:quelle]
       quelle = 
         if logged_in? 
@@ -145,7 +151,13 @@ class BeobachtungenController < ApplicationController
           end
         else 
           respond_to do |format|
-            format.html { render :new }
+            format.html do 
+              if params[:noscript]
+                render :new_noscript
+              else 
+                render :new
+              end
+            end
             format.json { render json: @anlage.errors, status: :unprocessable_entity }
           end
         end
@@ -311,7 +323,7 @@ class BeobachtungenController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def beobachtung_params
-      params.require(:beobachtung).permit(:ankunft_zeit, :abfahrt_zeit, :start_datum, :end_datum, :ort_id,
+      first_params = params.require(:beobachtung).permit(:ankunft_zeit, :abfahrt_zeit, :start_datum, :end_datum, :ort_id,
                   :fahrtrichtung, :verkehrstraeger, 
                   :kennzeichen_radioaktiv, :kennzeichen_aetzend, :kennzeichen_spaltbar, :kennzeichen_umweltgefaehrdend, 
                   :gefahr_nummer, :un_nummer, 
@@ -319,6 +331,16 @@ class BeobachtungenController < ApplicationController
                   :zug_beschreibung, :anzahl_lkw, :kennzeichen_lkw, :lkw_beschreibung, 
                   :schiff_name, :schiff_beschreibung, :polizei, :hubschrauber, :begleitung_beschreibung, :foto, :quelle, :email,
                   :transportabschnitt_id, :schiff_id)
+      # Datum und Uhrzeit zusammen fassen zum Speichern
+      if params[:beobachtung][:ankunft_datum]
+        first_params[:ankunft_zeit] = 
+          "#{params[:beobachtung][:ankunft_datum]} #{params[:beobachtung][:ankunft_uhrzeit]}"
+      end
+      if params[:beobachtung][:abfahrt_datum]
+        first_params[:abfahrt_zeit] = 
+          "#{params[:beobachtung][:abfahrt_datum]} #{params[:beobachtung][:abfahrt_uhrzeit]}"
+      end
+      first_params
     end
     
     
