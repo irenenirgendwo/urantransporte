@@ -105,7 +105,7 @@ class Transport < ActiveRecord::Base
     abschnitt_umschlag_list = []
     # Hilfsmethode, baut einen nach Orten sortierten Hash auf.
     ort_to_detail = sort_abschnitte_and_umschlaege_by_ort
-    #File.open("log/transport.log","a"){|f| f.puts ort_to_detail }
+    File.open("log/transport.log","a"){|f| f.puts ort_to_detail }
     if self.start_anlage.ort
       ort_aktuell = self.start_anlage.ort
       if ort_aktuell.nil? || ort_to_detail[ort_aktuell.id].nil?
@@ -117,8 +117,8 @@ class Transport < ActiveRecord::Base
         next_ort = nil
         ort_aktuell_id = ort_aktuell.nil? ? 0 : ort_aktuell.id 
         unless ort_to_detail[ort_aktuell_id].nil?
-        
           ort_to_detail[ort_aktuell_id].each do |abschnitt_umschlag|
+            File.open("log/transport.log","a"){|f| f.puts abschnitt_umschlag.attributes }
             abschnitt_umschlag_list << abschnitt_umschlag
             next_ort = abschnitt_umschlag.end_ort if abschnitt_umschlag.kind_of? Transportabschnitt  
           end
@@ -128,7 +128,7 @@ class Transport < ActiveRecord::Base
       end 
       # Rest nach Datum sortieren
       unless ort_to_detail.empty?
-        #File.open("log/transport.log","a"){|f| f.puts "Rest nach Datum" }
+        File.open("log/transport.log","a"){|f| f.puts "Rest nach Datum" }
         abschnitt_umschlag_list = abschnitt_umschlag_list.concat(sort_abschnitte_and_umschlaege_by_date(ort_to_detail.values.flatten))
       end
     else 
@@ -138,6 +138,8 @@ class Transport < ActiveRecord::Base
     #File.open("log/transport.log","a"){|f| f.puts "Transport #{id}: #{abschnitt_umschlag_list.to_s}" }
     abschnitt_umschlag_list
   end 
+  
+  
   
 
   # Sammelt alle Durchfahrtsorte zusammen, aus Anlagenorten, Umschlagsorten, Abschnitten
