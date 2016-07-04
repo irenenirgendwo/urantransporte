@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   get "transporte/set_aehnliche_transporte_options/:id/:tage/:start/:ziel" => 'transporte#set_aehnliche_transporte_options', as: :set_aehnliche_transporte_options_transport
   #get "transporte/union/:id/:add_transport" => 'transporte#union', as: :union_transport
 
+  
   resources :beobachtungen do
     get "abschnitt_zuordnen", on: :member
     get "load_foto", on: :member
@@ -66,6 +67,7 @@ Rails.application.routes.draw do
     get "delete_zuordnung", on: :member
   end 
   get "beobachtungen/set_toleranz_tage/:id/:tage" => 'beobachtungen#set_toleranz_tage', as: :set_toleranz_tage_beobachtung
+  get "karte" => 'beobachtungen#karte'
   
   resources :anlagen do 
     get 'save_ort', on: :member

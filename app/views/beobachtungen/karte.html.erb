@@ -1,0 +1,12 @@
+<h1>Test Kartendarstellung IE</h1>
+<%= form_for(@beobachtung) do |f| %>
+  <%= hidden_field_tag :lat %>
+  <%= hidden_field_tag :lon %>
+  <%= hidden_field_tag :titel, "Bla" %>
+
+  <div id="map" style="height: 400px;"></div>
+          <!-- Javascript im Ordner app/assets/javascripts ablegen -->
+  <script>
+    geomap("ort");
+  </script>
+<% end %>

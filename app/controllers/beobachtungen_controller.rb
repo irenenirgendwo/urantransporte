@@ -22,6 +22,10 @@ class BeobachtungenController < ApplicationController
         Beobachtung.order(ankunft_zeit: :desc).paginate(page: params[:page], per_page: 20)
       end 
   end
+  
+  def karte
+    @beobachtung = Beobachtung.new
+  end
 
   # Zeigt eine Beobachtung mit allen Daten und zugeordnetem Transportabschnitt an.
   # Ist kein Transportabschnitt zugeordnet, kann einer ausgewaehlt werden.
