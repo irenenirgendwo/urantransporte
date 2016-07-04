@@ -24,8 +24,6 @@ lkw:
   foto: false
   quelle: Formular
   email: MyString
-  transportabschnitt_id: nil
-  
 
 zug:
   id: 2

@@ -81,7 +81,7 @@ class BeobachtungenTest < ActionDispatch::IntegrationTest
     assert page.has_content?("Neue Beobachtung")
     assert page.has_content?("Anzeigen")
     assert page.has_content?("Angezeigt werden zunächst die neuen Beobachtungen,")
-    assert_equal 3, find('table').all('tr').count
+    assert_equal 4, find('table').all('tr').count
     click_link "Alle"
     assert page.has_content?("Beobachtungen")
     assert_equal 4, find('table').all('tr').count
@@ -127,7 +127,7 @@ class BeobachtungenTest < ActionDispatch::IntegrationTest
   test "ordne Beobachtung existenten Transportabschnitt zu" do 
     capybara_login_editor_emil
     visit '/beobachtungen'
-    find('tbody').find('tr', match: :first).find('a', match: :first).click
+    find('tbody').all('tr')[1].find('a', match: :first).click
     # Auf Beobachtungsseite - richtige checken
     assert page.has_content?("Beobachtung aus Hamburg")
     assert page.has_content?("Verkehrsträger: LKW")
@@ -162,7 +162,7 @@ class BeobachtungenTest < ActionDispatch::IntegrationTest
   test "lege neuen Abschnitt an beim zuordnen" do 
     capybara_login_editor_emil
     visit '/beobachtungen'
-    find('tbody').find('tr', match: :first).find('a', match: :first).click
+    find('tbody').all('tr')[1].find('a', match: :first).click
     # Auf Beobachtungsseite - richtige checken
     assert page.has_content?("Beobachtung aus Hamburg")
     assert page.has_content?("Verkehrsträger: LKW")
@@ -199,7 +199,7 @@ class BeobachtungenTest < ActionDispatch::IntegrationTest
   test "lege neuen Transport an beim zuordnen" do
     capybara_login_editor_emil
     visit '/beobachtungen'
-    find('tbody').all('tr')[1].find('a', match: :first).click
+    find('tbody').all('tr')[0].find('a', match: :first).click
     assert page.has_content?("Beobachtung aus Hamburg")
     assert page.has_content?("Verkehrsträger: Zug")
     assert page.has_content?("11.10.2014")
@@ -237,9 +237,9 @@ class BeobachtungenTest < ActionDispatch::IntegrationTest
   test "loesche Beobachtung" do 
     capybara_login_editor_emil
     visit '/beobachtungen'
-    assert_equal 3, find('table').all('tr').count
+    assert_equal 4, find('table').all('tr').count
     find('tbody').find('tr', match: :first).all('a')[2].click
-    assert_equal 2, find('table').all('tr').count
+    assert_equal 3, find('table').all('tr').count
   end 
   
 end

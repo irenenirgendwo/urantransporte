@@ -32,7 +32,7 @@ class Transportabschnitt < ActiveRecord::Base
   end
   
   def self.get_abschnitte_from_time(beobachtung_datetime)
-    datum = beobachtung_datetime #.to_date
+    datum = beobachtung_datetime.to_date
     Transportabschnitt.where("start_datum <= ? and end_datum >= ? ",datum, datum)
   end
   

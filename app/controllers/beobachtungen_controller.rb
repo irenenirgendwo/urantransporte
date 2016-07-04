@@ -14,8 +14,8 @@ class BeobachtungenController < ApplicationController
   def index
     @beobachtungen = 
       case params[:zugeordnet]
-      when "a" then
-        Beobachtung.order(ankunft_zeit: :desc).paginate(page: params[:page], per_page: 20)
+      when "n" then
+        Beobachtung.order(ankunft_zeit: :desc).where(transportabschnitt_id: nil).paginate(page: params[:page], per_page: 20)
       when "j" then
         Beobachtung.order(ankunft_zeit: :desc).where.not(transportabschnitt_id: nil).paginate(page: params[:page], per_page: 20)
       else

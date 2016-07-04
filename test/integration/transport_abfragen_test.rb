@@ -18,7 +18,7 @@ class TransportAbfragenTest < ActionDispatch::IntegrationTest
     assert page.has_content? "Uranhexafluorid"
     
     # Ausfüllen und Abschicken
-    fill_in 'dort', :with => 'Hamburg'
+    fill_in 'dort', :with => 'München'
     fill_in 'radius', :with => '100'
     click_button "Passende Transporte anzeigen"
     
@@ -29,7 +29,8 @@ class TransportAbfragenTest < ActionDispatch::IntegrationTest
     click_button "Zurück zur Auswahl"
     assert page.has_content? "Transport-Abfragen"
     assert_equal "100", page.find('#radius').value  # Auswahlspeicherung
-    assert_equal "Hamburg", page.find('#dort').value  # Auswahlspeicherung
+    assert_equal "München", page.find('#dort').value  # Auswahlspeicherung
+    fill_in 'dort', :with => 'Hamburg'
     fill_in "start_datum", :with => "01.01.2012"
     fill_in "end_datum", :with => "01.10.2013"
     click_button "Passende Transporte anzeigen"
