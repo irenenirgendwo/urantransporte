@@ -45,7 +45,7 @@ class UmschlaegeController < ApplicationController
     transport = params[:transport_id] ? Transport.find(params[:transport_id].to_i) : nil
     @umschlag.transport = transport
     @redirection = params[:transport_id] ? transport : @umschlag
-    File.open("log/transport.log","w"){|f| f.puts "umschlag_ort #{params[:umschlag_ort]}"}
+    #File.open("log/transport.log","w"){|f| f.puts "umschlag_ort #{params[:umschlag_ort]}"}
 
     # Wenn Ort mit gleichem Namen schon vorhanden, den benutzen
     ort = Ort.find_by(name: params[:ortname].to_s)
