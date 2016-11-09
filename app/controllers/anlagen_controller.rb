@@ -57,7 +57,7 @@ class AnlagenController < ApplicationController
     File.open("log/anlagen.log","w"){|f| f.puts @anlage.attributes}
     session[:redirect_params] = nil
     
-    @redirect_params =  (params[:redirect_params].nil? || params[:redirect_params]=="") ? @anlage : params[:redirect_params] 
+    @redirect_params =  (params[:redirect_params].blank?) ? @anlage : params[:redirect_params] 
     
     eindeutig, ort_e = evtl_ortswahl_weiterleitung_und_anzeige(@anlage, params[:ortname].to_s, params[:plz], params[:lat], params[:lon], "create")
     

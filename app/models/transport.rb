@@ -106,6 +106,7 @@ class Transport < ActiveRecord::Base
     # Hilfsmethode, baut einen nach Orten sortierten Hash auf.
     ort_to_detail = sort_abschnitte_and_umschlaege_by_ort
     File.open("log/transport.log","w"){|f| f.puts "Ort to detail #{ort_to_detail}" }
+    if not self.start_anlage.nil?
     if self.start_anlage.ort
       ort_aktuell = self.start_anlage.ort
       if ort_aktuell.nil? || ort_to_detail[ort_aktuell.id].nil?
@@ -135,6 +136,7 @@ class Transport < ActiveRecord::Base
       #File.open("log/transport.log","a"){|f| f.puts "Alles nach Datum" }
       abschnitt_umschlag_list = abschnitt_umschlag_list.concat(sort_abschnitte_and_umschlaege_by_date(ort_to_detail.values.flatten))
     end 
+    end
     #File.open("log/transport.log","a"){|f| f.puts "Transport #{id}: #{abschnitt_umschlag_list.to_s}" }
     abschnitt_umschlag_list
   end 
