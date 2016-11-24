@@ -25,7 +25,7 @@ class TransporteController < ApplicationController
       @beobachtung = Beobachtung.find(@beobachtung_id) 
       @redirect_params = @beobachtung
     else 
-      @redirect_params = transporte_path
+      @redirect_params = new_transport_path
     end
   end
 
