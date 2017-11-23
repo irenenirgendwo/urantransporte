@@ -1,5 +1,7 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  
+  config.logger = Logger.new(config.paths["log"].first, 3, 1.megabytes)
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
