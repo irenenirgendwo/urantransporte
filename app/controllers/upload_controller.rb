@@ -219,7 +219,8 @@ class UploadController < ApplicationController
     # TODO: Fehlerbehandlung
     row_count = 2 # Start bei Zeile 2 wegen Überschriften
     csv.each do |row|
-        row_as_hash = row.to_hash
+      row_as_hash = row.to_hash
+      if  row_as_hash[start_anlage_spalten_name] && row_as_hash[ziel_anlage_spalten_name]
         start_anlage =  AnlagenSynonym.find_anlage_to_synonym(row_as_hash[start_anlage_spalten_name])
         ziel_anlage =  AnlagenSynonym.find_anlage_to_synonym(row_as_hash[ziel_anlage_spalten_name])
         # Nehmen mal Format dd.mm.yyyy an.
@@ -275,6 +276,10 @@ class UploadController < ApplicationController
            @logger.puts e
         end
         row_count += 1
+      else 
+        @logger.puts "Probleme beim Einlesen von Transport in Zeile #{row_count} - Start- oder Zielanlage fehlt."
+        row_count += 1
+      end
     end 
     @logger.puts "Fertig"
     @logger.close

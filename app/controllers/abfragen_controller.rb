@@ -10,8 +10,8 @@ class AbfragenController < ApplicationController
   # GET /abfragen/index
   def index
     setup_auswahl
-    @start_datum = "01.01.2013"
-    @end_datum = "31.12.2016"
+    @start_datum = Date.today.beginning_of_year.strftime("%d.%m.%Y") #"01.01.2013"
+    @end_datum = Date.today.end_of_year.strftime("%d.%m.%Y") #"31.12.2016"
     @radius = 500
     @ort_name = ""
     @checked_stoffe =[]
