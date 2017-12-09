@@ -9,8 +9,21 @@
 * Get projekt with <code>git clone https://github.com/irenenirgendwo/urantransporte</code> to local folder.
 * Run <code>bundle install</code> in project folder.
 * Rename database_sample.yml in database.yml, same with secrets_sample.yml
-* Create local mysql database for development
-* Run <code>rake db:setup</code> or <code>rake db:migrate</code> and <code>rake db:seed</code> to create the database.
+
+=== Create and setup Database
+
+* Create local mysql database for development in mysql (Terminal)
+* <code>mysql -u root -p</code> and pass password for mysql root user
+* <code>mysql> create database uran;</code>
+* <code>mysql> use uran;</code>
+* <code>mysql> create user transport identified by 'pw01';</code>
+* <code>mysql> grant all privileges on * to transport;</code>
+* <code>mysql> flush privileges;</code>
+* Leave mysql with <code>exit</code>
+* Run in urantransport folder <code>rake db:setup</code> or <code>rake db:migrate</code> and <code>rake db:seed</code> to create the database.
+
+=== Start project
+
 * In the file <code>config/secrets_sample.yml</code> and <code>config/database_sample</code> replace the <code>XXXX</code> parameters by working values and rename the files to <code>config/secrets.yml</code> and <code>config/database.yml</code>
 * Run <code>rails server</code> to start the development server.
 If it does not work, maybe you'll need a javascript runtime environment, install for example node.js
