@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # Rails Version
 gem 'rails', '4.2.7'
 # Use sqlite3 as the database for Active Record for test mode
-#gem 'sqlite3'
+gem 'sqlite3'
 # Use mysql as the database for Active Record for production mode
 gem 'mysql2', '~> 0.3.18'
 
@@ -14,7 +14,7 @@ gem 'sass-rails', '~> 5.0.3'
 # Use Uglifier as compressor for JavaScript assets 
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views (fuer Coffeeskript schreiben koennen)
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 
@@ -53,13 +53,15 @@ gem 'bootstrap-will_paginate',          '~> 0.0.10'
 gem 'bcrypt',                           '~> 3.1.10'
 
 #Screen Scraping (kann html Seiten parsen und durchforsten)
-gem 'nokogiri',                         '~> 1.6.3.1'
+gem 'nokogiri',                         '~> 1.7'
 
 #PDF (kann pdfs lesen)
 gem 'pdf-reader',                       '~> 1.3.3'
 
 #Geokit für Ortssuche
 gem 'geokit-rails',                     '~> 2.1.0'
+
+gem 'twitter'
 
 
 group :development do

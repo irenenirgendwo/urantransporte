@@ -8,13 +8,16 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-6">
       <h2>Letzte bekannte Transporte</h2>
       <%= render "aktuelle_transporte" %>
     </div>
-<!--    <div class="col-sm-6">
-      <h2>Transporte vor deiner Haustür?</h2>
-      <input type="text" class="form-control">
-    </div>-->
+    <div class="col-sm-6">
+      <h2>Letzte Twittermeldungen</h2>
+      <% @tweets.each do |tweet| %>
+        <p><%= tweet %></p>
+      <% end %>
+      <!-- Transporte vor der Haustuer? <input type="text" class="form-control"> -->
+    </div>
   </div>
 </div>

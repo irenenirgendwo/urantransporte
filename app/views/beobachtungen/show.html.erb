@@ -11,6 +11,7 @@
 <h1>Beobachtung aus <%= @beobachtung.ort %>
   <% if edit_allowed?(@beobachtung.quelle) %>
     <div class="btn-group header-buttons">
+      <%= link_to 'Twittern', twittere_meldung_beobachtung_path(@beobachtung), class: "btn btn-primary" %>
       <%= link_to 'Bearbeiten', edit_beobachtung_path(@beobachtung), class: "btn btn-primary" %>
       <% if is_editor? %>
         <%= link_to 'Löschen', @beobachtung, method: :delete, data: { confirm: 'Willst du die Beobachtung wirklich löschen?' }, class: "btn btn-danger" %></td>

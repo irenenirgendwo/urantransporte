@@ -13,7 +13,7 @@ class OrtTest < ActiveSupport::TestCase
   
   test "lege passende orte zu namen an" do 
     orte = Ort.lege_passende_orte_an("Neustadt")
-    assert 4 <= orte.size
+    assert 2 <= orte.size
     orte.each do |ort|
       assert_match /Neustadt/, ort.name
       assert_not_nil ort.lat

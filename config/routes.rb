@@ -65,6 +65,7 @@ Rails.application.routes.draw do
     post "update_foto", on: :member
     get 'save_ort', on: :member
     get "delete_zuordnung", on: :member
+    get "twittere_meldung", on: :member
   end 
   get "beobachtungen/set_toleranz_tage/:id/:tage" => 'beobachtungen#set_toleranz_tage', as: :set_toleranz_tage_beobachtung
   get "karte" => 'beobachtungen#karte'

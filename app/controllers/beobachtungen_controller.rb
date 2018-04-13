@@ -1,7 +1,7 @@
 # encoding: utf-8
 class BeobachtungenController < ApplicationController
   before_action :set_beobachtung, only: [:show, :edit, :update, :destroy, :load_foto, :update_foto, :abschnitt_zuordnen, :delete_zuordnung, :set_toleranz_tage, :save_ort]
-  before_action :editor_user, only: [:index, :destroy, :delete_zuordnung, :abschnitt_zuordnen, :set_toleranz_tage]
+  before_action :editor_user, only: [:index, :destroy, :delete_zuordnung, :abschnitt_zuordnen, :set_toleranz_tage, :meldung_twittern]
   before_action :beobachtung_edit_allowed, only: [:edit, :update, :save_ort]
   before_action :set_schiffe, only: [:edit, :new, :update, :create, :save_ort, :new_noscript]
   
@@ -285,6 +285,11 @@ class BeobachtungenController < ApplicationController
       end
     end
   end 
+  
+  def twittere_meldung
+    twittererin = MeldungTwittern.new
+    twittererin.twittere
+  end
   
 
   
