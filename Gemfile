@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-
+gem 'rake', '10.3.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # Rails Version
 gem 'rails', '4.2.7'
@@ -61,7 +61,9 @@ gem 'pdf-reader',                       '~> 1.3.3'
 #Geokit für Ortssuche
 gem 'geokit-rails',                     '~> 2.1.0'
 
-gem 'twitter'
+gem 'twitter', '~> 6.1.0'
+
+#gem 'xpath', '~> 2.0.0'
 
 
 group :development do
