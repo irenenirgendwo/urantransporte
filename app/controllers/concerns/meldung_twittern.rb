@@ -7,13 +7,13 @@ class MeldungTwittern
   def initialize
     authenticate_values = Rails.application.secrets.twitter
     File.open("log/twitter.log","w"){|f| f.puts Rails.application.secrets.twitter}
-    File.open("log/twitter.log","a"){|f| f.puts authenticate_values["consumer_key"]}
-    @client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = authenticate_values["consumer_key"]
-      config.consumer_secret     = authenticate_values["consumer_secret"]
-      config.access_token        = authenticate_values["access_token"]
-      config.access_token_secret = authenticate_values["access_token_secret"]
-    end
+   # File.open("log/twitter.log","a"){|f| f.puts authenticate_values["consumer_key"]}
+   # @client = Twitter::REST::Client.new do |config|
+   #   config.consumer_key        = authenticate_values["consumer_key"]
+   #   config.consumer_secret     = authenticate_values["consumer_secret"]
+   #   config.access_token        = authenticate_values["access_token"]
+   #   config.access_token_secret = authenticate_values["access_token_secret"]
+   # end
   end
   
 
