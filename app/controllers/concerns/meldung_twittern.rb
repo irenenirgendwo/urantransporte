@@ -18,16 +18,16 @@ class MeldungTwittern
   
 
     def twittere
-      tweets = @client.user_timeline('rubyinside',count: 20)
-      File.open("log/twitter.log","a"){|f| f.puts tweets}
+    #  tweets = @client.user_timeline('rubyinside',count: 20)
+    #  File.open("log/twitter.log","a"){|f| f.puts tweets}
     end
     
     def last_tweets anzahl
       tweet_texts = []
-      tweets = @client.user_timeline('urantransport',count: anzahl)
-      tweets.each do |tweet|
-        tweet_texts << tweet.text
-      end
+    #  tweets = @client.user_timeline('urantransport',count: anzahl)
+    #  tweets.each do |tweet|
+    #    tweet_texts << tweet.text
+    #  end
       tweet_texts
     end
 
