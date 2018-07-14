@@ -7,7 +7,6 @@ class MeldungTwittern
   
   def initialize
     authenticate_values = Rails.application.secrets.twitter
-    File.open("log/twitter.log","w"){|f| f.puts "sarte twietter"}
     #timeouts = {:write => 5, :connect => 10,:read=>30}
     @client = Twitter::REST::Client.new do |config|
       config.consumer_key        = authenticate_values["consumer_key"]
@@ -21,7 +20,7 @@ class MeldungTwittern
   
 
   def twittere(beobachtung)
-    twitter_meldung = "TEST #{beobachtung.verkehrstraeger}-#Atomtransport gesichtet in ##{beobachtung.ort} um #{beobachtung.ankunft_zeit.strftime("%H:%M")} Uhr"
+    twitter_meldung = "#{beobachtung.verkehrstraeger}-#Atomtransport gesichtet in ##{beobachtung.ort} um #{beobachtung.ankunft_zeit.strftime("%H:%M")} Uhr"
     twitter_meldung += " in Richtung #{beobachtung.fahrtrichtung}" if beobachtung.fahrtrichtung
     @client.update(twitter_meldung)
     twitter_meldung
