@@ -15,7 +15,7 @@
     <div class="col-sm-6">
       <h2>Letzte Twittermeldungen</h2>
       <% @tweets.each do |tweet| %>
-        <p><%= tweet %></p>
+        <p><%= link_to tweet[0], tweet[1] %></p>
       <% end %>
       <!-- Transporte vor der Haustuer? <input type="text" class="form-control"> -->
     </div>

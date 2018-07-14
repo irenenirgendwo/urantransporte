@@ -4,7 +4,7 @@ class WelcomeController < ApplicationController
   def index
     @transporte = Transport.order(datum: :desc).limit(7)
     twitterer = MeldungTwittern.new
-    @tweets = twitterer.last_tweets(5)
+    @tweets = twitterer.last_tweets(8)
   end
   
 end
