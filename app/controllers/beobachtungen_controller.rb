@@ -287,15 +287,32 @@ class BeobachtungenController < ApplicationController
   end 
   
   def twittere_meldung
-   # begin
+    begin
       twittererin = MeldungTwittern.new
       meldung = twittererin.twittere(@beobachtung)
       flash[:success] = "Erfolgreich getwittert: #{meldung}"
       redirect_to beobachtungen_path
-#rescue
-   #   flash[:danger] = 'Fehler beim Twittern. Probier es noch mal.'
-   #   redirect_to @beobachtung 
-  #  end
+    rescue
+      flash[:danger] = 'Fehler beim Twittern. Probier es noch mal.'
+      redirect_to @beobachtung 
+    end
+  end
+
+ # automatisch/:code_ort/:zeit/:richtung
+  def automatisch
+    if params[:code_ort] == "bhaohgaahiag52389klagZHUG18563" 
+      @beobachtung = Beobachtung.new
+      @beobachtung.ankunft_zeit = params[:zeit]
+      @beobachtung.ort = Ort.find_by_name("Gronau")
+      @beobachtung.fahrtrichtung = params[:richtung]
+     # if @beobachtung.save
+     #   render plain: "success"
+     # else
+        render plain: "error speichern"
+     # end
+    else
+      render plain: "error abruf"
+    end
   end
   
 

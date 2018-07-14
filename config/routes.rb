@@ -68,6 +68,7 @@ Rails.application.routes.draw do
     get "twittere_meldung", on: :member
   end 
   get "beobachtungen/set_toleranz_tage/:id/:tage" => 'beobachtungen#set_toleranz_tage', as: :set_toleranz_tage_beobachtung
+  get "automatisch/:code_ort/:zeit/:richtung" => 'beobachtungen#automatisch', as: :automatisch_beobachtung
   get "karte" => 'beobachtungen#karte'
   
   resources :anlagen do 

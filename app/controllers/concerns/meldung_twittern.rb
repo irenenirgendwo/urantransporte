@@ -21,7 +21,7 @@ class MeldungTwittern
   
 
   def twittere(beobachtung)
-    twitter_meldung = "TEST #{beobachtung.verkehrstraeger}-#Urantransport gesichtet in ##{beobachtung.ort} um #{beobachtung.ankunft_zeit.strftime("%H:%M")} Uhr"
+    twitter_meldung = "TEST #{beobachtung.verkehrstraeger}-#Atomtransport gesichtet in ##{beobachtung.ort} um #{beobachtung.ankunft_zeit.strftime("%H:%M")} Uhr"
     twitter_meldung += " in Richtung #{beobachtung.fahrtrichtung}" if beobachtung.fahrtrichtung
     @client.update(twitter_meldung)
     twitter_meldung
