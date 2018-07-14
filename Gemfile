@@ -61,7 +61,7 @@ gem 'pdf-reader',                       '~> 1.3.3'
 #Geokit für Ortssuche
 gem 'geokit-rails',                     '~> 2.1.0'
 
-gem 'twitter', '~> 6.1.0'
+gem 'twitter', '~> 6.2.0'
 
 #gem 'xpath', '~> 2.0.0'
 
