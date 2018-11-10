@@ -59,11 +59,14 @@ gem 'nokogiri',                         '~> 1.7'
 gem 'pdf-reader',                       '~> 1.3.3'
 
 #Geokit für Ortssuche
-gem 'geokit-rails',                     '~> 2.1.0'
+gem 'geokit-rails',                     '~> 2.3.0'
 
 gem 'twitter', '~> 6.2.0'
 
 #gem 'xpath', '~> 2.0.0'
+
+gem "loofah", ">= 2.2.3"
+
 
 
 group :development do

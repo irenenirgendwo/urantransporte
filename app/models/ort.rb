@@ -102,7 +102,7 @@ class Ort < ActiveRecord::Base
   # Gibt alle Orte, die nicht identisch sind (falls der Ort gespeichert ist) im Umrkeis von radius aus.
   #
   def orte_im_umkreis(radius)
-    dort = Geokit::Geocoders::GoogleGeocoder.geocode "#{lat},#{lon}"
+    dort = Geokit::Geocoders::MultiGeocoder.geocode "#{lat},#{lon}"
     if self.id
       Ort.where("id <> ?", self.id).within(radius, :origin => dort)
     else
@@ -134,8 +134,8 @@ class Ort < ActiveRecord::Base
     if newort == nil
       begin
         if lat == nil || lon == nil
-          a = Geokit::Geocoders::GoogleGeocoder.geocode ortsname
-          a = Geokit::Geocoders::GoogleGeocoder.geocode a.ll
+          a = Geokit::Geocoders::MultiGeocoder.geocode ortsname
+          a = Geokit::Geocoders::MultiGeocoder.geocode a.ll
           lat = a.lat 
           lon = a.lng
           zip = a.zip
@@ -196,9 +196,9 @@ class Ort < ActiveRecord::Base
   def self.lege_passende_orte_an ort
     angelegte_orte = []
     begin
-      orte =  Geokit::Geocoders::GoogleGeocoder.geocode ort
+      orte =  Geokit::Geocoders::MultiGeocoder.geocode ort
       orte.all.each do |o|
-        o =  Geokit::Geocoders::GoogleGeocoder.geocode o.ll
+        o =  Geokit::Geocoders::MultiGeocoder.geocode o.ll
         unless o.city.nil? && o.zip.nil? && o.lat.nil? && o.lng.nil?
           o = Ort.create(:name => o.city, :plz => o.zip, :lat => o.lat, :lon => o.lng)
           angelegte_orte << o
@@ -239,10 +239,10 @@ class Ort < ActiveRecord::Base
     if ort.nil?
       begin
         #File.open("log/ort.log","a"){|f| f.puts "create ort by koordinates" }
-        o = Geokit::Geocoders::GoogleGeocoder.geocode "#{lat},#{lon}"
+        o = Geokit::Geocoders::MultiGeocoder.geocode "#{lat},#{lon}"
         ort = create(:name => o.city, :lat => lat, :lon => lon, :plz => o.zip)
       rescue 
-        o = Geokit::Geocoders::GoogleGeocoder.geocode "#{lat},#{lon}"
+        o = Geokit::Geocoders::MultiGeocoder.geocode "#{lat},#{lon}"
         ort = create(:name => o.city, :lat => lat, :lon => lon, :plz => o.zip)
       end
       #File.open("log/ort.log","a"){|f| f.puts "Erzeugter Ort: #{ort.attributes}" }
