@@ -1,4 +1,4 @@
-class ChangeBeobachtungenOrteToReference < ActiveRecord::Migration
+class ChangeBeobachtungenOrteToReference < ActiveRecord::Migration[4.2]
   def change
     add_column :beobachtungen, :ort_id, :integer
     remove_column :beobachtungen, :ort, :string

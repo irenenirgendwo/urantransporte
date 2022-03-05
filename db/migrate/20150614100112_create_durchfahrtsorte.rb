@@ -1,4 +1,4 @@
-class CreateDurchfahrtsorte < ActiveRecord::Migration
+class CreateDurchfahrtsorte < ActiveRecord::Migration[4.2]
   def change
     create_table :durchfahrtsorte do |t|
       t.integer :index

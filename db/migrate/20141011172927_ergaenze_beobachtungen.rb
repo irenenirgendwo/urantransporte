@@ -1,4 +1,4 @@
-class ErgaenzeBeobachtungen < ActiveRecord::Migration
+class ErgaenzeBeobachtungen < ActiveRecord::Migration[4.2]
   def change
     add_column :beobachtungen, :ankunft_zeit, :time
     add_column :beobachtungen, :abfahrt_zeit, :time

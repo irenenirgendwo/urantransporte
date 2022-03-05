@@ -1,4 +1,4 @@
-class CreateTransportabschnitte < ActiveRecord::Migration
+class CreateTransportabschnitte < ActiveRecord::Migration[4.2]
   def change
     create_table :transportabschnitte do |t|
       t.belongs_to :transport

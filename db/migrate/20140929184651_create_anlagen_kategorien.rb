@@ -1,4 +1,4 @@
-class CreateAnlagenKategorien < ActiveRecord::Migration
+class CreateAnlagenKategorien < ActiveRecord::Migration[4.2]
   def change
     create_table :anlagen_kategorien do |t|
       t.string :name

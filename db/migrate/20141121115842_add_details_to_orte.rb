@@ -1,4 +1,4 @@
-class AddDetailsToOrte < ActiveRecord::Migration
+class AddDetailsToOrte < ActiveRecord::Migration[4.2]
   def up
     add_column :orte, :name, :string
     add_column :orte, :plz, :string

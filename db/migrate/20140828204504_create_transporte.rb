@@ -1,4 +1,4 @@
-class CreateTransporte < ActiveRecord::Migration
+class CreateTransporte < ActiveRecord::Migration[4.2]
   def change
     create_table :transporte do |t|
       t.date :datum

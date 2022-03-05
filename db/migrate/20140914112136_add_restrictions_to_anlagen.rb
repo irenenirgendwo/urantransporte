@@ -1,4 +1,4 @@
-class AddRestrictionsToAnlagen < ActiveRecord::Migration
+class AddRestrictionsToAnlagen < ActiveRecord::Migration[4.2]
   def change
     change_column :anlagen, :name, :string, :null => false
     change_column :anlagen_synonyms, :synonym, :string, :null => false

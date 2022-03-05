@@ -1,4 +1,4 @@
-class CreateStoffe < ActiveRecord::Migration
+class CreateStoffe < ActiveRecord::Migration[4.2]
   def change
     create_table :stoffe do |t|
       t.string :bezeichnung

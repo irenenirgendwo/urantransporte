@@ -1,4 +1,4 @@
-class CreateTransportgenehmigungen < ActiveRecord::Migration
+class CreateTransportgenehmigungen < ActiveRecord::Migration[4.2]
   def change
     create_table :transportgenehmigungen do |t|
       t.string :lfd_nr

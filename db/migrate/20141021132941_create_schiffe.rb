@@ -1,4 +1,4 @@
-class CreateSchiffe < ActiveRecord::Migration
+class CreateSchiffe < ActiveRecord::Migration[4.2]
   def change
     create_table :schiffe do |t|
       t.string :name

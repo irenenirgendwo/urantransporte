@@ -1,4 +1,4 @@
-class CreateStoffSynonyms < ActiveRecord::Migration
+class CreateStoffSynonyms < ActiveRecord::Migration[4.2]
   def change
     create_table :stoff_synonyms do |t|
       t.string :synonym

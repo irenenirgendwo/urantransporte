@@ -1,4 +1,4 @@
-class AddStoffIdAndQuelleToTransport < ActiveRecord::Migration
+class AddStoffIdAndQuelleToTransport < ActiveRecord::Migration[4.2]
   def change
     add_column :transporte, :stoff_id, :integer
     remove_column :transporte, :stoff

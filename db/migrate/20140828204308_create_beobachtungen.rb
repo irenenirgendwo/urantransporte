@@ -1,4 +1,4 @@
-class CreateBeobachtungen < ActiveRecord::Migration
+class CreateBeobachtungen < ActiveRecord::Migration[4.2]
   def change
     create_table :beobachtungen do |t|
       t.date :start_datum

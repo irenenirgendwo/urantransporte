@@ -1,4 +1,4 @@
-class CreateVersandstuecke < ActiveRecord::Migration
+class CreateVersandstuecke < ActiveRecord::Migration[4.2]
   def change
     create_table :versandstuecke do |t|
       t.string :container_nummer

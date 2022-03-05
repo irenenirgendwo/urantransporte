@@ -1,4 +1,4 @@
-class CreateAnlagen < ActiveRecord::Migration
+class CreateAnlagen < ActiveRecord::Migration[4.2]
   def change
     create_table :anlagen do |t|
       t.string :name

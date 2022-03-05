@@ -1,4 +1,4 @@
-class CreateRouten < ActiveRecord::Migration
+class CreateRouten < ActiveRecord::Migration[4.2]
   def change
     create_table :routen do |t|
       t.string :name

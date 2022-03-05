@@ -1,4 +1,4 @@
-class AddReedereiToFirma < ActiveRecord::Migration
+class AddReedereiToFirma < ActiveRecord::Migration[4.2]
   def change
     add_column :firmen, :reederei, :boolean
     remove_column :firmen, :adresse, :string

@@ -1,4 +1,4 @@
-class CreateUmschlaege < ActiveRecord::Migration
+class CreateUmschlaege < ActiveRecord::Migration[4.2]
   def change
     create_table :umschlaege do |t|
       t.string :ort
