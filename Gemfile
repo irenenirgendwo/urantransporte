@@ -4,11 +4,11 @@ ruby '~> 2.7'
 gem 'rake', '10.3.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # Rails Version
-gem 'rails', '~> 6.1'
+gem 'rails', '6.0.4.6'
 # Use sqlite3 as the database for Active Record for test mode
 gem 'sqlite3'
 # Use mysql as the database for Active Record for production mode
-gem 'mysql2', '~> 0.3.18'
+gem 'mysql2', '~> 0.5'
 
 # Use SCSS for stylesheets (macht das verschachtelte Stylesheets moeglich sind)
 gem 'sass-rails', '~> 5.1.0'
@@ -72,7 +72,7 @@ gem "loofah", ">= 2.2.3"
 
 group :development do
   gem "rails-erd"
-  gem 'web-console',                    '~> 2.1.3'
+  gem 'web-console',                    '~> 3.0'
 end
 
 
