@@ -1,20 +1,21 @@
 source 'https://rubygems.org'
 
+ruby '~> 2.7'
 gem 'rake', '10.3.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # Rails Version
-gem 'rails', '4.2.7'
+gem 'rails', '~> 6.1'
 # Use sqlite3 as the database for Active Record for test mode
 gem 'sqlite3'
 # Use mysql as the database for Active Record for production mode
 gem 'mysql2', '~> 0.3.18'
 
 # Use SCSS for stylesheets (macht das verschachtelte Stylesheets moeglich sind)
-gem 'sass-rails', '~> 5.0.3'
+gem 'sass-rails', '~> 5.1.0'
 # Use Uglifier as compressor for JavaScript assets 
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views (fuer Coffeeskript schreiben koennen)
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.2.2'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 
