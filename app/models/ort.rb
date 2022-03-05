@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Ort < ActiveRecord::Base
+class Ort < ApplicationRecord
 
   validates :name, presence: true
 
@@ -47,7 +47,7 @@ class Ort < ActiveRecord::Base
     self.durchfahrtsorte.each do |durchfahrt|
       transporte.concat(durchfahrt.route.transporte)
     end
-    transporte.uniq
+    transporte.distinct
   end
   
   # Gibt alle Objekte in einer Liste zurück, die mit der ort_id verknüpft sind,

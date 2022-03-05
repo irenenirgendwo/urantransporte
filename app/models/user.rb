@@ -1,5 +1,5 @@
 # encoding: utf-8
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   attr_accessor :remember_token
   
   enum role: [:subscriber, :editor, :admin]

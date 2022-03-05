@@ -1,4 +1,4 @@
-class Route < ActiveRecord::Base
+class Route < ApplicationRecord
 
   has_many :durchfahrtsorte
   has_many :transportabschnitte

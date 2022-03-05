@@ -80,4 +80,5 @@ group :test do
   # capybara ermoeglicht anwendungsbezogene tests zu schreiben, siehe integrations-tests
   gem "capybara"
   gem "launchy"
+  gem 'rails-controller-testing'
 end

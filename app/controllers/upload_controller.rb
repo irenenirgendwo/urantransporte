@@ -69,8 +69,8 @@ class UploadController < ApplicationController
         @logger.puts "Anlage Start #{row_as_hash[@spalte_nr1]}"
       end 
       # Duplikate rauswerfen
-      @anlagen_liste.uniq!
-      @stoff_liste.uniq!
+      @anlagen_liste.distinct!
+      @stoff_liste.distinct!
       @logger.puts "Stoffliste #{@stoff_liste}"
       # Für jeden Anlagennamen ein Synonym erstellen und speichern.
       create_anlagen_synonyme(@anlagen_liste) 

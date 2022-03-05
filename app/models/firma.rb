@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Firma < ActiveRecord::Base
+class Firma < ApplicationRecord
   has_many :transportabschnitte, :dependent => :restrict_with_error
   has_many :umschlaege, :dependent => :restrict_with_error
   has_many :schiffe

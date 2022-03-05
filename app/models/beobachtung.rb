@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Beobachtung < ActiveRecord::Base
+class Beobachtung < ApplicationRecord
   belongs_to :transportabschnitt
   # Falls Schiffstransport
   belongs_to :schiff 

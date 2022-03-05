@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Schiff < ActiveRecord::Base
+class Schiff < ApplicationRecord
   serialize :next_ports
   belongs_to :firma
   has_many :beobachtungen

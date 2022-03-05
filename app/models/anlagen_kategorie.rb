@@ -1,5 +1,5 @@
 # encoding: utf-8
-class AnlagenKategorie < ActiveRecord::Base
+class AnlagenKategorie < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 

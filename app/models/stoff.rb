@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Stoff < ActiveRecord::Base
+class Stoff < ApplicationRecord
   
   has_many :stoff_synonyms, :dependent => :destroy
   has_many :transporte

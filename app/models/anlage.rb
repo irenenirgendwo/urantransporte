@@ -1,6 +1,6 @@
 # encoding: utf-8
 # Atomanlagen
-class Anlage < ActiveRecord::Base
+class Anlage < ApplicationRecord
   has_many :transportabschnitte
   has_many :start_transporte, :foreign_key => 'start_anlage_id', :class_name => "Transport", :dependent => :restrict_with_error
   has_many :ziel_transporte, :foreign_key => 'ziel_anlage_id', :class_name => "Transport", :dependent => :restrict_with_error

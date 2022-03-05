@@ -1,4 +1,4 @@
-class Durchfahrtsort < ActiveRecord::Base
+class Durchfahrtsort < ApplicationRecord
 
   belongs_to :ort
   belongs_to :route

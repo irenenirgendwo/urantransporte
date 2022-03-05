@@ -1,5 +1,5 @@
 # encoding: utf-8
-class StoffSynonym < ActiveRecord::Base
+class StoffSynonym < ApplicationRecord
 
   belongs_to :stoff
   validates :synonym, presence: true

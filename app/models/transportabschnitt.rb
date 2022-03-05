@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Transportabschnitt < ActiveRecord::Base
+class Transportabschnitt < ApplicationRecord
 
   belongs_to :start_ort, :class_name => 'Ort'
   belongs_to :end_ort, :class_name => 'Ort'
@@ -49,7 +49,7 @@ class Transportabschnitt < ActiveRecord::Base
     self.beobachtungen.each do |beob|
       orte << beob.ort
     end
-    orte.uniq
+    orte.distinct
   end 
   
   def orte_without_routen
@@ -59,7 +59,7 @@ class Transportabschnitt < ActiveRecord::Base
     self.beobachtungen.each do |beob|
       orte << beob.ort
     end
-    orte.uniq
+    orte.distinct
   end
 
 #  def faehrt_durch(ort, radius)

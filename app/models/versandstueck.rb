@@ -1,4 +1,4 @@
 # encoding: utf-8
-class Versandstueck < ActiveRecord::Base
+class Versandstueck < ApplicationRecord
   belongs_to :transport
 end

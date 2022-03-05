@@ -2,7 +2,7 @@
 # Kuemmert sich um alle Sachen, die konkret mit dem Transport zusammen haengen,
 # also auch z.B. Sortierung der entsprechenden Abschnitte und Umschlaege.
 #
-class Transport < ActiveRecord::Base
+class Transport < ApplicationRecord
 
   # Transportabschnitte und -umschlaege mit loeschen, beim Loeschen des Transports
   has_many :transportabschnitte, :dependent => :delete_all
