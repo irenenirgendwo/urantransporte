@@ -3,25 +3,25 @@ source 'https://rubygems.org'
 gem 'rake', '10.3.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # Rails Version
-gem 'rails', '4.2.7'
+gem 'rails', '7.1.0'
 # Use sqlite3 as the database for Active Record for test mode
 gem 'sqlite3'
 # Use mysql as the database for Active Record for production mode
 gem 'mysql2', '~> 0.3.18'
 
 # Use SCSS for stylesheets (macht das verschachtelte Stylesheets moeglich sind)
-gem 'sass-rails', '~> 5.0.3'
+gem 'sass-rails', '~> 5.0.8'
 # Use Uglifier as compressor for JavaScript assets 
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views (fuer Coffeeskript schreiben koennen)
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.2.2'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 
 # Use jquery as the JavaScript library 
 #(jquery macht das javascript abfragen von elementen ueber klassen und ids moeglich sind mit 
 # z.B. $('.text') fuer alle Elemente mit Klasse 'text'
-gem 'jquery-rails'
+gem 'jquery-rails', '>= 4.3.4'
 # Turbolinks makes following links in your web application faster. 
 # Read more: https://github.com/rails/turbolinks 
 gem 'turbolinks'
@@ -42,9 +42,9 @@ gem 'leaflet-rails',                    '~> 0.7.4'
 #Bootstrap fürs Layout, verschiedene Bootstrap-Backete
 gem 'bootstrap-sass',                   '~> 3.3.6'
 # k.A.
-gem 'momentjs-rails',                   '>= 2.8.1'
+gem 'momentjs-rails', '>= 2.29.1'
 # fuer datetimepicker
-gem 'bootstrap3-datetimepicker-rails',  '~> 3.1.3'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.0.0'
 # zum Aufteilen auf mehrere Seiten (wenn z.B. Transportlisten zu lang sind)
 gem 'will_paginate',                    '~> 3.0.7'
 gem 'bootstrap-will_paginate',          '~> 0.0.10'
@@ -59,7 +59,7 @@ gem 'nokogiri',                         '~> 1.7'
 gem 'pdf-reader',                       '~> 1.3.3'
 
 #Geokit für Ortssuche
-gem 'geokit-rails',                     '~> 2.3.0'
+gem 'geokit-rails', '~> 2.5.0'
 
 gem 'twitter', '~> 6.2.0'
 
@@ -71,7 +71,7 @@ gem "loofah", ">= 2.2.3"
 
 group :development do
   gem "rails-erd"
-  gem 'web-console',                    '~> 2.1.3'
+  gem 'web-console', '~> 2.2.0'
 end
 
 
